@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Obsidian palette: cool volcanic-glass black, cream ink, gold-sheen accent */
+  --paper: #121016;
+  --paper-warm: #1a1620;
+  --ink: #ece8de;
+  --ink-soft: #c7c1b3;
+  --ink-mute: #8f8a7c;
+  --ink-faint: #6a6472;
+  --rule: #34303c;
+  --accent: #c9a86a;
+  --accent-deep: #8f7a52;
+  --accent-pale: #453d2e;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-pale: var(--accent-pale);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-display), serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* Fine dotted texture over the paper, like print grain */
+.paper-grain {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(236, 232, 222, 0.035) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+}
+
+.kicker {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.headline-emph {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  color: var(--accent);
+}
+
+/*
+ * The logo artwork is black-on-white. Inverting turns the mark cream and the
+ * background black; screen blending then drops the black background out
+ * against the dark paper.
+ */
+.logo-invert {
+  filter: invert(1) brightness(0.93) sepia(0.14);
+  mix-blend-mode: screen;
+}
+
+.mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 1.25rem));
+  }
+}
+
+.animate-marquee {
+  animation: marquee 36s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.4;
+  }
+}
+
+.animate-scroll-cue {
+  animation: scroll-cue 2.2s ease-in-out infinite;
+}
+
+/* Underline sweep for nav links */
+.link-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.35s ease;
+  padding-bottom: 3px;
+}
+
+.link-sweep:hover {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-scroll-cue {
+    animation: none;
+  }
 }

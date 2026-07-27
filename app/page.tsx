@@ -1,65 +1,81 @@
-import Image from "next/image";
+import { Nav } from "@/components/nav";
+import { Hero } from "@/components/hero";
+import { AgentRun } from "@/components/agent-run";
+import { SectionRail } from "@/components/section-rail";
+import { Integrations } from "@/components/integrations";
+import {
+  FeatureSection,
+  type FeatureContent,
+} from "@/components/feature-section";
+import { Deploy } from "@/components/deploy";
+import { Footer } from "@/components/footer";
+
+const PLATFORM: FeatureContent = {
+  id: "platform",
+  kicker: "agent-first",
+  headlineLead: "Orchestration from",
+  headlineEmph: "the ground up.",
+  lede:
+    "Every workflow starts from your systems of record and only involves a human when it has to. Agents do the routine ninety percent; your team handles the judgment calls.",
+  bullets: [
+    "Agents mount your backend through typed connectors - Postgres, REST, gRPC, message queues - with scoped, audited credentials.",
+    "A planner decomposes each job into steps. Deterministic tools run first; model calls happen only when judgment is actually required.",
+    "Every action lands in an append-only audit log with the full prompt, tool call, and resulting diff - replayable at any time.",
+    "When confidence drops below your threshold, the agent escalates to a human queue with full context instead of guessing.",
+  ],
+  closer: "Humans review exceptions, not everything.",
+  nerdLede:
+    "Under the hood, each workflow compiles to a typed DAG before anything executes:",
+  nerdBullets: [
+    "Connectors expose typed schemas, so a plan is validated against your actual tables and endpoints before step one runs.",
+    "Tool calls carry least-privilege credentials minted per step and revoked on completion.",
+    "The audit log is content-addressed; any run can be replayed bit-for-bit against a snapshot of your data.",
+    "Escalations carry the full decision trace, so a human resolves them in seconds, not by re-deriving context.",
+  ],
+  figure: "fig. 02",
+};
+
+const RUNTIME: FeatureContent = {
+  id: "runtime",
+  kicker: "reliability",
+  headlineLead: "Automation shouldn't",
+  headlineEmph: "feel fragile.",
+  lede:
+    "The reliability lives in the runtime. We engineer the orchestration layer like an operating system, not a chatbot - so agents keep working when models misbehave and upstreams slow down.",
+  bullets: [
+    "Every tool call runs in a sandboxed executor with per-step timeouts, retries, and idempotency keys.",
+    "Workflows are durable state machines: a crashed step resumes from its last checkpoint, never from the start.",
+    "Structured outputs are schema-validated at every boundary; malformed responses are repaired or retried before they touch your data.",
+    "Rate limits, backpressure, and circuit breakers are enforced per connector, so a slow upstream never cascades.",
+    "New agent versions run against shadow traffic before they ever act on production.",
+  ],
+  closer: "The agents spend their time working, not failing quietly.",
+  nerdLede:
+    "The runtime treats model output as untrusted input, the same way a kernel treats userspace:",
+  nerdBullets: [
+    "Executors are gVisor-sandboxed with no network egress beyond the declared connector allowlist.",
+    "State transitions are journaled before execution; recovery replays the journal, not the model.",
+    "Schema repair is a constrained decode against the target type - no free-form retries.",
+    "Shadow runs diff their would-be writes against production behavior and gate promotion on the delta.",
+  ],
+  figure: "fig. 03",
+  reverse: true,
+};
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <Nav />
+      <SectionRail />
+      <main>
+        <Hero />
+        <Integrations />
+        <AgentRun />
+        <FeatureSection content={PLATFORM} />
+        <FeatureSection content={RUNTIME} />
+        <Deploy />
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }
