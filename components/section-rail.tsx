@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const SECTIONS = [
-  { id: "top", label: "intro" },
-  { id: "platform", label: "platform" },
-  { id: "runtime", label: "runtime" },
-  { id: "deploy", label: "deploy" },
+  { id: "top", label: "the crown" },
+  { id: "platform", label: "the roots" },
+  { id: "runtime", label: "the trunk" },
+  { id: "deploy", label: "the realms" },
 ];
 
 /**

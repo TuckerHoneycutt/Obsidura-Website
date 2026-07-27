@@ -14,12 +14,13 @@ type LogLine = {
   text: string;
 };
 
+// Monochrome palette: kinds are distinguished by brightness and weight only.
 const KIND_STYLE: Record<LineKind, string> = {
   plan: "text-accent",
   tool: "text-ink-soft",
   ok: "text-ink-mute",
-  model: "text-[#8f7bb8] light:text-[#6a5599]",
-  escalate: "text-[#c98a6a] light:text-[#a95f38]",
+  model: "text-ink font-semibold",
+  escalate: "text-ink underline underline-offset-4",
   done: "text-accent",
 };
 
@@ -75,7 +76,7 @@ export function AgentRun() {
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
               <span className="kicker">live run - payout reconciliation</span>
-              <span className="kicker text-accent">audit log</span>
+              <span className="kicker text-accent">muninn - audit log</span>
             </div>
             <div className="h-[300px] overflow-hidden px-4 py-3 sm:h-[280px]">
               {RUN.slice(0, count).map((line, i) => (

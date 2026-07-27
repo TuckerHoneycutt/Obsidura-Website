@@ -97,7 +97,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
             <span className="headline-emph">{content.headlineEmph}</span>
           </h2>
 
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-ink-soft">
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
             {content.lede}
           </p>
 
@@ -121,7 +121,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
                   <span className="kicker mt-1 shrink-0 text-accent">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-[15px] leading-relaxed text-ink-soft">
+                  <p className="text-base leading-relaxed text-ink-soft">
                     {b}
                   </p>
                 </li>

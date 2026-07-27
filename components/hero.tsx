@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import { AsciiMark } from "@/components/ascii-mark";
-import { LogoMark } from "@/components/logo-mark";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Spotlight } from "@/components/ui/spotlight";
@@ -15,9 +14,7 @@ const rise = (delay: number) => ({
 
 export function Hero() {
   const { scrollY } = useScroll();
-  // The pinwheel winds up as you scroll away; the ASCII panel drifts slower
-  // than the page for depth.
-  const emblemRotate = useTransform(scrollY, [0, 700], [0, 140]);
+  // The ASCII panel drifts slower than the page for depth.
   const asciiY = useTransform(scrollY, [0, 800], [0, -56]);
 
   return (
@@ -25,17 +22,6 @@ export function Hero() {
       <Spotlight />
       <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pt-20 pb-16 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-14 lg:pt-28">
         <div>
-          <motion.div
-            initial={{ opacity: 0, rotate: -120, scale: 0.7 }}
-            animate={{ opacity: 1, rotate: 0, scale: 1 }}
-            transition={{ duration: 1.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="mb-8 w-max"
-          >
-            <motion.div style={{ rotate: emblemRotate }}>
-              <LogoMark size={64} spin="drift" />
-            </motion.div>
-          </motion.div>
-
           <motion.p {...rise(0)} className="kicker mb-6 text-accent">
             Agentic backend as a service
           </motion.p>
@@ -51,11 +37,12 @@ export function Hero() {
 
           <motion.p
             {...rise(0.2)}
-            className="mt-7 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg"
+            className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl"
           >
-            Obsidura orchestrates fleets of agents wired directly into your
-            company backend. They read your systems of record, execute the
-            work, and escalate to humans only when judgment is required.
+            Obsidura orchestrates fleets of agents through Yggdrasil, our
+            orchestration suite rooted directly in your company backend.
+            Agents read your systems of record, execute the work, and escalate
+            to humans only when judgment is required.
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-4">
@@ -93,7 +80,7 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-5 pb-10">
         <p className="kicker animate-scroll-cue w-max">
-          connects to your stack &darr;
+          the roots run deep &darr;
         </p>
       </div>
     </section>

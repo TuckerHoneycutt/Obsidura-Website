@@ -71,17 +71,20 @@ export function AsciiMark() {
             cy += dy * push;
           }
 
-          const w = 0.075 * (1 - s) + 0.008; // half-thickness, tapers to tip
+          const w = 0.05 * (1 - s) + 0.006; // half-thickness, tapers to tip
           const braid = 0.75 + 0.25 * Math.sin(s * 48 - t * 2.6);
-          for (let o = -3; o <= 3; o++) {
-            const off = (o / 3) * w;
+          for (let o = -2; o <= 2; o++) {
+            const off = (o / 2) * w;
+            // The y offset is damped so thickness stays visually constant as
+            // arms rotate between horizontal and vertical (cells are ~2x
+            // taller than wide, and SX/SY don't fully cancel that out).
             const x = cx - off * sin;
-            const y = cy + off * cos;
+            const y = cy + off * cos * 0.85;
             const px = Math.round(COLS / 2 + x * SX);
             const py = Math.round(ROWS / 2 - y * SY);
             if (px < 0 || px >= COLS || py < 0 || py >= ROWS) continue;
             const b =
-              (1 - (Math.abs(o) / 3) ** 2 * 0.8) *
+              (1 - (Math.abs(o) / 2) ** 2 * 0.85) *
               braid *
               (0.45 + 0.55 * (1 - s));
             if (b > bright[py][px]) bright[py][px] = b;
@@ -140,7 +143,7 @@ export function AsciiMark() {
   return (
     <FramePanel className="bg-paper-warm/40">
       <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-        <span className="kicker">orchestration core</span>
+        <span className="kicker">yggdrasil core</span>
         <span className="kicker text-accent">live</span>
       </div>
       <pre
@@ -156,7 +159,7 @@ export function AsciiMark() {
         className="select-none overflow-hidden px-4 py-3 font-mono text-[9px] leading-[13px] text-ink-soft sm:text-[10px] sm:leading-[14px]"
       />
       <div className="flex items-center justify-between border-t border-rule px-4 py-2">
-        <span className="kicker">obsidura://core.0</span>
+        <span className="kicker">obsidura://yggdrasil.0</span>
         <span className="kicker">fig. 01</span>
       </div>
     </FramePanel>

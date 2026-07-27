@@ -12,11 +12,11 @@ import { Footer } from "@/components/footer";
 
 const PLATFORM: FeatureContent = {
   id: "platform",
-  kicker: "agent-first",
+  kicker: "yggdrasil - the roots",
   headlineLead: "Orchestration from",
-  headlineEmph: "the ground up.",
+  headlineEmph: "the roots up.",
   lede:
-    "Every workflow starts from your systems of record and only involves a human when it has to. Agents do the routine ninety percent; your team handles the judgment calls.",
+    "Yggdrasil's roots reach into your systems of record, and a workflow only involves a human when it has to. Agents do the routine ninety percent; your team handles the judgment calls.",
   bullets: [
     "Agents mount your backend through typed connectors - Postgres, REST, gRPC, message queues - with scoped, audited credentials.",
     "A planner decomposes each job into steps. Deterministic tools run first; model calls happen only when judgment is actually required.",
@@ -37,7 +37,7 @@ const PLATFORM: FeatureContent = {
 
 const RUNTIME: FeatureContent = {
   id: "runtime",
-  kicker: "reliability",
+  kicker: "yggdrasil - the trunk",
   headlineLead: "Automation shouldn't",
   headlineEmph: "feel fragile.",
   lede:

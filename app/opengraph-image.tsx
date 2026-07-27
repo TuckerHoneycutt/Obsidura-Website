@@ -20,13 +20,13 @@ export default async function OpenGraphImage() {
           alignItems: "center",
           justifyContent: "center",
           gap: 72,
-          background: "#121016",
+          background: "#000000",
         }}
       >
         <div
           style={{
             display: "flex",
-            background: "#ece8de",
+            background: "#ffffff",
             borderRadius: 20,
             padding: 28,
           }}
@@ -38,7 +38,7 @@ export default async function OpenGraphImage() {
           <div
             style={{
               fontSize: 88,
-              color: "#ece8de",
+              color: "#ffffff",
               letterSpacing: 20,
               display: "flex",
             }}
@@ -48,7 +48,7 @@ export default async function OpenGraphImage() {
           <div
             style={{
               fontSize: 26,
-              color: "#c9a86a",
+              color: "#bfbfbf",
               letterSpacing: 8,
               marginTop: 20,
               display: "flex",

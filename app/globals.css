@@ -4,34 +4,34 @@
 @custom-variant light (&:where(.light, .light *));
 
 :root {
-  /* Obsidian palette: cool volcanic-glass black, cream ink, gold-sheen accent */
-  --paper: #121016;
-  --paper-warm: #1a1620;
-  --ink: #ece8de;
-  --ink-soft: #c7c1b3;
-  --ink-mute: #8f8a7c;
-  --ink-faint: #6a6472;
-  --rule: #34303c;
-  --accent: #c9a86a;
-  --accent-deep: #8f7a52;
-  --accent-pale: #453d2e;
-  --grain: rgba(236, 232, 222, 0.035);
+  /* High-contrast monochrome: true black paper, white ink */
+  --paper: #000000;
+  --paper-warm: #101010;
+  --ink: #ffffff;
+  --ink-soft: #d6d6d6;
+  --ink-mute: #9c9c9c;
+  --ink-faint: #6b6b6b;
+  --rule: #2e2e2e;
+  --accent: #ffffff;
+  --accent-deep: #a8a8a8;
+  --accent-pale: #1d1d1d;
+  --grain: rgba(255, 255, 255, 0.04);
   color-scheme: dark;
 }
 
 html.light {
-  /* Same identity in daylight: cool paper white, ink black, deepened gold */
-  --paper: #f3f1f4;
-  --paper-warm: #eae7ee;
-  --ink: #1c1820;
-  --ink-soft: #48424f;
-  --ink-mute: #756f64;
-  --ink-faint: #9b95a3;
-  --rule: #d9d5df;
-  --accent: #8f7231;
-  --accent-deep: #6e5a30;
-  --accent-pale: #e8dfc8;
-  --grain: rgba(28, 24, 32, 0.05);
+  /* Inverse: true white paper, black ink */
+  --paper: #ffffff;
+  --paper-warm: #f2f2f2;
+  --ink: #000000;
+  --ink-soft: #2e2e2e;
+  --ink-mute: #5c5c5c;
+  --ink-faint: #8f8f8f;
+  --rule: #dcdcdc;
+  --accent: #000000;
+  --accent-deep: #4a4a4a;
+  --accent-pale: #ececec;
+  --grain: rgba(0, 0, 0, 0.05);
   color-scheme: light;
 }
 
@@ -46,7 +46,7 @@ html.light {
   --color-accent: var(--accent);
   --color-accent-deep: var(--accent-deep);
   --color-accent-pale: var(--accent-pale);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-display);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-display), serif;
 }
@@ -54,7 +54,7 @@ html.light {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-display), "Cormorant Garamond", serif;
 }
 
 ::selection {
@@ -91,7 +91,7 @@ body {
  * for the dark paper; on light paper the black artwork works as-is.
  */
 .logo-invert {
-  filter: invert(1) brightness(0.93) sepia(0.14);
+  filter: invert(1);
 }
 
 html.light .logo-invert {

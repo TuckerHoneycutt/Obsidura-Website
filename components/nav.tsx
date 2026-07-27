@@ -27,7 +27,7 @@ export function Nav() {
           >
             <LogoMark size={26} />
           </motion.span>
-          <span className="font-mono text-sm tracking-[0.28em] uppercase">
+          <span className="font-display text-xl font-medium tracking-[0.3em] uppercase">
             Obsidura
           </span>
         </a>
