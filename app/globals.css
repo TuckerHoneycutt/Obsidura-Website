@@ -47,7 +47,7 @@ html.light {
   --color-accent-deep: var(--accent-deep);
   --color-accent-pale: var(--accent-pale);
   --font-sans: var(--font-display);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-cutive);
   --font-display: var(--font-display), serif;
 }
 
@@ -73,7 +73,7 @@ body {
 }
 
 .kicker {
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--font-cutive), monospace;
   font-size: 0.6875rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;

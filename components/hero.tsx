@@ -28,7 +28,7 @@ export function Hero() {
 
           <motion.h1
             {...rise(0.1)}
-            className="text-[clamp(3rem,7.5vw,5.75rem)] leading-[1.02] font-light tracking-tight"
+            className="font-display text-[clamp(3rem,7.5vw,5.75rem)] leading-[1.02] font-light tracking-tight"
           >
             Agents that run
             <br />
@@ -37,7 +37,7 @@ export function Hero() {
 
           <motion.p
             {...rise(0.2)}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl"
+            className="mt-7 max-w-xl font-mono text-sm leading-relaxed text-ink-soft"
           >
             Obsidura orchestrates fleets of agents through Yggdrasil, our
             orchestration suite rooted directly in your company backend.

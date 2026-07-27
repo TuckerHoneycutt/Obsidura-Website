@@ -99,12 +99,12 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
             </button>
           </div>
 
-          <h2 className="mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
+          <h2 className="font-display mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
             {content.headlineLead}{" "}
             <span className="headline-emph">{content.headlineEmph}</span>
           </h2>
 
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
+          <p className="mt-6 max-w-lg font-mono text-sm leading-relaxed text-ink-soft">
             {content.lede}
           </p>
 
@@ -135,7 +135,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
                   <span className="kicker mt-1 shrink-0 text-accent">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-base leading-relaxed text-ink-soft">
+                  <p className="font-mono text-[13px] leading-relaxed text-ink-soft">
                     {b}
                   </p>
                 </motion.li>

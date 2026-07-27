@@ -36,7 +36,7 @@ export function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="kicker link-sweep transition-colors hover:text-ink"
+              className="link-sweep font-display text-[15px] font-medium tracking-[0.2em] text-ink-mute uppercase transition-colors hover:text-ink"
             >
               {link.label}
             </a>
@@ -46,7 +46,7 @@ export function Nav() {
           <ThemeToggle />
           <a
             href="#deploy"
-            className="kicker border border-accent-deep px-3.5 py-2 !text-accent transition-colors hover:bg-accent hover:!text-paper"
+            className="font-display border border-accent-deep px-3.5 py-2 text-sm font-medium tracking-[0.18em] text-accent uppercase transition-colors hover:bg-accent hover:text-paper"
           >
             Book a demo
           </a>

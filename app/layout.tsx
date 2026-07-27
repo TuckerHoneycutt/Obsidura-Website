@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Cutive_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { MotionProvider } from "@/components/motion-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ViewportFrame } from "@/components/viewport-frame";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const cutiveMono = Cutive_Mono({
+  variable: "--font-cutive",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -34,7 +35,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${cormorant.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${cutiveMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col paper-grain">
         <ThemeProvider
