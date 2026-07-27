@@ -18,8 +18,8 @@ const KIND_STYLE: Record<LineKind, string> = {
   plan: "text-accent",
   tool: "text-ink-soft",
   ok: "text-ink-mute",
-  model: "text-[#8f7bb8]",
-  escalate: "text-[#c98a6a]",
+  model: "text-[#8f7bb8] light:text-[#6a5599]",
+  escalate: "text-[#c98a6a] light:text-[#a95f38]",
   done: "text-accent",
 };
 

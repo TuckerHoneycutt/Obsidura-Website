@@ -34,7 +34,7 @@ export function LogoMark({
       style={{ width: size, height: size }}
     >
       <Image
-        src="/logo-mark.png"
+        src="/logo-mark-alpha.png"
         alt=""
         width={size}
         height={size}

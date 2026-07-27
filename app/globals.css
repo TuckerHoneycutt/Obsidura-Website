@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Style under the light theme, e.g. light:hidden */
+@custom-variant light (&:where(.light, .light *));
+
 :root {
   /* Obsidian palette: cool volcanic-glass black, cream ink, gold-sheen accent */
   --paper: #121016;
@@ -12,6 +15,24 @@
   --accent: #c9a86a;
   --accent-deep: #8f7a52;
   --accent-pale: #453d2e;
+  --grain: rgba(236, 232, 222, 0.035);
+  color-scheme: dark;
+}
+
+html.light {
+  /* Same identity in daylight: cool paper white, ink black, deepened gold */
+  --paper: #f3f1f4;
+  --paper-warm: #eae7ee;
+  --ink: #1c1820;
+  --ink-soft: #48424f;
+  --ink-mute: #756f64;
+  --ink-faint: #9b95a3;
+  --rule: #d9d5df;
+  --accent: #8f7231;
+  --accent-deep: #6e5a30;
+  --accent-pale: #e8dfc8;
+  --grain: rgba(28, 24, 32, 0.05);
+  color-scheme: light;
 }
 
 @theme inline {
@@ -45,7 +66,7 @@ body {
 .paper-grain {
   background-image: radial-gradient(
     circle at 1px 1px,
-    rgba(236, 232, 222, 0.035) 1px,
+    var(--grain) 1px,
     transparent 0
   );
   background-size: 22px 22px;
@@ -66,13 +87,15 @@ body {
 }
 
 /*
- * The logo artwork is black-on-white. Inverting turns the mark cream and the
- * background black; screen blending then drops the black background out
- * against the dark paper.
+ * The logo assets are black-on-transparent. Inverting turns the mark cream
+ * for the dark paper; on light paper the black artwork works as-is.
  */
 .logo-invert {
   filter: invert(1) brightness(0.93) sepia(0.14);
-  mix-blend-mode: screen;
+}
+
+html.light .logo-invert {
+  filter: none;
 }
 
 .mask-fade-x {

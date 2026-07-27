@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { LogoMark } from "@/components/logo-mark";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const LINKS = [
   { label: "Platform", href: "#platform" },
@@ -41,12 +42,15 @@ export function Nav() {
             </a>
           ))}
         </div>
-        <a
-          href="#deploy"
-          className="kicker border border-accent-deep px-3.5 py-2 text-accent transition-colors hover:bg-accent hover:text-paper"
-        >
-          Book a demo
-        </a>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <a
+            href="#deploy"
+            className="kicker border border-accent-deep px-3.5 py-2 text-accent transition-colors hover:bg-accent hover:text-paper"
+          >
+            Book a demo
+          </a>
+        </div>
       </nav>
     </motion.header>
   );

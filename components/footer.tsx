@@ -13,7 +13,7 @@ export function Footer() {
     <footer className="mt-auto border-t border-rule">
       <div className="mx-auto flex max-w-6xl justify-center px-5 pt-12">
         <Image
-          src="/logo-lockup.jpg"
+          src="/logo-lockup-alpha.png"
           alt="Obsidura"
           width={340}
           height={100}
