@@ -23,12 +23,12 @@ export function Hero() {
       <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pt-20 pb-16 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-14 lg:pt-28">
         <div>
           <motion.p {...rise(0)} className="kicker mb-6 text-accent">
-            Agentic backend as a service
+            01 &mdash; agentic backend as a service
           </motion.p>
 
           <motion.h1
             {...rise(0.1)}
-            className="text-5xl leading-[1.04] font-light tracking-tight sm:text-6xl lg:text-7xl"
+            className="text-[clamp(3rem,7.5vw,5.75rem)] leading-[1.02] font-light tracking-tight"
           >
             Agents that run
             <br />
@@ -49,7 +49,7 @@ export function Hero() {
             <Magnetic>
               <a
                 href="#deploy"
-                className="kicker inline-block bg-accent px-5 py-3 !text-paper transition-colors hover:bg-ink"
+                className="kicker inline-block bg-accent px-5 py-3 !text-paper transition-colors hover:bg-ink-soft"
               >
                 Book a demo
               </a>

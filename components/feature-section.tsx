@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Parallax } from "@/components/ui/parallax";
 import { Reveal } from "@/components/ui/reveal";
+import { RuneDivider } from "@/components/ui/rune-mark";
 import { cn } from "@/lib/utils";
 
 export type FeatureContent = {
@@ -68,13 +69,19 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
   const [nerd, setNerd] = useState(false);
 
   return (
-    <section id={content.id} className="border-t border-rule">
+    <section id={content.id} className="relative border-t border-rule">
+      <RuneDivider />
       <div
         className={cn(
           "mx-auto grid max-w-6xl gap-10 px-5 py-20 lg:grid-cols-2 lg:gap-16 lg:py-28"
         )}
       >
-        <Reveal className={cn(content.reverse && "lg:order-2")}>
+        <Reveal
+          className={cn(
+            "lg:sticky lg:top-28 lg:self-start",
+            content.reverse && "lg:order-2"
+          )}
+        >
           <div className="flex items-center gap-4">
             <p className="kicker text-accent">{content.kicker}</p>
             <button
@@ -92,7 +99,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
             </button>
           </div>
 
-          <h2 className="mt-6 text-4xl leading-[1.08] font-light tracking-tight sm:text-5xl">
+          <h2 className="mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
             {content.headlineLead}{" "}
             <span className="headline-emph">{content.headlineEmph}</span>
           </h2>
@@ -117,14 +124,21 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
             </div>
             <ul className="divide-y divide-rule">
               {content.bullets.map((b, i) => (
-                <li key={b} className="flex gap-4 px-5 py-5">
+                <motion.li
+                  key={b}
+                  className="flex gap-4 px-5 py-5"
+                  initial={{ opacity: 0.35 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ margin: "-15% 0px -15% 0px" }}
+                  transition={{ duration: 0.4 }}
+                >
                   <span className="kicker mt-1 shrink-0 text-accent">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <p className="text-base leading-relaxed text-ink-soft">
                     {b}
                   </p>
-                </li>
+                </motion.li>
               ))}
             </ul>
               {content.closer && (

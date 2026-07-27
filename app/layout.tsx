@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { MotionProvider } from "@/components/motion-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { ViewportFrame } from "@/components/viewport-frame";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -43,6 +44,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SmoothScroll />
+          <ViewportFrame />
           <MotionProvider>{children}</MotionProvider>
         </ThemeProvider>
       </body>

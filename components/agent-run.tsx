@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
+import { RuneDivider } from "@/components/ui/rune-mark";
 import { cn } from "@/lib/utils";
 
 type LineKind = "plan" | "tool" | "ok" | "model" | "escalate" | "done";
@@ -67,7 +68,8 @@ export function AgentRun() {
   }, []);
 
   return (
-    <section className="border-t border-rule">
+    <section className="relative border-t border-rule">
+      <RuneDivider />
       <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
         <Reveal>
           <p className="kicker text-accent">what a run looks like</p>

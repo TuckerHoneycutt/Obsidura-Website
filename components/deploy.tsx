@@ -1,7 +1,9 @@
+import { ChipRow } from "@/components/ui/chip-row";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { GlowPanel } from "@/components/ui/glow-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
+import { RuneDivider, RuneMark } from "@/components/ui/rune-mark";
 import { LogoMark } from "@/components/logo-mark";
 
 const OPTIONS = [
@@ -27,11 +29,12 @@ const OPTIONS = [
 
 export function Deploy() {
   return (
-    <section id="deploy" className="border-t border-rule">
+    <section id="deploy" className="relative border-t border-rule">
+      <RuneDivider />
       <div className="mx-auto max-w-6xl px-5 py-20 lg:py-28">
         <Reveal>
-          <p className="kicker text-accent">choose your realm</p>
-          <h2 className="mt-6 max-w-2xl text-4xl leading-[1.08] font-light tracking-tight sm:text-5xl">
+          <p className="kicker text-accent">04 &mdash; the realms</p>
+          <h2 className="mt-6 max-w-2xl text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
             Your data stays{" "}
             <span className="headline-emph">where you put it.</span>
           </h2>
@@ -42,19 +45,28 @@ export function Deploy() {
             <Reveal key={opt.name} delay={i * 0.1} className="h-full">
               <GlowPanel className="bg-paper-warm/30 transition-colors hover:bg-paper-warm/70">
                 <div className="relative flex h-full flex-col px-5 py-6">
-                  <div className="flex items-center justify-between">
-                    <span className="kicker text-accent">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="kicker">{opt.realm}</span>
-                  </div>
+                  <span className="kicker text-accent">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <h3 className="mt-4 font-display text-2xl font-medium tracking-tight">
                     {opt.name}
                   </h3>
                   <p className="mt-2 text-base leading-relaxed text-ink-soft">
                     {opt.detail}
                   </p>
-                  <p className="kicker mt-auto pt-6">{opt.meta}</p>
+                  <ChipRow
+                    items={[
+                      <span
+                        key="realm"
+                        className="flex items-center gap-1.5 text-accent"
+                      >
+                        <RuneMark size={9} />
+                        {opt.realm}
+                      </span>,
+                      ...opt.meta.split(" / "),
+                    ]}
+                    className="mt-auto pt-6"
+                  />
                 </div>
               </GlowPanel>
             </Reveal>
@@ -83,7 +95,7 @@ export function Deploy() {
                 <Magnetic className="shrink-0">
                   <a
                     href="mailto:hello@obsidura.com"
-                    className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink"
+                    className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
                   >
                     Book a demo
                   </a>

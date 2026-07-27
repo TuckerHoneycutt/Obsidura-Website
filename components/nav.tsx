@@ -18,8 +18,8 @@ export function Nav() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm"
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
-        <a href="#top" className="group flex items-center gap-2.5">
+      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[1fr_auto_1fr]">
+        <a href="#top" className="group flex w-max items-center gap-3">
           <motion.span
             className="inline-flex"
             whileHover={{ rotate: 180 }}
@@ -27,11 +27,11 @@ export function Nav() {
           >
             <LogoMark size={26} />
           </motion.span>
-          <span className="font-display text-xl font-medium tracking-[0.3em] uppercase">
+          <span className="font-display text-xl leading-none font-medium tracking-[0.3em] uppercase">
             Obsidura
           </span>
         </a>
-        <div className="hidden items-center gap-8 sm:flex">
+        <div className="hidden items-center justify-center gap-10 sm:flex">
           {LINKS.map((link) => (
             <a
               key={link.href}
@@ -42,11 +42,11 @@ export function Nav() {
             </a>
           ))}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-end gap-3">
           <ThemeToggle />
           <a
             href="#deploy"
-            className="kicker border border-accent-deep px-3.5 py-2 text-accent transition-colors hover:bg-accent hover:text-paper"
+            className="kicker border border-accent-deep px-3.5 py-2 !text-accent transition-colors hover:bg-accent hover:!text-paper"
           >
             Book a demo
           </a>

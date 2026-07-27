@@ -8,11 +8,12 @@ import {
   type FeatureContent,
 } from "@/components/feature-section";
 import { Deploy } from "@/components/deploy";
+import { Interlude } from "@/components/interlude";
 import { Footer } from "@/components/footer";
 
 const PLATFORM: FeatureContent = {
   id: "platform",
-  kicker: "yggdrasil - the roots",
+  kicker: "02 - yggdrasil, the roots",
   headlineLead: "Orchestration from",
   headlineEmph: "the roots up.",
   lede:
@@ -37,7 +38,7 @@ const PLATFORM: FeatureContent = {
 
 const RUNTIME: FeatureContent = {
   id: "runtime",
-  kicker: "yggdrasil - the trunk",
+  kicker: "03 - yggdrasil, the trunk",
   headlineLead: "Automation shouldn't",
   headlineEmph: "feel fragile.",
   lede:
@@ -72,6 +73,7 @@ export default function Home() {
         <Integrations />
         <AgentRun />
         <FeatureSection content={PLATFORM} />
+        <Interlude />
         <FeatureSection content={RUNTIME} />
         <Deploy />
       </main>
