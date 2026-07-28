@@ -1,7 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
-import { sendContact, type ContactState } from "@/app/actions/contact";
+import { useState, type FormEvent } from "react";
+import type { ContactState } from "@/lib/contact";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { cn } from "@/lib/utils";
 
@@ -13,10 +13,44 @@ const fieldClass =
 const labelClass = "kicker mb-2 block !text-[10px]";
 
 export function ContactForm() {
-  const [state, formAction, pending] = useActionState(
-    sendContact,
-    initialState
-  );
+  const [state, setState] = useState<ContactState>(initialState);
+  const [pending, setPending] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setPending(true);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          company: formData.get("company"),
+          message: formData.get("message"),
+          company_url: formData.get("company_url"),
+        }),
+      });
+
+      const nextState = (await response.json()) as ContactState;
+      setState(nextState);
+
+      if (nextState.ok) {
+        form.reset();
+      }
+    } catch {
+      setState({
+        ok: false,
+        message: "Could not send your message. Please try again shortly.",
+      });
+    } finally {
+      setPending(false);
+    }
+  }
 
   if (state.ok) {
     return (
@@ -35,7 +69,7 @@ export function ContactForm() {
   return (
     <FramePanel className="bg-paper-warm/40">
       <form
-        action={formAction}
+        onSubmit={handleSubmit}
         className="relative flex flex-col gap-6 px-6 py-8 sm:px-8"
       >
         <div className="grid gap-6 sm:grid-cols-2">
