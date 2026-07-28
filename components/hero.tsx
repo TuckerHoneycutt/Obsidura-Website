@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { AsciiMark } from "@/components/ascii-mark";
+import { RotatingMark } from "@/components/rotating-mark";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Spotlight } from "@/components/ui/spotlight";
@@ -14,8 +14,8 @@ const rise = (delay: number) => ({
 
 export function Hero() {
   const { scrollY } = useScroll();
-  // The ASCII panel drifts slower than the page for depth.
-  const asciiY = useTransform(scrollY, [0, 800], [0, -56]);
+  // The mark panel drifts slower than the page for depth.
+  const markY = useTransform(scrollY, [0, 800], [0, -56]);
 
   return (
     <section id="top" className="relative overflow-hidden">
@@ -73,8 +73,8 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <motion.div {...rise(0.35)} style={{ y: asciiY }}>
-          <AsciiMark />
+        <motion.div {...rise(0.35)} style={{ y: markY }}>
+          <RotatingMark />
         </motion.div>
       </div>
 

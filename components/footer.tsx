@@ -12,14 +12,16 @@ const LINKS = [
 export function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-rule pt-14">
-      {/* Full-contrast lockup: the mark and wordmark set large, side by side */}
-      <div className="mx-auto flex max-w-6xl items-center justify-center gap-[clamp(1rem,3.5vw,2.75rem)] px-5">
+      {/* Full-contrast lockup: mark and wordmark proportioned per the brand
+          lockup, where the mark stands roughly twice the wordmark cap height */}
+      <div className="mx-auto flex max-w-6xl items-center justify-center gap-[clamp(0.625rem,1.75vw,1.375rem)] px-5">
         <Image
-          src="/logo-mark-alpha.png"
+          src="/logo-mark.svg"
           alt=""
-          width={200}
-          height={200}
-          className="logo-invert h-[clamp(3.25rem,9vw,7.5rem)] w-auto select-none"
+          width={718}
+          height={718}
+          unoptimized
+          className="logo-invert h-[clamp(3.5rem,12vw,10.25rem)] w-auto select-none"
         />
         <p className="font-display text-[clamp(2.75rem,9.5vw,8rem)] leading-none font-light tracking-[0.1em] uppercase">
           Obsidura

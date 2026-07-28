@@ -80,7 +80,7 @@ export function Deploy() {
                 aria-hidden
                 className="pointer-events-none absolute -top-24 -right-20 opacity-[0.07]"
               >
-                <LogoMark size={340} spin="slow" />
+                <LogoMark size={200} spin="slow" />
               </div>
               <div className="relative flex flex-col items-start gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
                 <div>

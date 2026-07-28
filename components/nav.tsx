@@ -19,7 +19,7 @@ export function Nav() {
       className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm"
     >
       <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[1fr_auto_1fr]">
-        <a href="#top" className="group flex w-max items-center gap-3">
+        <a href="#top" className="group flex w-max items-center gap-2.5">
           <motion.span
             className="inline-flex"
             whileHover={{ rotate: 180 }}
