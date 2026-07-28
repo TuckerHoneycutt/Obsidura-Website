@@ -1,13 +1,12 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  images: {
-    unoptimized: true,
-  },
   turbopack: {
     root: __dirname,
   },
 };
 
 export default nextConfig;
+
+initOpenNextCloudflareForDev();
