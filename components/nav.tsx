@@ -5,9 +5,10 @@ import { LogoMark } from "@/components/logo-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const LINKS = [
-  { label: "Platform", href: "#platform" },
-  { label: "Runtime", href: "#runtime" },
-  { label: "Deploy", href: "#deploy" },
+  { label: "Platform", href: "/#platform" },
+  { label: "Runtime", href: "/#runtime" },
+  { label: "Deploy", href: "/#deploy" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Nav() {
@@ -19,7 +20,7 @@ export function Nav() {
       className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm"
     >
       <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[1fr_auto_1fr]">
-        <a href="#top" className="group flex w-max items-center gap-2.5">
+        <a href="/" className="group flex w-max items-center gap-2.5">
           <motion.span
             className="inline-flex"
             whileHover={{ rotate: 180 }}
@@ -31,7 +32,7 @@ export function Nav() {
             Obsidura
           </span>
         </a>
-        <div className="hidden items-center justify-center gap-10 sm:flex">
+        <div className="hidden items-center justify-center gap-8 sm:flex">
           {LINKS.map((link) => (
             <a
               key={link.href}
@@ -45,7 +46,7 @@ export function Nav() {
         <div className="flex items-center justify-end gap-3">
           <ThemeToggle />
           <a
-            href="#deploy"
+            href="/contact"
             className="font-display border border-accent-deep px-3.5 py-2 text-sm font-medium tracking-[0.18em] text-accent uppercase transition-colors hover:bg-accent hover:text-paper"
           >
             Book a demo

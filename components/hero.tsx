@@ -48,7 +48,7 @@ export function Hero() {
           <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-4">
             <Magnetic>
               <a
-                href="#deploy"
+                href="/contact"
                 className="kicker inline-block bg-accent px-5 py-3 !text-paper transition-colors hover:bg-ink-soft"
               >
                 Book a demo

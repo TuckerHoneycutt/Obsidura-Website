@@ -6,7 +6,7 @@ const LINKS = [
   { label: "FAQ", href: "#" },
   { label: "Docs", href: "#" },
   { label: "Privacy", href: "#" },
-  { label: "Partner with us", href: "mailto:hello@obsidura.com" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Footer() {

@@ -94,7 +94,7 @@ export function Deploy() {
                 </div>
                 <Magnetic className="shrink-0">
                   <a
-                    href="mailto:hello@obsidura.com"
+                    href="/contact"
                     className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
                   >
                     Book a demo
