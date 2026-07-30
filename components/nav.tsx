@@ -21,13 +21,7 @@ export function Nav() {
     >
       <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[1fr_auto_1fr]">
         <a href="/" className="group flex w-max items-center gap-2.5">
-          <motion.span
-            className="inline-flex"
-            whileHover={{ rotate: 180 }}
-            transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-          >
-            <LogoMark size={26} />
-          </motion.span>
+          <LogoMark size={26} />
           <span className="font-display text-xl leading-none font-medium tracking-[0.3em] uppercase">
             Obsidura
           </span>

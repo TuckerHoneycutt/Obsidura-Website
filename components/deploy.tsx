@@ -4,7 +4,6 @@ import { GlowPanel } from "@/components/ui/glow-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { RuneDivider, RuneMark } from "@/components/ui/rune-mark";
-import { LogoMark } from "@/components/logo-mark";
 
 const OPTIONS = [
   {
@@ -75,32 +74,24 @@ export function Deploy() {
 
         <Reveal delay={0.2} className="mt-14">
           <FramePanel className="bg-paper-warm/40">
-            <div className="relative overflow-hidden">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -top-24 -right-20 opacity-[0.07]"
-              >
-                <LogoMark size={200} spin="slow" />
+            <div className="flex flex-col items-start gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="font-display text-3xl font-light tracking-tight">
+                  Put agents on your backend.
+                </h3>
+                <p className="mt-2 max-w-md font-mono text-sm text-ink-mute">
+                  A 30-minute call. We map one workflow and show you the
+                  audit log by the end of it.
+                </p>
               </div>
-              <div className="relative flex flex-col items-start gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <h3 className="font-display text-3xl font-light tracking-tight">
-                    Put agents on your backend.
-                  </h3>
-                  <p className="mt-2 max-w-md font-mono text-sm text-ink-mute">
-                    A 30-minute call. We map one workflow and show you the
-                    audit log by the end of it.
-                  </p>
-                </div>
-                <Magnetic className="shrink-0">
-                  <a
-                    href="/contact"
-                    className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
-                  >
-                    Book a demo
-                  </a>
-                </Magnetic>
-              </div>
+              <Magnetic className="shrink-0">
+                <a
+                  href="/contact"
+                  className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
+                >
+                  Book a demo
+                </a>
+              </Magnetic>
             </div>
           </FramePanel>
         </Reveal>
