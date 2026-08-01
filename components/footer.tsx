@@ -2,10 +2,45 @@ import Image from "next/image";
 import { LogoMark } from "@/components/logo-mark";
 import { MeanderFrieze, MeanderMark } from "@/components/ui/meander-mark";
 
+const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[] = [
+  {
+    heading: "platform",
+    links: [
+      { label: "Architecture", href: "/platform" },
+      { label: "Integrations", href: "/integrations" },
+      { label: "Security", href: "/security" },
+      { label: "FAQ", href: "/faq" },
+    ],
+  },
+  {
+    heading: "solutions",
+    links: [
+      { label: "Finance Operations", href: "/solutions/finance-operations" },
+      { label: "Customer Support", href: "/solutions/customer-support" },
+      { label: "Revenue Operations", href: "/solutions/revenue-operations" },
+    ],
+  },
+  {
+    heading: "deployment",
+    links: [
+      { label: "Obsidura Cloud", href: "/#deploy" },
+      { label: "Private VPC", href: "/deployment/private-vpc" },
+      { label: "On-Premises", href: "/deployment/on-premises" },
+    ],
+  },
+  {
+    heading: "company",
+    links: [
+      { label: "Contact", href: "/contact" },
+      { label: "Privacy", href: "/privacy" },
+    ],
+  },
+];
+
 const LINKS = [
-  { label: "FAQ", href: "#" },
-  { label: "Docs", href: "#" },
-  { label: "Privacy", href: "#" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Security", href: "/security" },
+  { label: "Privacy", href: "/privacy" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -34,7 +69,26 @@ export function Footer() {
         <p className="kicker !text-[10px]">forged on pantheon</p>
         <MeanderMark size={10} />
       </div>
-      <div className="relative mx-auto mt-12 flex max-w-6xl flex-col gap-5 border-t border-rule px-5 py-9 sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative mx-auto mt-12 grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 border-t border-rule px-5 py-10 sm:grid-cols-4">
+        {DIRECTORY.map(({ heading, links }) => (
+          <div key={heading}>
+            <p className="kicker mb-4 !text-[10px] text-accent">{heading}</p>
+            <ul className="space-y-2.5">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="kicker link-sweep transition-colors hover:text-ink"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-5 border-t border-rule px-5 py-9 sm:flex-row sm:items-center sm:justify-between">
         <p className="kicker flex items-center gap-2.5">
           <LogoMark size={16} />
           &copy; 2026 Obsidura

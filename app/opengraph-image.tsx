@@ -6,7 +6,7 @@ export const dynamic = "force-static";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Obsidura - Agentic Backend as a Service";
+export const alt = "Obsidura | Backend-Native AI Agent Orchestration";
 
 export default async function OpenGraphImage() {
   const logo = await readFile(join(process.cwd(), "public/logo-mark.png"));
@@ -49,14 +49,14 @@ export default async function OpenGraphImage() {
           </div>
           <div
             style={{
-              fontSize: 26,
+              fontSize: 22,
               color: "#bfbfbf",
-              letterSpacing: 8,
+              letterSpacing: 5,
               marginTop: 20,
               display: "flex",
             }}
           >
-            AGENTIC BACKEND AS A SERVICE
+            BACKEND-NATIVE AI AGENT ORCHESTRATION
           </div>
         </div>
       </div>

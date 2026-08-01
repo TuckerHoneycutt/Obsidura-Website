@@ -21,12 +21,14 @@ const OPTIONS = [
     dominion: "poseidon",
     detail: "Runs in your own waters - your AWS or GCP account",
     meta: "single-tenant / your network boundary",
+    href: "/deployment/private-vpc",
   },
   {
     name: "On-Prem",
     dominion: "hades",
     detail: "Air-gapped and unseen - your hardware",
     meta: "kubernetes / no external calls",
+    href: "/deployment/on-premises",
   },
 ] as const;
 
@@ -68,6 +70,14 @@ export function Deploy() {
                   <p className="mt-2 font-mono text-[13px] leading-relaxed text-ink-soft">
                     {opt.detail}
                   </p>
+                  {"href" in opt && (
+                    <a
+                      href={opt.href}
+                      className="kicker link-sweep mt-3 w-max text-accent transition-colors hover:text-ink"
+                    >
+                      the full account &rarr;
+                    </a>
+                  )}
                   <ChipRow
                     items={[
                       <span

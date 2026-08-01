@@ -19,17 +19,21 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
 });
 
+const DESCRIPTION =
+  "Deploy auditable AI agents across your databases, APIs, and business systems with durable workflows, human escalation, and cloud, VPC, or on-premises deployment.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://obsidura.com"),
-  title: "Obsidura - Agentic Backend as a Service",
-  description:
-    "Obsidura orchestrates agents that connect to your company backend and run your operations - durable, audited, and escalation-aware.",
+  title: "Obsidura | Backend-Native AI Agent Orchestration",
+  description: DESCRIPTION,
   alternates: {
     canonical: "/",
   },
 };
 
-// Organization + WebSite structured data for search engines.
+// Organization + WebSite + SoftwareApplication structured data for search
+// engines. Only fields we can honestly claim - no invented ratings, prices,
+// or certifications.
 const JSON_LD = {
   "@context": "https://schema.org",
   "@graph": [
@@ -40,14 +44,24 @@ const JSON_LD = {
       url: "https://obsidura.com",
       logo: "https://obsidura.com/logo-mark.png",
       email: "contact@obsidura.com",
-      description:
-        "Obsidura orchestrates agents that connect to your company backend and run your operations - durable, audited, and escalation-aware.",
+      description: DESCRIPTION,
     },
     {
       "@type": "WebSite",
       "@id": "https://obsidura.com/#website",
       name: "Obsidura",
       url: "https://obsidura.com",
+      publisher: { "@id": "https://obsidura.com/#organization" },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://obsidura.com/#software",
+      name: "Pantheon",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web, Linux",
+      url: "https://obsidura.com",
+      description:
+        "Pantheon is Obsidura's AI agent orchestration suite: typed connectors into backend systems, a durable workflow runtime, human-in-the-loop escalation, and an append-only audit log.",
       publisher: { "@id": "https://obsidura.com/#organization" },
     },
   ],
