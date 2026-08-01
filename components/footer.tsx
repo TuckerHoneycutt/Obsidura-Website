@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { LogoMark } from "@/components/logo-mark";
-import { RuneMark } from "@/components/ui/rune-mark";
+import { MeanderFrieze, MeanderMark } from "@/components/ui/meander-mark";
 
 const LINKS = [
   { label: "FAQ", href: "#" },
@@ -11,10 +11,12 @@ const LINKS = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-rule pt-14">
+    <footer className="relative mt-auto overflow-hidden border-t border-rule">
+      {/* Temple frieze: full-bleed running key just below the top rule */}
+      <MeanderFrieze className="mt-4 opacity-70" />
       {/* Full-contrast lockup: mark and wordmark proportioned per the brand
           lockup, where the mark stands roughly twice the wordmark cap height */}
-      <div className="mx-auto flex max-w-6xl items-center justify-center gap-[clamp(0.625rem,1.75vw,1.375rem)] px-5">
+      <div className="mx-auto mt-10 flex max-w-6xl items-center justify-center gap-[clamp(0.625rem,1.75vw,1.375rem)] px-5">
         <Image
           src="/logo-mark.svg"
           alt=""
@@ -28,9 +30,9 @@ export function Footer() {
         </p>
       </div>
       <div className="relative mx-auto mt-10 flex max-w-6xl items-center justify-center gap-2.5 px-5 text-ink-mute">
-        <RuneMark size={10} />
-        <p className="kicker !text-[10px]">grown on yggdrasil</p>
-        <RuneMark size={10} />
+        <MeanderMark size={10} />
+        <p className="kicker !text-[10px]">forged on pantheon</p>
+        <MeanderMark size={10} />
       </div>
       <div className="relative mx-auto mt-12 flex max-w-6xl flex-col gap-5 border-t border-rule px-5 py-9 sm:flex-row sm:items-center sm:justify-between">
         <p className="kicker flex items-center gap-2.5">

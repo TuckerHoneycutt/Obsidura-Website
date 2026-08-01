@@ -2,10 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { AsciiArt } from "@/components/ui/ascii-art";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
-import { RuneDivider } from "@/components/ui/rune-mark";
+import { MeanderDivider } from "@/components/ui/meander-mark";
 import { cn } from "@/lib/utils";
+
+// Athena's owl, perched above the audit log. Wisdom keeps the records.
+const OWL = String.raw` ,___,
+ (O,O)
+ /)_)
+  " "`;
 
 type LineKind = "plan" | "tool" | "ok" | "model" | "escalate" | "done";
 
@@ -69,16 +76,26 @@ export function AgentRun() {
 
   return (
     <section className="relative border-t border-rule">
-      <RuneDivider />
+      <MeanderDivider />
       <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
         <Reveal>
-          <p className="kicker text-accent">what a run looks like</p>
+          <div className="flex items-end justify-between gap-6">
+            <p className="kicker text-accent">what a labor looks like</p>
+            <div className="hidden text-right sm:block">
+              <AsciiArt
+                art={OWL}
+                duration={1200}
+                className="inline-block text-left font-mono text-[10px] leading-[11px] text-ink-mute"
+              />
+              <p className="kicker mt-1 !text-[9px]">athena keeps watch</p>
+            </div>
+          </div>
         </Reveal>
         <Reveal delay={0.1} className="mt-8">
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
               <span className="kicker">live run - payout reconciliation</span>
-              <span className="kicker text-accent">muninn - audit log</span>
+              <span className="kicker text-accent">mnemosyne - audit log</span>
             </div>
             <div className="h-[300px] overflow-hidden px-4 py-3 sm:h-[280px]">
               {RUN.slice(0, count).map((line, i) => (

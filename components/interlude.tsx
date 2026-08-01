@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AsciiArt } from "@/components/ui/ascii-art";
 import { Parallax } from "@/components/ui/parallax";
 import { Reveal } from "@/components/ui/reveal";
-import { RuneDivider } from "@/components/ui/rune-mark";
+import { MeanderDivider } from "@/components/ui/meander-mark";
 
 type Star = {
   left: number;
@@ -11,6 +12,27 @@ type Star = {
   char: string;
   opacity: number;
 };
+
+// Original ASCII rendering of the Pantheon: pediment, colonnade, and
+// stepped crepidoma.
+const TEMPLE = String.raw`        .     *     .     *     .
+              _________
+      ______/           \______
+     /\                        /\
+    /  \______________________/  \
+   /______________________________\
+    |__|________________________|__|
+     ||    ||    ||    ||    ||
+     ||    ||    ||    ||    ||
+     ||    ||    ||    ||    ||
+     ||    ||    ||    ||    ||
+     ||    ||    ||    ||    ||
+     ||    ||    ||    ||    ||
+    _||____||____||____||____||_
+   |____________________________|
+  |______________________________|
+ |________________________________|
+    .        *        .        *`;
 
 /**
  * Full-bleed monochrome interlude: a sparse character starfield drifting
@@ -34,7 +56,7 @@ export function Interlude() {
 
   return (
     <section className="relative overflow-hidden border-t border-rule">
-      <RuneDivider />
+      <MeanderDivider />
       <div aria-hidden className="absolute inset-0 font-mono text-[11px]">
         {stars.map((s, i) => (
           <span
@@ -46,38 +68,25 @@ export function Interlude() {
           </span>
         ))}
       </div>
-      {/* Original ASCII rendering of Yggdrasil: crown, trunk, and roots */}
-      <pre
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-mono text-[9px] leading-[12px] text-ink opacity-[0.13] select-none sm:text-[11px] sm:leading-[14px]"
+      {/* The temple carves itself in on arrival, then drifts against the
+          quote for depth. */}
+      <Parallax
+        offset={-14}
+        className="pointer-events-none absolute inset-0"
       >
-        {String.raw`          *    .   *   .    *
-      .    \   |   |   /    .
-        *__ \_ \ | | / _/ __*
-           \__\ \\|// /__/
-          __   \\\|///   __
-            \___\\|//___/
-             ___ \|/ ___
-            /   \_|_/   \
-                  |
-                  |
-                  |
-                  |
-             ____/|\____
-            /   / | \   \
-         __/  /  /|\  \  \__
-        /    /  / | \  \    \
-       .    /  /  |  \  \    .
-          .   /   |   \   .
-             .    |    .`}
-      </pre>
+        <AsciiArt
+          art={TEMPLE}
+          duration={2600}
+          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-mono text-[9px] leading-[12px] text-ink opacity-[0.22] sm:text-[11px] sm:leading-[14px]"
+        />
+      </Parallax>
       <Parallax offset={20} className="relative">
         <Reveal className="mx-auto max-w-4xl px-5 py-28 text-center lg:py-36">
           <p className="font-display text-[clamp(1.9rem,3.6vw,3rem)] leading-snug font-light">
-            The routine stays at the roots.
+            The toil belongs to the agents.
             <br />
             <span className="italic text-ink-soft">
-              Only judgment rises to the crown.
+              Only judgment ascends Olympus.
             </span>
           </p>
         </Reveal>

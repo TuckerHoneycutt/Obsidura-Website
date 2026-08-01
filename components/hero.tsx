@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { RotatingMark } from "@/components/rotating-mark";
+import { TracedMark } from "@/components/traced-mark";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Spotlight } from "@/components/ui/spotlight";
@@ -23,7 +23,7 @@ export function Hero() {
       <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pt-20 pb-16 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-14 lg:pt-28">
         <div>
           <motion.p {...rise(0)} className="kicker mb-6 text-accent">
-            01 &mdash; agentic backend as a service
+            i &mdash; agentic backend as a service
           </motion.p>
 
           <motion.h1
@@ -39,10 +39,10 @@ export function Hero() {
             {...rise(0.2)}
             className="mt-7 max-w-xl font-mono text-sm leading-relaxed text-ink-soft"
           >
-            Obsidura orchestrates fleets of agents through Yggdrasil, our
-            orchestration suite rooted directly in your company backend.
-            Agents read your systems of record, execute the work, and escalate
-            to humans only when judgment is required.
+            Obsidura orchestrates fleets of agents through Pantheon, our
+            orchestration suite enthroned directly in your company backend.
+            Agents read your systems of record, carry out the labors, and
+            escalate to humans only when judgment is required.
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-4">
@@ -74,13 +74,23 @@ export function Hero() {
         </div>
 
         <motion.div {...rise(0.35)} style={{ y: markY }}>
-          <RotatingMark />
+          <TracedMark />
+          {/* Museum plate: appears once the artifact has finished drawing. */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 3, ease: "easeOut" }}
+            className="mt-3 flex items-center justify-between border-t border-rule pt-3"
+          >
+            <span className="kicker !text-[10px]">fig. i</span>
+            <span className="kicker !text-[10px]">the pantheon mark</span>
+          </motion.div>
         </motion.div>
       </div>
 
       <div className="relative mx-auto max-w-6xl px-5 pb-10">
         <p className="kicker animate-scroll-cue w-max">
-          the roots run deep &darr;
+          the pantheon stirs below &darr;
         </p>
       </div>
     </section>

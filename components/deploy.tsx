@@ -1,42 +1,51 @@
 import { ChipRow } from "@/components/ui/chip-row";
+import { DominionGlyph } from "@/components/ui/dominion-glyph";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { GlowPanel } from "@/components/ui/glow-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
-import { RuneDivider, RuneMark } from "@/components/ui/rune-mark";
+import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
+import { romanNumeral } from "@/lib/utils";
 
+// After the war, the three brothers drew lots for the cosmos: Zeus took
+// the heavens, Poseidon the sea, Hades the unseen world below.
 const OPTIONS = [
   {
     name: "Obsidura Cloud",
-    realm: "asgard",
-    detail: "Fully managed - live in days",
+    dominion: "zeus",
+    detail: "Fully managed in the heavens - live in days",
     meta: "multi-tenant / us + eu regions",
   },
   {
     name: "Private VPC",
-    realm: "midgard",
-    detail: "Runs inside your AWS or GCP account",
+    dominion: "poseidon",
+    detail: "Runs in your own waters - your AWS or GCP account",
     meta: "single-tenant / your network boundary",
   },
   {
     name: "On-Prem",
-    realm: "niflheim",
-    detail: "Air-gapped - your hardware",
+    dominion: "hades",
+    detail: "Air-gapped and unseen - your hardware",
     meta: "kubernetes / no external calls",
   },
-];
+] as const;
 
 export function Deploy() {
   return (
     <section id="deploy" className="relative border-t border-rule">
-      <RuneDivider />
+      <MeanderDivider />
       <div className="mx-auto max-w-6xl px-5 py-20 lg:py-28">
         <Reveal>
-          <p className="kicker text-accent">04 &mdash; the realms</p>
+          <p className="kicker text-accent">iv &mdash; the dominions</p>
           <h2 className="font-display mt-6 max-w-2xl text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
             Your data stays{" "}
-            <span className="headline-emph">where you put it.</span>
+            <span className="headline-emph">in your dominion.</span>
           </h2>
+          <p className="mt-5 max-w-xl font-mono text-sm leading-relaxed text-ink-mute">
+            When the war was won, the brothers drew lots for the cosmos -
+            the heavens, the sea, the world below. Choose your dominion;
+            the agents serve in all three.
+          </p>
         </Reveal>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-3">
@@ -44,9 +53,15 @@ export function Deploy() {
             <Reveal key={opt.name} delay={i * 0.1} className="h-full">
               <GlowPanel className="bg-paper-warm/30 transition-colors hover:bg-paper-warm/70">
                 <div className="relative flex h-full flex-col px-5 py-6">
-                  <span className="kicker text-accent">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+                  <div className="flex items-start justify-between">
+                    <span className="kicker text-accent">
+                      {romanNumeral(i + 1)}
+                    </span>
+                    <DominionGlyph
+                      dominion={opt.dominion}
+                      className="text-ink-mute transition-colors duration-300 group-hover/glow:text-[var(--gilt)]"
+                    />
+                  </div>
                   <h3 className="mt-4 font-display text-2xl font-medium tracking-tight">
                     {opt.name}
                   </h3>
@@ -56,11 +71,11 @@ export function Deploy() {
                   <ChipRow
                     items={[
                       <span
-                        key="realm"
+                        key="dominion"
                         className="flex items-center gap-1.5 text-accent"
                       >
-                        <RuneMark size={9} />
-                        {opt.realm}
+                        <MeanderMark size={9} />
+                        {opt.dominion}
                       </span>,
                       ...opt.meta.split(" / "),
                     ]}

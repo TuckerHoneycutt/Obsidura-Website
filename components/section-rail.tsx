@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { motion, useScroll } from "motion/react";
+import { cn, romanNumeral } from "@/lib/utils";
 
 const SECTIONS = [
-  { id: "top", label: "the crown" },
-  { id: "platform", label: "the roots" },
-  { id: "runtime", label: "the trunk" },
-  { id: "deploy", label: "the realms" },
+  { id: "top", label: "olympus" },
+  { id: "platform", label: "the labors" },
+  { id: "runtime", label: "the forge" },
+  { id: "deploy", label: "the dominions" },
 ];
 
 /**
@@ -16,6 +17,7 @@ const SECTIONS = [
  */
 export function SectionRail() {
   const [active, setActive] = useState("top");
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -38,6 +40,16 @@ export function SectionRail() {
       aria-label="Sections"
       className="fixed top-1/2 left-5 z-40 hidden -translate-y-1/2 flex-col gap-3.5 xl:flex"
     >
+      {/* The descent from Olympus: a hairline that fills with scroll. */}
+      <span
+        aria-hidden
+        className="absolute -left-3 top-0 h-full w-px bg-rule"
+      >
+        <motion.span
+          className="absolute inset-0 origin-top bg-accent"
+          style={{ scaleY: scrollYProgress }}
+        />
+      </span>
       {SECTIONS.map((s, i) => {
         const isActive = active === s.id;
         return (
@@ -48,13 +60,13 @@ export function SectionRail() {
           >
             <span
               className={cn(
-                "kicker !text-[11px] transition-colors",
+                "kicker w-5 text-right !text-[11px] transition-colors",
                 isActive
                   ? "!text-accent"
                   : "!text-ink-mute group-hover:!text-ink-soft"
               )}
             >
-              {String(i + 1).padStart(2, "0")}
+              {romanNumeral(i + 1)}
             </span>
             <span
               className={cn(

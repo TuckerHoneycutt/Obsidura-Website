@@ -24,6 +24,33 @@ export const metadata: Metadata = {
   title: "Obsidura - Agentic Backend as a Service",
   description:
     "Obsidura orchestrates agents that connect to your company backend and run your operations - durable, audited, and escalation-aware.",
+  alternates: {
+    canonical: "/",
+  },
+};
+
+// Organization + WebSite structured data for search engines.
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://obsidura.com/#organization",
+      name: "Obsidura",
+      url: "https://obsidura.com",
+      logo: "https://obsidura.com/logo-mark.png",
+      email: "contact@obsidura.com",
+      description:
+        "Obsidura orchestrates agents that connect to your company backend and run your operations - durable, audited, and escalation-aware.",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://obsidura.com/#website",
+      name: "Obsidura",
+      url: "https://obsidura.com",
+      publisher: { "@id": "https://obsidura.com/#organization" },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -38,6 +65,10 @@ export default function RootLayout({
       className={`${cormorant.variable} ${cutiveMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col paper-grain">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

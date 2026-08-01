@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Parallax } from "@/components/ui/parallax";
 import { Reveal } from "@/components/ui/reveal";
-import { RuneDivider } from "@/components/ui/rune-mark";
-import { cn } from "@/lib/utils";
+import { MeanderDivider } from "@/components/ui/meander-mark";
+import { cn, romanNumeral } from "@/lib/utils";
 
 export type FeatureContent = {
   id: string;
@@ -70,7 +70,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
 
   return (
     <section id={content.id} className="relative border-t border-rule">
-      <RuneDivider />
+      <MeanderDivider />
       <div
         className={cn(
           "mx-auto grid max-w-6xl gap-10 px-5 py-20 lg:grid-cols-2 lg:gap-16 lg:py-28"
@@ -104,7 +104,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
             <span className="headline-emph">{content.headlineEmph}</span>
           </h2>
 
-          <p className="mt-6 max-w-lg font-mono text-sm leading-relaxed text-ink-soft">
+          <p className="drop-cap mt-6 max-w-lg font-mono text-sm leading-relaxed text-ink-soft">
             {content.lede}
           </p>
 
@@ -132,8 +132,8 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
                   viewport={{ margin: "-15% 0px -15% 0px" }}
                   transition={{ duration: 0.4 }}
                 >
-                  <span className="kicker mt-1 shrink-0 text-accent">
-                    {String(i + 1).padStart(2, "0")}
+                  <span className="kicker mt-1 w-7 shrink-0 text-accent">
+                    {romanNumeral(i + 1)}
                   </span>
                   <p className="font-mono text-[13px] leading-relaxed text-ink-soft">
                     {b}

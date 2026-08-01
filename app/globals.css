@@ -16,6 +16,9 @@
   --accent-deep: #a8a8a8;
   --accent-pale: #1d1d1d;
   --grain: rgba(255, 255, 255, 0.04);
+  /* Gold leaf: the one sacred color, reserved for the dominion cards */
+  --gilt: #c9a86a;
+  --gilt-glow: rgba(201, 168, 106, 0.1);
   color-scheme: dark;
 }
 
@@ -32,6 +35,8 @@ html.light {
   --accent-deep: #4a4a4a;
   --accent-pale: #ececec;
   --grain: rgba(0, 0, 0, 0.05);
+  --gilt: #a5854a;
+  --gilt-glow: rgba(165, 133, 74, 0.12);
   color-scheme: light;
 }
 
@@ -83,6 +88,17 @@ body {
 .headline-emph {
   font-family: var(--font-display), serif;
   font-style: italic;
+  color: var(--accent);
+}
+
+/* Illuminated first letter for chapter ledes, set in the display face */
+.drop-cap::first-letter {
+  float: left;
+  font-family: var(--font-display), serif;
+  font-size: 3em;
+  line-height: 0.8;
+  padding-right: 0.14em;
+  margin-top: 0.06em;
   color: var(--accent);
 }
 
@@ -141,6 +157,33 @@ html.light .logo-invert {
   animation: scroll-cue 2.2s ease-in-out infinite;
 }
 
+/*
+ * Hero mark shimmer: dashes drift along the normalized (pathLength="1")
+ * brand path. The offset advances by exactly one dash period per cycle
+ * (DASH + GAP in traced-mark.tsx) so the loop is seamless; the second
+ * animation fades the layer in after the intro trace finishes.
+ */
+@keyframes scale-drift {
+  to {
+    stroke-dashoffset: -0.065;
+  }
+}
+
+@keyframes scale-drift-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.45;
+  }
+}
+
+.animate-scale-drift {
+  animation:
+    scale-drift 3.6s linear infinite,
+    scale-drift-in 1.6s ease 2.6s both;
+}
+
 /* Underline sweep for nav links */
 .link-sweep {
   background-image: linear-gradient(currentColor, currentColor);
@@ -157,7 +200,8 @@ html.light .logo-invert {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-scroll-cue {
+  .animate-scroll-cue,
+  .animate-scale-drift {
     animation: none;
   }
 }

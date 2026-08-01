@@ -34,7 +34,7 @@ export function GlowPanel({
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/glow:opacity-100"
           style={{
             background:
-              "radial-gradient(220px circle at var(--gx, 50%) var(--gy, 50%), rgba(201, 168, 106, 0.10), transparent 70%)",
+              "radial-gradient(220px circle at var(--gx, 50%) var(--gy, 50%), var(--gilt-glow), transparent 70%)",
           }}
         />
         {children}
