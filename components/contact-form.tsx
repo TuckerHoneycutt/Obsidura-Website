@@ -70,6 +70,8 @@ export function ContactForm() {
     <FramePanel className="bg-paper-warm/40">
       <form
         onSubmit={handleSubmit}
+        action="/api/contact"
+        method="post"
         className="relative flex flex-col gap-6 px-6 py-8 sm:px-8"
       >
         <div className="grid gap-6 sm:grid-cols-2">
