@@ -50,6 +50,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  experimental: {
+    viewTransition: true,
+  },
   async headers() {
     return [
       {

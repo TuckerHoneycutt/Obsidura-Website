@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 import { MeanderMark } from "@/components/ui/meander-mark";
 
 export const metadata: Metadata = {
@@ -62,7 +60,6 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
       />
-      <Nav />
       <main className="flex-1">
         <section className="relative">
           <div className="mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
@@ -95,7 +92,6 @@ export default function FaqPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

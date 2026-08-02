@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 import { ContactForm } from "@/components/contact-form";
 import { AsciiArt } from "@/components/ui/ascii-art";
 import { FramePanel } from "@/components/ui/frame-panel";
@@ -32,9 +30,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <>
-      <Nav />
-      <main className="flex-1">
+    <main className="flex-1">
         <section className="relative overflow-hidden">
           <div className="mx-auto grid max-w-6xl gap-12 px-5 pt-16 pb-20 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:pt-24 lg:pb-28">
             <div>
@@ -68,17 +64,13 @@ export default function ContactPage() {
                   duration={2000}
                   className="font-mono text-[10px] leading-[12px] text-ink-faint"
                 />
-                <p className="kicker mt-3 !text-[10px]">
-                  fig. v &mdash; attic amphora
-                </p>
+                <p className="kicker mt-3 !text-[10px]">attic amphora</p>
               </div>
             </div>
 
             <ContactForm />
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </main>
   );
 }

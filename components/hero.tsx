@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import { TracedMark } from "@/components/traced-mark";
 import { FramePanel } from "@/components/ui/frame-panel";
@@ -49,12 +50,12 @@ export function Hero() {
 
           <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-4">
             <Magnetic>
-              <a
+              <Link
                 href="/contact"
                 className="kicker inline-block bg-accent px-5 py-3 !text-paper transition-colors hover:bg-ink-soft"
               >
                 Book a demo
-              </a>
+              </Link>
             </Magnetic>
             <Magnetic strength={0.15}>
               <a
@@ -76,17 +77,17 @@ export function Hero() {
         </div>
 
         <motion.div {...rise(0.35)} style={{ y: markY }}>
-          <TracedMark />
-          {/* Museum plate: appears once the artifact has finished drawing. */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 3, ease: "easeOut" }}
-            className="mt-3 flex items-center justify-between border-t border-rule pt-3"
-          >
-            <span className="kicker !text-[10px]">fig. i</span>
-            <span className="kicker !text-[10px]">the pantheon mark</span>
-          </motion.div>
+          {/* Museum mount: a sealed frame on warm paper with a faint gilt
+              halo, so the mark reads as an exhibited artifact. */}
+          <FramePanel className="bg-paper-warm/40">
+            <div className="relative p-6 sm:p-10">
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--gilt-glow),transparent_72%)]"
+              />
+              <TracedMark />
+            </div>
+          </FramePanel>
         </motion.div>
       </div>
 

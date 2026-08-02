@@ -1,4 +1,3 @@
-import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
 import { AgentRun } from "@/components/agent-run";
 import { SectionRail } from "@/components/section-rail";
@@ -9,7 +8,18 @@ import {
 } from "@/components/feature-section";
 import { Deploy } from "@/components/deploy";
 import { Interlude } from "@/components/interlude";
-import { Footer } from "@/components/footer";
+
+// The Lernaean Hydra, second labor: cut one head down and two more take
+// its place. The patron beast of operational backlogs.
+const HYDRA = String.raw`   ,~.        ,~.        ,~.
+  ( o<       ( o<       ( o<
+   ) (        ) (        ) (
+  /   \      /   \      /   \
+  \    \     |   |     /    /
+   \    \    |   |    /    /
+    \    '-._|   |_.-'    /
+     '-._    '---'    _.-'
+         '-.........-'`;
 
 const PLATFORM: FeatureContent = {
   id: "platform",
@@ -25,6 +35,8 @@ const PLATFORM: FeatureContent = {
     "When confidence drops below your threshold, the agent escalates to a human queue with full context instead of guessing.",
   ],
   closer: "Humans review exceptions, not everything.",
+  art: HYDRA,
+  artCaption: "the lernaean hydra \u2014 two heads for every one cut",
   nerdLede:
     "Under the hood, each workflow compiles to a typed DAG before anything executes:",
   nerdBullets: [
@@ -33,7 +45,6 @@ const PLATFORM: FeatureContent = {
     "The audit log is content-addressed; any run can be replayed bit-for-bit against a snapshot of your data.",
     "Escalations carry the full decision trace, so a human resolves them in seconds, not by re-deriving context.",
   ],
-  figure: "fig. ii",
 };
 
 const RUNTIME: FeatureContent = {
@@ -59,14 +70,12 @@ const RUNTIME: FeatureContent = {
     "Schema repair is a constrained decode against the target type - no free-form retries.",
     "Shadow runs diff their would-be writes against production behavior and gate promotion on the delta.",
   ],
-  figure: "fig. iii",
   reverse: true,
 };
 
 export default function Home() {
   return (
     <>
-      <Nav />
       <SectionRail />
       <main>
         <Hero />
@@ -77,7 +86,6 @@ export default function Home() {
         <FeatureSection content={RUNTIME} />
         <Deploy />
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+import { useInView } from "motion/react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -24,21 +28,31 @@ export function MeanderMark({
       aria-hidden
       className={cn("inline-block shrink-0", className)}
     >
-      <path d="M1 11V1h10v7H5V5h3" />
+      <path d="M1 11V1h10v7H5V5h3" pathLength={1} />
     </svg>
   );
 }
 
 /**
  * A running Greek key band: the meander unit repeated edge to edge, the
- * way it appears on temple friezes and pottery rims. A fixed pattern id
- * is safe here because every instance renders the identical tile.
+ * way it appears on temple friezes and pottery rims. Wipes on left to
+ * right when scrolled into view, like a band being carved. A fixed
+ * pattern id is safe here because every instance renders the identical
+ * tile.
  */
 export function MeanderFrieze({ className }: { className?: string }) {
+  const ref = useRef<SVGSVGElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+
   return (
     <svg
+      ref={ref}
       aria-hidden
-      className={cn("block w-full text-ink-faint", className)}
+      className={cn(
+        "frieze-wipe block w-full text-ink-faint",
+        inView && "in-view",
+        className
+      )}
       height="12"
       fill="none"
       stroke="currentColor"
@@ -62,14 +76,20 @@ export function MeanderFrieze({ className }: { className?: string }) {
 
 /**
  * A meander seal that interrupts a section's top border, like a stamp on
- * the rule line. Parent section must be `relative` with a top border.
+ * the rule line. Traces its stroke on when the section scrolls into view.
+ * Parent section must be `relative` with a top border.
  */
 export function MeanderDivider({ className }: { className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px 0px" });
+
   return (
     <span
+      ref={ref}
       aria-hidden
       className={cn(
-        "absolute -top-[7px] left-1/2 -translate-x-1/2 bg-paper px-3 text-ink-faint",
+        "meander-draw absolute -top-[7px] left-1/2 -translate-x-1/2 bg-paper px-3 text-ink-faint",
+        inView && "in-view",
         className
       )}
     >

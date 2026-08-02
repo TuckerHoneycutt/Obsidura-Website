@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { LogoMark } from "@/components/logo-mark";
 import { MeanderFrieze, MeanderMark } from "@/components/ui/meander-mark";
 
@@ -23,7 +24,7 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
   {
     heading: "deployment",
     links: [
-      { label: "Obsidura Cloud", href: "/#deploy" },
+      { label: "Obsidura Cloud", href: "/deployment/cloud" },
       { label: "Private VPC", href: "/deployment/private-vpc" },
       { label: "On-Premises", href: "/deployment/on-premises" },
     ],
@@ -47,8 +48,11 @@ const LINKS = [
 export function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-rule">
-      {/* Temple frieze: full-bleed running key just below the top rule */}
-      <MeanderFrieze className="mt-4 opacity-70" />
+      {/* Temple frieze: running key just below the top rule, aligned to the
+          same content column as the rest of the footer */}
+      <div className="mx-auto max-w-6xl px-5">
+        <MeanderFrieze className="mt-4 opacity-70" />
+      </div>
       {/* Full-contrast lockup: mark and wordmark proportioned per the brand
           lockup, where the mark stands roughly twice the wordmark cap height */}
       <div className="mx-auto mt-10 flex max-w-6xl items-center justify-center gap-[clamp(0.625rem,1.75vw,1.375rem)] px-5">
@@ -76,12 +80,12 @@ export function Footer() {
             <ul className="space-y-2.5">
               {links.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="kicker link-sweep transition-colors hover:text-ink"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -95,13 +99,13 @@ export function Footer() {
         </p>
         <div className="flex flex-wrap gap-6">
           {LINKS.map((link) => (
-            <a
+            <Link
               key={link.label}
               href={link.href}
               className="kicker link-sweep transition-colors hover:text-ink"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

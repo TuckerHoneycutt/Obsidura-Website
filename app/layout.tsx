@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { Cormorant_Garamond, Cutive_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { MotionProvider } from "@/components/motion-provider";
+import { Nav } from "@/components/nav";
+import { Footer } from "@/components/footer";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ViewportFrame } from "@/components/viewport-frame";
 import "./globals.css";
@@ -91,7 +94,15 @@ export default function RootLayout({
         >
           <SmoothScroll />
           <ViewportFrame />
-          <MotionProvider>{children}</MotionProvider>
+          <MotionProvider>
+            {/* Nav and Footer live in the layout so they persist across
+                client navigations; only the page content transitions. */}
+            <Nav />
+            <ViewTransition enter="page-enter" exit="page-exit">
+              {children}
+            </ViewTransition>
+            <Footer />
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

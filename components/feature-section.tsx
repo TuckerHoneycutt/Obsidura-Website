@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { AsciiArt } from "@/components/ui/ascii-art";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Parallax } from "@/components/ui/parallax";
 import { Reveal } from "@/components/ui/reveal";
@@ -19,7 +20,9 @@ export type FeatureContent = {
   nerdBullets: string[];
   closer?: string;
   reverse?: boolean;
-  figure: string;
+  /** Optional ASCII figure carved into the sticky column's dead space. */
+  art?: string;
+  artCaption?: string;
 };
 
 function NerdPanel({
@@ -113,14 +116,28 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
             lede={content.nerdLede}
             bullets={content.nerdBullets}
           />
+
+          {content.art && (
+            <div className="mt-12 hidden lg:block">
+              <AsciiArt
+                art={content.art}
+                duration={2400}
+                className="font-mono text-[10px] leading-[12px] text-ink-mute"
+              />
+              {content.artCaption && (
+                <p className="kicker mt-3 !text-[10px]">
+                  {content.artCaption}
+                </p>
+              )}
+            </div>
+          )}
         </Reveal>
 
         <Reveal delay={0.15} className={cn(content.reverse && "lg:order-1")}>
           <Parallax offset={36}>
             <FramePanel className="bg-paper-warm/30">
-            <div className="flex items-center justify-between border-b border-rule px-5 py-2.5">
+            <div className="border-b border-rule px-5 py-2.5">
               <span className="kicker">{content.id}</span>
-              <span className="kicker">{content.figure}</span>
             </div>
             <ul className="divide-y divide-rule">
               {content.bullets.map((b, i) => (

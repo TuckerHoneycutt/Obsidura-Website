@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
 import { LogoMark } from "@/components/logo-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -20,31 +21,31 @@ export function Nav() {
       className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm"
     >
       <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[1fr_auto_1fr]">
-        <a href="/" className="group flex w-max items-center gap-2.5">
+        <Link href="/" className="group flex w-max items-center gap-2.5">
           <LogoMark size={26} />
           <span className="font-display text-xl leading-none font-medium tracking-[0.3em] uppercase">
             Obsidura
           </span>
-        </a>
+        </Link>
         <div className="hidden items-center justify-center gap-8 sm:flex">
           {LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="link-sweep font-display text-[15px] font-medium tracking-[0.2em] text-ink-mute uppercase transition-colors hover:text-ink"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
         <div className="flex items-center justify-end gap-3">
           <ThemeToggle />
-          <a
+          <Link
             href="/contact"
             className="font-display border border-accent-deep px-3.5 py-2 text-sm font-medium tracking-[0.18em] text-accent uppercase transition-colors hover:bg-accent hover:text-paper"
           >
             Book a demo
-          </a>
+          </Link>
         </div>
       </nav>
     </motion.header>

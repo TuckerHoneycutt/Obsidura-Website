@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 import { romanNumeral } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -41,9 +39,7 @@ const PRINCIPLES: { heading: string; body: string }[] = [
 
 export default function SecurityPage() {
   return (
-    <>
-      <Nav />
-      <main className="flex-1">
+    <main className="flex-1">
         <section className="relative">
           <div className="mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
             <p className="kicker mb-6 text-accent">
@@ -90,8 +86,6 @@ export default function SecurityPage() {
             </p>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </main>
   );
 }

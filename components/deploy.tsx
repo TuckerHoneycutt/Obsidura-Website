@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ChipRow } from "@/components/ui/chip-row";
 import { DominionGlyph } from "@/components/ui/dominion-glyph";
 import { FramePanel } from "@/components/ui/frame-panel";
@@ -15,6 +16,7 @@ const OPTIONS = [
     dominion: "zeus",
     detail: "Fully managed in the heavens - live in days",
     meta: "multi-tenant / us + eu regions",
+    href: "/deployment/cloud",
   },
   {
     name: "Private VPC",
@@ -71,12 +73,12 @@ export function Deploy() {
                     {opt.detail}
                   </p>
                   {"href" in opt && (
-                    <a
+                    <Link
                       href={opt.href}
                       className="kicker link-sweep mt-3 w-max text-accent transition-colors hover:text-ink"
                     >
                       the full account &rarr;
-                    </a>
+                    </Link>
                   )}
                   <ChipRow
                     items={[
@@ -110,12 +112,12 @@ export function Deploy() {
                 </p>
               </div>
               <Magnetic className="shrink-0">
-                <a
+                <Link
                   href="/contact"
                   className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
                 >
                   Book a demo
-                </a>
+                </Link>
               </Magnetic>
             </div>
           </FramePanel>

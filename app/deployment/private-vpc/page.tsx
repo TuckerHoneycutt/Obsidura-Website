@@ -40,6 +40,7 @@ export default function PrivateVpcPage() {
         },
       ]}
       related={[
+        { label: "Obsidura Cloud", href: "/deployment/cloud" },
         { label: "On-premises deployment", href: "/deployment/on-premises" },
         { label: "Security model", href: "/security" },
         { label: "Platform architecture", href: "/platform" },
