@@ -1,18 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { LogoMark } from "@/components/logo-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
-const LINKS = [
-  { label: "Platform", href: "/#platform" },
-  { label: "Runtime", href: "/#runtime" },
-  { label: "Deploy", href: "/#deploy" },
-  { label: "Contact", href: "/contact" },
-];
+const SECTION_LINKS = [
+  { label: "Platform", hash: "#platform" },
+  { label: "Runtime", hash: "#runtime" },
+  { label: "Deploy", hash: "#deploy" },
+] as const;
+
+const PAGE_LINKS = [{ label: "Contact", href: "/contact" }] as const;
 
 export function Nav() {
+  const pathname = usePathname();
+
   return (
     <motion.header
       initial={{ opacity: 0, y: -12 }}
@@ -28,7 +33,25 @@ export function Nav() {
           </span>
         </Link>
         <div className="hidden items-center justify-center gap-8 sm:flex">
-          {LINKS.map((link) => (
+          {SECTION_LINKS.map((link) => (
+            <Link
+              key={link.hash}
+              href={`/${link.hash}`}
+              scroll={false}
+              onClick={(e) => {
+                // Already on the homepage: scroll in place. A soft nav to
+                // "/#runtime" remounts the whole page and feels like lag.
+                if (pathname === "/") {
+                  e.preventDefault();
+                  scrollToSection(link.hash);
+                }
+              }}
+              className="link-sweep font-display text-[15px] font-medium tracking-[0.2em] text-ink-mute uppercase transition-colors hover:text-ink"
+            >
+              {link.label}
+            </Link>
+          ))}
+          {PAGE_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}

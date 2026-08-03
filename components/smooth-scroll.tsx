@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import "@/lib/scroll-to-section";
 
 /**
  * Lenis-powered smooth scrolling. Wheel and touch scrolling are eased, and
@@ -20,6 +21,8 @@ export function SmoothScroll() {
         offset: -64, // clear the sticky nav
       },
     });
+    // Exposed for same-page nav section jumps (see scrollToSection).
+    window.__lenis = lenis;
 
     let raf = requestAnimationFrame(function loop(time) {
       lenis.raf(time);
@@ -28,6 +31,7 @@ export function SmoothScroll() {
 
     return () => {
       cancelAnimationFrame(raf);
+      if (window.__lenis === lenis) delete window.__lenis;
       lenis.destroy();
     };
   }, []);
