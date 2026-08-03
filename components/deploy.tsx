@@ -73,7 +73,7 @@ export function Deploy() {
                     <EngravedPlate
                       art={opt.art}
                       className="w-full"
-                      preClassName="w-full overflow-hidden text-[4.5px] leading-[5px]"
+                      preClassName="w-full overflow-hidden text-[4px] leading-[4.5px]"
                     />
                   </div>
                   <p className="mt-4 font-mono text-[13px] leading-relaxed text-ink-soft">

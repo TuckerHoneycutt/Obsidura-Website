@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function IntegrationsPage() {
   return (
     <Subpage
-      kicker="the agora &mdash; connects to"
+      kicker="integrations"
       headlineLead="Connected to your"
       headlineEmph="systems of record."
       lede="Agents are only useful when they can act on real data. Obsidura connects to the systems you already run through typed connectors - so an agent reads your actual orders, invoices, and tickets, not a stale export."
