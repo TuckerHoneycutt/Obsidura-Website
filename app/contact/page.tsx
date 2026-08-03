@@ -62,7 +62,7 @@ export default function ContactPage() {
                 <AsciiArt
                   art={AMPHORA}
                   duration={2000}
-                  className="font-mono text-[10px] leading-[12px] text-ink-faint"
+                  className="font-mono text-[10px] leading-[12px] text-ink-soft"
                 />
                 <p className="kicker mt-3 !text-[10px]">attic amphora</p>
               </div>

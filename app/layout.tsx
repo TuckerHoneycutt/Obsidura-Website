@@ -86,11 +86,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
+        {/* No disableTransitionOnChange: the theme toggle drives a uniform
+            color cross-fade via the .theme-fade class in globals.css. */}
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
-          disableTransitionOnChange
         >
           <SmoothScroll />
           <ViewportFrame />

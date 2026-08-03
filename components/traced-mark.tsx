@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 
 // Tight viewBox from the vectorized brand mark (public/logo-mark.svg).
 const VIEW = 718;
@@ -14,16 +14,33 @@ const OY = 260;
 const DASH = 0.02;
 const GAP = 0.045;
 
+// Whether the intro trace has already run during this page session.
+// Module-level so it survives remounts (theme switches, client-side
+// navigations); only a full page load resets it.
+let introPlayed = false;
+
 /**
  * The Obsidura mark, traced live from its own vector geometry. The scale
  * texture is baked into the single brand path, so stroking that path IS
  * tracing the scales: an intro pass draws the full texture in, the fill
  * settles beneath it, and a drifting dash pattern keeps glints moving
  * along the scale edges - never outside the bounds of the mark itself.
+ *
+ * All animation is CSS (trace-intro / mark-surface / animate-scale-drift
+ * in globals.css) so the hidden starting states are resolved with the
+ * first paint - script-driven SVG attributes can land a frame late in
+ * some engines, flashing the finished mark. The intro plays exactly once
+ * per page load: any later mount renders the mark already settled.
  */
 export function TracedMark() {
   const [d, setD] = useState<string | null>(null);
+  // Captured once at mount, before the effect below flips the flag.
+  const [skipIntro] = useState(() => introPlayed);
   const reduced = useReducedMotion();
+
+  useEffect(() => {
+    introPlayed = true;
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,6 +61,8 @@ export function TracedMark() {
     };
   }, []);
 
+  const still = reduced || skipIntro;
+
   return (
     <div className="relative aspect-square w-full">
       <svg
@@ -53,34 +72,33 @@ export function TracedMark() {
       >
         {d && (
           <>
-            {/* The mark itself, surfacing as the trace completes. */}
-            <motion.path
+            {/* The mark itself, surfacing as the trace completes - or
+                rendered settled when the intro already ran. */}
+            <path
               d={d}
               fill="currentColor"
               fillRule="evenodd"
-              initial={{ opacity: reduced ? 1 : 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.8, delay: 1.1, ease: "easeInOut" }}
+              className={still ? undefined : "mark-surface"}
             />
             {!reduced && (
               <>
-                {/* Intro pass: the scale texture draws itself once. */}
-                <motion.path
-                  d={d}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1}
-                  initial={{ pathLength: 0, opacity: 1 }}
-                  animate={{ pathLength: 1, opacity: 0 }}
-                  transition={{
-                    pathLength: { duration: 2.8, ease: [0.5, 0, 0.2, 1] },
-                    opacity: { duration: 1.4, delay: 2.8 },
-                  }}
-                />
+                {/* Intro pass: the scale texture draws itself once per
+                    page load. */}
+                {!skipIntro && (
+                  <path
+                    d={d}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1}
+                    pathLength={1}
+                    className="trace-intro"
+                  />
+                )}
                 {/* Ongoing shimmer: paper-colored dashes drift along the
                     scale edges so the texture glints without ever leaving
-                    the silhouette. Plain path: motion.path would hijack
-                    the pathLength attribute for its own draw logic. */}
+                    the silhouette. On a remount the negative delay skips
+                    the drift-in fade so the glints are simply already
+                    there. */}
                 <path
                   d={d}
                   fill="none"
@@ -89,6 +107,9 @@ export function TracedMark() {
                   pathLength={1}
                   strokeDasharray={`${DASH} ${GAP}`}
                   className="animate-scale-drift"
+                  style={
+                    skipIntro ? { animationDelay: "0s, -5s" } : undefined
+                  }
                 />
               </>
             )}

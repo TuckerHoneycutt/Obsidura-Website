@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { AsciiArt } from "@/components/ui/ascii-art";
+import { EngravedPlate } from "@/components/ui/engraved-plate";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Parallax } from "@/components/ui/parallax";
 import { Reveal } from "@/components/ui/reveal";
@@ -20,9 +20,8 @@ export type FeatureContent = {
   nerdBullets: string[];
   closer?: string;
   reverse?: boolean;
-  /** Optional ASCII figure carved into the sticky column's dead space. */
+  /** Optional ASCII figure set into the sticky column's dead space. */
   art?: string;
-  artCaption?: string;
 };
 
 function NerdPanel({
@@ -119,16 +118,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
 
           {content.art && (
             <div className="mt-12 hidden lg:block">
-              <AsciiArt
-                art={content.art}
-                duration={2400}
-                className="font-mono text-[10px] leading-[12px] text-ink-mute"
-              />
-              {content.artCaption && (
-                <p className="kicker mt-3 !text-[10px]">
-                  {content.artCaption}
-                </p>
-              )}
+              <EngravedPlate art={content.art} />
             </div>
           )}
         </Reveal>

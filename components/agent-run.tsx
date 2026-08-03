@@ -2,17 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { AsciiArt } from "@/components/ui/ascii-art";
+import { EngravedPlate } from "@/components/ui/engraved-plate";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
+import { ATHENA_OWL } from "@/lib/engravings/athena-owl";
 import { cn } from "@/lib/utils";
-
-// Athena's owl, perched above the audit log. Wisdom keeps the records.
-const OWL = String.raw` ,___,
- (O,O)
- /)_)
-  " "`;
 
 type LineKind = "plan" | "tool" | "ok" | "model" | "escalate" | "done";
 
@@ -81,13 +76,8 @@ export function AgentRun() {
         <Reveal>
           <div className="flex items-end justify-between gap-6">
             <p className="kicker text-accent">what a labor looks like</p>
-            <div className="hidden text-right sm:block">
-              <AsciiArt
-                art={OWL}
-                duration={1200}
-                className="inline-block text-left font-mono text-[10px] leading-[11px] text-ink-mute"
-              />
-              <p className="kicker mt-1 !text-[9px]">athena keeps watch</p>
+            <div className="hidden sm:block">
+              <EngravedPlate art={ATHENA_OWL} />
             </div>
           </div>
         </Reveal>

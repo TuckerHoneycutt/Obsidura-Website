@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { ChipRow } from "@/components/ui/chip-row";
-import { DominionGlyph } from "@/components/ui/dominion-glyph";
+import { EngravedPlate } from "@/components/ui/engraved-plate";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { GlowPanel } from "@/components/ui/glow-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
+import { HADES } from "@/lib/engravings/hades";
+import { POSEIDON } from "@/lib/engravings/poseidon";
+import { ZEUS } from "@/lib/engravings/zeus";
 import { romanNumeral } from "@/lib/utils";
 
 // After the war, the three brothers drew lots for the cosmos: Zeus took
@@ -17,6 +20,7 @@ const OPTIONS = [
     detail: "Fully managed in the heavens - live in days",
     meta: "multi-tenant / us + eu regions",
     href: "/deployment/cloud",
+    art: ZEUS,
   },
   {
     name: "Private VPC",
@@ -24,6 +28,7 @@ const OPTIONS = [
     detail: "Runs in your own waters - your AWS or GCP account",
     meta: "single-tenant / your network boundary",
     href: "/deployment/private-vpc",
+    art: POSEIDON,
   },
   {
     name: "On-Prem",
@@ -31,6 +36,7 @@ const OPTIONS = [
     detail: "Air-gapped and unseen - your hardware",
     meta: "kubernetes / no external calls",
     href: "/deployment/on-premises",
+    art: HADES,
   },
 ] as const;
 
@@ -57,29 +63,28 @@ export function Deploy() {
             <Reveal key={opt.name} delay={i * 0.1} className="h-full">
               <GlowPanel className="bg-paper-warm/30 transition-colors hover:bg-paper-warm/70">
                 <div className="relative flex h-full flex-col px-5 py-6">
-                  <div className="flex items-start justify-between">
-                    <span className="kicker text-accent">
-                      {romanNumeral(i + 1)}
-                    </span>
-                    <DominionGlyph
-                      dominion={opt.dominion}
-                      className="text-ink-mute transition-colors duration-300 group-hover/glow:text-[var(--gilt)]"
-                    />
-                  </div>
+                  <span className="kicker text-accent">
+                    {romanNumeral(i + 1)}
+                  </span>
                   <h3 className="mt-4 font-display text-2xl font-medium tracking-tight">
                     {opt.name}
                   </h3>
-                  <p className="mt-2 font-mono text-[13px] leading-relaxed text-ink-soft">
+                  <div className="mt-5">
+                    <EngravedPlate
+                      art={opt.art}
+                      className="w-full"
+                      preClassName="w-full overflow-hidden text-[4.5px] leading-[5px]"
+                    />
+                  </div>
+                  <p className="mt-4 font-mono text-[13px] leading-relaxed text-ink-soft">
                     {opt.detail}
                   </p>
-                  {"href" in opt && (
-                    <Link
-                      href={opt.href}
-                      className="kicker link-sweep mt-3 w-max text-accent transition-colors hover:text-ink"
-                    >
-                      the full account &rarr;
-                    </Link>
-                  )}
+                  <Link
+                    href={opt.href}
+                    className="kicker link-sweep mt-3 w-max text-accent transition-colors hover:text-ink"
+                  >
+                    the full account &rarr;
+                  </Link>
                   <ChipRow
                     items={[
                       <span

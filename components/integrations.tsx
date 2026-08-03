@@ -24,7 +24,7 @@ export function Integrations() {
           href="/integrations"
           className="kicker link-sweep shrink-0 transition-colors hover:text-ink"
         >
-          hermes - carries word to
+          the agora &mdash; connects to
         </Link>
         <InfiniteMarquee items={INTEGRATIONS} className="flex-1" />
       </div>

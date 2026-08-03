@@ -1,6 +1,5 @@
 "use client";
 
-import { flushSync } from "react-dom";
 import { useTheme } from "next-themes";
 
 function SunIcon() {
@@ -37,49 +36,37 @@ function MoonIcon() {
   );
 }
 
+// Timer for removing the fade class; re-toggling mid-fade just extends
+// the window instead of stacking classes.
+let fadeTimer: number | undefined;
+
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
-  function toggleTheme(event: React.MouseEvent<HTMLButtonElement>) {
+  function toggleTheme() {
     const next = resolvedTheme === "dark" ? "light" : "dark";
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (!document.startViewTransition || reduceMotion) {
+    if (reduceMotion) {
       setTheme(next);
       return;
     }
 
-    // Circular reveal expanding from the toggle. Keyboard activation
-    // reports clientX/Y as 0, so fall back to the button's center.
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX || rect.left + rect.width / 2;
-    const y = event.clientY || rect.top + rect.height / 2;
-    const radius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    );
+    // While .theme-fade is present, every element eases its colors along
+    // the same curve (see globals.css), so the palette dissolves in one
+    // uniform motion - no snapshots, nothing that can be torn down early.
+    const html = document.documentElement;
+    html.classList.add("theme-fade");
+    setTheme(next);
 
-    const transition = document.startViewTransition(() => {
-      flushSync(() => setTheme(next));
-    });
-
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${radius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 550,
-          easing: "cubic-bezier(0.21, 0.47, 0.32, 0.98)",
-          pseudoElement: "::view-transition-new(root)",
-        }
-      );
-    });
+    // Comfortably after the 380ms transitions: removing the class while
+    // colors are still moving would snap them to their final values.
+    window.clearTimeout(fadeTimer);
+    fadeTimer = window.setTimeout(() => {
+      html.classList.remove("theme-fade");
+    }, 600);
   }
 
   return (
