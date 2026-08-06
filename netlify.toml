@@ -1,0 +1,11 @@
+# The Next.js app lives in website/, not at the repo root.
+[build]
+  base = "website"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
