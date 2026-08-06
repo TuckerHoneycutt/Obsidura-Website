@@ -1,0 +1,48 @@
+.env
+
+# Live data directories (bind mounts for running services)
+forgejo/
+library/
+postgres/
+shared/.hermes/
+postgrespg-tai/
+
+# Isolated worktrees for feature work
+.worktrees/
+.venv
+__pycache__/
+
+affine/data/
+affine/config/private.key
+.pytest_cache/
+
+# Docker-created bind mount for arcadedb — root-owned, contains binary DB
+# state the moment the service is ever started (compose.yml's
+# ./arcadedb:/home/arcadedb/databases). Same defect previously fixed for
+# affine/data/ above.
+arcadedb/
+
+# Per-agent OIDC credentials written by `dev-admin reconcile`. Repo-relative
+# so a branch gets its own set; gitignored because they are secrets.
+/.agent-env/
+
+# Admin Hermes state, bind-mounted at /opt/data (M6). ~2.6 GB of runtime
+# state; repo-relative so a branch worktree gets its own. Leading slash: the
+# existing shared/.hermes/ line above is a DIFFERENT path.
+/.hermes/
+# Pre-M6 rollback copy of the repo-local .hermes, kept until the soak passes.
+/.hermes.pre-m6/
+
+# Per-branch exclusion overlay, written by `aurora branch up --without …`
+# (Task 4). Unlike compose.branch.yml it is NOT generic: which services a
+# branch omits is a property of that branch, so a committed one would apply
+# one branch's exclusions to every branch.
+compose.exclude.yml
+
+# Which container runtime a branch was built on, written into the worktree by
+# `aurora branch up` for `aurora branch down` to read back (spec P4). Same
+# argument as compose.exclude.yml above: it is a property of ONE branch, so a
+# committed one would tell every other branch it was built on that runtime.
+# Untracked and ignored, so it is not one more reason to reach for
+# `git worktree remove --force`.
+.aurora-runtime

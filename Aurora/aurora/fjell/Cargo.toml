@@ -1,0 +1,20 @@
+[package]
+name = "fjell"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = "0.8.9"
+tokio = { version = "1.52.3", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# default-features = false: fjell only ever calls Forgejo over the compose
+# network on plain HTTP, so the default native-tls stack would add an openssl
+# build dependency to an image that has no use for it.
+reqwest = { version = "0.12", default-features = false }
+
+[dev-dependencies]
+# Already in the lock file as an axum dependency; declared here only so tests
+# can drive `router()` directly with `ServiceExt::oneshot`. Without a
+# router-level test, deleting a `.route(...)` line is invisible to the suite.
+tower = { version = "0.5", features = ["util"] }

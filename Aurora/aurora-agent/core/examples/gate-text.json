@@ -1,0 +1,19 @@
+{
+  "id": "G-BLOCKED",
+  "run": "r-2026-08-02-ex01",
+  "stage": "review",
+  "shape": "text",
+  "blocking": true,
+  "prompt": "Fix-loop breaker tripped: three attempts at the load-bearing finding \"emit() loses lines on ENOSPC\" all failed the same way. Describe how to proceed, or say `abandon`.",
+  "context": {
+    "finding": "emit() loses lines when the runs volume is full; the append succeeds partially and no error surfaces",
+    "attempts": [
+      "wrapped the append in try/except OSError - partial write still returns without raising",
+      "switched to os.write on an O_APPEND fd - short write still not detected",
+      "added fsync after append - fsync raised ENOSPC but the truncated line was already visible to readers"
+    ],
+    "loop_limit": 3
+  },
+  "status": "open",
+  "answer": null
+}

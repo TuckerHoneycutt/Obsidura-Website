@@ -1,0 +1,73 @@
+# Resource ceilings for BRANCH stacks. Production is never limited from here:
+# a mis-sized ceiling must not be able to cause a production outage, which is
+# the failure this file exists to prevent.
+#
+# Ceilings are not reservations. They stop ONE runaway service; they do not cap
+# the sum of a branch. Measured 2026-08-01: a branch agent sat at 99.7% of a
+# core for hours with nothing to stop it.
+#
+# Baseline, measured on production the same day (docker stats, 11 containers,
+# ~1.14 GB total): hermes 353 MiB / 50 PIDs, hermes-<dev> 253 MiB / 29,
+# affine_server 203 MiB / 44, arcadedb 144 MiB / 23, forgejo 103 MiB / 26,
+# postgres 43 MiB, redis 11 MiB, caddy 12 MiB, agent-authz 16 MiB, fjell 1 MiB.
+#
+# Select with `--limits <profile>` or $AURORA_BRANCH_LIMITS.
+# `--limits none` disables ceilings entirely and is RECORDED in the branch's
+# access document, so an unlimited branch is never invisible.
+
+default_profile: measured
+
+profiles:
+
+  # Roughly 3x measured, so a branch doing more work than production does not
+  # trip a ceiling. Chosen to catch leaks and runaways, not to be tight.
+  measured:
+    # THE SUM OF THESE CEILINGS EXCEEDS THIS HOST'S RAM, and that is a
+    # decision rather than an oversight. Measured 2026-08-01: the resolved
+    # branch config sums to ~15.6 GB of permitted memory on a 15.5 GiB host
+    # (11 x 1g + 2560m + 1536m + the sidecar). Ceilings are not reservations:
+    # nothing is set aside, and the sum is only reachable if every service in
+    # a branch simultaneously runs at three times what production measures --
+    # in which case the ceilings have already done their job by making one
+    # runaway visible instead of letting it take the host. Sizing the sum to
+    # fit RAM would mean ~1.1 GB each, below hermes' and arcadedb's real
+    # working sets, and a ceiling that trips under ordinary work is a ceiling
+    # somebody deletes.
+    #
+    # `branch.check_resources` is the guard that owns the AGGREGATE question,
+    # and it refuses on MemAvailable before a branch is created. This flag is
+    # read by tests/test_branch_overlay.py, which requires the overcommit to
+    # be declared HERE rather than discovered later (spec 2026-08-01 M6).
+    sum_exceeds_host_ram: true
+    default:
+      mem_limit: 1g
+      pids_limit: 512
+      cpus: "2.0"
+    services:
+      # NOT 1g. compose.yml sets JAVA_OPTS=-Xms512m -Xmx2g, so the JVM will
+      # try to grow to 2 GB and a ceiling below that is an OOM kill waiting
+      # for load. This service already has a recorded OOM (exit 137,
+      # docs/issues/arcadedb-oom.md); do not lower this without lowering -Xmx
+      # in the same commit.
+      arcadedb:
+        mem_limit: 2560m
+      # Agents are the heaviest thing a branch runs and the most likely to
+      # spike legitimately while a developer drives them.
+      hermes:
+        mem_limit: 1536m
+        cpus: "4.0"
+
+  # For catching leaks early: close to measured, so a regression OOMs loudly
+  # instead of quietly eating the host. Expect false positives under real work.
+  tight:
+    default:
+      mem_limit: 384m
+      pids_limit: 128
+      cpus: "1.0"
+    services:
+      arcadedb:
+        mem_limit: 2560m
+      hermes:
+        mem_limit: 768m
+      affine:
+        mem_limit: 512m

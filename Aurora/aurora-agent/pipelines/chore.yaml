@@ -1,0 +1,36 @@
+name: chore
+class: chore
+entry: "No observable behaviour change, and the deliverable is a change."
+invariants:
+  - prime-directives
+  - verification-law
+  - output-based-assertions
+  - mutation-proof
+  - practical-testing
+  - lease-discipline
+stages:
+  - skill: routing
+    gates: [G-CLASS]
+    notes: "Classify, state the one-line G-CLASS answer, and name the blast radius before any file is opened."
+  - skill: using-git-worktrees
+    notes: "Ephemeral worktree and ephemeral environment, per prime directive 1. No task is too small for this."
+  - skill: test-driven-development
+    notes: "Blast radius declared up front; expand-contract for wide refactors per skills/to-tickets."
+  - skill: practical-testing
+    notes: "Exercise the changed surface the way a caller does; a green unit suite alone is not evidence."
+  - skill: verification-before-completion
+    notes: "Paste the command and its output before any claim that the chore is done."
+  - skill: finishing-a-development-branch
+    notes: "Integrate or abandon deliberately; do not leave the worktree dangling."
+tripwires:
+  - condition: "The diff exceeds the blast radius declared at G-CLASS."
+    action: "Reclassify chore -> feature F1 and re-enter at the spec stage."
+  - condition: "A step is about to execute a write outside the run's lease."
+    action: "Pause the task; open G-CHECKPOINT (prime directive 3)."
+  - condition: "A write has already landed on a resource without this run's lease label."
+    action: "Halt; fingerprint against baseline; disclose in full; open G-BLOCKED."
+  - condition: "A step resolves to a destructive verb per core/verbs.md."
+    action: "The task becomes a checkpoint task; open G-CHECKPOINT. Tier unchanged."
+journal:
+  path: ".aurora/runs/<run-id>/journal.jsonl"
+  schema: "core/journal.schema.json"

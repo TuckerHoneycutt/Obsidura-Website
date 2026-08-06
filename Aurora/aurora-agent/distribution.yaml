@@ -1,0 +1,34 @@
+name: aurora
+version: 0.2.0
+description: "Aurora — generic agent configuration: harness-agnostic skills framework, Hermes profile at root"
+hermes_requires: ">=0.19.0"
+author: "Ethan Pascuales"
+license: MIT
+
+env_requires:
+  - name: OPENROUTER_API_KEY
+    description: "OpenRouter API key for LLM access"
+    required: true
+  - name: FORGEJO_URL
+    description: "Forgejo instance URL"
+    required: true
+  - name: MCP_FORGEJO_API_KEY
+    description: "Forgejo personal access token for the forgejo-mcp server"
+    required: true
+  - name: HERMES_DASHBOARD_USER
+    description: "Dashboard basic-auth username"
+    required: false
+  - name: HERMES_DASHBOARD_PASS
+    description: "Dashboard basic-auth password"
+    required: false
+  - name: HERMES_DASHBOARD_SECRET
+    description: "Dashboard session secret"
+    required: false
+
+distribution_owned:
+  - SOUL.md
+  - config.yaml
+  - plugins/
+  - skills/
+  - pipelines/
+  - core/

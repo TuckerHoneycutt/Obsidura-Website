@@ -1,0 +1,15 @@
+{
+  "name": "aurora-agent",
+  "description": "Marketplace for the Aurora skills framework",
+  "owner": {
+    "name": "supergoodname77"
+  },
+  "plugins": [
+    {
+      "name": "aurora",
+      "description": "Aurora skills framework plugin",
+      "version": "0.2.0",
+      "source": "./"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+# The exclusion manifest (spec §7.2, decision D9).
+#
+# `aurora branch up --without <service>` omits a service from a branch. The
+# mechanism is a Compose PROFILE: `aurora_cli.exclusions` renders a per-branch
+# `compose.exclude.yml` that puts `profiles: [excluded]` on every excluded
+# service, and the branch's COMPOSE_PROFILES never names that profile, so
+# Compose performs the omission natively. No code branches on a service name,
+# which is why adding a newly excludable container is a YAML block HERE and
+# nothing else anywhere.
+#
+# ---------------------------------------------------------------------------
+# `also_exclude` is MANDATORY, not tidiness
+# ---------------------------------------------------------------------------
+#
+# Verified on Compose v5.3.1 (transcript in the Task 4 ledger entry): a service
+# whose `depends_on` target sits behind an inactive profile invalidates the
+# WHOLE project --
+#
+#     service "forgejo-mcp" depends on undefined service "forgejo":
+#     invalid compose project
+#     exit 1
+#
+# -- and that is `config`, `up` and `down` alike. So an incomplete closure does
+# not leave a dangling reference for later; it makes the next compose command
+# fail outright. `test_the_manifests_closures_leave_no_dangling_dependent`
+# derives the dependency graph from the resolved compose configuration and
+# fails if any entry here is short, so this file cannot go stale silently.
+#
+# `also_exclude` is used in BOTH graph directions and they are different
+# arguments:
+#
+#   * DEPENDENTS (forgejo -> forgejo-mcp, dev-admin). Required for validity;
+#     omitting one is the parse error above.
+#   * DEPENDENCIES (affine -> affine_migration, postgres, redis). Not required
+#     for validity -- a branch with no AFFiNE but a running Postgres is a valid
+#     project -- but required for the exclusion to mean anything: the point of
+#     `--without affine` is not to run AFFiNE's database.
+#
+# ---------------------------------------------------------------------------
+# These are compose SERVICE KEYS, never `container_name` values
+# ---------------------------------------------------------------------------
+#
+# `affine/compose.yml` declares services `affine`, `affine_migration`, `redis`,
+# `postgres`. The names visible in `docker ps` -- `affine_server`,
+# `affine_migration_job`, `affine_redis`, `affine_postgres` -- are
+# `container_name` VALUES and match nothing here.
+# `test_manifest_names_only_real_service_keys` makes that mistake unshippable.
+#
+# ---------------------------------------------------------------------------
+# Fields
+# ---------------------------------------------------------------------------
+#
+#   excludable   REQUIRED, boolean, never defaulted. `true` = `--without <this>`
+#                is accepted. `false` = the request is refused, and `why:` is
+#                then required because a refusal without a reason is a wall.
+#                A `false` entry may still carry `also_exclude`: that spells
+#                "reachable only as somebody else's dependency".
+#   also_exclude services pulled in transitively. Closed to a fixed point.
+#   on_exclude   `env:` -- variables the branch `.env` must be rewired to when
+#                this service is absent. `{production_url}` and
+#                `{production_domain}` are the only placeholders, and they are
+#                substituted from Task 1's derivation, never from a literal.
+#   why          prose. Required on every `excludable: false` entry.
+#
+# Unknown keys are REFUSED by the loader: `also_excludes:` would otherwise be a
+# typo that silently excludes nothing.
+
+services:
+
+  forgejo:
+    excludable: true
+    # forgejo-mcp `depends_on: forgejo`; dev-admin `depends_on: {forgejo:
+    # service_healthy, caddy: service_started}`. BOTH are hard parse errors if
+    # left behind -- the plan's starting content named only forgejo-mcp and was
+    # short by one, which is why the dangling-dependent gate is derived from
+    # the compose graph rather than reviewed by eye.
+    also_exclude: [forgejo-mcp, dev-admin]
+    on_exclude:
+      env:
+        # Spec §5.4: `--without forgejo` "removes the question entirely" --
+        # there is no branch Forgejo to cross-wire to, so the branch's
+        # developer agents use production's. This is the ONE deliberate
+        # production reference in a branch `.env` and it is exempted by name,
+        # only while forgejo is excluded (see
+        # `exclusions.production_reference_exemptions`). Finding N1's hazard --
+        # dev-admin creating OAuth applications in production's Forgejo -- does
+        # not apply, because dev-admin is in the closure above and is therefore
+        # not running in such a branch.
+        FORGEJO_URL: "{production_url}/git"
+    why: >-
+      Excludable. A branch that does not need its own git forge can borrow
+      production's read-only-in-practice one, which is also the cheapest way to
+      avoid the cross-wiring question spec §5.4 exists to answer.
+
+  affine:
+    excludable: true
+    # AFFiNE's own Postgres and Redis, and its one-shot migration job. Nothing
+    # else in the stack uses them, so leaving them running would burn a
+    # database and a cache for a service that is not there.
+    also_exclude: [affine_migration, postgres, redis]
+    why: >-
+      Excludable. AFFiNE is the heaviest thing in the stack and most branches
+      do not touch it; excluding it also skips the pg_dump/pg_restore seed.
+
+  arcadedb:
+    excludable: true
+    why: >-
+      Excludable. Not yet integrated with any service and nothing `depends_on`
+      it, so its closure is itself.
+
+  agent-authz:
+    excludable: false
+    why: >-
+      Caddy's forward_auth targets it; without it every agent route fails
+      closed.
+
+  caddy:
+    excludable: false
+    # Recorded deliberately because Task 3 flagged it: `compose.branch.yml`'s
+    # tailscale sidecar carries NO `profiles:`, so it always starts. Excluding
+    # Caddy would therefore leave the branch with a live tailnet node, a
+    # resolvable https:// URL and nothing bound to :443 behind it -- a branch
+    # that looks up and refuses every connection. The mechanical reasons are
+    # the same conclusion from the other side: `forgejo` and `dev-admin` both
+    # `depends_on: caddy`, and the overlay flips Caddy into the sidecar's
+    # network namespace, which is the only thing that puts the branch's
+    # certificate on the branch's node.
+    # `test_caddy_is_not_excludable_while_the_sidecar_has_no_profile` pins the
+    # link to the sidecar so this decision cannot rot into a comment.
+    why: >-
+      A branch's Caddy is the only thing bound to :443 inside the Tailscale
+      sidecar's network namespace, and the sidecar has no profile of its own.
+      Excluding Caddy leaves a live tailnet node with nothing behind it.

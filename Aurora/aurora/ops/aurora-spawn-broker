@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# One privileged listener per developer. THE DOCKER SOCKET NEVER LEAVES THE HOST.
+#
+# WHY THIS EXISTS
+# `aurora branch up` needs a host shell and the Docker socket. A developer
+# lives inside a Hermes agent container, and the Docker socket is root on the
+# host: `docker run -v /:/host --privileged` is one call away from it, so
+# mounting it into a developer's container is granting host root. There is no
+# configuration of the socket that is not that.
+#
+# WHAT THIS DOES INSTEAD
+# The socket stays on the host, held by this process. What the developer's
+# container gets is a unix socket that speaks exactly one protocol: the MCP
+# tool table of `aurora mcp --as-developer <user>` -- spawn, destroy,
+# list_mine, access, four schema-validated JSON-RPC frames scoped to that
+# user's `br-<user>-*` namespace. That is a thousand times smaller than the
+# Docker API and it has no verb that reaches production.
+#
+# IDENTITY IS CARRIED BY THE FILESYSTEM
+# There is no `developer` field in any tool schema. The identity is this
+# script's argument, and a developer's container can only reach the socket the
+# operator bind-mounted into it. Forging another developer's identity would
+# mean writing to a socket file that is not in your container.
+#
+# WHAT IS STILL TRUE
+# This process is root-equivalent-adjacent: it can reach the Docker socket, so
+# a code-execution bug in `aurora_cli` is a host compromise. That has not
+# changed -- it was already true of `aurora branch up`. What has changed is
+# who can reach it: previously anyone with a host shell, now a caller
+# restricted to four typed tool calls.
+#
+# USAGE
+#     ops/aurora-spawn-broker <developer> [socket-dir]
+#
+# Then, for that developer's agent container:
+#     -v <socket-dir>/<developer>:/run/aurora-spawn
+# and inside it:
+#     hermes mcp add aurora -- python3 /run/aurora-spawn/bridge.py
+set -euo pipefail
+
+#: How long socat waits after ONE side reaches EOF before tearing the other
+#: down; NOT a session timeout. Measured: the 0.5 s default killed the server
+#: mid-`list_mine`, and `spawn` takes ~53 s.
+EOF_LINGER=3600
+EXIT_USAGE=2
+EXIT_NO_SOCAT=127
+
+DEV="${1:-}"
+if [ -z "$DEV" ]; then
+    echo "usage: $0 <developer> [socket-dir]" >&2
+    exit "$EXIT_USAGE"
+fi
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "$HERE/.." && pwd)"
+DIR="${2:-${AURORA_SPAWN_SOCKET_DIR:-$HOME/.aurora-spawn}}/$DEV"
+
+# The escape hatch is the operator's, per command -- not something a broker
+# leases to its callers for the rest of its life. And `ops/docker-guard` is
+# only in effect while ~/.local/bin precedes /usr/bin, which a broker started
+# from cron or a systemd unit does not inherit.
+unset AURORA_ALLOW_PROD
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"
+
+# Identity travels in the environment, never in argv: socat's `EXEC:` string
+# splits on whitespace and is terminated by `,` and `!!`, none of which a
+# roster name is constrained to avoid.
+export AURORA_MCP_DEVELOPER="$DEV"
+
+command -v socat >/dev/null || { echo "socat is required" >&2; exit "$EXIT_NO_SOCAT"; }
+
+# Refuse a name that is not on the roster BEFORE listening AND before creating
+# any directory named after it. `developer_server` asserts the same thing, but
+# per connection -- the operator would learn about the typo from a developer's
+# error message instead of from this command. Empty stdin, so the server builds
+# its tool table (which is where the assertion lives), sees EOF and exits 0.
+"$ROOT/aurora" mcp </dev/null >/dev/null
+
+# 0700, and the socket 0600. The mount is the real boundary -- the developer's
+# container runs as root and root ignores the mode -- but a host user who is
+# not the owner has no business connecting, and a permissive mode here would
+# be the kind of thing that survives a later change to how containers run.
+mkdir -p "$DIR"
+chmod 700 "$DIR"
+install -m 0644 "$HERE/aurora-spawn-bridge.py" "$DIR/bridge.py"
+
+SOCK="$DIR/spawn.sock"
+echo "aurora-spawn-broker: $DEV -> $SOCK" >&2
+
+exec socat -t "$EOF_LINGER" \
+    "UNIX-LISTEN:$SOCK,fork,unlink-early,mode=0600" \
+    EXEC:"$ROOT/aurora mcp"

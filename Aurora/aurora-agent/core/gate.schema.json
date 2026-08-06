@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aurora human gate",
+  "type": "object",
+  "required": ["id", "run", "stage", "shape", "blocking", "prompt", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^G-[A-Z0-9]+$"},
+    "run": {"type": "string"},
+    "stage": {"type": "string"},
+    "shape": {"enum": ["approve", "choice", "text", "checklist"]},
+    "blocking": {"type": "boolean"},
+    "prompt": {"type": "string"},
+    "context": {"type": "object"},
+    "items": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["open", "answered", "expired"]},
+    "answer": {}
+  },
+  "additionalProperties": false
+}

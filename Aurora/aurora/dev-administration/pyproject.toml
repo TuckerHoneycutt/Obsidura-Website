@@ -1,0 +1,19 @@
+[project]
+name = "dev-administration"
+version = "0.1.0"
+description = "Orchestrator CLI for provisioning per-developer Hermes containers"
+requires-python = ">=3.13"
+dependencies = [
+    "typer>=0.12.0",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+dev-admin = "dev_administration.cli:app"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[tool.setuptools.packages.find]
+include = ["dev_administration*"]

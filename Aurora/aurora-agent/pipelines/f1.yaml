@@ -1,0 +1,52 @@
+name: f1
+class: feature
+tier: 1
+entry: "Everything else, at F1: the agent proposes and the human ratifies."
+invariants:
+  - prime-directives
+  - verification-law
+  - output-based-assertions
+  - mutation-proof
+  - practical-testing
+  - lease-discipline
+stages:
+  - skill: routing
+    gates: [G-CLASS]
+    notes: "Classify, state the one-line G-CLASS answer, and name the tier before any file is opened."
+  - skill: grilling
+    gates: [G-SPEC]
+    notes: "Budget <=5 questions, one pass, ~2 minutes; G-SPEC ratifies the inline spec of <=10 lines on the ticket. F1 runs no competing-designs stage, so the no-consensus tripwire does not apply here."
+  - skill: reality-gate
+    notes: "Measure the load-bearing claims the spec rests on before building on them."
+  - skill: using-git-worktrees
+    notes: "Ephemeral worktree and ephemeral environment, per prime directive 1."
+  - skill: to-tickets
+    notes: "Only if >1 slice; a single-slice feature goes straight to the test."
+  - skill: test-driven-development
+    gates: [G-SEAMS]
+    notes: "G-SEAMS before the first test is written - agree the seams, then write red."
+  - skill: mutation-proof
+    notes: "Name a mutation per behaviour and show the suite kills it."
+  - skill: practical-testing
+    notes: "Exercise the feature the way a caller does, against the ratified spec."
+  - skill: verification-before-completion
+    notes: "Paste the command and its output before any success claim."
+  - skill: requesting-code-review
+    notes: "Standards + spec axes; vacuity axis on request."
+  - skill: finishing-a-development-branch
+    gates: [G-E2E]
+    notes: "G-E2E before PR if the work is user-facing; skip the gate only when nothing user-facing changed."
+tripwires:
+  - condition: "The fix loop reaches round 3 on any task."
+    action: "The task was mis-tiered; escalate F1 -> F2 for the rest of the run."
+  - condition: "A step is about to execute a write outside the run's lease."
+    action: "Pause the task; open G-CHECKPOINT (prime directive 3)."
+  - condition: "A write has already landed on a resource without this run's lease label."
+    action: "Halt; fingerprint against baseline; disclose in full; open G-BLOCKED."
+  - condition: "The blast radius or the scope grows past what the inline spec ratified."
+    action: "Re-open G-SPEC; the human ratifies the widened spec before work continues."
+  - condition: "The reality gate returns UNVERIFIED on a load-bearing claim."
+    action: "Open G-FACTS; the claim is measured or ratified before the spec rests on it."
+journal:
+  path: ".aurora/runs/<run-id>/journal.jsonl"
+  schema: "core/journal.schema.json"

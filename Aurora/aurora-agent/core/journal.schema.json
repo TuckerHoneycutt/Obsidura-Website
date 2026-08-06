@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aurora run journal line",
+  "type": "object",
+  "required": ["ts", "run", "event", "actor"],
+  "properties": {
+    "ts": {"type": "string"},
+    "run": {"type": "string"},
+    "class": {"enum": ["chore", "fix", "probe", "incident", "feature"]},
+    "tier": {"type": "integer", "minimum": 0, "maximum": 3},
+    "stage": {"type": "string"},
+    "event": {"enum": ["run.started", "run.finished", "stage.entered", "stage.exited",
+      "task.dispatched", "task.reported", "review.finding", "mutation.result",
+      "gate.opened", "gate.closed", "lease.acquired", "lease.released",
+      "escalation.fired", "guard.refused"]},
+    "actor": {"type": "string"},
+    "gate": {"type": "string"},
+    "detail": {"type": "object"}
+  },
+  "additionalProperties": true
+}

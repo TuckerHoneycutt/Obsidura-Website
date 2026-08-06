@@ -1,5 +1,8 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# Obsidura monorepo
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+Layout:
+
+- `website/` — public marketing site (Next.js). Before editing it, read `website/AGENTS.md`.
+- `Aurora/` — internal company systems (`aurora`, `aurora-agent`). Prefer each package's own docs and `AGENTS.md` when present.
+
+Do not assume root-level Next.js paths; the app lives under `website/`.

@@ -1,0 +1,17 @@
+{
+  "jaun": {
+    "client_id": "0f15da33-6692-4f62-ab22-7c0374e397f9",
+    "owner_sub": "10",
+    "owner_username": "jaun"
+  },
+  "johndear": {
+    "client_id": "3590bb02-a8e1-47a8-b7af-5d78d1d19bdf",
+    "owner_sub": "11",
+    "owner_username": "johndear"
+  },
+  "testuser": {
+    "client_id": "2bb842ed-1174-40ad-a391-0934dffa636e",
+    "owner_sub": "3",
+    "owner_username": "testuser"
+  }
+}

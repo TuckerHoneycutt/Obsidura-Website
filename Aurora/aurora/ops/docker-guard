@@ -1,0 +1,269 @@
+#!/usr/bin/env python3
+"""A guard in front of the real `docker`, installed as ~/.local/bin/docker.
+
+WHY THIS EXISTS
+On 2026-07-29 an agent executing a mutation table ran
+
+    docker compose --profile '*' -p tai-review down -v --remove-orphans
+
+against live production. It destroyed 12 containers, 9 named volumes and the
+project network. Nothing was irrecoverably lost, but only because two earlier
+migrations had copied rather than moved their data.
+
+The instruction "never run this against production" existed, in prose, in
+three places. Prose is not a guard. This is a guard.
+
+THE RULE
+Destructive verbs must PROVE they are branch-scoped. That is a whitelist, not
+a blacklist: a new destructive spelling nobody anticipated is refused by
+default rather than allowed by default. A command is allowed if it either
+
+  * is not destructive, or
+  * names a compose project starting with `br-` (`-p br-x` / `--project-name br-x`
+    / COMPOSE_PROJECT_NAME=br-x), or
+  * every object it names is already known to belong to a `br-` project, or
+  * carries an explicit human override: AURORA_ALLOW_PROD=1
+
+The override is deliberately a single obvious environment variable so a human
+can always get past it in one keystroke, and so its use is visible in shell
+history and in any transcript.
+
+This does not replace in-repo guards; it is the layer that catches a command
+typed into a shell, which no amount of test-level tripwire can see.
+"""
+import os
+import shutil
+import subprocess
+import sys
+
+# Resolve the real docker, skipping this shim wherever it sits on PATH.
+_self = os.path.realpath(__file__)
+REAL = None
+for d in os.environ.get("PATH", "").split(os.pathsep):
+    cand = os.path.join(d, "docker")
+    if os.path.isfile(cand) and os.access(cand, os.X_OK):
+        if os.path.realpath(cand) != _self:
+            REAL = cand
+            break
+if REAL is None:  # pragma: no cover - only if docker is genuinely absent
+    sys.stderr.write("docker-guard: cannot find the real docker binary\n")
+    sys.exit(127)
+
+ARGV = sys.argv[1:]
+
+
+def passthrough():
+    os.execv(REAL, [REAL] + ARGV)
+
+
+if os.environ.get("AURORA_ALLOW_PROD") == "1":
+    passthrough()
+
+# Subcommands that can destroy state. `compose down` is here because it is
+# what caused the incident; `compose up` is NOT destructive and is how
+# production is restored, so it must never be blocked.
+DESTRUCTIVE = {
+    ("compose", "down"), ("compose", "rm"), ("compose", "stop"),
+    ("compose", "kill"), ("compose", "restart"),
+    ("rm",), ("stop",), ("kill",), ("restart",),
+    ("volume", "rm"), ("volume", "prune"),
+    ("network", "rm"), ("network", "prune"),
+    ("system", "prune"), ("container", "rm"), ("container", "prune"),
+    ("image", "prune"),
+}
+
+# Flags that consume the NEXT argument. Without this, `docker compose
+# --profile '*' -p tai-review down` yields positional words
+# ['compose', '*', 'tai-review', 'down'] and an adjacency check for
+# ('compose','down') MISSES IT -- verified against a stub, and it is the exact
+# command that destroyed production. Parse properly or do not parse at all.
+VALUE_FLAGS = {
+    "-p", "--project-name", "--profile", "--file",
+    "--project-directory", "--env-file", "--parallel", "--progress",
+    "--ansi", "-H", "--host", "--context", "--config", "--log-level",
+    "--tlscacert", "--tlscert", "--tlskey",
+}
+
+# `-f` is CONTEXT-DEPENDENT and getting it wrong breaks the guard in both
+# directions. Under `docker compose` it is --file and consumes a value; under
+# `docker rm|stop|kill` it is --force and consumes nothing. Treating it as
+# value-consuming everywhere swallowed the object name in
+# `docker rm -f br-x-stray`, leaving nothing for the branch whitelist to
+# check, so the guard refused a legitimate BRANCH teardown -- which is the
+# safe direction to fail, but it broke the harness's own residue sweep.
+COMPOSE_ONLY_VALUE_FLAGS = {"-f", "-c"}
+
+
+def positional(argv: list[str]) -> list[str]:
+    is_compose = "compose" in [a for a in argv if not a.startswith("-")][:1]
+    value_flags = VALUE_FLAGS | (COMPOSE_ONLY_VALUE_FLAGS if is_compose else set())
+    out, skip = [], False
+    for a in argv:
+        if skip:
+            skip = False
+            continue
+        if a in value_flags:
+            skip = True
+            continue
+        if a.startswith("-"):
+            continue          # --flag=value, or a valueless flag
+        out.append(a)
+    return out
+
+
+words = positional(ARGV)
+
+
+def is_destructive() -> bool:
+    """True if the positional words CONTAIN a destructive verb sequence.
+
+    Deliberately a containment check, not a prefix check: any stray
+    positional -- a `--profile` value that got mis-parsed, a service name --
+    would otherwise shift the verb out of position and silently disarm the
+    guard. Over-matching here costs a human one environment variable;
+    under-matching costs a production stack.
+    """
+    for combo in DESTRUCTIVE:
+        n = len(combo)
+        for i in range(len(words) - n + 1):
+            if tuple(words[i : i + n]) == combo:
+                return True
+    return False
+
+
+if not is_destructive():
+    passthrough()
+
+# --- destructive: it must prove it is branch-scoped ------------------------
+
+def declared_project() -> str | None:
+    """The compose project this invocation explicitly names, if any.
+
+    ONLY the command line counts. COMPOSE_PROJECT_NAME is deliberately NOT
+    consulted -- see is_project_scoped() below for why.
+    """
+    for i, a in enumerate(ARGV):
+        if a in ("-p", "--project-name") and i + 1 < len(ARGV):
+            return ARGV[i + 1]
+        if a.startswith("--project-name="):
+            return a.split("=", 1)[1]
+    return None
+
+
+def is_project_scoped() -> bool:
+    """Is this a `docker compose` subcommand, i.e. project-scoped by design?
+
+    This distinction is the fix for a real hole. Until 2026-07-29 the guard
+    accepted ANY branch-looking project name -- including one merely present
+    in the environment as COMPOSE_PROJECT_NAME -- as proof that a destructive
+    command was branch-scoped. Measured against a stub:
+
+        COMPOSE_PROJECT_NAME=br-x docker volume rm tai-review_caddy_data
+        COMPOSE_PROJECT_NAME=br-x docker rm -f forgejo
+
+    were both ALLOWED, and both correctly refused without the variable.
+
+    The error was category, not spelling. `docker compose down -p br-x` cannot
+    touch anything outside project br-x: Compose resolves the target set FROM
+    the project. But `docker volume rm X` and `docker rm X` ignore the project
+    entirely -- they act on the NAME. For those, a project declaration is not
+    evidence about what is being destroyed, and an inherited environment
+    variable is not evidence about anything at all.
+
+    So: a project name may prove scope only for compose subcommands. Every
+    by-name verb must prove scope object by object, from real labels.
+
+    That hole covered exactly the verbs Task 9's label-driven teardown
+    fallback is built from, in exactly the process that would export that
+    variable.
+    """
+    return bool(words) and words[0] == "compose"
+
+
+proj = declared_project()
+if proj and proj.startswith("br-") and is_project_scoped():
+    passthrough()
+
+# A prune is not object-scoped: it acts on everything the daemon considers
+# unused, so there is no set of names to verify and no way for it to prove
+# branch scope. Refused outright; a human uses AURORA_ALLOW_PROD=1.
+if any(w == "prune" for w in words):
+    sys.stderr.write(
+        "\ndocker-guard: REFUSED a prune. Prunes are not object-scoped, so "
+        "they cannot prove branch scope.\n"
+        "  If you are a human and you mean it:\n"
+        "      AURORA_ALLOW_PROD=1 docker " + " ".join(ARGV) + "\n\n"
+    )
+    sys.exit(13)
+
+
+def project_of(name: str) -> str | None:
+    """The compose project a named container/volume/network belongs to."""
+    for kind in ("container", "volume", "network"):
+        r = subprocess.run(
+            [REAL, kind, "inspect", "-f",
+             '{{index .Config.Labels "com.docker.compose.project"}}'
+             if kind == "container" else
+             '{{index .Labels "com.docker.compose.project"}}', name],
+            capture_output=True, text=True,
+        )
+        if r.returncode == 0:
+            return r.stdout.strip() or None
+    return None
+
+
+def is_branch_named(name: str) -> bool:
+    """Is this object's NAME itself in the branch namespace?
+
+    Closes a hole the Tasks 5-7 review measured: a volume NAMED `br-x_data`
+    but carrying NO project label was removable by nothing. The guard refused
+    it (no label to read), the harness label sweep could not see it, and every
+    compose route failed -- including after Compose adopted it, which does not
+    add labels. Worse, project_residue() reported clean, so a teardown residue
+    assertion would PASS over an object it could not remove.
+
+    A name in the `br-` namespace is sufficient evidence on its own, because
+    nothing in production is named that way: production's containers are
+    forgejo / hermes / dev-admin / affine_* / <project>-<service>-N, and its
+    volumes are <project>_<name>. `br-` is reserved for branches by
+    identity.py, and this guard is the only thing that has to agree.
+    """
+    return name.startswith("br-")
+
+
+# Object names given on the command line, if any: `docker rm X`,
+# `docker volume rm Y`.
+skip = {"rm", "stop", "kill", "restart", "prune", "volume", "network",
+        "system", "container", "image", "compose", "down"}
+named = [w for w in words if w not in skip]
+if named:
+    # Each named object must prove itself EITHER by label or by name. `all`
+    # rather than `any`: one production object in the list is enough to refuse
+    # the whole command, because docker would act on every one of them.
+    if all(
+        is_branch_named(n) or (project_of(n) or "").startswith("br-")
+        for n in named
+    ):
+        passthrough()
+
+sys.stderr.write(
+    "\n"
+    "docker-guard: REFUSED a destructive docker command that is not\n"
+    "              provably scoped to a branch (br-*) project.\n"
+    "\n"
+    f"  command: docker {' '.join(ARGV)}\n"
+    f"  project: {proj or '(none declared)'}\n"
+    "\n"
+    "  Destructive commands must name a br-* compose project, or name only\n"
+    "  objects already labelled for one. This is a whitelist on purpose: an\n"
+    "  unanticipated destructive spelling is refused, not allowed.\n"
+    "\n"
+    "  On 2026-07-29 `docker compose -p tai-review down -v` was run against\n"
+    "  live production by an agent following a mutation table. Prose said not\n"
+    "  to. Prose is not a guard.\n"
+    "\n"
+    "  If you are a human and you mean it:\n"
+    "      AURORA_ALLOW_PROD=1 docker " + " ".join(ARGV) + "\n"
+    "\n"
+)
+sys.exit(13)
