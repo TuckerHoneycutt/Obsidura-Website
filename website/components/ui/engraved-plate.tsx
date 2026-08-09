@@ -15,18 +15,27 @@ export function EngravedPlate({
   preClassName?: string;
 }) {
   return (
-    <FramePanel className={cn("inline-block bg-paper-warm/30", className)}>
-      <pre
-        aria-hidden
-        className={cn(
-          // Full ink on framed plates: readable as engravings without
-          // competing with nearby headlines (those sit outside the frame).
-          "px-3 py-4 font-mono select-none text-[5px] leading-[5.5px] text-ink",
-          preClassName
-        )}
-      >
-        {art}
-      </pre>
+    <FramePanel
+      interactive={false}
+      className={cn("inline-block bg-paper-warm/30", className)}
+    >
+      {/*
+        Centre the engraving as one block. text-align:center would centre
+        each line and shear the drawing; flex centres the pre's content box.
+      */}
+      <div className="flex items-center justify-center overflow-hidden px-3 py-4">
+        <pre
+          aria-hidden
+          className={cn(
+            // Full ink on framed plates: readable as engravings without
+            // competing with nearby headlines (those sit outside the frame).
+            "m-0 font-mono whitespace-pre select-none text-[5px] leading-[5.5px] text-ink",
+            preClassName
+          )}
+        >
+          {art}
+        </pre>
+      </div>
     </FramePanel>
   );
 }

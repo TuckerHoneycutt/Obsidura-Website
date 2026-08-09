@@ -150,10 +150,10 @@ export function Interlude() {
           {/* Opaque ink on the claim so the denser watermark never
               competes with the headline. */}
           <p className="font-display text-[clamp(1.9rem,3.6vw,3rem)] leading-snug font-light text-ink">
-            The toil belongs to the agents.
+            Where toil belongs to the agents,
             <br />
             <span className="italic text-ink-soft">
-              Only judgment ascends Olympus.
+              judgement ascends to Olympus.
             </span>
           </p>
         </Reveal>

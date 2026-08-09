@@ -86,7 +86,7 @@ const PLATFORM: FeatureContent = {
   closer: "Humans review exceptions, not everything.",
   art: HERAKLES,
   nerdLede:
-    "Under the hood, each workflow compiles to a typed DAG before anything executes:",
+    "Each workflow compiles to a typed DAG before anything executes:",
   nerdBullets: [
     "Connectors expose typed schemas, so a plan is validated against your actual tables and endpoints before step one runs.",
     "Tool calls carry least-privilege credentials minted per step and revoked on completion.",

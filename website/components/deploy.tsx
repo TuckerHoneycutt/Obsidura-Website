@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ChipRow } from "@/components/ui/chip-row";
 import { EngravedPlate } from "@/components/ui/engraved-plate";
 import { FramePanel } from "@/components/ui/frame-panel";
-import { GlowPanel } from "@/components/ui/glow-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
@@ -61,7 +60,10 @@ export function Deploy() {
         <div className="mt-12 grid gap-6 sm:grid-cols-3">
           {OPTIONS.map((opt, i) => (
             <Reveal key={opt.name} delay={i * 0.1} className="h-full">
-              <GlowPanel className="bg-paper-warm/30 transition-colors hover:bg-paper-warm/70">
+              <FramePanel
+                interactive={false}
+                className="h-full bg-paper-warm/30"
+              >
                 <div className="relative flex h-full flex-col px-5 py-6">
                   <span className="kicker text-accent">
                     {romanNumeral(i + 1)}
@@ -73,7 +75,7 @@ export function Deploy() {
                     <EngravedPlate
                       art={opt.art}
                       className="w-full"
-                      preClassName="w-full overflow-hidden text-[4px] leading-[4.5px]"
+                      preClassName="text-[2.5px] leading-[2.8px]"
                     />
                   </div>
                   <p className="mt-4 font-mono text-[13px] leading-relaxed text-ink-soft">
@@ -99,7 +101,7 @@ export function Deploy() {
                     className="mt-auto pt-6"
                   />
                 </div>
-              </GlowPanel>
+              </FramePanel>
             </Reveal>
           ))}
         </div>
