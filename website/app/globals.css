@@ -303,21 +303,12 @@ html.light .logo-invert {
   }
 }
 
-/* Theme toggle: a uniform cross-fade. While the toggle holds .theme-fade
-   on <html>, every element eases its colors along the same curve, so the
-   entire palette dissolves to the new theme in one motion. Deliberately
-   colors only - transform and opacity are left alone so motion-driven
-   animations are unaffected. */
-html.theme-fade,
-html.theme-fade *,
-html.theme-fade *::before,
-html.theme-fade *::after {
-  transition:
-    background-color 380ms ease,
-    border-color 380ms ease,
-    color 380ms ease,
-    fill 380ms ease,
-    stroke 380ms ease !important;
+/* Theme toggle uses the View Transitions API (see theme-toggle.tsx) —
+   a single snapshot cross-fade instead of per-element color easing. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

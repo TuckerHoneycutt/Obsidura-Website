@@ -36,9 +36,11 @@ function MoonIcon() {
   );
 }
 
-// Timer for removing the fade class; re-toggling mid-fade just extends
-// the window instead of stacking classes.
-let fadeTimer: number | undefined;
+function applyThemeClass(next: "light" | "dark") {
+  const root = document.documentElement;
+  root.classList.remove("light", "dark");
+  root.classList.add(next);
+}
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -49,24 +51,22 @@ export function ThemeToggle() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (reduceMotion) {
+    const apply = () => {
+      // Flip the class synchronously so View Transitions (and instant
+      // toggles) see the new palette in the same frame as the click.
+      applyThemeClass(next);
       setTheme(next);
+    };
+
+    if (
+      !reduceMotion &&
+      typeof document.startViewTransition === "function"
+    ) {
+      document.startViewTransition(apply);
       return;
     }
 
-    // While .theme-fade is present, every element eases its colors along
-    // the same curve (see globals.css), so the palette dissolves in one
-    // uniform motion - no snapshots, nothing that can be torn down early.
-    const html = document.documentElement;
-    html.classList.add("theme-fade");
-    setTheme(next);
-
-    // Comfortably after the 380ms transitions: removing the class while
-    // colors are still moving would snap them to their final values.
-    window.clearTimeout(fadeTimer);
-    fadeTimer = window.setTimeout(() => {
-      html.classList.remove("theme-fade");
-    }, 600);
+    apply();
   }
 
   return (
