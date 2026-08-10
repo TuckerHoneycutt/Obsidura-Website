@@ -1,14 +1,15 @@
 import Image from "next/image";
 
 /**
- * The Obsidura mark, mounted as a static plate. Kept as a named component
- * so the hero mount can swap presentation without touching page layout.
+ * The Obsidura mark, mounted as a static plate. Uses the PNG asset framed
+ * to the same content-to-canvas ratio as logo-mark.svg so it reads at the
+ * same size in the hero mount.
  */
 export function TracedMark() {
   return (
     <div className="relative aspect-square w-full">
       <Image
-        src="/logo-mark.svg"
+        src="/B4DFB728-E5CB-40C2-91A9-E602F3B0FD3F.png?v=svg-match"
         alt=""
         fill
         unoptimized
