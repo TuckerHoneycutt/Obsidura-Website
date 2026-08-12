@@ -85,6 +85,34 @@ body {
   color: var(--ink-mute);
 }
 
+/*
+ * Two voices, deliberately split. Prose - ledes, body, bullets - is set in
+ * the display serif and sized up for screen reading. Cutive is reserved for
+ * apparatus: kickers, labels, code, log lines, and anything the machine
+ * produced. Setting paragraphs in a typewriter face flattened that
+ * distinction and cost a lot of legibility for it.
+ */
+.lede-copy {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.1875rem, 1.5vw, 1.4375rem);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.body-copy {
+  font-family: var(--font-display), serif;
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  color: var(--ink-soft);
+}
+
+.body-copy-sm {
+  font-family: var(--font-display), serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
 .headline-emph {
   font-family: var(--font-display), serif;
   font-style: italic;

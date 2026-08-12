@@ -6,7 +6,9 @@ import { cn, romanNumeral } from "@/lib/utils";
 
 const SECTIONS = [
   { id: "top", label: "olympus" },
-  { id: "platform", label: "the labors" },
+  { id: "reports", label: "the artifacts" },
+  { id: "definitions", label: "the labors" },
+  { id: "governance", label: "the ledger" },
   { id: "runtime", label: "the forge" },
   { id: "deploy", label: "the dominions" },
 ];

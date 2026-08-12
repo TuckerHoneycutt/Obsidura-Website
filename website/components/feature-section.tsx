@@ -45,19 +45,20 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
             <span className="headline-emph">{content.headlineEmph}</span>
           </h2>
 
-          <p className="drop-cap mt-6 max-w-lg font-mono text-sm leading-relaxed text-ink-soft">
-            {content.lede}
-          </p>
+          <p className="drop-cap lede-copy mt-6 max-w-lg">{content.lede}</p>
 
-          <div className="mt-6 border-l-2 border-accent-deep bg-paper-warm/50 px-5 py-5">
-            <p className="font-mono text-sm leading-relaxed text-ink-soft">
+          {/* The technical aside stays in the mono voice - it is the part
+              written for someone who wants the mechanism, and the shift in
+              face is what marks it as an aside. */}
+          <div className="mt-8 border-l-2 border-accent-deep bg-paper-warm/50 px-5 py-5">
+            <p className="font-mono text-[13px] leading-relaxed text-ink-soft">
               {content.nerdLede}
             </p>
             <ul className="mt-4 space-y-3">
               {content.nerdBullets.map((b) => (
                 <li
                   key={b}
-                  className="flex gap-3 font-mono text-[13px] leading-relaxed text-ink-mute"
+                  className="flex gap-3 font-mono text-[12.5px] leading-relaxed text-ink-mute"
                 >
                   <span aria-hidden className="text-accent">
                     &gt;
@@ -94,14 +95,12 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
                     <span className="kicker mt-1 w-7 shrink-0 text-accent">
                       {romanNumeral(i + 1)}
                     </span>
-                    <p className="font-mono text-[13px] leading-relaxed text-ink-soft">
-                      {b}
-                    </p>
+                    <p className="body-copy-sm">{b}</p>
                   </motion.li>
                 ))}
               </ul>
               {content.closer && (
-                <p className="border-t border-rule px-5 py-4 font-mono text-[13px] text-ink-mute">
+                <p className="body-copy-sm border-t border-rule px-5 py-4 text-ink-mute">
                   {content.closer}
                 </p>
               )}

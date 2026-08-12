@@ -59,7 +59,7 @@ export function ContactForm() {
         <p className="font-display mt-4 text-3xl font-light tracking-tight">
           Message sent.
         </p>
-        <p className="mt-3 max-w-md font-mono text-sm leading-relaxed text-ink-soft">
+        <p className="body-copy mt-3 max-w-md">
           {state.message}
         </p>
       </FramePanel>

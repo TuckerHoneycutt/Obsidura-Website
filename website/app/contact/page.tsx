@@ -41,7 +41,7 @@ export default function ContactPage() {
                 Tell us what you are{" "}
                 <span className="headline-emph">trying to run.</span>
               </h1>
-              <p className="mt-7 max-w-md font-mono text-sm leading-relaxed text-ink-soft">
+              <p className="lede-copy mt-7 max-w-md">
                 Design partners, deployment questions, or a thirty-minute demo
                 — send word and we will see it carried to the right person.
               </p>

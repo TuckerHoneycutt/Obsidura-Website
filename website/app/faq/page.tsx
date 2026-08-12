@@ -86,7 +86,7 @@ export default function FaqPage() {
               Frequently asked{" "}
               <span className="headline-emph">questions.</span>
             </h1>
-            <p className="mt-6 max-w-xl font-mono text-sm leading-relaxed text-ink-soft">
+            <p className="lede-copy mt-6 max-w-xl">
               How the platform works, how agents touch your systems, and
               where everything runs. Something missing? Send word through
               the contact page.
@@ -95,11 +95,11 @@ export default function FaqPage() {
             <dl className="mt-14 divide-y divide-rule border-y border-rule">
               {QUESTIONS.map(({ q, a }) => (
                 <div key={q} className="py-8">
-                  <dt className="flex items-start gap-3 font-display text-2xl font-medium tracking-tight">
+                  <dt className="flex items-start gap-3 font-display text-[1.75rem] font-medium tracking-tight">
                     <MeanderMark size={10} className="mt-2.5 text-ink-faint" />
                     {q}
                   </dt>
-                  <dd className="mt-3 pl-[22px] font-mono text-sm leading-relaxed text-ink-soft">
+                  <dd className="body-copy mt-3 pl-[22px]">
                     {a}
                   </dd>
                 </div>

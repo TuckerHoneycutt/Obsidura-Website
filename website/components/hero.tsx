@@ -36,16 +36,14 @@ export function Hero() {
             <span className="headline-emph">auditable operations.</span>
           </motion.h1>
 
-          <motion.p
-            {...rise(0.2)}
-            className="mt-7 max-w-xl font-mono text-sm leading-relaxed text-ink-soft"
-          >
-            Obsidura is an enterprise AI agent orchestration platform.
-            Pantheon, our orchestration engine, connects agents to your
-            databases, object stores, and internal APIs - running durable,
-            auditable workflows where every value is checked at every seam
-            and anything consequential waits for a human. Deploy in our
-            cloud, your private VPC, or on-premises.
+          <motion.p {...rise(0.2)} className="lede-copy mt-7 max-w-xl">
+            Someone asks a question; a report comes back, drawn live from
+            your databases, object stores, and internal APIs, and scoped to
+            what that person is allowed to see. Pantheon, our orchestration
+            engine, runs the workflow underneath: every value checked at
+            every seam, every resource call recorded, and anything
+            consequential held for a human. Deploy in our cloud, your private
+            VPC, or on-premises.
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-4">
@@ -59,10 +57,10 @@ export function Hero() {
             </Magnetic>
             <Magnetic strength={0.15}>
               <a
-                href="#platform"
+                href="#reports"
                 className="kicker inline-block border border-rule px-5 py-3 !text-ink-soft transition-colors hover:border-accent-deep hover:!text-ink"
               >
-                How it works
+                See what it makes
               </a>
             </Magnetic>
           </motion.div>

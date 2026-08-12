@@ -63,7 +63,7 @@ export default function PrivacyPage() {
             <h1 className="font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
               Privacy <span className="headline-emph">policy.</span>
             </h1>
-            <p className="mt-6 max-w-xl font-mono text-sm leading-relaxed text-ink-soft">
+            <p className="lede-copy mt-6 max-w-xl">
               The short version: we collect what you send us through the
               contact form, we use it to reply to you, and we do not sell
               it. The longer version follows.
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
                     {body.map((p) => (
                       <p
                         key={p}
-                        className="font-mono text-sm leading-relaxed text-ink-soft"
+                        className="body-copy"
                       >
                         {p}
                       </p>

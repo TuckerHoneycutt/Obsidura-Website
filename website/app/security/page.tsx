@@ -57,7 +57,7 @@ export default function SecurityPage() {
               Security is{" "}
               <span className="headline-emph">the architecture.</span>
             </h1>
-            <p className="mt-6 max-w-xl font-mono text-sm leading-relaxed text-ink-soft">
+            <p className="lede-copy mt-6 max-w-xl">
               Obsidura asks for a connection to your systems of record, so
               the burden of proof is on us. These are the principles the
               platform is built around - not bolted on. Where something is
@@ -71,10 +71,10 @@ export default function SecurityPage() {
                     {romanNumeral(i + 1)}
                   </span>
                   <div>
-                    <h2 className="font-display text-2xl font-medium tracking-tight">
+                    <h2 className="font-display text-[1.75rem] font-medium tracking-tight">
                       {heading}
                     </h2>
-                    <p className="mt-3 font-mono text-sm leading-relaxed text-ink-soft">
+                    <p className="body-copy mt-3">
                       {body}
                     </p>
                   </div>
@@ -82,7 +82,7 @@ export default function SecurityPage() {
               ))}
             </ol>
 
-            <p className="mt-14 border-t border-rule pt-6 font-mono text-sm leading-relaxed text-ink-mute">
+            <p className="body-copy mt-14 border-t border-rule pt-6 text-ink-mute">
               Found a vulnerability in this site or our platform? Email{" "}
               <a
                 href="mailto:contact@obsidura.com"

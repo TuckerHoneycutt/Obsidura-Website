@@ -7,13 +7,14 @@ import { LogoMark } from "@/components/logo-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { scrollToSection } from "@/lib/scroll-to-section";
 
+// The "Book a demo" button already carries people to /contact, so the centre
+// row stays on the four homepage chapters rather than crowding in a fifth.
 const SECTION_LINKS = [
-  { label: "Platform", hash: "#platform" },
+  { label: "Reports", hash: "#reports" },
+  { label: "Workflows", hash: "#definitions" },
   { label: "Runtime", hash: "#runtime" },
   { label: "Deploy", hash: "#deploy" },
 ] as const;
-
-const PAGE_LINKS = [{ label: "Contact", href: "/contact" }] as const;
 
 export function Nav() {
   const pathname = usePathname();
@@ -46,15 +47,6 @@ export function Nav() {
                   scrollToSection(link.hash);
                 }
               }}
-              className="link-sweep font-display text-[15px] font-medium tracking-[0.2em] text-ink-mute uppercase transition-colors hover:text-ink"
-            >
-              {link.label}
-            </Link>
-          ))}
-          {PAGE_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
               className="link-sweep font-display text-[15px] font-medium tracking-[0.2em] text-ink-mute uppercase transition-colors hover:text-ink"
             >
               {link.label}

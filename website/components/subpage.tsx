@@ -45,35 +45,27 @@ export function Subpage({
               {headlineLead}{" "}
               <span className="headline-emph">{headlineEmph}</span>
             </h1>
-            <p className="mt-6 max-w-xl font-mono text-sm leading-relaxed text-ink-soft">
-              {lede}
-            </p>
+            <p className="lede-copy mt-6 max-w-xl">{lede}</p>
           </Reveal>
 
           <div className="mt-14 space-y-12">
             {sections.map(({ heading, body, bullets }, i) => (
               <Reveal key={heading} delay={Math.min(i * 0.06, 0.18)}>
-                <h2 className="font-display text-2xl font-medium tracking-tight">
+                <h2 className="font-display text-[1.75rem] font-medium tracking-tight">
                   {heading}
                 </h2>
                 {body?.map((p) => (
-                  <p
-                    key={p}
-                    className="mt-3 font-mono text-sm leading-relaxed text-ink-soft"
-                  >
+                  <p key={p} className="body-copy mt-3">
                     {p}
                   </p>
                 ))}
                 {bullets && (
                   <ul className="mt-4 space-y-3">
                     {bullets.map((b) => (
-                      <li
-                        key={b}
-                        className="flex gap-3 font-mono text-sm leading-relaxed text-ink-soft"
-                      >
+                      <li key={b} className="body-copy flex gap-3">
                         <MeanderMark
                           size={10}
-                          className="mt-1 text-ink-faint"
+                          className="mt-2 text-ink-faint"
                         />
                         {b}
                       </li>
@@ -106,7 +98,7 @@ export function Subpage({
                   <h2 className="font-display text-3xl font-light tracking-tight">
                     Put agents on your backend.
                   </h2>
-                  <p className="mt-2 max-w-md font-mono text-sm text-ink-mute">
+                  <p className="body-copy mt-2 max-w-md text-ink-mute">
                     A 30-minute call. We map one workflow and show you the
                     audit log by the end of it.
                   </p>
