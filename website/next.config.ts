@@ -61,6 +61,28 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // The solutions pages were retargeted to the three verticals in the spec.
+  // Keep the old paths resolving so anything already linked or indexed lands
+  // on the page that replaced it.
+  async redirects() {
+    return [
+      {
+        source: "/solutions/finance-operations",
+        destination: "/solutions/financial-audit",
+        permanent: true,
+      },
+      {
+        source: "/solutions/customer-support",
+        destination: "/solutions/flight-diagnostics",
+        permanent: true,
+      },
+      {
+        source: "/solutions/revenue-operations",
+        destination: "/solutions/clinical-summary",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

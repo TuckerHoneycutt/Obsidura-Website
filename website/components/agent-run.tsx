@@ -28,16 +28,18 @@ const KIND_STYLE: Record<LineKind, string> = {
 };
 
 const RUN: LogLine[] = [
-  { kind: "plan", time: "21:04:03", text: "job received - reconcile payout batches vs ledger (week 30)" },
-  { kind: "tool", time: "21:04:04", text: "postgres.query   SELECT id, amount FROM ledger_entries WHERE week = 30" },
-  { kind: "ok", time: "21:04:04", text: "1,284 rows in 41ms" },
-  { kind: "tool", time: "21:04:05", text: "stripe.payouts.list   interval = 2026-07-20 .. 2026-07-26" },
-  { kind: "ok", time: "21:04:06", text: "96 payouts fetched - schema validated" },
-  { kind: "model", time: "21:04:08", text: "matching payouts to ledger entries - 93 exact, 3 ambiguous" },
-  { kind: "tool", time: "21:04:09", text: "slack.post   #finance-approvals - 3 items need review" },
-  { kind: "escalate", time: "21:04:09", text: "escalated 3/96 to human queue with full decision trace" },
-  { kind: "ok", time: "21:04:10", text: "93 entries reconciled - audit log sealed" },
-  { kind: "done", time: "21:04:10", text: "run complete in 2m 14s - replay id run_8f3k2c" },
+  { kind: "plan", time: "21:04:03", text: "webhook report.request   {prompt, requester: u_ellis}" },
+  { kind: "ok", time: "21:04:03", text: "run opened - grants minted for u_ellis, proxy socket bound" },
+  { kind: "tool", time: "21:04:04", text: "postgres.query   ledger_entries   row filter: entity = 'north'" },
+  { kind: "ok", time: "21:04:04", text: "1,284 rows in scope - handed back as a table handle" },
+  { kind: "tool", time: "21:04:05", text: "s3.get   receipts/2026-q2/   key prefix scope enforced" },
+  { kind: "escalate", time: "21:04:05", text: "receipts/2026-q1/ denied for u_ellis - decision written to the log" },
+  { kind: "tool", time: "21:04:06", text: "http.request   fx-rates   url allowlist checked" },
+  { kind: "model", time: "21:04:08", text: "agent task composing a ReportSpec against report.spec@1" },
+  { kind: "ok", time: "21:04:09", text: "output failed validation - truncated diff returned, attempt 1 of 2" },
+  { kind: "ok", time: "21:04:09", text: "ReportSpec valid - record sealed into the envelope" },
+  { kind: "tool", time: "21:04:10", text: "render task   composing the site from the template library" },
+  { kind: "done", time: "21:04:10", text: "file artifact written - self-contained, snapshot baked in" },
 ];
 
 const LINE_MS = 850;
@@ -84,8 +86,8 @@ export function AgentRun() {
         <Reveal delay={0.1} className="mt-8">
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-              <span className="kicker">live run - payout reconciliation</span>
-              <span className="kicker text-accent">mnemosyne - audit log</span>
+              <span className="kicker">live run - financial audit</span>
+              <span className="kicker text-accent">run_events - append-only</span>
             </div>
             <div className="h-[300px] overflow-hidden px-4 py-3 sm:h-[280px]">
               {RUN.slice(0, count).map((line, i) => (

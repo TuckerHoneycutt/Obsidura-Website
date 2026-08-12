@@ -29,7 +29,8 @@ export default function PrivateVpcPage() {
         {
           heading: "The same security model, inside your walls",
           body: [
-            "Nothing about the platform relaxes in a private deployment. Credentials are still minted per step with least privilege and revoked on completion, executors are still sandboxed with no egress beyond the connector allowlist, and every action still lands in the append-only audit log.",
+            "Nothing about the platform relaxes in a private deployment. Task bodies still run in containers holding no credentials, reaching resources only through the run-scoped proxy. Grants are still enforced per call - a row filter for Postgres, a key prefix for object storage, a URL allowlist for HTTP - and every action still lands in the append-only run log.",
+            "Contract validation at every seam, the bounded repair loop when an agent emits something malformed, durable approval gates, and crash recovery from the run log all behave identically.",
           ],
         },
         {

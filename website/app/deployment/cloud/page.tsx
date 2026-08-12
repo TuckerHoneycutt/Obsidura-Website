@@ -16,7 +16,7 @@ export default function CloudPage() {
       kicker="the dominions &mdash; obsidura cloud"
       headlineLead="Fully managed,"
       headlineEmph="live in days."
-      lede="Obsidura Cloud is the fastest way to put agents on your backend. We run the orchestration platform - the planner, the durable runtime, the audit log - and your agents connect to your systems through the same typed connectors as every other deployment."
+      lede="Obsidura Cloud is the fastest way to put agents on your backend. We run the orchestration engine - the registry your definitions are applied into, the run log they execute against, and the container pool that carries out the work - and your agents reach your systems through the same resources as every other deployment."
       sections={[
         {
           heading: "What the managed cloud gives you",
@@ -29,7 +29,7 @@ export default function CloudPage() {
         {
           heading: "Multi-tenant, but your data is yours",
           body: [
-            "The cloud is multi-tenant at the platform layer, and the security model does not change because of it. Agents reach your systems only through typed connectors with credentials minted per step at least privilege, executors are sandboxed with no egress beyond your declared allowlist, and every action lands in your append-only audit log.",
+            "The cloud is multi-tenant at the platform layer, and the security model does not change because of it. A task body still never holds a credential - it reaches a resource through a Unix socket minted for that run, and the proxy makes the call with credentials the container never sees. Grants are still checked on every call, and every scope decision still lands in your run log as an event.",
           ],
         },
         {

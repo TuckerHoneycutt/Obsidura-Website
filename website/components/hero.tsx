@@ -41,11 +41,11 @@ export function Hero() {
             className="mt-7 max-w-xl font-mono text-sm leading-relaxed text-ink-soft"
           >
             Obsidura is an enterprise AI agent orchestration platform.
-            Pantheon, our orchestration suite, connects agents directly to
-            your databases, APIs, and business applications - running
-            durable, auditable workflows that escalate to a human only when
-            judgment is required. Deploy in our cloud, your private VPC, or
-            on-premises.
+            Pantheon, our orchestration engine, connects agents to your
+            databases, object stores, and internal APIs - running durable,
+            auditable workflows where every value is checked at every seam
+            and anything consequential waits for a human. Deploy in our
+            cloud, your private VPC, or on-premises.
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-4">

@@ -14,23 +14,26 @@
 
 ## The company
 
-Obsidura builds an enterprise **AI agent orchestration** platform. Agents connect directly to the systems you already run — databases, APIs, and business applications — and execute durable, auditable workflows. When confidence drops, work escalates to a human with full context. Routine toil stays with the agents; judgment stays with your team.
+Obsidura builds an enterprise **AI agent orchestration** platform. Agents connect to the systems you already run — databases, object stores, and internal APIs — and execute durable, auditable workflows. Anything consequential waits for a human. Routine toil stays with the agents; judgment stays with your team.
 
-**Pantheon** is the orchestration suite: typed connectors, a planning layer, a durable runtime, an append-only audit log, and human-in-the-loop escalation.
+**Pantheon** is the engine: YAML definitions compiled into a typed graph, contracts checked at every seam, a run-scoped resource proxy holding every credential, and an append-only run log.
 
 Deploy in Obsidura Cloud, in your private VPC, or fully on-premises.
+
+Site copy is derived from `specs/pantheon-spec-v0.md`; that spec wins where the two disagree.
 
 ---
 
 ## What Pantheon does
 
-- **Typed connectors** — Postgres, REST, gRPC, queues, and named apps (Salesforce, Slack, Stripe, and others). Credentials are scoped per step and audited.
-- **Planner** — Jobs compile to a typed DAG before execution. Deterministic tools run first; model calls happen only when judgment is required.
-- **Durable runtime** — Workflows are state machines with checkpoints, retries, idempotency, sandboxed executors, and schema validation at every boundary.
-- **Audit log** — Every prompt, tool call, and diff is append-only and replayable.
-- **Human escalation** — Low-confidence steps go to a queue with the full decision trace, not a guess.
+- **Four primitives** — Trigger, Task, Resource, Approval. Each is a tagged union whose variant carries its own config. Edges are derived from `on:` / `then:` / `uses:` references, never authored.
+- **Definitions are data** — YAML compiles into a typed graph in Postgres. `ptn plan` diffs against the registry; `ptn apply` registers. No expression language in the config, ever.
+- **A closed kernel of values** — Text, File, Table, Record, Error. Business meaning lives in Records, which is what keeps the executor constant in the number of business types.
+- **Contracts at every seam** — Envelopes carry run/task/attempt, schema ref, producer, causing event, taint, and budget. Agent outputs get a bounded repair loop before anything downstream sees them.
+- **Run log as the product** — One append-only `run_events` table; executor state is a fold of it. Status, audit, durable approval suspend/resume, and crash recovery all read from it.
+- **Resource proxy** — A per-run Unix socket is the capability. The container never holds a credential; grants are enforced per call (row filter / key prefix / URL allowlist).
 
-Primary use cases on the site: finance operations, customer support, and revenue operations.
+Report pipelines on the site: financial audit, flight diagnostics, clinical summaries — the three verticals in the spec.
 
 ---
 
@@ -38,9 +41,12 @@ Primary use cases on the site: finance operations, customer support, and revenue
 
 | | Obsidura Cloud | Private VPC | On-premises |
 | --- | --- | --- | --- |
-| **Fit** | Fully managed | Your AWS or GCP account | Air-gapped / your hardware |
-| **Tenancy** | Multi-tenant | Single-tenant | Your cluster |
-| **Network** | Obsidura-operated | Your boundary | No external calls |
+| **Fit** | Fully managed | Your cloud account | Isolated / your hardware |
+| **Tenancy** | Multi-tenant | Single-tenant | Yours |
+| **Network** | Obsidura-operated | Your boundary | No outbound calls |
+
+Note: spec v0 covers no deployment postures. This section is positioning, not
+something the spec backs — treat it as the intended shape rather than shipped.
 
 ---
 

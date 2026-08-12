@@ -3,17 +3,13 @@ import { InfiniteMarquee } from "@/components/ui/infinite-marquee";
 
 const INTEGRATIONS = [
   "Postgres",
-  "Salesforce",
-  "Slack",
-  "Stripe",
-  "AWS",
-  "Snowflake",
-  "Zendesk",
-  "NetSuite",
-  "Kafka",
-  "GitHub",
-  "Jira",
-  "Workday",
+  "Object storage",
+  "HTTP services",
+  "Row-filter scope",
+  "Key-prefix scope",
+  "URL allowlist",
+  "Run-scoped proxy",
+  "Audited per call",
 ];
 
 export function Integrations() {

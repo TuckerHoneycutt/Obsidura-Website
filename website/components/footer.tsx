@@ -16,9 +16,9 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
   {
     heading: "solutions",
     links: [
-      { label: "Finance Operations", href: "/solutions/finance-operations" },
-      { label: "Customer Support", href: "/solutions/customer-support" },
-      { label: "Revenue Operations", href: "/solutions/revenue-operations" },
+      { label: "Financial Audit", href: "/solutions/financial-audit" },
+      { label: "Flight Diagnostics", href: "/solutions/flight-diagnostics" },
+      { label: "Clinical Summaries", href: "/solutions/clinical-summary" },
     ],
   },
   {

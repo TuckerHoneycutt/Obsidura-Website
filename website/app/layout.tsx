@@ -64,7 +64,7 @@ const JSON_LD = {
       operatingSystem: "Web, Linux",
       url: "https://obsidura.com",
       description:
-        "Pantheon is Obsidura's AI agent orchestration suite: typed connectors into backend systems, a durable workflow runtime, human-in-the-loop escalation, and an append-only audit log.",
+        "Pantheon is Obsidura's AI agent orchestration engine: YAML definitions compiled into a typed graph, contracts validated at every seam, a run-scoped resource proxy that holds all credentials, and an append-only run log.",
       publisher: { "@id": "https://obsidura.com/#organization" },
     },
   ],

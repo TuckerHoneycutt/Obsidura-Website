@@ -19,23 +19,39 @@ const QUESTIONS = [
   },
   {
     q: "What is Pantheon?",
-    a: "Pantheon is our orchestration suite: typed connectors into your backend, a planner that decomposes jobs into steps, a durable runtime that survives crashes and slow upstreams, and an append-only audit log covering every action.",
+    a: "A workflow orchestration engine where definitions are data, not code. Your YAML compiles into a typed graph held in Postgres, a Rust executor instantiates runs from it, task bodies run in containers speaking JSON-RPC over stdio, and every resource call passes through a proxy scoped to that run.",
   },
   {
     q: "How do agents access our systems?",
-    a: "Through typed connectors - Postgres, REST, gRPC, and message queues - using scoped, audited credentials. Credentials are minted per step with least privilege and revoked on completion.",
+    a: "Through a proxy. Each run gets a Unix socket mounted into its container, and that socket is the capability - the container is never handed a credential. The proxy checks the grants minted for the run, performs the call with the real credentials, writes an audit event, and returns the data.",
   },
   {
-    q: "What happens when an agent is not confident?",
-    a: "When confidence drops below your threshold, the agent stops and escalates to a human queue with the full decision trace attached, so a person can resolve it in seconds instead of re-deriving context.",
+    q: "How are permissions scoped?",
+    a: "A grant maps a user to a resource, the verbs they may use, and a scope in that connector's own terms: a SQL row filter for Postgres, a key prefix for object storage, a URL allowlist for HTTP. Grants are enforced on every call, so two people can ask the same question and get answers drawn from different data.",
+  },
+  {
+    q: "What happens when a step needs a person?",
+    a: "A task can gate on approval. The pending decision lives in Postgres, so the run suspends durably - restart the executor and it is still waiting - and continues when someone approves it.",
+  },
+  {
+    q: "What stops an agent returning malformed data?",
+    a: "Every task output is validated against its declared schema before anything downstream sees it. When an agent produced it, a validation failure sends a truncated error diff back to the model for a bounded number of repair attempts, then fails typed into the run log rather than passing bad data along.",
   },
   {
     q: "Is every action logged?",
-    a: "Yes. Every action lands in an append-only audit log with the full prompt, tool call, and resulting diff. Any run can be replayed at any time.",
+    a: "Yes, and the log is not a side report. Every run is an append-only stream of events in Postgres, and executor state is a fold of that stream. Status, the audit trail, approval suspend and resume, and crash recovery all read the same table.",
+  },
+  {
+    q: "Which systems can it connect to today?",
+    a: "Three connector kinds: Postgres, S3-compatible object storage, and HTTP. HTTP is the general case - if a system has an interface a program can call, a task can work against it through the same proxy. Mail, MCP, and memory connectors are designed for and deliberately deferred.",
+  },
+  {
+    q: "Are you locked to one agent framework?",
+    a: "No, and it is an architectural rule rather than an intention. No framework is hardcoded at the executor level. The harness is a leaf dependency inside the runner image, so swapping it touches no engine code.",
   },
   {
     q: "Where can Obsidura run?",
-    a: "Three deployment options: our fully managed cloud, a private VPC inside your own AWS or GCP account, or air-gapped on-premises on your hardware.",
+    a: "Three deployment options: our managed cloud, a private VPC inside your own cloud account, or on-premises on your hardware with no outbound calls. The security model is the same in all three.",
   },
   {
     q: "How do we get started?",
