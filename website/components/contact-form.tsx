@@ -8,7 +8,9 @@ import { cn } from "@/lib/utils";
 const initialState: ContactState = { ok: false, message: "" };
 
 const fieldClass =
-  "w-full border border-rule bg-paper px-3.5 py-3 font-mono text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-accent-deep";
+  // No outline-none here: the border shift alone was the only focus signal,
+  // and it is far too quiet to navigate a form by.
+  "w-full border border-rule bg-paper px-3.5 py-3 font-mono text-sm text-ink transition-colors placeholder:text-ink-faint focus:border-accent-deep";
 
 const labelClass = "kicker mb-2 block !text-[10px]";
 

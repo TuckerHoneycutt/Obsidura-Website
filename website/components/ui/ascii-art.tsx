@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -20,8 +20,14 @@ export function AsciiArt({
   duration?: number;
 }) {
   const ref = useRef<HTMLPreElement>(null);
-  const [text, setText] = useState(art);
 
+  /*
+   * The carve is written straight to the node rather than through state. The
+   * art is decorative and aria-hidden, the prop is stable so React never
+   * re-renders these children, and routing a few thousand characters through
+   * setState on every animation frame was re-rendering the whole string at
+   * 60fps to animate something nobody can select or read.
+   */
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -48,14 +54,14 @@ export function AsciiArt({
           else if (t <= p) out += "\u00b7";
           else out += art[i] === "\n" ? "\n" : " ";
         }
-        setText(p >= 1 ? art : out);
+        el.textContent = p >= 1 ? art : out;
         if (p < 1) raf = requestAnimationFrame(frame);
       };
       raf = requestAnimationFrame(frame);
     };
 
     // Hide until first seen, then carve once.
-    setText(blank);
+    el.textContent = blank;
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
@@ -70,12 +76,14 @@ export function AsciiArt({
     return () => {
       io.disconnect();
       cancelAnimationFrame(raf);
+      // Leave the node as React believes it to be.
+      el.textContent = art;
     };
   }, [art, duration]);
 
   return (
     <pre ref={ref} aria-hidden className={cn("select-none", className)}>
-      {text}
+      {art}
     </pre>
   );
 }

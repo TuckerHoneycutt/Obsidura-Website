@@ -1,19 +1,32 @@
+"use client";
+
 import { FramePanel } from "@/components/ui/frame-panel";
+import { type EngravingName } from "@/lib/engravings";
+import { useEngraving } from "@/lib/use-engraving";
 import { cn } from "@/lib/utils";
 
 /**
  * A static high-density ASCII engraving in a sealed frame. Matches the
  * Mount Olympus / Herakles treatment: fine glyphs, no caption, no reveal.
+ *
+ * The art loads on approach (see useEngraving), which keeps ~70KB of purely
+ * decorative text out of the initial HTML. Height is reserved from the known
+ * line count first, so the arriving glyphs never shove the layout around.
  */
 export function EngravedPlate({
-  art,
+  name,
   className,
   preClassName,
+  /** Line height in px matching preClassName - used to reserve the box. */
+  lineHeight = 5.5,
 }: {
-  art: string;
+  name: EngravingName;
   className?: string;
   preClassName?: string;
+  lineHeight?: number;
 }) {
+  const { ref, art, lines } = useEngraving<HTMLDivElement>(name);
+
   return (
     <FramePanel
       interactive={false}
@@ -23,7 +36,11 @@ export function EngravedPlate({
         Centre the engraving as one block. text-align:center would centre
         each line and shear the drawing; flex centres the pre's content box.
       */}
-      <div className="flex items-center justify-center overflow-hidden px-3 py-4">
+      <div
+        ref={ref}
+        className="flex items-center justify-center overflow-hidden px-3 py-4"
+        style={{ minHeight: lines * lineHeight }}
+      >
         <pre
           aria-hidden
           className={cn(

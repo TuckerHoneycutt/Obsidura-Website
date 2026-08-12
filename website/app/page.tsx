@@ -10,7 +10,6 @@ import {
 } from "@/components/feature-section";
 import { Deploy } from "@/components/deploy";
 import { Interlude } from "@/components/interlude";
-import { HEPHAESTUS } from "@/lib/engravings/hephaestus";
 
 const RUNTIME: FeatureContent = {
   id: "runtime",
@@ -27,7 +26,7 @@ const RUNTIME: FeatureContent = {
     "No agent framework is baked into the executor. The harness lives inside the runner image, and swapping it touches zero engine code.",
   ],
   closer: "The agents spend their time working, not failing quietly.",
-  art: HEPHAESTUS,
+  art: "hephaestus",
   nerdLede:
     "The runtime treats model output as untrusted input, the same way a kernel treats userspace:",
   nerdBullets: [

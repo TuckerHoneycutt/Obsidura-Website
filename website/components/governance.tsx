@@ -3,7 +3,6 @@ import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
 import { RunLog } from "@/components/run-log";
-import { ATHENA_OWL } from "@/lib/engravings/athena-owl";
 
 type Requester = {
   user: string;
@@ -200,7 +199,7 @@ export function Governance() {
             {/* Athena's owl closes the column, the way the engraved plates
                 close the other chapters. */}
             <div className="mt-10 hidden lg:block">
-              <EngravedPlate art={ATHENA_OWL} />
+              <EngravedPlate name="athena-owl" />
             </div>
           </Reveal>
         </div>

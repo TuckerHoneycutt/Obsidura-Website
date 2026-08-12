@@ -10,7 +10,10 @@
   --ink: #ffffff;
   --ink-soft: #d6d6d6;
   --ink-mute: #9c9c9c;
-  --ink-faint: #6b6b6b;
+  /* Clears AA (4.5:1) on the warm panel surfaces this text actually sits on,
+     not just on bare paper. The previous #6b6b6b was 3.9:1, under AA for the
+     small text it carries - log timestamps, grant scopes, table meta. */
+  --ink-faint: #787878;
   --rule: #2e2e2e;
   --accent: #ffffff;
   --accent-deep: #a8a8a8;
@@ -29,7 +32,8 @@ html.light {
   --ink: #000000;
   --ink-soft: #2e2e2e;
   --ink-mute: #5c5c5c;
-  --ink-faint: #8f8f8f;
+  /* The lightest grey clearing AA on the warm panel surfaces (4.50:1). */
+  --ink-faint: #737373;
   --rule: #dcdcdc;
   --accent: #000000;
   --accent-deep: #4a4a4a;
@@ -65,6 +69,19 @@ body {
 ::selection {
   background: var(--accent);
   color: var(--paper);
+}
+
+/*
+ * Keyboard focus. Every hover affordance on this site is custom - the
+ * underline sweep, a border shifting colour - so without an explicit ring a
+ * keyboard user gets almost nothing to go on. The offset places the ring on
+ * the paper rather than inside the control, which keeps it visible on the
+ * inverted buttons where the ring colour matches the fill. :where() keeps
+ * specificity at zero so a component can still opt out.
+ */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* Fine dotted texture over the paper, like print grain */

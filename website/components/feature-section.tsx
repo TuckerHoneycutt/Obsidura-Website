@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { EngravedPlate } from "@/components/ui/engraved-plate";
+import type { EngravingName } from "@/lib/engravings";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Parallax } from "@/components/ui/parallax";
 import { Reveal } from "@/components/ui/reveal";
@@ -19,8 +20,8 @@ export type FeatureContent = {
   nerdBullets: string[];
   closer?: string;
   reverse?: boolean;
-  /** Optional ASCII figure set into the sticky column's dead space. */
-  art?: string;
+  /** Optional engraving set into the sticky column's dead space. */
+  art?: EngravingName;
 };
 
 export function FeatureSection({ content }: { content: FeatureContent }) {
@@ -71,7 +72,7 @@ export function FeatureSection({ content }: { content: FeatureContent }) {
 
           {content.art && (
             <div className="mt-12 hidden lg:block">
-              <EngravedPlate art={content.art} />
+              <EngravedPlate name={content.art} />
             </div>
           )}
         </Reveal>

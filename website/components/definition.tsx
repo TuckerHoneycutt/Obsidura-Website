@@ -1,89 +1,158 @@
+"use client";
+
+import { useState } from "react";
 import { EngravedPlate } from "@/components/ui/engraved-plate";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
-import { HERAKLES } from "@/lib/engravings/herakles";
 import { cn } from "@/lib/utils";
+
+/**
+ * Every element of the compiled graph, and the reference in the source that
+ * produced it. Highlighting is keyed on these, so the page can only ever
+ * claim a link the definition actually declares.
+ */
+type Ref =
+  | "trigger"
+  | "gather"
+  | "ledger"
+  | "receipts"
+  | "fx_rates"
+  | "render"
+  | "output";
+
+type Line = { text: string; ref?: Ref };
 
 // The definition behind the financial audit pipeline, written the way the
 // authoring rules require: literal data, kind discriminators, refs by
 // name@version, and no expression language anywhere.
-const YAML = `kind: trigger
-name: report.request
-version: 1
-source: webhook
-emits: report.request@1
-
----
-
-kind: task
-name: gather
-version: 1
-runner:
-  kind: agent
-  spec: audit.analyst@3
-input: report.request@1
-output: report.spec@1
-uses:
-  - resource: ledger
-    verbs: [query]
-  - resource: receipts
-    verbs: [get]
-  - resource: fx_rates
-    verbs: [request]
-on: report.request@1
-then: [render@1]
-policy:
-  timeout: 90s
-  retry: 2
-  idempotent: true
-
----
-
-kind: task
-name: render
-version: 1
-runner:
-  kind: script
-  runtime: python
-  entry: render.main
-input: report.spec@1
-output: file@1`;
+const YAML: Line[] = [
+  { text: "kind: trigger" },
+  { text: "name: report.request", ref: "trigger" },
+  { text: "version: 1" },
+  { text: "source: webhook" },
+  { text: "emits: report.request@1", ref: "trigger" },
+  { text: "" },
+  { text: "---" },
+  { text: "" },
+  { text: "kind: task" },
+  { text: "name: gather", ref: "gather" },
+  { text: "version: 1" },
+  { text: "runner:" },
+  { text: "  kind: agent" },
+  { text: "  spec: audit.analyst@3" },
+  { text: "input: report.request@1" },
+  { text: "output: report.spec@1" },
+  { text: "uses:" },
+  { text: "  - resource: ledger", ref: "ledger" },
+  { text: "    verbs: [query]", ref: "ledger" },
+  { text: "  - resource: receipts", ref: "receipts" },
+  { text: "    verbs: [get]", ref: "receipts" },
+  { text: "  - resource: fx_rates", ref: "fx_rates" },
+  { text: "    verbs: [request]", ref: "fx_rates" },
+  { text: "on: report.request@1", ref: "trigger" },
+  { text: "then: [render@1]", ref: "render" },
+  { text: "policy:" },
+  { text: "  timeout: 90s" },
+  { text: "  retry: 2" },
+  { text: "  idempotent: true" },
+  { text: "" },
+  { text: "---" },
+  { text: "" },
+  { text: "kind: task" },
+  { text: "name: render", ref: "render" },
+  { text: "version: 1" },
+  { text: "runner:" },
+  { text: "  kind: script" },
+  { text: "  runtime: python" },
+  { text: "  entry: render.main" },
+  { text: "input: report.spec@1" },
+  { text: "output: file@1", ref: "output" },
+];
 
 /** Keys recede, values carry the ink - the same hierarchy an editor gives you. */
-function YamlLine({ line }: { line: string }) {
-  if (line === "") return <span className="block h-[1.5em]" />;
-  if (line === "---")
-    return <span className="block text-ink-faint">{line}</span>;
+function YamlText({ text }: { text: string }) {
+  if (text === "---") return <span className="text-ink-faint">{text}</span>;
 
-  const match = line.match(/^(\s*-?\s*)([A-Za-z_][\w.]*)(:)(.*)$/);
-  if (!match) return <span className="block text-ink-soft">{line}</span>;
+  const match = text.match(/^(\s*-?\s*)([A-Za-z_][\w.]*)(:)(.*)$/);
+  if (!match) return <span className="text-ink-soft">{text}</span>;
 
   const [, prefix, key, colon, rest] = match;
   return (
-    <span className="block">
+    <>
       {prefix}
       <span className="text-ink-mute">{key}</span>
       {colon}
       <span className="text-ink">{rest}</span>
-    </span>
+    </>
+  );
+}
+
+/** Shared highlight treatment for a linked source line or graph element. */
+const LIT = "bg-accent-pale text-ink";
+
+function YamlRow({
+  line,
+  active,
+  onActivate,
+}: {
+  line: Line;
+  active: boolean;
+  onActivate: (ref: Ref | null) => void;
+}) {
+  if (line.text === "") return <span className="block h-[1.5em]" />;
+
+  if (!line.ref) {
+    return (
+      <span className="block">
+        <YamlText text={line.text} />
+      </span>
+    );
+  }
+
+  const ref = line.ref;
+  // The source side is the focusable one: buttons here keep the link
+  // reachable without a pointer, while the graph side reacts to hover only,
+  // which would otherwise double the tab stops for the same information.
+  return (
+    <button
+      type="button"
+      onMouseEnter={() => onActivate(ref)}
+      onMouseLeave={() => onActivate(null)}
+      onFocus={() => onActivate(ref)}
+      onBlur={() => onActivate(null)}
+      className={cn(
+        // font-[inherit] matters: a button does not take the pre's face.
+        "-mx-2 block w-[calc(100%+1rem)] cursor-default px-2 text-left font-[inherit] text-[inherit] leading-[inherit] transition-colors",
+        active && LIT
+      )}
+    >
+      <YamlText text={line.text} />
+    </button>
   );
 }
 
 function Node({
   kind,
   name,
-  className,
+  refId,
+  active,
+  onActivate,
 }: {
   kind: string;
   name: string;
-  className?: string;
+  refId: Ref;
+  active: boolean;
+  onActivate: (ref: Ref | null) => void;
 }) {
+  // Not focusable by design - see YamlRow. The graph reflects the source.
   return (
     <div
+      onMouseEnter={() => onActivate(refId)}
+      onMouseLeave={() => onActivate(null)}
       className={cn(
-        "flex items-center justify-between gap-4 border border-rule bg-paper px-3.5 py-2.5",
-        className
+        "flex items-center justify-between gap-4 border px-3.5 py-2.5 transition-colors",
+        active ? "border-accent-deep bg-accent-pale" : "border-rule bg-paper"
       )}
     >
       <span className="font-mono text-[12.5px] text-ink">{name}</span>
@@ -93,19 +162,32 @@ function Node({
 }
 
 /** A derived edge: a hairline drop with the reference that produced it. */
-function Edge({ label }: { label: string }) {
+function Edge({ label, active }: { label: string; active: boolean }) {
   return (
     <div className="flex items-center gap-2.5 py-1.5 pl-3.5">
-      <span aria-hidden className="h-6 w-px bg-rule" />
-      <span className="kicker !text-[9px] text-accent">{label}</span>
+      <span
+        aria-hidden
+        className={cn(
+          "h-6 w-px transition-colors",
+          active ? "bg-accent" : "bg-rule"
+        )}
+      />
+      <span
+        className={cn(
+          "kicker !text-[9px] transition-colors",
+          active ? "!text-ink" : "text-accent"
+        )}
+      >
+        {label}
+      </span>
     </div>
   );
 }
 
-const USES: [string, string][] = [
-  ["ledger", "postgres · query"],
-  ["receipts", "object store · get"],
-  ["fx_rates", "http · request"],
+const USES: { ref: Ref; name: string; meta: string }[] = [
+  { ref: "ledger", name: "ledger", meta: "postgres · query" },
+  { ref: "receipts", name: "receipts", meta: "object store · get" },
+  { ref: "fx_rates", name: "fx_rates", meta: "http · request" },
 ];
 
 const PRIMITIVES: [string, string][] = [
@@ -126,12 +208,18 @@ const VALUES: [string, string][] = [
 /**
  * The authoring chapter. The claim that definitions are data is one a page
  * can show rather than assert, so this section puts the YAML next to the
- * graph compiled out of it and lets the reader check that no edge was ever
- * written by hand.
+ * graph compiled out of it - and hovering either side lights up the other,
+ * which is the whole argument for deriving edges instead of drawing them.
  */
 export function Definition() {
+  const [active, setActive] = useState<Ref | null>(null);
+  const lit = (ref: Ref) => active === ref;
+
   return (
-    <section id="definitions" className="relative border-t border-rule">
+    <section
+      id="definitions"
+      className="relative border-t border-rule bg-paper-warm/60"
+    >
       <MeanderDivider />
       <div className="mx-auto max-w-6xl px-5 py-20 lg:py-28">
         <Reveal className="flex items-start justify-between gap-10">
@@ -149,13 +237,18 @@ export function Definition() {
             </p>
           </div>
           <div className="hidden shrink-0 xl:block">
-            <EngravedPlate art={HERAKLES} preClassName="text-[3px] leading-[3.3px]" />
+            <EngravedPlate
+              name="herakles"
+              className="bg-paper"
+              preClassName="text-[3px] leading-[3.3px]"
+              lineHeight={3.3}
+            />
           </div>
         </Reveal>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
           <Reveal delay={0.1}>
-            <FramePanel className="bg-paper-warm/40">
+            <FramePanel className="bg-paper">
               <div className="flex items-center justify-between border-b border-rule px-4 py-2">
                 <span className="kicker !text-[10px]">
                   pipelines/audit.yaml
@@ -165,8 +258,13 @@ export function Definition() {
                 </span>
               </div>
               <pre className="overflow-x-auto px-4 py-4 font-mono text-[11.5px] leading-[1.75] whitespace-pre">
-                {YAML.split("\n").map((line, i) => (
-                  <YamlLine key={i} line={line} />
+                {YAML.map((line, i) => (
+                  <YamlRow
+                    key={i}
+                    line={line}
+                    active={!!line.ref && lit(line.ref)}
+                    onActivate={setActive}
+                  />
                 ))}
               </pre>
             </FramePanel>
@@ -175,7 +273,7 @@ export function Definition() {
           {/* The compiled graph is shorter than the source it came from, so
               it sticks while the definitions scroll past it. */}
           <Reveal delay={0.2} className="lg:sticky lg:top-28 lg:self-start">
-            <FramePanel className="bg-paper-warm/40">
+            <FramePanel className="bg-paper">
               <div className="flex items-center justify-between border-b border-rule px-4 py-2">
                 <span className="kicker !text-[10px]">ptn apply</span>
                 <span className="kicker !text-[10px] text-accent">
@@ -183,44 +281,79 @@ export function Definition() {
                 </span>
               </div>
               <div className="px-4 py-5">
-                <Node kind="trigger · webhook" name="report.request@1" />
-                <Edge label="derived from on:" />
-                <Node kind="task · agent" name="gather@1" />
+                <Node
+                  kind="trigger · webhook"
+                  name="report.request@1"
+                  refId="trigger"
+                  active={lit("trigger")}
+                  onActivate={setActive}
+                />
+                <Edge label="derived from on:" active={lit("trigger")} />
+                <Node
+                  kind="task · agent"
+                  name="gather@1"
+                  refId="gather"
+                  active={lit("gather")}
+                  onActivate={setActive}
+                />
 
                 {/* uses: refs become capability edges, drawn as a bracket
                     hanging off the task that declared them. */}
-                <div className="mt-2 ml-3.5 border-l border-rule pl-4">
+                <div
+                  className={cn(
+                    "mt-2 ml-3.5 border-l pl-4 transition-colors",
+                    USES.some((u) => lit(u.ref))
+                      ? "border-accent"
+                      : "border-rule"
+                  )}
+                >
                   <p className="kicker !text-[9px] text-accent">
                     derived from uses:
                   </p>
                   <div className="mt-2 space-y-1.5">
-                    {USES.map(([name, meta]) => (
+                    {USES.map((use) => (
                       <div
-                        key={name}
-                        className="flex items-baseline justify-between gap-3"
+                        key={use.ref}
+                        onMouseEnter={() => setActive(use.ref)}
+                        onMouseLeave={() => setActive(null)}
+                        className={cn(
+                          "-mx-1.5 flex items-baseline justify-between gap-3 px-1.5 py-0.5 transition-colors",
+                          lit(use.ref) && LIT
+                        )}
                       >
                         <span className="font-mono text-[12px] text-ink-soft">
-                          {name}
+                          {use.name}
                         </span>
-                        <span className="kicker !text-[9px]">{meta}</span>
+                        <span className="kicker !text-[9px]">{use.meta}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <Edge label="derived from then:" />
-                <Node kind="task · script" name="render@1" />
-                <Edge label="declared output" />
-                <Node kind="value · file" name="report.html" />
+                <Edge label="derived from then:" active={lit("render")} />
+                <Node
+                  kind="task · script"
+                  name="render@1"
+                  refId="render"
+                  active={lit("render")}
+                  onActivate={setActive}
+                />
+                <Edge label="declared output" active={lit("output")} />
+                <Node
+                  kind="value · file"
+                  name="report.html"
+                  refId="output"
+                  active={lit("output")}
+                  onActivate={setActive}
+                />
               </div>
-              <p className="border-t border-rule px-4 py-3.5 body-copy-sm text-ink-mute">
+              <p className="body-copy-sm border-t border-rule px-4 py-3.5 text-ink-mute">
                 You never drew an edge. Every arrow above came out of an{" "}
                 <span className="font-mono text-[13px] text-ink">on:</span>,{" "}
                 <span className="font-mono text-[13px] text-ink">then:</span>,
                 or{" "}
                 <span className="font-mono text-[13px] text-ink">uses:</span>{" "}
-                reference, which is why the graph and the files can never
-                disagree.
+                reference &mdash; hover either side to see which.
               </p>
             </FramePanel>
           </Reveal>
@@ -230,7 +363,7 @@ export function Definition() {
             same size as your library of workflow types grows. */}
         <Reveal delay={0.15} className="mt-14">
           <div className="grid gap-6 sm:grid-cols-2">
-            <FramePanel className="bg-paper-warm/20">
+            <FramePanel className="bg-paper">
               <p className="kicker border-b border-rule px-4 py-2 !text-[10px] text-accent">
                 four primitives &mdash; the whole vocabulary
               </p>
@@ -249,7 +382,7 @@ export function Definition() {
               </dl>
             </FramePanel>
 
-            <FramePanel className="bg-paper-warm/20">
+            <FramePanel className="bg-paper">
               <p className="kicker border-b border-rule px-4 py-2 !text-[10px] text-accent">
                 five values &mdash; everything that crosses a seam
               </p>

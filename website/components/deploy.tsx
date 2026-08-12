@@ -5,9 +5,6 @@ import { FramePanel } from "@/components/ui/frame-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
-import { HADES } from "@/lib/engravings/hades";
-import { POSEIDON } from "@/lib/engravings/poseidon";
-import { ZEUS } from "@/lib/engravings/zeus";
 import { romanNumeral } from "@/lib/utils";
 
 // After the war, the three brothers drew lots for the cosmos: Zeus took
@@ -19,7 +16,7 @@ const OPTIONS = [
     detail: "Fully managed in the heavens - live in days",
     meta: "managed / we operate the control plane",
     href: "/deployment/cloud",
-    art: ZEUS,
+    art: "zeus",
   },
   {
     name: "Private VPC",
@@ -27,7 +24,7 @@ const OPTIONS = [
     detail: "Runs in your own waters - your AWS or GCP account",
     meta: "single-tenant / your network boundary",
     href: "/deployment/private-vpc",
-    art: POSEIDON,
+    art: "poseidon",
   },
   {
     name: "On-Prem",
@@ -35,7 +32,7 @@ const OPTIONS = [
     detail: "Isolated and unseen - your hardware",
     meta: "containers / no outbound calls",
     href: "/deployment/on-premises",
-    art: HADES,
+    art: "hades",
   },
 ] as const;
 
@@ -75,9 +72,10 @@ export function Deploy() {
                   </h3>
                   <div className="mt-5">
                     <EngravedPlate
-                      art={opt.art}
+                      name={opt.art}
                       className="w-full"
                       preClassName="text-[2.5px] leading-[2.8px]"
+                      lineHeight={2.8}
                     />
                   </div>
                   <p className="body-copy-sm mt-4">{opt.detail}</p>
