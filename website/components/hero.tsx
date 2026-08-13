@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { TracedMark } from "@/components/traced-mark";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Magnetic } from "@/components/ui/magnetic";
@@ -13,55 +13,60 @@ const rise = (delay: number) => ({
   transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] as const, delay },
 });
 
+/**
+ * The homepage no longer has five sections under it, so the claim carries the
+ * whole screen: one statement at full size, one sentence of what the product
+ * does, and the two things a visitor might actually want to do next.
+ */
 export function Hero() {
-  const { scrollY } = useScroll();
-  // The mark panel drifts slower than the page for depth.
-  const markY = useTransform(scrollY, [0, 800], [0, -56]);
-
   return (
-    <section id="top" className="relative overflow-hidden">
+    <section className="relative overflow-hidden">
       <Spotlight />
-      <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pt-20 pb-16 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-14 lg:pt-28">
+      {/* The claim gets the full measure - at this size it needs all 1152px
+          to land on two lines instead of breaking mid-phrase. */}
+      <div className="relative mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
+        <motion.p {...rise(0)} className="kicker mb-7 text-accent">
+          obsidura &mdash; agentic backend as a service
+        </motion.p>
+
+        <motion.h1
+          {...rise(0.1)}
+          className="font-display text-[clamp(2.75rem,6.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
+        >
+          Backend-native agents,
+          <br />
+          <span className="headline-emph">auditable operations.</span>
+        </motion.h1>
+      </div>
+
+      <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pt-10 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14 lg:pb-24">
         <div>
-          <motion.p {...rise(0)} className="kicker mb-6 text-accent">
-            i &mdash; agentic backend as a service
-          </motion.p>
-
-          <motion.h1
-            {...rise(0.1)}
-            className="font-display text-[clamp(2.75rem,5.5vw,4.15rem)] leading-[1.06] font-light tracking-tight"
+          <motion.p
+            {...rise(0.2)}
+            className="max-w-xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
           >
-            Backend-native agents,
-            <br />
-            <span className="headline-emph">auditable operations.</span>
-          </motion.h1>
-
-          <motion.p {...rise(0.2)} className="lede-copy mt-7 max-w-xl">
-            Someone asks a question; a report comes back, drawn live from
-            your databases, object stores, and internal APIs, and scoped to
-            what that person is allowed to see. Pantheon, our orchestration
-            engine, runs the workflow underneath: every value checked at
-            every seam, every resource call recorded, and anything
-            consequential held for a human. Deploy in our cloud, your private
-            VPC, or on-premises.
+            One prompt in, a report back &mdash; drawn live from your
+            databases, object stores, and internal APIs, and scoped to
+            whoever asked.
           </motion.p>
 
-          <motion.div {...rise(0.3)} className="mt-9 flex flex-wrap gap-4">
+          <motion.div {...rise(0.3)} className="mt-10 flex flex-wrap gap-4">
             <Magnetic>
               <Link
                 href="/contact"
-                className="kicker inline-block bg-accent px-5 py-3 !text-paper transition-colors hover:bg-ink-soft"
+                className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
               >
                 Book a demo
               </Link>
             </Magnetic>
             <Magnetic strength={0.15}>
-              <a
-                href="#reports"
-                className="kicker inline-block border border-rule px-5 py-3 !text-ink-soft transition-colors hover:border-accent-deep hover:!text-ink"
+              <Link
+                href="/reports"
+                transitionTypes={["nav-forward"]}
+                className="kicker inline-block border border-rule px-6 py-3.5 !text-ink-soft transition-colors hover:border-accent-deep hover:!text-ink"
               >
-                See what it makes
-              </a>
+                See what it makes &rarr;
+              </Link>
             </Magnetic>
           </motion.div>
 
@@ -74,7 +79,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <motion.div {...rise(0.35)} style={{ y: markY }}>
+        <motion.div {...rise(0.35)}>
           {/* Museum mount: a sealed frame on warm paper with a faint gilt
               halo, so the mark reads as an exhibited artifact. */}
           <FramePanel className="bg-paper-warm/40">
@@ -87,12 +92,6 @@ export function Hero() {
             </div>
           </FramePanel>
         </motion.div>
-      </div>
-
-      <div className="relative mx-auto max-w-6xl px-5 pb-10">
-        <p className="kicker animate-scroll-cue w-max">
-          the pantheon stirs below &darr;
-        </p>
       </div>
     </section>
   );

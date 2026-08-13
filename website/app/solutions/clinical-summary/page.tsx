@@ -50,7 +50,7 @@ export default function ClinicalSummaryPage() {
         { label: "Financial audit", href: "/solutions/financial-audit" },
         { label: "Flight diagnostics", href: "/solutions/flight-diagnostics" },
         { label: "Security model", href: "/security" },
-        { label: "Platform architecture", href: "/platform" },
+        { label: "How workflows are built", href: "/workflows" },
       ]}
     />
   );

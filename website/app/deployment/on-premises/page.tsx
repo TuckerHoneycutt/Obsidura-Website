@@ -50,7 +50,7 @@ export default function OnPremisesPage() {
         { label: "Private VPC deployment", href: "/deployment/private-vpc" },
         { label: "Obsidura Cloud", href: "/deployment/cloud" },
         { label: "Security model", href: "/security" },
-        { label: "Platform architecture", href: "/platform" },
+        { label: "How workflows are built", href: "/workflows" },
       ]}
     />
   );

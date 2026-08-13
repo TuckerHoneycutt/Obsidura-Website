@@ -6,26 +6,29 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { LogoMark } from "@/components/logo-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { scrollToSection } from "@/lib/scroll-to-section";
+import { CHAPTERS } from "@/lib/chapters";
+import { cn } from "@/lib/utils";
 
-// The "Book a demo" button already carries people to /contact, so the centre
-// row stays on the four homepage chapters rather than crowding in a fifth.
-const SECTION_LINKS = [
-  { label: "Reports", hash: "#reports" },
-  { label: "Workflows", hash: "#definitions" },
-  { label: "Runtime", hash: "#runtime" },
-  { label: "Deploy", hash: "#deploy" },
-] as const;
+// Four of the five chapters fit the centre row; governance reads as part of
+// the same account and stays reachable from the index, the pager, and the
+// mobile panel below.
+const NAV_CHAPTERS = ["reports", "workflows", "runtime", "deploy"];
 
-// The panel repeats the chapters and adds the pages that only the footer
-// otherwise reaches, since a phone has no section rail to fall back on.
+const navChapters = CHAPTERS.filter((c) => NAV_CHAPTERS.includes(c.slug));
+
+// The panel lists every chapter, then the pages that only the footer
+// otherwise reaches.
 const PANEL_PAGES = [
-  { label: "Platform", href: "/platform" },
   { label: "Integrations", href: "/integrations" },
   { label: "Security", href: "/security" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ] as const;
+
+/** Chapter titles double as their nav labels, capitalised from the slug. */
+function label(slug: string) {
+  return slug.charAt(0).toUpperCase() + slug.slice(1);
+}
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -85,21 +88,14 @@ export function Nav() {
     };
   }, [open, close]);
 
-  function onSectionClick(e: React.MouseEvent, hash: string) {
-    // Already on the homepage: scroll in place. A soft nav to "/#runtime"
-    // remounts the whole page and feels like lag.
-    if (pathname === "/") {
-      e.preventDefault();
-      close();
-      scrollToSection(hash);
-    }
-  }
-
   return (
     <motion.header
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
+      // Named so the directional slide leaves it alone: the header is the
+      // fixed point that tells you the page moved, not the viewport.
+      style={{ viewTransitionName: "site-header" }}
       className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm"
     >
       <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[1fr_auto_1fr]">
@@ -110,17 +106,24 @@ export function Nav() {
           </span>
         </Link>
         <div className="hidden items-center justify-center gap-8 sm:flex">
-          {SECTION_LINKS.map((link) => (
-            <Link
-              key={link.hash}
-              href={`/${link.hash}`}
-              scroll={false}
-              onClick={(e) => onSectionClick(e, link.hash)}
-              className="link-sweep font-display text-[15px] font-medium tracking-[0.2em] text-ink-mute uppercase transition-colors hover:text-ink"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navChapters.map((chapter) => {
+            const href = `/${chapter.slug}`;
+            const current = pathname === href;
+            return (
+              <Link
+                key={chapter.slug}
+                href={href}
+                transitionTypes={["nav-forward"]}
+                aria-current={current ? "page" : undefined}
+                className={cn(
+                  "link-sweep font-display text-[15px] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
+                  current ? "text-ink" : "text-ink-mute"
+                )}
+              >
+                {label(chapter.slug)}
+              </Link>
+            );
+          })}
         </div>
         <div className="flex items-center justify-end gap-3">
           <ThemeToggle />
@@ -156,17 +159,20 @@ export function Nav() {
             className="overflow-hidden border-t border-rule bg-paper sm:hidden"
           >
             <div className="px-6 py-6">
-              <p className="kicker !text-[10px] text-accent">the homepage</p>
+              <p className="kicker !text-[10px] text-accent">the account</p>
               <ul className="mt-3 space-y-1">
-                {SECTION_LINKS.map((link) => (
-                  <li key={link.hash}>
+                {CHAPTERS.map((chapter) => (
+                  <li key={chapter.slug}>
                     <Link
-                      href={`/${link.hash}`}
-                      scroll={false}
-                      onClick={(e) => onSectionClick(e, link.hash)}
-                      className="font-display block py-2 text-2xl font-light tracking-tight"
+                      href={`/${chapter.slug}`}
+                      transitionTypes={["nav-forward"]}
+                      onClick={close}
+                      className="font-display flex items-baseline gap-3 py-2 text-2xl font-light tracking-tight"
                     >
-                      {link.label}
+                      <span className="kicker w-6 shrink-0 text-accent">
+                        {chapter.numeral}
+                      </span>
+                      {label(chapter.slug)}
                     </Link>
                   </li>
                 ))}

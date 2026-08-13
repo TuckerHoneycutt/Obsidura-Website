@@ -98,7 +98,24 @@ export default function RootLayout({
             {/* Nav and Footer live in the layout so they persist across
                 client navigations; only the page content transitions. */}
             <Nav />
-            <ViewTransition enter="page-enter" exit="page-exit">
+            {/*
+              Links that move between chapters declare their direction with
+              transitionTypes, and the page slides to match: forward pushes
+              left, back pushes right. Untagged navigations (deep links, the
+              browser's own back button) fall through to the plain rise.
+            */}
+            <ViewTransition
+              enter={{
+                "nav-forward": "nav-forward",
+                "nav-back": "nav-back",
+                default: "page-enter",
+              }}
+              exit={{
+                "nav-forward": "nav-forward",
+                "nav-back": "nav-back",
+                default: "page-exit",
+              }}
+            >
               {children}
             </ViewTransition>
             <Footer />

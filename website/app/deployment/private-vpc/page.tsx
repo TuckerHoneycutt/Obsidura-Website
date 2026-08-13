@@ -44,7 +44,7 @@ export default function PrivateVpcPage() {
         { label: "Obsidura Cloud", href: "/deployment/cloud" },
         { label: "On-premises deployment", href: "/deployment/on-premises" },
         { label: "Security model", href: "/security" },
-        { label: "Platform architecture", href: "/platform" },
+        { label: "How workflows are built", href: "/workflows" },
       ]}
     />
   );

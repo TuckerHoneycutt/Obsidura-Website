@@ -52,7 +52,7 @@ something the spec backs — treat it as the intended shape rather than shipped.
 
 ## This package
 
-This folder is the **Obsidura marketing site** (Next.js App Router): homepage, product pages, solutions, deployment docs, security, FAQ, privacy, and contact. It lives at `website/` in the company monorepo.
+This folder is the **Obsidura marketing site** (Next.js App Router). The homepage is a door: one claim and an index of five chapters — reports, workflows, governance, runtime, deploy — each with a page of its own. Below them sit the detail pages: solutions, deployment, security, integrations, FAQ, privacy, and contact. It lives at `website/` in the company monorepo.
 
 | | |
 | --- | --- |
@@ -110,6 +110,6 @@ Contact submissions hit `POST /api/contact`. Keep secrets in `.env.local`.
 ## Links
 
 - Site: [obsidura.com](https://obsidura.com)
-- Platform: [obsidura.com/platform](https://obsidura.com/platform)
+- Workflows: [obsidura.com/workflows](https://obsidura.com/workflows)
 - Security: [obsidura.com/security](https://obsidura.com/security)
 - Contact: [obsidura.com/contact](https://obsidura.com/contact)

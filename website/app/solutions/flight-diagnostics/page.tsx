@@ -49,7 +49,7 @@ export default function FlightDiagnosticsPage() {
       related={[
         { label: "Financial audit", href: "/solutions/financial-audit" },
         { label: "Clinical summaries", href: "/solutions/clinical-summary" },
-        { label: "Platform architecture", href: "/platform" },
+        { label: "How workflows are built", href: "/workflows" },
         { label: "Integrations", href: "/integrations" },
       ]}
     />

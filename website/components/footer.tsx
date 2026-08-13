@@ -5,9 +5,18 @@ import { MeanderFrieze, MeanderMark } from "@/components/ui/meander-mark";
 
 const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[] = [
   {
+    heading: "the account",
+    links: [
+      { label: "Reports", href: "/reports" },
+      { label: "Workflows", href: "/workflows" },
+      { label: "Governance", href: "/governance" },
+      { label: "Runtime", href: "/runtime" },
+      { label: "Deployment", href: "/deploy" },
+    ],
+  },
+  {
     heading: "platform",
     links: [
-      { label: "Architecture", href: "/platform" },
       { label: "Integrations", href: "/integrations" },
       { label: "Security", href: "/security" },
       { label: "FAQ", href: "/faq" },

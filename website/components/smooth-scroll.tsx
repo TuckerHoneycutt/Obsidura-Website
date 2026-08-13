@@ -6,9 +6,9 @@ import "lenis/dist/lenis.css";
 import "@/lib/scroll-to-section";
 
 /**
- * Lenis-powered smooth scrolling. Wheel and touch scrolling are eased, and
- * in-page anchor clicks (nav, CTAs, section rail) animate to their target.
- * Disabled entirely when the user prefers reduced motion.
+ * Lenis-powered smooth scrolling: wheel and touch scrolling are eased, and
+ * anchor clicks animate to their target. Disabled entirely when the user
+ * prefers reduced motion.
  */
 export function SmoothScroll() {
   useEffect(() => {
@@ -21,7 +21,7 @@ export function SmoothScroll() {
         offset: -64, // clear the sticky nav
       },
     });
-    // Exposed for same-page nav section jumps (see scrollToSection).
+    // Exposed so the nav can pause it while the mobile panel is open.
     window.__lenis = lenis;
 
     let raf = requestAnimationFrame(function loop(time) {

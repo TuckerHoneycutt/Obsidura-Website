@@ -183,15 +183,13 @@ function ReportCard({ report }: { report: Report }) {
 }
 
 /**
- * The artifact chapter: what Pantheon actually hands back. The spec's demo
- * runs beauty first and governance second, so the reports lead and the run
- * log follows them.
+ * The body of the artifacts chapter.
  *
  * The three cards resolve one at a time behind a ticking run, because "three
  * reports materialize in their browser" is the thing being sold, and a page
  * that simply has them sitting there does not show it.
  */
-export function Reports() {
+export function ReportsBody() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
   const reduced = useReducedMotion();
@@ -211,25 +209,11 @@ export function Reports() {
   const shown = done ? REPORTS.length : Math.max(step - 1, 0);
 
   return (
-    <section id="reports" className="relative border-t border-rule">
+    <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-20 lg:py-28">
-        <Reveal className="max-w-2xl">
-          <p className="kicker text-accent">ii &mdash; the artifacts</p>
-          <h2 className="font-display mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
-            One prompt in.{" "}
-            <span className="headline-emph">Three reports out.</span>
-          </h2>
-          <p className="lede-copy mt-6">
-            Someone asks a question in plain language. Agents gather what that
-            person is permitted to see across your databases, object stores,
-            and internal APIs, and a deterministic render task composes the
-            answer into a report you can open, read, and hand to someone else.
-          </p>
-        </Reveal>
-
+      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
         {/* The request that starts the run, shown as the demo shell sends it. */}
-        <Reveal delay={0.1} className="mt-10">
+        <Reveal>
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
               <span className="kicker !text-[10px]">

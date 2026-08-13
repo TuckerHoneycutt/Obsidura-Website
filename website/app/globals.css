@@ -330,6 +330,70 @@ html.light .logo-invert {
     420ms cubic-bezier(0.21, 0.47, 0.32, 0.98) both vt-rise;
 }
 
+/*
+ * Directional chapter navigation. Horizontal movement carries history:
+ * forward pushes the page left, back pushes it right. The offset is small on
+ * purpose - enough to say which way you went, not so much that the reader
+ * has to track something sliding across the screen.
+ *
+ * The exit is quick and the enter is slower and delayed behind it, so the
+ * outgoing page stops competing for attention before the new one arrives.
+ */
+::view-transition-old(.nav-forward) {
+  --vt-slide: -56px;
+  animation:
+    140ms ease-in both vt-fade reverse,
+    380ms cubic-bezier(0.21, 0.47, 0.32, 0.98) both vt-slide reverse;
+}
+
+::view-transition-new(.nav-forward) {
+  --vt-slide: 56px;
+  animation:
+    220ms ease-out 140ms both vt-fade,
+    380ms cubic-bezier(0.21, 0.47, 0.32, 0.98) both vt-slide;
+}
+
+::view-transition-old(.nav-back) {
+  --vt-slide: 56px;
+  animation:
+    140ms ease-in both vt-fade reverse,
+    380ms cubic-bezier(0.21, 0.47, 0.32, 0.98) both vt-slide reverse;
+}
+
+::view-transition-new(.nav-back) {
+  --vt-slide: -56px;
+  animation:
+    220ms ease-out 140ms both vt-fade,
+    380ms cubic-bezier(0.21, 0.47, 0.32, 0.98) both vt-slide;
+}
+
+@keyframes vt-slide {
+  from {
+    translate: var(--vt-slide);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+/*
+ * The header must not travel with the content. It is the one fixed point
+ * that tells the reader the page moved rather than the whole viewport, and
+ * hiding the outgoing snapshot avoids a flash of two stacked headers.
+ */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
 @keyframes vt-fade {
   from {
     opacity: 0;

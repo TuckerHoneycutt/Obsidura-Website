@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { CHAPTERS } from "@/lib/chapters";
 
 const BASE_URL = "https://obsidura.com";
 
@@ -10,12 +11,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
-    {
-      url: `${BASE_URL}/platform`,
+    // The five chapters, straight off the same list the nav and pager read.
+    ...CHAPTERS.map((chapter) => ({
+      url: `${BASE_URL}/${chapter.slug}`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
       priority: 0.8,
-    },
+    })),
     {
       url: `${BASE_URL}/integrations`,
       lastModified: new Date(),

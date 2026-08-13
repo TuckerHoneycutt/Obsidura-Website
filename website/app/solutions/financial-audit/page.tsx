@@ -58,7 +58,7 @@ export default function FinancialAuditPage() {
       related={[
         { label: "Flight diagnostics", href: "/solutions/flight-diagnostics" },
         { label: "Clinical summaries", href: "/solutions/clinical-summary" },
-        { label: "Platform architecture", href: "/platform" },
+        { label: "How workflows are built", href: "/workflows" },
         { label: "Security model", href: "/security" },
       ]}
     />

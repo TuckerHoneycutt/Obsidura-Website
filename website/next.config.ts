@@ -61,11 +61,17 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // The solutions pages were retargeted to the three verticals in the spec.
-  // Keep the old paths resolving so anything already linked or indexed lands
-  // on the page that replaced it.
+  // Old paths keep resolving so anything already linked or indexed lands on
+  // the page that replaced it.
   async redirects() {
     return [
+      // /platform was split into the chapter pages; workflows is the part
+      // that carried most of it.
+      {
+        source: "/platform",
+        destination: "/workflows",
+        permanent: true,
+      },
       {
         source: "/solutions/finance-operations",
         destination: "/solutions/financial-audit",

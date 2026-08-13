@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { EngravedPlate } from "@/components/ui/engraved-plate";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
@@ -211,42 +210,15 @@ const VALUES: [string, string][] = [
  * graph compiled out of it - and hovering either side lights up the other,
  * which is the whole argument for deriving edges instead of drawing them.
  */
-export function Definition() {
+export function WorkflowsBody() {
   const [active, setActive] = useState<Ref | null>(null);
   const lit = (ref: Ref) => active === ref;
 
   return (
-    <section
-      id="definitions"
-      className="relative border-t border-rule bg-paper-warm/60"
-    >
+    <section className="relative border-t border-rule bg-paper-warm/60">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-20 lg:py-28">
-        <Reveal className="flex items-start justify-between gap-10">
-          <div className="max-w-2xl">
-            <p className="kicker text-accent">iii &mdash; the labors</p>
-            <h2 className="font-display mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
-              Workflows are data,{" "}
-              <span className="headline-emph">not code.</span>
-            </h2>
-            <p className="lede-copy mt-6">
-              A workflow is a set of YAML definitions that compile into a
-              typed graph before anything runs. They diff in review like any
-              other file, and a mismatched pair of tasks is caught when you
-              plan, not at three in the morning when it runs.
-            </p>
-          </div>
-          <div className="hidden shrink-0 xl:block">
-            <EngravedPlate
-              name="herakles"
-              className="bg-paper"
-              preClassName="text-[3px] leading-[3.3px]"
-              lineHeight={3.3}
-            />
-          </div>
-        </Reveal>
-
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
           <Reveal delay={0.1}>
             <FramePanel className="bg-paper">
               <div className="flex items-center justify-between border-b border-rule px-4 py-2">

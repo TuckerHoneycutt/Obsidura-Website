@@ -1,4 +1,3 @@
-import { EngravedPlate } from "@/components/ui/engraved-plate";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
@@ -106,28 +105,12 @@ function RequesterCard({ requester }: { requester: Requester }) {
  * claim a reader can check at a glance: same prompt, same definitions, two
  * reports. The run log follows as the evidence.
  */
-export function Governance() {
+export function GovernanceBody() {
   return (
-    <section id="governance" className="relative border-t border-rule">
+    <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-20 lg:py-28">
-        <Reveal className="max-w-3xl">
-          <p className="kicker text-accent">iv &mdash; the ledger</p>
-          <h2 className="font-display mt-6 text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.06] font-light tracking-tight">
-            Two people ask the same question.{" "}
-            <span className="headline-emph">
-              They get different answers.
-            </span>
-          </h2>
-          <p className="lede-copy mt-6 max-w-2xl">
-            Permissions are not a filter an agent is asked politely to
-            respect. Every resource call goes through a proxy holding the
-            credentials, checked against the grants minted for that run, and
-            the container never sees a secret at all.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.1} className="mt-10">
+      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+        <Reveal>
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
               <span className="kicker !text-[10px]">
@@ -196,11 +179,6 @@ export function Governance() {
                 </li>
               ))}
             </ul>
-            {/* Athena's owl closes the column, the way the engraved plates
-                close the other chapters. */}
-            <div className="mt-10 hidden lg:block">
-              <EngravedPlate name="athena-owl" />
-            </div>
           </Reveal>
         </div>
       </div>

@@ -64,7 +64,7 @@ export default function IntegrationsPage() {
         },
       ]}
       related={[
-        { label: "Platform architecture", href: "/platform" },
+        { label: "How workflows are built", href: "/workflows" },
         { label: "Security model", href: "/security" },
         { label: "Financial audit", href: "/solutions/financial-audit" },
         { label: "Clinical summaries", href: "/solutions/clinical-summary" },
