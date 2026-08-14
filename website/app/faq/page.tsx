@@ -4,7 +4,7 @@ import { MeanderMark } from "@/components/ui/meander-mark";
 export const metadata: Metadata = {
   title: "FAQ - Obsidura",
   description:
-    "Common questions about Obsidura: how AI agents connect to your backend, how escalation and audit logs work, and where the platform can be deployed.",
+    "Common questions about Pantheon: what it can automate, how work is triggered, how agents reach your systems, how permissions and audit logs work, and where it can be deployed.",
   alternates: {
     canonical: "/faq",
   },
@@ -15,11 +15,27 @@ export const metadata: Metadata = {
 const QUESTIONS = [
   {
     q: "What is Obsidura?",
-    a: "Obsidura is an enterprise AI agent orchestration platform. Agents connect to your systems of record - databases, APIs, and business applications - execute routine operational work, and escalate to a human only when judgment is required.",
+    a: "Obsidura is the company. Pantheon is the product: a workflow automation platform that lets people define, run, and manage reliable processes - ordinary scripted tasks and AI agents in the same job. It connects the systems your information is scattered across, runs work across them on a schedule or on demand, and escalates to a person where you say it must.",
   },
   {
     q: "What is Pantheon?",
-    a: "A workflow orchestration engine where definitions are data, not code. Your YAML compiles into a typed graph held in Postgres, a Rust executor instantiates runs from it, task bodies run in containers speaking JSON-RPC over stdio, and every resource call passes through a proxy scoped to that run.",
+    a: "In plain terms, a place to define, run, and manage reliable processes. Underneath, a workflow orchestration engine where definitions are data, not code: your YAML compiles into a typed graph held in Postgres, a Rust executor instantiates runs from it, task bodies run in containers speaking JSON-RPC over stdio, and every resource call passes through a proxy scoped to that run.",
+  },
+  {
+    q: "What kinds of work can it automate?",
+    a: "Anything software and data can touch. A month-end performance pack, a nightly ledger reconciliation, diagnostics over rocket test telemetry checked against the standard a programme is held to, a clinical cohort summary, standing up a new network segment with a human gate on the change, matching invoices against purchase orders, or turning the office lights on. To the engine these are the same shape: a task, a permission, a check, and a record.",
+  },
+  {
+    q: "Does it only produce reports?",
+    a: "No. Reports are the example we lead with because the result is something you can see on a page, and because a report exercises the hard parts - many systems, per-person permissions, large data, a polished artifact. A job whose result is a provisioned network, a filed record, a notified person, or a switched-on light runs through exactly the same five steps.",
+  },
+  {
+    q: "Does someone have to ask for every run?",
+    a: "No. A run starts from a schedule, from another system calling in, or from a person - a button in an internal tool or a sentence typed in plain English. The definitions are identical either way; only the trigger on the front of the job differs, so a process written to be called can be put on a schedule without rewriting it.",
+  },
+  {
+    q: "Are the AI agents doing everything?",
+    a: "No, and that is deliberate. A task is either a traditional scripted task or an agent, and both run the same way. Agents are used where judgment is genuinely required - reading a mess of data and deciding what matters - while deterministic steps handle everything that should never vary, like composing the final artifact or writing a record. An agent is an ordinary task carrying extra policy, not a special execution path.",
   },
   {
     q: "How do agents access our systems?",
@@ -50,7 +66,7 @@ const QUESTIONS = [
     a: "No, and it is an architectural rule rather than an intention. No framework is hardcoded at the executor level. The harness is a leaf dependency inside the runner image, so swapping it touches no engine code.",
   },
   {
-    q: "Where can Obsidura run?",
+    q: "Where can Pantheon run?",
     a: "Three deployment options: our managed cloud, a private VPC inside your own cloud account, or on-premises on your hardware with no outbound calls. The security model is the same in all three.",
   },
   {
@@ -87,9 +103,9 @@ export default function FaqPage() {
               <span className="headline-emph">questions.</span>
             </h1>
             <p className="lede-copy mt-6 max-w-xl">
-              How the platform works, how agents touch your systems, and
-              where everything runs. Something missing? Send word through
-              the contact page.
+              What Pantheon can automate, how a run starts, how it touches
+              your systems, and where everything runs. Something missing?
+              Send word through the contact page.
             </p>
 
             <dl className="mt-14 divide-y divide-rule border-y border-rule">

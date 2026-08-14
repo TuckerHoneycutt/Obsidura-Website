@@ -1,0 +1,11 @@
+{
+  "run_id": "r-2026-08-12-a1",
+  "task_id": "t-fetch-ledger",
+  "attempt": 1,
+  "schema": "finance.LedgerExtract@1",
+  "producer": "finance.fetch_ledger@1",
+  "caused_by": 3,
+  "taint": [],
+  "budget_spent": {"tokens": 0, "ms": 41},
+  "ts": "2026-08-12T09:15:00Z"
+}

@@ -4,7 +4,7 @@ import { Subpage } from "@/components/subpage";
 export const metadata: Metadata = {
   title: "AI Agents for Clinical Summaries | Obsidura",
   description:
-    "A Pantheon pipeline that composes patient records and scan images into a report scoped to the requester - two people, the same prompt, different reports, with every scope decision in the run log.",
+    "A Pantheon automation that composes patient records and scan images into a report scoped to the requester - two people, the same prompt, different reports, with every scope decision in the run log.",
   alternates: {
     canonical: "/solutions/clinical-summary",
   },
@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 export default function ClinicalSummaryPage() {
   return (
     <Subpage
-      kicker="the labors &mdash; clinical summaries"
+      kicker="a worked example &mdash; clinical summaries"
       headlineLead="Agents for"
       headlineEmph="clinical summaries."
-      lede="This is the pipeline that carries the governance argument. Patient records live in Postgres and scan images live in object storage, and the report that comes back depends entirely on who asked for it. Two people issue the same prompt; one report contains fewer patients; the log shows exactly which decisions produced the difference."
+      lede="The job that carries the governance argument, and the reason the same automation can be handed to a whole department. Patient records live in Postgres and scan images live in object storage, and what comes back depends entirely on who asked. Two people issue the same prompt; one report contains fewer patients; the log shows exactly which decisions produced the difference."
       sections={[
         {
           heading: "Permission is not a filter applied afterwards",
@@ -47,6 +47,7 @@ export default function ClinicalSummaryPage() {
         },
       ]}
       related={[
+        { label: "What else Pantheon runs", href: "/automations" },
         { label: "Financial audit", href: "/solutions/financial-audit" },
         { label: "Flight diagnostics", href: "/solutions/flight-diagnostics" },
         { label: "Security model", href: "/security" },

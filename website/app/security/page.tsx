@@ -4,7 +4,7 @@ import { romanNumeral } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Security - Obsidura",
   description:
-    "How Obsidura handles credentials, sandboxing, audit logs, and deployment isolation when AI agents operate against your backend systems.",
+    "How Obsidura handles credentials, sandboxing, audit logs, and deployment isolation when automations - agents and scripts alike - run against your systems, scheduled or on demand.",
   alternates: {
     canonical: "/security",
   },
@@ -58,10 +58,11 @@ export default function SecurityPage() {
               <span className="headline-emph">the architecture.</span>
             </h1>
             <p className="lede-copy mt-6 max-w-xl">
-              Obsidura asks for a connection to your systems of record, so
-              the burden of proof is on us. These are the principles the
-              platform is built around - not bolted on. Where something is
-              recorded today but not yet enforced, it says so.
+              Pantheon asks to run work against your systems, much of it
+              while nobody is watching, so the burden of proof is on us.
+              These are the principles the platform is built around - not
+              bolted on. Where something is recorded today but not yet
+              enforced, it says so.
             </p>
 
             <ol className="mt-14 divide-y divide-rule border-y border-rule">

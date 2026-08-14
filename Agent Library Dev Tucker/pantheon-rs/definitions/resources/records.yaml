@@ -1,0 +1,6 @@
+kind: resource
+name: records
+version: 1
+summary: Patient records. Row-level scope is enforced per user by the proxy.
+connector: postgres
+verbs: [query]

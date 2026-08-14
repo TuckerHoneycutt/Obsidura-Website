@@ -1,0 +1,8 @@
+{
+  "kind": "table",
+  "blob": "sha256:ef56",
+  "format": "csv",
+  "columns": [
+    {"name": "t", "type": "float"}
+  ]
+}

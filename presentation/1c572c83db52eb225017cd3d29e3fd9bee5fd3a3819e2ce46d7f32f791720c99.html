@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; font-src https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Briefing — June 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  :root{
+    --navy:#0f1b2d; --black:#0a1119; --panel:#14263c;
+    --ink:#eaf0f7; --ink2:#9fb3c8; --brass:#c8a24a;
+    --gain:#3fae7a; --loss:#d0635f;
+    --usd:#7db9d8; --eur:#c8a24a; --jpy:#8f7cc4; --gbp:#5fae8f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--black); color:var(--ink);
+    font-family:'Inter',sans-serif; overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  .num{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+
+  /* ---- rail ---- */
+  .rail{
+    position:fixed; left:26px; top:50%; transform:translateY(-50%);
+    z-index:40; display:flex; flex-direction:column; gap:14px;
+  }
+  .rail button{
+    width:11px;height:11px;border-radius:50%;border:1px solid #3a5372;
+    background:transparent;cursor:pointer;padding:0;transition:.35s;
+    position:relative;
+  }
+  .rail button::after{
+    content:attr(data-label);position:absolute;left:22px;top:50%;
+    transform:translateY(-50%);white-space:nowrap;font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);
+    opacity:0;transition:.3s;pointer-events:none;
+  }
+  .rail button:hover::after{opacity:1}
+  .rail button.on{background:var(--brass);border-color:var(--brass);transform:scale(1.35)}
+  .rail button.on::after{opacity:1;color:var(--brass)}
+
+  .hint{
+    position:fixed;right:30px;bottom:26px;z-index:40;
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink2);display:flex;align-items:center;gap:10px;
+  }
+  .hint .k{border:1px solid #33506f;border-radius:5px;padding:2px 7px;font-size:10px}
+  .hint .arrow{display:inline-block;animation:nudge 1.8s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+
+  .swiper{width:100vw;height:100vh}
+  .panel{
+    height:100vh;width:100vw;display:flex;flex-direction:column;
+    justify-content:center;padding:64px clamp(30px,7vw,140px);
+    position:relative;
+  }
+  .eyebrow{
+    font-size:12px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--brass);font-weight:600;margin-bottom:20px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .eyebrow .idx{font-family:'JetBrains Mono',monospace;color:var(--ink2);letter-spacing:0}
+  .eyebrow .line{height:1px;width:52px;background:#33506f}
+  h1{font-family:'Fraunces',serif;font-weight:900;line-height:.92;letter-spacing:-.02em}
+  h2{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.01em}
+  .lede{color:var(--ink2);max-width:560px;line-height:1.6;font-size:15px}
+
+  /* ---- panel 1 hero ---- */
+  .flag{display:flex;flex-direction:column;justify-content:center;height:100%}
+  .flag .period{font-size:clamp(13px,1.4vw,16px);color:var(--ink2);letter-spacing:.05em;margin-bottom:10px}
+  .flag h1{font-size:clamp(56px,12vw,168px);margin:6px 0 2px}
+  .bignum{
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(58px,13.5vw,196px);line-height:.9;
+    color:var(--brass);letter-spacing:-.03em;
+  }
+  .bignum .cur{font-size:.4em;vertical-align:top;color:var(--ink);margin-right:.08em}
+  .flag .sub{margin-top:26px;display:flex;gap:40px;flex-wrap:wrap}
+  .flag .sub div{border-left:2px solid #33506f;padding-left:16px}
+  .flag .sub .v{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500}
+  .flag .sub .l{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin-top:3px}
+
+  .chartwrap{position:relative;width:100%}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr;gap:34px}}
+
+  table.tab{width:100%;border-collapse:collapse;font-size:13px}
+  table.tab th{
+    text-align:left;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink2);font-weight:600;padding:0 0 10px;border-bottom:1px solid #24405e;
+  }
+  table.tab td{padding:9px 0;border-bottom:1px solid #1a3049}
+  table.tab td.n{font-family:'JetBrains Mono',monospace;text-align:right;font-variant-numeric:tabular-nums}
+  table.tab tr:last-child td{border-bottom:none}
+  .swatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:9px;vertical-align:middle}
+
+  .chips{display:flex;flex-direction:column;gap:14px;max-width:560px}
+  .chip{background:var(--panel);border:1px solid #23405e;border-radius:12px;padding:16px 18px;display:flex;gap:15px;align-items:flex-start}
+  .chip .badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--brass);border:1px solid #4a5f3a;background:rgba(200,162,74,.08);border-radius:6px;padding:3px 8px;flex-shrink:0;font-weight:700}
+  .chip .warn{color:var(--loss);border-color:#5f3a3a;background:rgba(208,99,95,.08)}
+  .chip p{font-size:13.5px;line-height:1.55;color:var(--ink)}
+  .chip p b{color:var(--brass);font-weight:600}
+  .chip p .lo{color:var(--loss);font-weight:600}
+
+  .receipt{
+    font-family:'JetBrains Mono',monospace;background:var(--black);
+    border:1px dashed #33506f;border-radius:10px;padding:22px 24px;
+    font-size:12.5px;line-height:1.85;color:var(--ink2);max-width:440px;
+    box-shadow:inset 0 0 60px rgba(200,162,74,.03);
+  }
+  .receipt .hd{color:var(--brass);letter-spacing:.1em;border-bottom:1px solid #24405e;padding-bottom:10px;margin-bottom:12px}
+  .receipt .amt{color:var(--jpy);font-weight:700}
+  .receipt b{color:var(--ink)}
+
+  .toprow{display:flex;align-items:baseline;gap:16px;margin-bottom:6px}
+  .item{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:11px 0;border-bottom:1px solid #1a3049}
+  .item .id{font-family:'JetBrains Mono',monospace;color:var(--ink2);font-size:12px}
+  .item .meta{min-width:0}
+  .item .v{font-family:'Fraunces',serif;color:var(--brass);font-size:20px;font-weight:600;white-space:nowrap}
+  .item .vn{font-family:'JetBrains Mono',monospace;color:var(--ink);font-size:20px;font-weight:500;white-space:nowrap}
+  .item .who{font-weight:600;font-size:14px}
+  .item .det{font-size:11px;color:var(--ink2);letter-spacing:.02em}
+  .curtag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;margin-left:8px}
+  .tag-USD{background:rgba(125,185,216,.16);color:var(--usd)}
+  .tag-EUR{background:rgba(200,162,74,.16);color:var(--eur)}
+  .tag-JPY{background:rgba(143,124,196,.18);color:var(--jpy)}
+  .tag-GBP{background:rgba(95,174,143,.16);color:var(--gbp)}
+
+  .kick{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,58px);font-weight:900;line-height:1;margin-bottom:14px}
+  .kick .brass{color:var(--brass)}
+
+  .conc{display:flex;gap:6px;height:44px;border-radius:8px;overflow:hidden;margin:22px 0 8px}
+  .conc span{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#0a1119;white-space:nowrap;overflow:hidden}
+
+  ::-webkit-scrollbar{width:0;height:0}
+  @media(max-width:600px){
+    .panel{padding:56px 22px}
+    .rail{left:12px}
+    .hint{right:14px;bottom:14px;font-size:10px}
+    .item{grid-template-columns:auto 1fr;grid-template-rows:auto auto}
+    .item .v,.item .vn{grid-column:2;text-align:left;font-size:17px;margin-top:2px}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="rail" id="rail"></div>
+<div class="hint">Scroll or <span class="k">→</span> to advance <span class="arrow">›</span></div>
+
+<div class="swiper">
+<div class="swiper-wrapper">
+
+  <!-- PANEL 1 — flagship -->
+  <div class="swiper-slide">
+    <div class="panel flag">
+      <div class="eyebrow"><span class="idx">01 / 06</span><span class="line"></span>Last complete period</div>
+      <div class="period">June 2026 · 1–30 · 30 ledger lines · all currencies converted to USD</div>
+      <h1 style="font-size:clamp(22px,3.2vw,40px);color:var(--ink2);font-weight:400;margin-bottom:10px">June's spend came to</h1>
+      <div class="bignum"><span class="cur">$</span><span id="hero" class="num">13,548.32</span></div>
+      <div class="sub">
+        <div><div class="v">4</div><div class="l">Currencies</div></div>
+        <div><div class="v">5</div><div class="l">Departments</div></div>
+        <div><div class="v">8</div><div class="l">Vendors</div></div>
+        <div><div class="v">30</div><div class="l">Transactions</div></div>
+      </div>
+      <p class="lede" style="margin-top:26px">The full figure carries six decimals — <span class="num" style="color:var(--brass)">$13,548.318861</span> — because Japanese yen, euros and pounds were each converted to dollars before being summed. July is excluded: it holds only 3 rows on a single day and isn't a complete month.</p>
+    </div>
+  </div>
+
+  <!-- PANEL 2 — currency mix -->
+  <div class="swiper-slide">
+    <div class="panel">
+      <div class="eyebrow"><span class="idx">02 / 06</span><span class="line"></span>Where it came from</div>
+      <div class="grid2">
+        <div>
+          <h2 style="font-size:clamp(28px,3.8vw,46px);margin-bottom:16px">Four currencies,<br>one honest total</h2>
+          <p class="lede">Dollars and euros lead. Yen looks huge in native units but shrinks after conversion — the reason every figure here is dollar-normalised before it's added up.</p>
+          <table class="tab" style="margin-top:26px">
+            <thead><tr><th>Currency</th><th style="text-align:right">Rows</th><th style="text-align:right">Native</th><th style="text-align:right">USD</th></tr></thead>
+            <tbody>
+              <tr><td><span class="swatch" style="background:var(--usd)"></span>USD</td><td class="n">11</td><td class="n">4,845.53</td><td class="n">4,845.53</td></tr>
+              <tr><td><span class="swatch" style="background:var(--eur)"></span>EUR</td><td class="n">10</td><td class="n">3,675.11</td><td class="n">4,005.87</td></tr>
+              <tr><td><span class="swatch" style="background:var(--jpy)"></span>JPY</td><td class="n">7</td><td class="n">468,347.83</td><td class="n">3,137.93</td></tr>
+              <tr><td><span class="swatch" style="background:var(--gbp)"></span>GBP</td><td class="n">2</td><td class="n">1,227.55</td><td class="n">1,558.99</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:11px;color:var(--ink2);margin-top:14px;letter-spacing:.03em">Rates × native: EUR 1.09 · GBP 1.27 · JPY 0.0067 · USD 1.0</p>
+        </div>
+        <div class="chartwrap" style="height:min(58vh,440px)"><canvas id="cCur"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3 — departments -->
+  <div class="swiper-slide">
+    <div class="panel">
+      <div class="eyebrow"><span class="idx">03 / 06</span><span class="line"></span>Who spent it</div>
+      <div class="grid2">
+        <div class="chartwrap" style="height:min(58vh,440px)"><canvas id="cDept"></canvas></div>
+        <div>
+          <h2 style="font-size:clamp(28px,3.8vw,46px);margin-bottom:16px"><span style="color:var(--brass)">Finance</span> edges out Operations</h2>
+          <p class="lede">Every department booked exactly <b style="color:var(--ink)">6 rows</b>, so the ranking is about the size of each cheque, not how many were written. Finance leads at <span class="num" style="color:var(--brass)">$3,461.96</span>; Facilities trails at <span class="num">$1,506.23</span> — a 2.3× spread on identical volume.</p>
+          <div class="conc" style="margin-top:30px">
+            <span style="flex:3461.96;background:var(--brass)">Finance</span>
+            <span style="flex:3333.89;background:#a98f5a">Ops</span>
+            <span style="flex:2790.87;background:#7db9d8">Eng</span>
+            <span style="flex:2455.37;background:#5fae8f">Mktg</span>
+            <span style="flex:1506.23;background:#8f7cc4">Fac.</span>
+          </div>
+          <p style="font-size:11px;color:var(--ink2);letter-spacing:.03em">Share of the $13,548.32 total, to scale</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 4 — vendors -->
+  <div class="swiper-slide">
+    <div class="panel">
+      <div class="eyebrow"><span class="idx">04 / 06</span><span class="line"></span>Concentration</div>
+      <h2 style="font-size:clamp(28px,3.8vw,46px);margin-bottom:6px">Three vendors, two thirds of the spend</h2>
+      <p class="lede" style="margin-bottom:8px">Borealis Freight, Fathom Metrics and Cirrus Software together take <b>$8,785.16</b> of the $13,548.32 total — about <b>65%</b>. The other five vendors split what's left.</p>
+      <div class="conc" style="height:52px;margin-top:8px">
+        <span style="flex:3112.02;background:var(--brass);color:#0a1119">Borealis · $3,112</span>
+        <span style="flex:2873.27;background:#b79a58">Fathom · $2,873</span>
+        <span style="flex:2799.87;background:#a98f5a">Cirrus · $2,800</span>
+        <span style="flex:4763.16;background:#2a4straight;background:#233b56;color:var(--ink2)">Five others · $4,763</span>
+      </div>
+      <div class="grid2" style="margin-top:8px">
+        <div class="chartwrap" style="height:min(46vh,360px)"><canvas id="cVend"></canvas></div>
+        <div>
+          <table class="tab">
+            <thead><tr><th>Vendor</th><th style="text-align:right">Rows</th><th style="text-align:right">USD</th></tr></thead>
+            <tbody>
+              <tr><td>Borealis Freight</td><td class="n">5</td><td class="n">3,112.02</td></tr>
+              <tr><td>Fathom Metrics Co</td><td class="n">6</td><td class="n">2,873.27</td></tr>
+              <tr><td>Cirrus Software</td><td class="n">3</td><td class="n">2,799.87</td></tr>
+              <tr><td>Granite Facilities</td><td class="n">4</td><td class="n">1,388.86</td></tr>
+              <tr><td>Delta Fabrication</td><td class="n">4</td><td class="n">1,378.42</td></tr>
+              <tr><td>Equinox Catering</td><td class="n">3</td><td class="n">1,007.20</td></tr>
+              <tr><td>Helio Travel</td><td class="n">2</td><td class="n">524.83</td></tr>
+              <tr><td>Acme Compute</td><td class="n">3</td><td class="n">463.84</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:11px;color:var(--ink2);margin-top:12px;letter-spacing:.03em">Cirrus also holds the two single largest lines (IDs 113 & 118, both Finance/EUR).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 5 — top line items -->
+  <div class="swiper-slide">
+    <div class="panel">
+      <div class="eyebrow"><span class="idx">05 / 06</span><span class="line"></span>Biggest single lines</div>
+      <div class="toprow">
+        <h2 style="font-size:clamp(26px,3.4vw,42px)">Top 10 transactions</h2>
+        <span style="color:var(--ink2);font-size:13px">ranked by USD value</span>
+      </div>
+      <div style="max-width:920px;margin-top:8px">
+        <div class="item"><span class="id">113</span><div class="meta"><div class="who">Cirrus Software <span class="curtag tag-EUR">EUR</span></div><div class="det">2026-06-13 · Finance · €1,004.71</div></div><span class="v">$1,095.13</span></div>
+        <div class="item"><span class="id">118</span><div class="meta"><div class="who">Cirrus Software <span class="curtag tag-EUR">EUR</span></div><div class="det">2026-06-28 · Finance · €891.48</div></div><span class="v">$971.71</span></div>
+        <div class="item"><span class="id">053</span><div class="meta"><div class="who">Borealis Freight <span class="curtag tag-USD">USD</span></div><div class="det">2026-06-13 · Finance</div></div><span class="vn">$968.53</span></div>
+        <div class="item"><span class="id">052</span><div class="meta"><div class="who">Borealis Freight <span class="curtag tag-USD">USD</span></div><div class="det">2026-06-10 · Operations</div></div><span class="vn">$938.94</span></div>
+        <div class="item"><span class="id">175</span><div class="meta"><div class="who">Fathom Metrics Co <span class="curtag tag-USD">USD</span></div><div class="det">2026-06-19 · Engineering</div></div><span class="vn">$896.77</span></div>
+        <div class="item"><span class="id">170</span><div class="meta"><div class="who">Granite Facilities <span class="curtag tag-GBP">GBP</span></div><div class="det">2026-06-04 · Engineering · £696.70</div></div><span class="v">$884.81</span></div>
+        <div class="item"><span class="id">177</span><div class="meta"><div class="who">Delta Fabrication <span class="curtag tag-EUR">EUR</span></div><div class="det">2026-06-25 · Operations · €684.19</div></div><span class="v">$745.77</span></div>
+        <div class="item"><span class="id">057</span><div class="meta"><div class="who">Cirrus Software <span class="curtag tag-JPY">JPY</span></div><div class="det">2026-06-25 · Operations · ¥109,407.06</div></div><span class="v">$733.03</span></div>
+        <div class="item"><span class="id">051</span><div class="meta"><div class="who">Fathom Metrics Co <span class="curtag tag-GBP">GBP</span></div><div class="det">2026-06-07 · Marketing · £530.85</div></div><span class="v">$674.18</span></div>
+        <div class="item"><span class="id">171</span><div class="meta"><div class="who">Fathom Metrics Co <span class="curtag tag-JPY">JPY</span></div><div class="det">2026-06-07 · Marketing · ¥100,590.54</div></div><span class="v">$673.96</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 6 — needs attention + receipt -->
+  <div class="swiper-slide">
+    <div class="panel">
+      <div class="eyebrow"><span class="idx">06 / 06</span><span class="line"></span>Watch this</div>
+      <div class="grid2">
+        <div>
+          <div class="kick">What to <span class="brass">watch</span></div>
+          <div class="chips">
+            <div class="chip"><span class="badge warn">JUL</span><p><b>July isn't a real month yet.</b> The ledger reaches 2026-07-01 but holds only 3 rows on that one day. Reporting it as a "current month" would mislead — June is the last complete period.</p></div>
+            <div class="chip"><span class="badge">FX</span><p><b>Convert yen before you total.</b> Lines 57 (¥109,407) and 171 (¥100,590) look enormous in native units but are only <b>$733.03</b> and <b>$673.96</b>. Summed unconverted, they'd swamp everything.</p></div>
+            <div class="chip"><span class="badge">65%</span><p><b>Vendor concentration.</b> The top three vendors carry <b>$8,785.16</b> — roughly two thirds of the total. A shift at any one of them moves the whole month.</p></div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:14px">Sample receipt — outside period, shown for reference</p>
+          <div class="receipt">
+            <div class="hd">SYNTHETIC RECEIPT — not a real transaction</div>
+            receipt-id: <b>RCPT-0001</b><br>
+            date:       <b>2026-01-08</b><br>
+            vendor:     <b>Cirrus Software</b><br>
+            department: <b>Marketing</b><br>
+            account:    <b>5100-Software</b><br>
+            amount:     <span class="amt">28744.25 JPY</span>
+          </div>
+          <p style="font-size:12px;color:var(--ink2);margin-top:14px;line-height:1.6;max-width:440px">Dated January, so it falls outside June — included as the requested sample. At the 0.0067 rate, ¥28,744.25 ≈ <span class="num" style="color:var(--jpy)">$192.59</span>, one more reminder of the yen face-value gap.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+const C={usd:'#7db9d8',eur:'#c8a24a',jpy:'#8f7cc4',gbp:'#5fae8f',ink:'#eaf0f7',ink2:'#9fb3c8',grid:'#1e3550',brass:'#c8a24a'};
+Chart.defaults.color=C.ink2;
+Chart.defaults.font.family="'JetBrains Mono',monospace";
+Chart.defaults.font.size=11;
+
+const built={};
+function build(i){
+  if(built[i])return; built[i]=true;
+  if(i===1){
+    new Chart(document.getElementById('cCur'),{
+      type:'doughnut',
+      data:{labels:['USD','EUR','JPY','GBP'],
+        datasets:[{data:[4845.53,4005.869900,3137.930461,1558.988500],
+          backgroundColor:[C.usd,C.eur,C.jpy,C.gbp],borderColor:'#0a1119',borderWidth:3,hoverOffset:10}]},
+      options:{maintainAspectRatio:false,cutout:'62%',animation:{animateRotate:true,duration:1100},
+        plugins:{legend:{position:'bottom',labels:{padding:16,boxWidth:11,boxHeight:11,color:C.ink}},
+          tooltip:{callbacks:{label:c=>' '+c.label+'  $'+c.raw.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}}}}
+    });
+  }
+  if(i===2){
+    new Chart(document.getElementById('cDept'),{
+      type:'bar',
+      data:{labels:['Finance','Operations','Engineering','Marketing','Facilities'],
+        datasets:[{data:[3461.957403,3333.886902,2790.873968,2455.368075,1506.232513],
+          backgroundColor:[C.brass,'#a98f5a','#7db9d8','#5fae8f','#8f7cc4'],borderRadius:6,barThickness:34}]},
+      options:{indexAxis:'y',maintainAspectRatio:false,animation:{duration:1000,easing:'easeOutQuart'},
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' $'+c.raw.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}}},
+        scales:{x:{grid:{color:C.grid},ticks:{callback:v=>'$'+(v/1000)+'k'}},y:{grid:{display:false},ticks:{color:C.ink,font:{size:12}}}}}
+    });
+  }
+  if(i===3){
+    new Chart(document.getElementById('cVend'),{
+      type:'bar',
+      data:{labels:['Borealis','Fathom','Cirrus','Granite','Delta','Equinox','Helio','Acme'],
+        datasets:[{data:[3112.020325,2873.270321,2799.874402,1388.864200,1378.422100,1007.198698,524.830000,463.838815],
+          backgroundColor:['#c8a24a','#b79a58','#a98f5a','#4d6a86','#4d6a86','#3e5a76','#33506f','#33506f'],borderRadius:5,barThickness:22}]},
+      options:{indexAxis:'y',maintainAspectRatio:false,animation:{duration:1000},
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' $'+c.raw.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}}},
+        scales:{x:{grid:{color:C.grid},ticks:{callback:v=>'$'+(v/1000)+'k'}},y:{grid:{display:false},ticks:{color:C.ink}}}}
+    });
+  }
+}
+
+// count-up hero
+function countUp(el,target){
+  const dur=1400,t0=performance.now();
+  function f(t){const p=Math.min((t-t0)/dur,1);const e=1-Math.pow(1-p,3);
+    el.textContent=(target*e).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if(p<1)requestAnimationFrame(f);}
+  requestAnimationFrame(f);
+}
+
+const labels=['Total','Currency','Departments','Vendors','Top lines','Watch'];
+const rail=document.getElementById('rail');
+labels.forEach((l,i)=>{const b=document.createElement('button');b.dataset.label=l;b.onclick=()=>sw.slideTo(i);rail.appendChild(b);});
+function setRail(i){[...rail.children].forEach((b,j)=>b.classList.toggle('on',j===i));}
+
+const sw=new Swiper('.swiper',{
+  direction:'horizontal',speed:650,keyboard:true,mousewheel:{thresholdDelta:12},
+  effect:'slide',grabCursor:true,
+  on:{init(){setRail(0);countUp(document.getElementById('hero'),13548.318861);},
+    slideChange(){const i=this.activeIndex;setRail(i);build(i);
+      if(i===0)countUp(document.getElementById('hero'),13548.318861);}}
+});
+build(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; font-src https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://fonts.googleapis.com https://fonts.gstatic.com; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concord General — Ward Census Record</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#f4f6f4; --face:#ffffff; --ink:#1a2320; --slate:#4a5852;
+    --green:#2f8f5b; --red:#c0392b; --line:#d5ddd7;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:44px 44px;background-position:center;background-blend-mode:normal;
+  }
+  body::before{content:"";position:fixed;inset:0;background:var(--ground);opacity:.94;z-index:0;pointer-events:none}
+  .mono{font-family:'IBM Plex Mono',monospace;font-feature-settings:"tnum"}
+  .stage{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 20px 80px}
+  /* census masthead */
+  .masthead{position:sticky;top:0;z-index:30;background:var(--face);border-bottom:2px solid var(--ink);
+    box-shadow:0 1px 0 var(--line);}
+  .mh-inner{max-width:1080px;margin:0 auto;padding:14px 20px;display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .seal{width:22px;height:22px;border:2px solid var(--ink);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+  /* page binder */
+  .binder{position:relative;perspective:2600px;margin-top:40px}
+  .sheet{background:var(--face);border:1px solid var(--line);
+    box-shadow:0 24px 60px -30px rgba(26,35,32,.35);
+    transform-origin:top center;transition:transform .85s cubic-bezier(.65,.02,.24,1),opacity .5s;
+    backface-visibility:hidden;}
+  .sheet.folded{transform:rotateX(-92deg);opacity:0;pointer-events:none;height:0;overflow:hidden;border:none;box-shadow:none;margin:0;padding:0}
+  .corner{position:absolute;top:0;right:0;width:74px;height:74px;cursor:pointer;z-index:10;
+    background:linear-gradient(225deg,var(--ink) 0 50%,transparent 50%);
+    transition:filter .2s;}
+  .corner:hover{filter:brightness(1.4)}
+  .corner:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+  .corner .lbl{position:absolute;top:8px;right:8px;color:#fff;font-size:9px;font-family:'IBM Plex Mono',monospace;transform:rotate(0)}
+  .formband{background:var(--ink);color:var(--face);padding:9px 22px;display:flex;justify-content:space-between;align-items:center;letter-spacing:.14em;font-size:11px}
+  .pad{padding:34px 40px 46px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--slate);text-transform:uppercase}
+  table{width:100%;border-collapse:collapse}
+  th{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);text-align:left;padding:8px 10px;border-bottom:2px solid var(--ink)}
+  td{padding:7px 10px;border-bottom:1px solid var(--line);font-size:13.5px}
+  tr.flag td{background:rgba(192,57,43,.05)}
+  tr:hover td{background:rgba(47,143,91,.06)}
+  tr.flag:hover td{background:rgba(192,57,43,.09)}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%}
+  .pill{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid var(--line);border-radius:2px;color:var(--slate)}
+  .bar{height:22px;background:var(--ink);position:relative;transition:width 1s cubic-bezier(.5,0,.1,1)}
+  .agebar{fill:var(--ink)}
+  .nav-return{background:var(--face);border:1px solid var(--line);padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;cursor:pointer}
+  .nav-return:hover{border-color:var(--ink)}
+  .callout{border-left:4px solid var(--red);background:rgba(192,57,43,.06);padding:16px 20px}
+  .attn{border:1px solid var(--line);padding:16px 18px;background:var(--face)}
+  @media (prefers-reduced-motion:reduce){.sheet{transition:none}}
+  @media print{.sheet.folded{display:none}}
+  .pageno{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--slate)}
+</style>
+</head>
+<body x-data="record()">
+
+  <!-- MASTHEAD: census that stays put -->
+  <div class="masthead">
+    <div class="mh-inner">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="seal">C</span>
+        <div>
+          <div style="font-weight:700;letter-spacing:.02em;font-size:15px">Concord General Hospital</div>
+          <div class="eyebrow" style="font-size:9.5px">Ward Census Record · prepared for alice</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:26px;align-items:baseline">
+        <div><span class="mono" style="font-size:22px;font-weight:600">30</span> <span class="eyebrow" style="font-size:9px">patients</span></div>
+        <div><span class="mono" style="font-size:22px;font-weight:600">5</span> <span class="eyebrow" style="font-size:9px">wards</span></div>
+        <div><span class="mono" style="font-size:22px;font-weight:600;color:var(--red)">4</span> <span class="eyebrow" style="font-size:9px">to review</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+
+    <!-- intro line -->
+    <div style="margin-top:34px;max-width:640px">
+      <div class="eyebrow">Answer to the request</div>
+      <p style="font-size:16px;line-height:1.55;margin:12px 0 2px;color:var(--ink)">
+        There is no date field in this ward's records, so <strong>"the last period" cannot be scoped to a time window</strong>. What follows is the full standing census as it exists today — every granted patient, the diagnosis mix, and the four items a clinician should look at. Turn each sheet with the folded corner.
+      </p>
+    </div>
+
+    <div class="binder">
+
+      <!-- ====== PAGE 1 — CENSUS SUMMARY ====== -->
+      <div class="sheet" :class="page>0 && 'folded'">
+        <div class="corner" role="button" tabindex="0" aria-label="Turn to roster page"
+             @click="page=1" @keydown.enter="page=1" @keydown.space.prevent="page=1"
+             x-show="page===0"><span class="lbl">▸ 2</span></div>
+        <div class="formband"><span>FORM CG-01 · CENSUS SUMMARY</span><span class="pageno" style="color:#fff">SHEET 1 / 3</span></div>
+        <div class="pad">
+          <div class="eyebrow">Standing count</div>
+          <h2 style="font-size:30px;font-weight:700;margin:6px 0 4px;letter-spacing:-.01em">Who is on the ward right now</h2>
+          <p style="color:var(--slate);max-width:600px;margin:0 0 30px;font-size:14px;line-height:1.5">
+            The query returned all rows this requester is granted — no filter, no assumption about anyone not shown. Ward-R appears as a non-standard label for 7 of them; it is flagged for verification, not treated as an error.
+          </p>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px" class="md:grid-cols-2">
+            <!-- ward breakdown -->
+            <div>
+              <div class="eyebrow" style="margin-bottom:14px">Patients by ward</div>
+              <template x-for="w in wards" :key="w.name">
+                <div style="margin-bottom:12px">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px">
+                    <span x-text="w.name" :style="w.name==='Ward-R' && 'color:var(--red);font-weight:600'"></span>
+                    <span class="mono" x-text="w.n"></span>
+                  </div>
+                  <div style="background:var(--line);height:22px">
+                    <div class="bar" :style="`width:${loaded? (w.n/7*100):0}%;`+(w.name==='Ward-R'?'background:var(--red)':'')"></div>
+                  </div>
+                </div>
+              </template>
+              <p style="font-size:11.5px;color:var(--slate);margin-top:14px;line-height:1.4">
+                <span class="dot" style="background:var(--red)"></span> Ward-R — ambiguous label, 7 patients, verify against the ward directory.
+              </p>
+            </div>
+
+            <!-- diagnosis + age -->
+            <div>
+              <div class="eyebrow" style="margin-bottom:14px">Diagnosis codes present</div>
+              <table style="margin-bottom:26px">
+                <tbody>
+                  <template x-for="d in dx" :key="d.code">
+                    <tr>
+                      <td class="mono" style="padding:5px 10px" x-text="d.code"></td>
+                      <td style="padding:5px 10px;color:var(--slate)" x-text="d.label"></td>
+                      <td class="mono" style="padding:5px 10px;text-align:right;font-weight:600" x-text="d.n"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+              <div class="eyebrow" style="margin-bottom:10px">Ages — 21 to 83</div>
+              <svg viewBox="0 0 300 90" style="width:100%;height:auto">
+                <template x-for="(b,i) in ageBuckets" :key="i">
+                  <g>
+                    <rect class="agebar" :x="i*42+8" :y="loaded? 70-b.h : 70" :width="34" :height="loaded? b.h:0" style="transition:all .9s cubic-bezier(.5,0,.1,1)"></rect>
+                    <text :x="i*42+25" y="84" text-anchor="middle" style="font-size:8px;fill:var(--slate);font-family:'IBM Plex Mono'" x-text="b.lbl"></text>
+                    <text :x="i*42+25" :y="70-b.h-4" text-anchor="middle" style="font-size:9px;fill:var(--ink);font-family:'IBM Plex Mono';font-weight:600" x-text="b.n||''"></text>
+                  </g>
+                </template>
+              </svg>
+              <p style="font-size:11px;color:var(--slate);margin-top:6px">Median age band shown in decades.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== PAGE 2 — ROSTER ====== -->
+      <div class="sheet" :class="page!==1 && (page<1?'folded':'folded')" x-show="page>=0" style="margin-top:0">
+        <template x-if="true">
+        <div :class="page!==1 && 'folded'" class="sheet" style="box-shadow:none;border:none;transform-origin:top center;transition:transform .85s cubic-bezier(.65,.02,.24,1),opacity .5s" :style="page!==1 && 'transform:rotateX(-92deg);opacity:0;height:0;overflow:hidden'">
+          <div class="corner" role="button" tabindex="0" aria-label="Turn to attention page"
+               @click="page=2" @keydown.enter="page=2" @keydown.space.prevent="page=2"
+               x-show="page===1"><span class="lbl">▸ 3</span></div>
+          <div class="formband" style="border:1px solid var(--line);border-bottom:none">
+            <span>FORM CG-02 · PATIENT ROSTER</span>
+            <button class="nav-return" style="background:transparent;color:#fff;border-color:#fff" @click="page=0">◂ 1 census</button>
+          </div>
+          <div class="pad" style="border:1px solid var(--line);border-top:none;background:var(--face)">
+            <div class="eyebrow">Complete roster</div>
+            <h2 style="font-size:26px;font-weight:700;margin:6px 0 4px">All 30 patients, in order</h2>
+            <p style="color:var(--slate);font-size:13px;margin:0 0 22px">Rows tinted red carry an attention note on the next sheet — elderly presentation or a non-standard ward label.</p>
+            <table>
+              <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Ward</th><th>Dx</th><th></th></tr></thead>
+              <tbody>
+                <template x-for="p in roster" :key="p.id">
+                  <tr :class="p.flag && 'flag'">
+                    <td class="mono" x-text="String(p.id).padStart(3,'0')"></td>
+                    <td x-text="p.name"></td>
+                    <td class="mono" x-text="p.age"></td>
+                    <td :style="p.ward==='Ward-R' && 'color:var(--red)'" x-text="p.ward"></td>
+                    <td class="mono" x-text="p.dx"></td>
+                    <td style="text-align:right"><span x-show="p.flag" class="dot" style="background:var(--red)"></span></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+            <p class="pageno" style="margin-top:14px">30 rows shown · matches roster count of 30 · query: select id, name, age, ward, diagnosis_code from patients order by id</p>
+          </div>
+        </div>
+        </template>
+      </div>
+
+      <!-- ====== PAGE 3 — ATTENTION ====== -->
+      <div class="sheet" :class="page!==2 && 'folded'" style="margin-top:0">
+        <div class="corner" role="button" tabindex="0" aria-label="Return to census page"
+             @click="page=0" @keydown.enter="page=0" @keydown.space.prevent="page=0"
+             x-show="page===2"><span class="lbl">▸ 1</span></div>
+        <div class="formband"><span>FORM CG-03 · ITEMS NEEDING ATTENTION</span>
+          <button class="nav-return" style="background:transparent;color:#fff;border-color:#fff" @click="page=1">◂ 2 roster</button>
+        </div>
+        <div class="pad">
+          <div class="eyebrow">Call-outs</div>
+          <h2 style="font-size:26px;font-weight:700;margin:6px 0 20px">Four things to look at</h2>
+
+          <div class="callout" style="margin-bottom:18px">
+            <div style="font-weight:600;margin-bottom:4px">The request asked for "the last period" — but there is no date to anchor it.</div>
+            <p style="margin:0;font-size:13.5px;line-height:1.5;color:var(--slate)">The patient source carries no date or period column, so the census could not be limited to any time window. This is a data limitation, stated plainly rather than guessed around. Everything here is the full standing census.</p>
+          </div>
+
+          <div class="attn" style="margin-bottom:14px">
+            <div style="display:flex;gap:10px;align-items:baseline"><span class="dot" style="background:var(--red)"></span><div style="font-weight:600">Ward-R is a non-standard ward label — 7 patients</div></div>
+            <p style="margin:6px 0 0 17px;font-size:13px;color:var(--slate)">IDs 003, 007, 012, 013, 014, 019, 024, 028. Worth verifying against the ward directory before these counts are trusted.</p>
+          </div>
+
+          <div class="attn" style="margin-bottom:14px">
+            <div style="display:flex;gap:10px;align-items:baseline"><span class="dot" style="background:var(--red)"></span><div style="font-weight:600">Four elderly patients present</div></div>
+            <div style="margin:8px 0 0 17px;display:grid;gap:5px">
+              <div class="pill" style="width:fit-content">ID 018 · age 83 · Pulmonology · A01.1</div>
+              <div class="pill" style="width:fit-content">ID 026 · age 82 · Pulmonology · K35.80</div>
+              <div class="pill" style="width:fit-content">ID 001 · age 79 · Oncology · B20.9</div>
+              <div class="pill" style="width:fit-content">ID 023 · age 75 · Neurology · B20.9</div>
+            </div>
+          </div>
+
+          <div class="attn">
+            <div style="display:flex;gap:10px;align-items:baseline"><span class="dot" style="background:var(--green)"></span><div style="font-weight:600">Two diagnosis clusters to note</div></div>
+            <p style="margin:6px 0 0 17px;font-size:13px;color:var(--slate)">
+              <strong>B20.9</strong> — 5 patients (IDs 001, 004, 009, 021, 023). &nbsp;·&nbsp;
+              <strong>K35.80</strong> — 6 patients (IDs 013, 014, 019, 026, 028, 029). Grouping visible but within expected ward mix.
+            </p>
+          </div>
+
+          <p style="text-align:center;margin-top:30px" class="pageno">End of record · Concord General Hospital · every figure drawn from the returned rows</p>
+        </div>
+      </div>
+
+    </div><!-- /binder -->
+
+    <div style="text-align:center;margin-top:26px">
+      <span class="pageno">Sheet <span x-text="page+1"></span> of 3 — turn with the corner tab</span>
+    </div>
+
+  </div>
+
+<script>
+function record(){
+  return {
+    page:0, loaded:false,
+    init(){ setTimeout(()=>this.loaded=true,200); },
+    wards:[
+      {name:'Ward-R',n:7},{name:'Oncology',n:6},{name:'Pulmonology',n:6},
+      {name:'Cardiology',n:4},{name:'Neurology',n:4}
+    ],
+    dx:[
+      {code:'A01.1',label:'Typhoid',n:6},{code:'C34.2',label:'Lung, main bronchus',n:6},
+      {code:'K35.80',label:'Acute appendicitis',n:6},{code:'B20.9',label:'HIV disease',n:5},
+      {code:'J44.1',label:'COPD w/ exacerbation',n:3},{code:'N18.3',label:'CKD stage 3',n:2},
+      {code:'I25.10',label:'Atheroscl. heart dis.',n:1}
+    ],
+    ageBuckets:[
+      {lbl:'20s',n:7},{lbl:'30s',n:5},{lbl:'40s',n:6},{lbl:'50s',n:4},{lbl:'60s',n:3},{lbl:'70s',n:3},{lbl:'80s',n:2}
+    ].map(b=>({...b,h:b.n*8})),
+    roster:[
+      {id:1,name:'Patient 001',age:79,ward:'Oncology',dx:'B20.9',flag:true},
+      {id:2,name:'Patient 002',age:33,ward:'Pulmonology',dx:'A01.1',flag:false},
+      {id:3,name:'Patient 003',age:40,ward:'Ward-R',dx:'A01.1',flag:true},
+      {id:4,name:'Patient 004',age:51,ward:'Cardiology',dx:'B20.9',flag:false},
+      {id:5,name:'Patient 005',age:45,ward:'Oncology',dx:'J44.1',flag:false},
+      {id:6,name:'Patient 006',age:64,ward:'Pulmonology',dx:'C34.2',flag:false},
+      {id:7,name:'Patient 007',age:69,ward:'Ward-R',dx:'C34.2',flag:true},
+      {id:8,name:'Patient 008',age:50,ward:'Cardiology',dx:'A01.1',flag:false},
+      {id:9,name:'Patient 009',age:48,ward:'Oncology',dx:'B20.9',flag:false},
+      {id:10,name:'Patient 010',age:47,ward:'Pulmonology',dx:'N18.3',flag:false},
+      {id:11,name:'Patient 011',age:24,ward:'Neurology',dx:'A01.1',flag:false},
+      {id:12,name:'Patient 012',age:31,ward:'Ward-R',dx:'C34.2',flag:true},
+      {id:13,name:'Patient 013',age:28,ward:'Ward-R',dx:'K35.80',flag:true},
+      {id:14,name:'Patient 014',age:22,ward:'Ward-R',dx:'K35.80',flag:true},
+      {id:15,name:'Patient 015',age:39,ward:'Neurology',dx:'C34.2',flag:false},
+      {id:16,name:'Patient 016',age:72,ward:'Cardiology',dx:'A01.1',flag:false},
+      {id:17,name:'Patient 017',age:35,ward:'Oncology',dx:'C34.2',flag:false},
+      {id:18,name:'Patient 018',age:83,ward:'Pulmonology',dx:'A01.1',flag:true},
+      {id:19,name:'Patient 019',age:26,ward:'Ward-R',dx:'K35.80',flag:true},
+      {id:20,name:'Patient 020',age:64,ward:'Cardiology',dx:'J44.1',flag:false},
+      {id:21,name:'Patient 021',age:52,ward:'Oncology',dx:'B20.9',flag:false},
+      {id:22,name:'Patient 022',age:44,ward:'Pulmonology',dx:'N18.3',flag:false},
+      {id:23,name:'Patient 023',age:75,ward:'Neurology',dx:'B20.9',flag:true},
+      {id:24,name:'Patient 024',age:55,ward:'Ward-R',dx:'I25.10',flag:true},
+      {id:25,name:'Patient 025',age:45,ward:'Oncology',dx:'C34.2',flag:false},
+      {id:26,name:'Patient 026',age:82,ward:'Pulmonology',dx:'K35.80',flag:true},
+      {id:27,name:'Patient 027',age:51,ward:'Neurology',dx:'J44.1',flag:false},
+      {id:28,name:'Patient 028',age:21,ward:'Ward-R',dx:'K35.80',flag:true},
+      {id:29,name:'Patient 029',age:34,ward:'Oncology',dx:'K35.80',flag:false},
+      {id:30,name:'Patient 030',age:29,ward:'Pulmonology',dx:'A01.1',flag:false}
+    ]
+  }
+}
+</script>
+</body>
+</html>

@@ -14,9 +14,10 @@ const rise = (delay: number) => ({
 });
 
 /**
- * The homepage no longer has five sections under it, so the claim carries the
- * whole screen: one statement at full size, one sentence of what the product
- * does, and the two things a visitor might actually want to do next.
+ * The claim carries the screen, but it has to be a claim a stranger can
+ * decode. So: the category in the kicker, the promise in the headline, and a
+ * plain-language definition underneath - what the thing runs, on what, under
+ * what constraint - before anyone is asked to click anything.
  */
 export function Hero() {
   return (
@@ -26,16 +27,16 @@ export function Hero() {
           to land on two lines instead of breaking mid-phrase. */}
       <div className="relative mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
         <motion.p {...rise(0)} className="kicker mb-7 text-accent">
-          obsidura &mdash; agentic backend as a service
+          obsidura pantheon &mdash; all-purpose workflow automation
         </motion.p>
 
         <motion.h1
           {...rise(0.1)}
           className="font-display text-[clamp(2.75rem,6.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          Backend-native agents,
+          Your company&rsquo;s work, automated.
           <br />
-          <span className="headline-emph">auditable operations.</span>
+          <span className="headline-emph">Nothing taken on trust.</span>
         </motion.h1>
       </div>
 
@@ -45,9 +46,12 @@ export function Hero() {
             {...rise(0.2)}
             className="max-w-xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
           >
-            One prompt in, a report back &mdash; drawn live from your
-            databases, object stores, and internal APIs, and scoped to
-            whoever asked.
+            Your information sits in many places. Pantheon is where you
+            define, run, and manage the work that crosses them &mdash;
+            scripted tasks and AI agents in one process, some running quietly
+            on a schedule, the rest asked for with a button or a sentence. It
+            touches only what you are already allowed to touch, and keeps a
+            record of everything it did.
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-10 flex flex-wrap gap-4">
@@ -61,11 +65,11 @@ export function Hero() {
             </Magnetic>
             <Magnetic strength={0.15}>
               <Link
-                href="/reports"
+                href="/automations"
                 transitionTypes={["nav-forward"]}
                 className="kicker inline-block border border-rule px-6 py-3.5 !text-ink-soft transition-colors hover:border-accent-deep hover:!text-ink"
               >
-                See what it makes &rarr;
+                See what it runs &rarr;
               </Link>
             </Magnetic>
           </motion.div>

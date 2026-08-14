@@ -1,0 +1,14 @@
+{
+  "run_id": "r-2026-08-12-a1",
+  "task_id": "t-flag-anomalies",
+  "attempt": 2,
+  "schema": "finance.AnomalyReport@1",
+  "producer": "finance.flag_anomalies@1",
+  "caused_by": 11,
+  "taint": [
+    {"source": "resource:ledger", "reason": "postgres query result"},
+    {"source": "resource:fx"}
+  ],
+  "budget_spent": {"tokens": 1840, "ms": 213},
+  "ts": "2026-08-12T09:15:07Z"
+}

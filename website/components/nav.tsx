@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 // Four of the five chapters fit the centre row; governance reads as part of
 // the same account and stays reachable from the index, the pager, and the
 // mobile panel below.
-const NAV_CHAPTERS = ["reports", "workflows", "runtime", "deploy"];
+const NAV_CHAPTERS = ["automations", "workflows", "runtime", "deploy"];
 
 const navChapters = CHAPTERS.filter((c) => NAV_CHAPTERS.includes(c.slug));
 

@@ -4,7 +4,7 @@ import { Subpage } from "@/components/subpage";
 export const metadata: Metadata = {
   title: "AI Agents for Financial Audit | Obsidura",
   description:
-    "A Pantheon pipeline that draws a ledger from Postgres, receipts from object storage, and rates from an external API, and composes them into one auditable report artifact.",
+    "A Pantheon automation that draws a ledger from Postgres, receipts from object storage, and rates from an external API, and composes them into one auditable report artifact - on demand or on a schedule.",
   alternates: {
     canonical: "/solutions/financial-audit",
   },
@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 export default function FinancialAuditPage() {
   return (
     <Subpage
-      kicker="the labors &mdash; financial audit"
+      kicker="a worked example &mdash; financial audit"
       headlineLead="Agents for"
       headlineEmph="financial audit."
-      lede="Audit work is exacting and scattered. The numbers live in a ledger, the evidence lives in a pile of scanned receipts, and the conversion rates live outside the company entirely. This pipeline pulls all three through one run and composes them into a single report you can hand to someone."
+      lede="One automation of many, chosen because it is exacting and scattered. The numbers live in a ledger, the evidence lives in a pile of scanned receipts, and the conversion rates live outside the company entirely. This job pulls all three through one run and composes them into a single report you can hand to someone - on demand when someone asks, or on the first of the month without anyone asking."
       sections={[
         {
           heading: "What the pipeline touches",
@@ -56,6 +56,7 @@ export default function FinancialAuditPage() {
         },
       ]}
       related={[
+        { label: "What else Pantheon runs", href: "/automations" },
         { label: "Flight diagnostics", href: "/solutions/flight-diagnostics" },
         { label: "Clinical summaries", href: "/solutions/clinical-summary" },
         { label: "How workflows are built", href: "/workflows" },

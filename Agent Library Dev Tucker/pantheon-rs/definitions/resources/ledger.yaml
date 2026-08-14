@@ -1,0 +1,6 @@
+kind: resource
+name: ledger
+version: 1
+summary: General ledger entries, one row per posting.
+connector: postgres
+verbs: [query]

@@ -23,11 +23,11 @@ const cormorant = Cormorant_Garamond({
 });
 
 const DESCRIPTION =
-  "Deploy auditable AI agents across your databases, APIs, and business systems with durable workflows, human escalation, and cloud, VPC, or on-premises deployment.";
+  "Pantheon is a workflow automation platform for defining, running, and managing reliable processes - ordinary scripted tasks and AI agents in the same job. It connects the systems your information is scattered across and runs work across them on a schedule or on demand, scoped to whoever asked and recorded end to end.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://obsidura.com"),
-  title: "Obsidura | Backend-Native AI Agent Orchestration",
+  title: "Obsidura Pantheon | All-Purpose Workflow Automation Platform",
   description: DESCRIPTION,
   alternates: {
     canonical: "/",
@@ -64,7 +64,7 @@ const JSON_LD = {
       operatingSystem: "Web, Linux",
       url: "https://obsidura.com",
       description:
-        "Pantheon is Obsidura's AI agent orchestration engine: YAML definitions compiled into a typed graph, contracts validated at every seam, a run-scoped resource proxy that holds all credentials, and an append-only run log.",
+        "Pantheon is Obsidura's all-purpose workflow automation platform: processes declared as YAML and compiled into a typed graph, scripted tasks and AI agents executed the same way, contracts validated at every seam, a run-scoped resource proxy that holds all credentials, and an append-only run log. Processes run on a schedule or are called on demand by anyone permitted.",
       publisher: { "@id": "https://obsidura.com/#organization" },
     },
   ],

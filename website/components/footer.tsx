@@ -7,7 +7,7 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
   {
     heading: "the account",
     links: [
-      { label: "Reports", href: "/reports" },
+      { label: "Automations", href: "/automations" },
       { label: "Workflows", href: "/workflows" },
       { label: "Governance", href: "/governance" },
       { label: "Runtime", href: "/runtime" },
@@ -23,7 +23,7 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
     ],
   },
   {
-    heading: "solutions",
+    heading: "worked examples",
     links: [
       { label: "Financial Audit", href: "/solutions/financial-audit" },
       { label: "Flight Diagnostics", href: "/solutions/flight-diagnostics" },

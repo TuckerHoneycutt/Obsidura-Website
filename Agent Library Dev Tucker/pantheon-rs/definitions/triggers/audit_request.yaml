@@ -1,0 +1,8 @@
+kind: trigger
+name: finance.audit_request
+version: 1
+summary: A user asks for a financial audit of one period.
+source: webhook
+path: /hooks/finance/audit
+# What the trigger emits is what the first task receives. `ptn plan` checks it.
+emits: finance.LedgerQuery@1

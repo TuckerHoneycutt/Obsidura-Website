@@ -1,0 +1,6 @@
+kind: resource
+name: fx
+version: 1
+summary: Foreign-exchange rate service.
+connector: http
+verbs: [request]

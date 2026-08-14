@@ -16,7 +16,7 @@ export default function OnPremisesPage() {
       kicker="the dominions &mdash; on-premises"
       headlineLead="Isolated,"
       headlineEmph="on your hardware."
-      lede="For environments where data cannot leave the building, Pantheon runs on hardware you own and makes no outbound calls. It launches from containers and needs little underneath it: a Postgres for definitions and the run log, a blob store for content, and a model endpoint you point it at."
+      lede="For environments where data cannot leave the building, Pantheon runs on hardware you own and makes no outbound calls. It launches from containers and needs little underneath it: a Postgres for definitions and the run log, a blob store for content, and - for the jobs that use agents at all - a model endpoint you point it at."
       sections={[
         {
           heading: "What an on-premises deployment gives you",

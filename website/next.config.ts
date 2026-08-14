@@ -72,6 +72,13 @@ const nextConfig: NextConfig = {
         destination: "/workflows",
         permanent: true,
       },
+      // The reports chapter was rebroadened into the works chapter: reports
+      // are one of the jobs Pantheon runs, not the product.
+      {
+        source: "/reports",
+        destination: "/automations",
+        permanent: true,
+      },
       {
         source: "/solutions/finance-operations",
         destination: "/solutions/financial-audit",

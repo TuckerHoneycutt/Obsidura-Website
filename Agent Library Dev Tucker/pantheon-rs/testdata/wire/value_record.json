@@ -1,0 +1,14 @@
+{
+  "kind": "record",
+  "type_ref": "finance.ReconciliationReport@1",
+  "data": {
+    "period": "2026-Q2",
+    "base_currency": "USD",
+    "entry_count": 10,
+    "balanced": false,
+    "imbalance": "9298.89",
+    "by_account": [
+      {"account": "1000-cash", "entry_count": 2, "net_minor": -8276285}
+    ]
+  }
+}

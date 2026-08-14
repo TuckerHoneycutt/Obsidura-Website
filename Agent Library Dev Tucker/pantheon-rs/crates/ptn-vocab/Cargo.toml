@@ -1,0 +1,18 @@
+[package]
+name = "ptn-vocab"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Pantheon's kernel vocabulary: the closed Value set, the envelope, and the definition primitives. Source of truth for the wire format."
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+serde_norway.workspace = true
+schemars.workspace = true
+chrono.workspace = true
+thiserror.workspace = true
+
+[[bin]]
+name = "ptn-schema"
+path = "src/bin/ptn_schema.rs"

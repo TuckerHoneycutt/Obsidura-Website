@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Chapter } from "@/components/chapter";
 import { RuntimeBody } from "@/components/runtime";
+import { Assurances } from "@/components/assurances";
 import { chapterAt } from "@/lib/chapters";
 
 const { chapter } = chapterAt("runtime");
@@ -15,6 +16,7 @@ export default function RuntimePage() {
   return (
     <Chapter slug="runtime">
       <RuntimeBody />
+      <Assurances />
     </Chapter>
   );
 }

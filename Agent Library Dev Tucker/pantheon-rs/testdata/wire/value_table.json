@@ -1,0 +1,12 @@
+{
+  "kind": "table",
+  "blob": "sha256:cd34",
+  "format": "jsonl",
+  "columns": [
+    {"name": "entry_id", "type": "string"},
+    {"name": "amount_minor", "type": "int"},
+    {"name": "posted_at", "type": "timestamp"}
+  ],
+  "rows": 24999,
+  "capability": "cap-1b2c"
+}

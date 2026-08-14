@@ -1,0 +1,15 @@
+[package]
+name = "ptn-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "The ptn command: plan and apply definition directories."
+
+[dependencies]
+ptn-registry = { path = "../ptn-registry" }
+ptn-vocab = { path = "../ptn-vocab" }
+serde_json.workspace = true
+
+[[bin]]
+name = "ptn"
+path = "src/main.rs"

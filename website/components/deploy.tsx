@@ -112,11 +112,11 @@ export function DeployBody() {
               <div className="flex flex-col items-start gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="font-display text-3xl font-light tracking-tight">
-                    Put agents on your backend.
+                    Put Pantheon to work.
                   </h2>
                   <p className="body-copy mt-2 max-w-md text-ink-mute">
-                    A 30-minute call. We map one workflow and show you the
-                    audit log by the end of it.
+                    A 30-minute call. We map one job you already do by hand
+                    and show you the audit log by the end of it.
                   </p>
                 </div>
                 <Magnetic className="shrink-0">

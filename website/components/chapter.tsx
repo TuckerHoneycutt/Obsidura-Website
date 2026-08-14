@@ -64,7 +64,7 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
               the last word &rarr;
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
-              Put agents on your backend
+              Put Pantheon to work
             </span>
           </Link>
         )}

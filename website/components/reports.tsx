@@ -183,11 +183,11 @@ function ReportCard({ report }: { report: Report }) {
 }
 
 /**
- * The body of the artifacts chapter.
+ * One job from the range above, followed to the end.
  *
- * The three cards resolve one at a time behind a ticking run, because "three
- * reports materialize in their browser" is the thing being sold, and a page
- * that simply has them sitting there does not show it.
+ * The three cards resolve one at a time behind a ticking run, because a run
+ * finishing in front of you is the thing worth showing, and a page that
+ * simply has the artifacts sitting there does not show it.
  */
 export function ReportsBody() {
   const ref = useRef<HTMLDivElement>(null);
@@ -212,8 +212,22 @@ export function ReportsBody() {
     <section className="relative border-t border-rule">
       <MeanderDivider />
       <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+        <Reveal className="max-w-3xl">
+          <p className="kicker text-accent">one of them, all the way through</p>
+          <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            Asked for in a sentence.{" "}
+            <span className="headline-emph">Finished in minutes.</span>
+          </h2>
+          <p className="lede-copy mt-6">
+            A reporting job, because it is the one whose output you can see on
+            a page. Someone asks in plain words; the run gathers what that
+            person is permitted to see across three different systems, and
+            hands back finished documents.
+          </p>
+        </Reveal>
+
         {/* The request that starts the run, shown as the demo shell sends it. */}
-        <Reveal>
+        <Reveal className="mt-10">
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
               <span className="kicker !text-[10px]">
@@ -268,7 +282,9 @@ export function ReportsBody() {
             snapshot baked in, so the charts draw and filter in the browser
             with nothing running behind them. The prose comes from an agent;
             the presentation comes from a template polished once, not from a
-            model improvising markup on the morning of the meeting.
+            model improvising markup on the morning of the meeting. A job that
+            provisions a network or files a record ends the same way: a
+            declared output, checked, and an event saying it happened.
           </p>
         </Reveal>
       </div>

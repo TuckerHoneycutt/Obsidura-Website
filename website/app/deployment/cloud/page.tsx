@@ -4,7 +4,7 @@ import { Subpage } from "@/components/subpage";
 export const metadata: Metadata = {
   title: "Obsidura Cloud - Managed AI Agent Hosting | Obsidura",
   description:
-    "Run AI agents on Obsidura Cloud: fully managed agent orchestration, live in days, multi-tenant with US and EU regions - the same audit log and security model as every deployment.",
+    "Run your automations on Obsidura Cloud: fully managed orchestration, live in days, multi-tenant with US and EU regions - the same audit log and security model as every deployment.",
   alternates: {
     canonical: "/deployment/cloud",
   },
@@ -16,12 +16,12 @@ export default function CloudPage() {
       kicker="the dominions &mdash; obsidura cloud"
       headlineLead="Fully managed,"
       headlineEmph="live in days."
-      lede="Obsidura Cloud is the fastest way to put agents on your backend. We run the orchestration engine - the registry your definitions are applied into, the run log they execute against, and the container pool that carries out the work - and your agents reach your systems through the same resources as every other deployment."
+      lede="Obsidura Cloud is the fastest way to get your first automation running. We run the orchestration engine - the registry your definitions are applied into, the run log they execute against, and the container pool that carries out the work - and your jobs reach your systems through the same resources as every other deployment."
       sections={[
         {
           heading: "What the managed cloud gives you",
           bullets: [
-            "Live in days: no infrastructure to provision - connect your systems and map your first workflow.",
+            "Live in days: no infrastructure to provision - connect your systems and map your first job.",
             "Fully managed: we operate, upgrade, and monitor the platform so your team runs workflows, not servers.",
             "US and EU regions: choose where your deployment runs to match your data residency requirements.",
           ],
@@ -35,7 +35,7 @@ export default function CloudPage() {
         {
           heading: "When to choose the cloud",
           body: [
-            "Choose Obsidura Cloud when you want the shortest path from a workflow on a whiteboard to an agent in production. If your data governance requires infrastructure you control, the private VPC deployment runs inside your own AWS or GCP account - and for fully isolated environments, on-premises goes all the way.",
+            "Choose Obsidura Cloud when you want the shortest path from a job on a whiteboard to one running nightly in production. If your data governance requires infrastructure you control, the private VPC deployment runs inside your own AWS or GCP account - and for fully isolated environments, on-premises goes all the way.",
           ],
         },
       ]}

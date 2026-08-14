@@ -1,20 +1,24 @@
 import { Hero } from "@/components/hero";
 import { Integrations } from "@/components/integrations";
+import { WhatItRuns } from "@/components/what-it-runs";
 import { ChapterIndex } from "@/components/chapter-index";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderMark } from "@/components/ui/meander-mark";
 
 /**
- * The homepage is a door, not a summary. One claim at full force, the mark,
- * two ways in, and the index of the five chapters. Everything that used to
- * scroll past here now has a page of its own, which is what gives the
- * engravings room to be seen at the size they were drawn.
+ * A door, and only a door. It has two jobs: say what Pantheon is in the few
+ * seconds a stranger gives it, and say that the range is wider than whatever
+ * example they picture first. Everything else - the definition at length, the
+ * run walked through step by step, what happens when a run fails, the
+ * evidence for any of it - has a chapter of its own, and the index below is
+ * how you get there.
  */
 export default function Home() {
   return (
     <main className="flex-1">
       <Hero />
       <Integrations />
+      <WhatItRuns />
       <ChapterIndex />
 
       <section className="relative border-t border-rule">

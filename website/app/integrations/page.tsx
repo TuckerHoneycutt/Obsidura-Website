@@ -4,7 +4,7 @@ import { Subpage } from "@/components/subpage";
 export const metadata: Metadata = {
   title: "Integrations - Postgres, Object Storage, HTTP | Obsidura",
   description:
-    "How Pantheon reaches your systems: Postgres, S3-compatible object storage, and HTTP services, all through a run-scoped proxy that holds the credentials and enforces per-user scope on every call.",
+    "How Pantheon reaches the systems your work lives in: Postgres, S3-compatible object storage, and HTTP - the general case for internal tools and cloud services - all through a run-scoped proxy that holds the credentials and enforces per-user scope on every call.",
   alternates: {
     canonical: "/integrations",
   },
@@ -16,19 +16,19 @@ export default function IntegrationsPage() {
       kicker="integrations"
       headlineLead="Connected to your"
       headlineEmph="systems of record."
-      lede="Agents are only useful when they can act on real data. A Resource is any persistent system Pantheon can reach, and what matters is not the length of the list but the single path all of them take - no task body ever holds a credential, and every call is scoped to the person the run is acting for."
+      lede="An automation is only useful if it can reach the systems the work actually lives in. A Resource is any persistent system Pantheon can reach, and what matters is not the length of the list but the single path all of them take - no task body ever holds a credential, and every call is scoped to the person the run is acting for."
       sections={[
         {
           heading: "Three connector kinds",
           body: [
             "The engine ships with three: Postgres, S3-compatible object storage, and HTTP. Each resource declares the verbs it exposes - query, get, put, request - and the connection config it needs.",
-            "Three is enough heterogeneity to make a real claim honest. One report can draw a ledger out of Postgres, receipt scans out of a bucket, and a rate from an outside API, and arrive as a single artifact.",
+            "Three is enough heterogeneity to make a real claim honest. One run can draw a ledger out of Postgres, receipt scans out of a bucket, and a rate from an outside API, and finish as a single artifact - or write the result back out through the same three.",
           ],
         },
         {
           heading: "Anything with an HTTP interface",
           body: [
-            "The HTTP connector is the general case. If a system in your company has an interface a program can call, a task can work against it through the same proxy, under the same allowlist, with the same audit trail as everything else.",
+            "The HTTP connector is the general case, and it is why the range of work is as wide as it is. If a system in your company has an interface a program can call - a cloud tool, an internal site, a ticketing system, a switch, a mail API - a task can work against it through the same proxy, under the same allowlist, with the same audit trail as everything else.",
             "Adding a genuinely new kind of connector is one variant on an enum plus one driver. The schema, the validation, and the authoring affordances all regenerate from the type, so the cost is bounded and known.",
           ],
         },
@@ -64,6 +64,7 @@ export default function IntegrationsPage() {
         },
       ]}
       related={[
+        { label: "What Pantheon runs", href: "/automations" },
         { label: "How workflows are built", href: "/workflows" },
         { label: "Security model", href: "/security" },
         { label: "Financial audit", href: "/solutions/financial-audit" },

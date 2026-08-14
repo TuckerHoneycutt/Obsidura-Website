@@ -1,0 +1,12 @@
+/Users/tuckerhoneycutt/projects/business/Agent Library Dev Tucker/pantheon-rs/target/debug/deps/serde-7f60ad476ca3a255.d: /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/tuckerhoneycutt/projects/business/Agent\ Library\ Dev\ Tucker/pantheon-rs/target/debug/build/serde-7f09c7fbfaaf47e3/out/private.rs
+
+/Users/tuckerhoneycutt/projects/business/Agent Library Dev Tucker/pantheon-rs/target/debug/deps/libserde-7f60ad476ca3a255.rmeta: /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/tuckerhoneycutt/projects/business/Agent\ Library\ Dev\ Tucker/pantheon-rs/target/debug/build/serde-7f09c7fbfaaf47e3/out/private.rs
+
+/Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/Users/tuckerhoneycutt/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/Users/tuckerhoneycutt/projects/business/Agent\ Library\ Dev\ Tucker/pantheon-rs/target/debug/build/serde-7f09c7fbfaaf47e3/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/tuckerhoneycutt/projects/business/Agent Library Dev Tucker/pantheon-rs/target/debug/build/serde-7f09c7fbfaaf47e3/out

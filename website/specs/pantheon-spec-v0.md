@@ -8,7 +8,11 @@
 
 ## 1. What Pantheon is
 
-A workflow orchestration engine where **definitions are data, not code**. Tenant-authored YAML compiles into a typed IR held in Postgres; a Rust executor instantiates runs from it; task bodies run in containers speaking JSON-RPC over stdio; all resource access flows through a run-scoped proxy. Agents are ordinary tasks with extra policy, never a special execution path.
+**Positioning (the sentence everything else must stay true to):** Pantheon is a **workflow automation platform that lets people define, run, and manage reliable processes — traditional scripted tasks and AI agents in the same job.** A company's information sits in many systems — databases, spreadsheets, mail, cloud tools, internal sites — and Pantheon reaches them through the interfaces they already expose and runs work across them. Some of that work runs unattended on a schedule or on an event; the rest is a library of named processes anyone permitted can call, with a button or a sentence in plain English. A run only ever touches what its caller was already allowed to touch, and everything it did is recorded. **Anything software and data can touch is in range** — a month-end pack, a nightly reconciliation, rocket test diagnostics against programme standards, provisioning a network segment, turning the office lights on. It is an **all-purpose** automation tool; reports are the *demo's* worked example, not the product.
+
+The value is largely in work that was automatable all along and never worth automating: wiring one job safely across four systems — credentials, scoping, retries, recovery, someone to call when it breaks — cost more than doing it by hand. The three verbs are the product surface, and all three must hold: **define** (§7 authoring, §6 contracts), **run** (§8 executor), **manage** (plan/apply diffs, versioned refs, run-log status, approvals). A build that nails *run* and neglects *manage* has missed the pitch.
+
+**The same, for engineers:** a workflow orchestration engine where **definitions are data, not code**. Tenant-authored YAML compiles into a typed IR held in Postgres; a Rust executor instantiates runs from it; task bodies run in containers speaking JSON-RPC over stdio; all resource access flows through a run-scoped proxy. Agents are ordinary tasks with extra policy, never a special execution path — schema-validated output with a bounded repair loop, and discretion confined to the intersection of the caller's grants and the action's declared envelope.
 
 Non-negotiable invariants (violating any of these means the design has failed):
 
@@ -17,10 +21,13 @@ Non-negotiable invariants (violating any of these means the design has failed):
 3. **Edges are derived from references** (`on:`, `then:`, `uses:`), never authored as entities.
 4. **No framework is hardcoded at the executor level.** Pydantic AI (or any harness) is a leaf dependency inside a runner image; swapping it must touch zero executor code.
 5. **Task graph shapes must stay composable.** e.g. `agent → ReportSpec → renderer` and `agent → HTML File` must both be expressible as ordinary definitions with no engine changes.
+6. **Both faces are one graph.** A callable named process and an unattended background automation differ only in the trigger referencing them; a definition written to be called must be schedulable with no other change. Nothing in the engine, the schemas, or the demo path may assume a human is waiting.
 
 ## 2. Demo target (the artifact this prototype must produce)
 
 A user types a prompt into a minimal web page → three report websites materialize in their browser, drawn live from data spread across heterogeneous company resources, permission-scoped to that user.
+
+**Framing caveat:** reporting is the demo's subject because its output is the one you can see in a browser and because it exercises the hard parts at once (three connector kinds, per-user scope, large data, a polished artifact). Everything built for it must be built as the general case — a job whose output is a provisioned resource, a written record, or a notification is the same five steps. Say this out loud in the demo; do not let the artifact define the product.
 
 - **Entry:** one hand-polished static HTML page: text box → POST to webhook trigger → poll run status endpoint → report cards appear, clicking opens each report. This page is also the dev iteration harness.
 - **Three pre-wired report pipelines** (one per vertical), all following: webhook `report.request {prompt: text, requester}` → agent task (gathers permitted data via proxy, emits a **ReportSpec Record**) → deterministic **render task** (composes final static site from a hand-built template + component library stored as a Resource) → output `File` artifact (self-contained HTML/JS with data snapshot baked in; charts render/filter client-side).
@@ -28,7 +35,7 @@ A user types a prompt into a minimal web page → three report websites material
   1. *Financial audit* — postgres ledger + s3 receipt PDFs + http FX-rate API.
   2. *Rocket flight diagnostics* — s3 telemetry CSV (~tens of thousands of rows; exercises Table handles) + postgres test/anomaly logs.
   3. *Clinical summary* — postgres patient records + s3 scan images rendered into the report. **The permission beat lives here:** user A and user B issue the same prompt; B's report contains fewer patients; audit log shows the scope decisions.
-- **Demo script order:** beauty first (the reports), governance second (the two-user permission beat + audit trail).
+- **Demo script order:** beauty first (the reports), governance second (the two-user permission beat + audit trail), breadth third — stated in words, and shown only if free: the same task definition sitting behind a cron trigger, so the unattended face is visible rather than asserted. The cron driver is already P0 (§10.3); wiring one extra trigger definition to an existing task is the cheapest breadth beat available. **Treat as a bonus, never as demo path.**
 - Reports are **static artifacts** in v0. Spun-up interactive servers and CoW shared editing are bonus chunks only.
 
 ## 3. Layers

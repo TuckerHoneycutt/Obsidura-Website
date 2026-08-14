@@ -16,7 +16,7 @@ export default function PrivateVpcPage() {
       kicker="the dominions &mdash; private vpc"
       headlineLead="Pantheon in your"
       headlineEmph="private VPC."
-      lede="Run the full orchestration platform single-tenant inside your own AWS or GCP account. Agents, runtime, and audit log all live within your network boundary - Obsidura operates the software, your cloud account holds the data."
+      lede="Run the full automation platform single-tenant inside your own AWS or GCP account. Agents, scripts, runtime, and audit log all live within your network boundary - Obsidura operates the software, your cloud account holds the data."
       sections={[
         {
           heading: "What a VPC deployment gives you",

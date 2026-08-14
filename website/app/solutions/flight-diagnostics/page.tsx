@@ -4,7 +4,7 @@ import { Subpage } from "@/components/subpage";
 export const metadata: Metadata = {
   title: "AI Agents for Flight Diagnostics | Obsidura",
   description:
-    "A Pantheon pipeline that reads tens of thousands of telemetry rows out of object storage as a Table handle, joins them against test and anomaly logs in Postgres, and renders a diagnostics report.",
+    "A Pantheon automation that reads tens of thousands of telemetry rows out of object storage as a Table handle, joins them against test and anomaly logs in Postgres, and renders a diagnostics report when a test run finishes.",
   alternates: {
     canonical: "/solutions/flight-diagnostics",
   },
@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 export default function FlightDiagnosticsPage() {
   return (
     <Subpage
-      kicker="the labors &mdash; flight diagnostics"
+      kicker="a worked example &mdash; flight diagnostics"
       headlineLead="Agents for"
       headlineEmph="flight diagnostics."
-      lede="Telemetry is the case that breaks naive plumbing. A single flight produces far more data than anything should put inside a message payload, and the useful answer is a handful of charts and a short list of anomalies. This pipeline is the one that proves values stay small while data stays large."
+      lede="Telemetry is the case that breaks naive plumbing. A single test produces far more data than anything should put inside a message payload, and the useful answer is a handful of charts, a short list of anomalies, and a check against the standard the programme is held to. This job runs itself when a test finishes, and it is the one that proves values stay small while data stays large."
       sections={[
         {
           heading: "What the pipeline touches",
@@ -47,6 +47,7 @@ export default function FlightDiagnosticsPage() {
         },
       ]}
       related={[
+        { label: "What else Pantheon runs", href: "/automations" },
         { label: "Financial audit", href: "/solutions/financial-audit" },
         { label: "Clinical summaries", href: "/solutions/clinical-summary" },
         { label: "How workflows are built", href: "/workflows" },

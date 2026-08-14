@@ -1,0 +1,6 @@
+kind: resource
+name: scans
+version: 1
+summary: Clinical scan images, keyed by patient id.
+connector: s3
+verbs: [get, list]
