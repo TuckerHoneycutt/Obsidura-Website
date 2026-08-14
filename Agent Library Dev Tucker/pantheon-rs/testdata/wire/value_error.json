@@ -1,5 +1,0 @@
-{
-  "kind": "error",
-  "code": "action_failed",
-  "message": "entry e-008 is in EUR but the rates endpoint published no EUR rate"
-}

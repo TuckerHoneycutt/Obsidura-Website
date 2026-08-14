@@ -1,6 +1,0 @@
-kind: resource
-name: telemetry
-version: 1
-summary: Raw downlink captures from flight vehicles.
-connector: s3
-verbs: [get, list]

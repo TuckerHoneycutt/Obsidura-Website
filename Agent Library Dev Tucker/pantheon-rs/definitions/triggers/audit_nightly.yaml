@@ -1,7 +1,0 @@
-kind: trigger
-name: finance.audit_nightly
-version: 1
-summary: Re-run the current period's audit every night.
-source: cron
-schedule: "0 3 * * *"
-emits: finance.LedgerQuery@1

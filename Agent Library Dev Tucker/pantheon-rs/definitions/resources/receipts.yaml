@@ -1,6 +1,0 @@
-kind: resource
-name: receipts
-version: 1
-summary: Scanned receipt documents, keyed by period and entry id.
-connector: s3
-verbs: [get, list, put]

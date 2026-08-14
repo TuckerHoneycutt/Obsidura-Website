@@ -1,7 +1,0 @@
-{
-  "kind": "error",
-  "code": "timeout",
-  "message": "action exceeded its 2m0s timeout",
-  "detail": {"elapsed_ms": 120001, "action": "finance.match_receipts"},
-  "retry": true
-}
