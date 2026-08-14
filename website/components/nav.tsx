@@ -30,6 +30,30 @@ function label(slug: string) {
   return slug.charAt(0).toUpperCase() + slug.slice(1);
 }
 
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      width={13}
+      height={13}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="square"
+      aria-hidden
+      className={cn("shrink-0", className)}
+    >
+      <circle cx="7" cy="7" r="4.5" />
+      <path d="M10.5 10.5L14 14" />
+    </svg>
+  );
+}
+
+/** Opens the command palette mounted in the layout; the event keeps the
+    two components uncoupled. */
+const openSearch = () =>
+  window.dispatchEvent(new Event("pantheon:command-menu"));
+
 function MenuIcon({ open }: { open: boolean }) {
   return (
     <svg
@@ -98,7 +122,10 @@ export function Nav() {
       style={{ viewTransitionName: "site-header" }}
       className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm"
     >
-      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[1fr_auto_1fr]">
+      {/* Auto side columns rather than equal thirds: the search bar made
+          the right cluster wider than the left, and equal tracks squeezed
+          it into wrapping. The links sit centred in the leftover space. */}
+      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[auto_1fr_auto]">
         <Link href="/" className="group flex w-max items-center gap-2.5">
           <LogoMark size={26} />
           <span className="font-display text-xl leading-none font-medium tracking-[0.3em] uppercase">
@@ -126,12 +153,35 @@ export function Nav() {
           })}
         </div>
         <div className="flex items-center justify-end gap-3">
+          {/* A search field to look at, the command palette to use: the
+              full bar where the row has room, an icon where it does not. */}
+          <button
+            type="button"
+            onClick={openSearch}
+            className="group hidden h-8 w-44 items-center gap-2.5 border border-rule px-3 text-left transition-colors hover:border-accent-deep xl:flex"
+          >
+            <SearchIcon className="text-ink-faint transition-colors group-hover:text-ink" />
+            <span className="kicker !text-[10px] text-ink-faint transition-colors group-hover:text-ink">
+              search
+            </span>
+            <kbd className="ml-auto font-mono text-[10px] text-ink-faint">
+              &#8984;K
+            </kbd>
+          </button>
+          <button
+            type="button"
+            onClick={openSearch}
+            aria-label="Search the site"
+            className="hidden size-8 items-center justify-center border border-rule text-ink-mute transition-colors hover:border-accent-deep hover:text-ink sm:flex xl:hidden"
+          >
+            <SearchIcon />
+          </button>
           <ThemeToggle />
           {/* Below sm the hamburger takes this slot; the panel carries its
               own demo CTA, so nothing is lost. */}
           <Link
             href="/contact"
-            className="font-display hidden border border-accent-deep px-3.5 py-2 text-sm font-medium tracking-[0.18em] text-accent uppercase transition-colors hover:bg-accent hover:text-paper sm:inline-block"
+            className="font-display hidden border border-accent-deep px-3.5 py-2 text-sm font-medium tracking-[0.18em] whitespace-nowrap text-accent uppercase transition-colors hover:bg-accent hover:text-paper sm:inline-block"
           >
             Book a demo
           </Link>
@@ -159,6 +209,19 @@ export function Nav() {
             className="overflow-hidden border-t border-rule bg-paper sm:hidden"
           >
             <div className="px-6 py-6">
+              <button
+                type="button"
+                onClick={() => {
+                  close();
+                  openSearch();
+                }}
+                className="mb-6 flex h-10 w-full items-center gap-2.5 border border-rule px-3 text-left"
+              >
+                <SearchIcon className="text-ink-faint" />
+                <span className="kicker !text-[10px] text-ink-mute">
+                  search the site
+                </span>
+              </button>
               <p className="kicker !text-[10px] text-accent">the account</p>
               <ul className="mt-3 space-y-1">
                 {CHAPTERS.map((chapter) => (

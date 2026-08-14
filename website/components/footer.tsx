@@ -57,9 +57,11 @@ const LINKS = [
 export function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-rule">
-      {/* Temple frieze: running key just below the top rule, aligned to the
-          same content column as the rest of the footer */}
-      <div className="mx-auto max-w-6xl px-5">
+      {/* Temple frieze: running key just below the top rule, running the
+          width of the page in whole units. The padding matches the viewport
+          frame's inset-3, so the band stops at its vertical rules rather
+          than running beneath them. */}
+      <div className="md:px-3">
         <MeanderFrieze className="mt-4 opacity-70" />
       </div>
       {/* Full-contrast lockup: mark and wordmark proportioned per the brand

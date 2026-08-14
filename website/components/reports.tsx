@@ -123,6 +123,12 @@ const STAGES = [
 
 const STEP_MS = 750;
 
+// The request types itself out before the run answers - someone asking is
+// the first beat of the scene, not set dressing that is already there.
+const PROMPT =
+  "Reconcile the Q2 ledger against the receipts and flag anything that does not tie out.";
+const TYPE_MS = 18;
+
 function ReportCard({ report }: { report: Report }) {
   return (
     <FramePanel className="h-full bg-paper-warm/30">
@@ -193,15 +199,26 @@ export function ReportsBody() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
   const reduced = useReducedMotion();
+  const [typed, setTyped] = useState(0);
   const [step, setStep] = useState(0);
+
+  const typing = typed < PROMPT.length;
+
+  // The prompt types first; the run does not start answering a question
+  // that has not been asked yet.
+  useEffect(() => {
+    if (!inView || reduced || !typing) return;
+    const id = window.setTimeout(() => setTyped((n) => n + 1), TYPE_MS);
+    return () => window.clearTimeout(id);
+  }, [inView, reduced, typing, typed]);
 
   // A chain of timeouts rather than an interval, so the run stops ticking
   // once it has finished instead of leaving a timer on the page forever.
   useEffect(() => {
-    if (!inView || reduced || step >= STAGES.length) return;
+    if (!inView || reduced || typing || step >= STAGES.length) return;
     const id = window.setTimeout(() => setStep((s) => s + 1), STEP_MS);
     return () => window.clearTimeout(id);
-  }, [inView, reduced, step]);
+  }, [inView, reduced, typing, step]);
 
   // Reduced motion (or no observer yet) gets the finished state outright.
   const done = reduced || step >= STAGES.length;
@@ -219,10 +236,9 @@ export function ReportsBody() {
             <span className="headline-emph">Finished in minutes.</span>
           </h2>
           <p className="lede-copy mt-6">
-            A reporting job, because it is the one whose output you can see on
-            a page. Someone asks in plain words; the run gathers what that
-            person is permitted to see across three different systems, and
-            hands back finished documents.
+            Someone asks in plain words; the run gathers what that person is
+            permitted to see across three systems, and hands back finished
+            documents.
           </p>
         </Reveal>
 
@@ -237,23 +253,29 @@ export function ReportsBody() {
                 requester: u_ellis
               </span>
             </div>
-            <p className="flex items-center gap-3 px-4 py-4 font-mono text-[13px] text-ink sm:text-sm">
+            <p className="flex items-start gap-3 px-4 py-4 font-mono text-[13px] text-ink sm:text-sm">
               <span aria-hidden className="text-ink-faint">
                 &gt;
               </span>
-              Reconcile the Q2 ledger against the receipts and flag anything
-              that does not tie out.
-              {!done && (
-                <span aria-hidden className="animate-pulse text-accent">
-                  &#9608;
+              {/* The full prompt sizes the line invisibly, so the panel does
+                  not grow as the text arrives; screen readers get the whole
+                  sentence once and none of the keystrokes. */}
+              <span className="relative">
+                <span className="sr-only">{PROMPT}</span>
+                <span aria-hidden className="invisible">{PROMPT}</span>
+                <span aria-hidden className="absolute inset-0">
+                  {reduced ? PROMPT : PROMPT.slice(0, typed)}
+                  {!done && (
+                    <span className="animate-pulse text-accent">&#9608;</span>
+                  )}
                 </span>
-              )}
+              </span>
             </p>
             {/* The run talking back. Deliberately not a live region: four
                 announcements of a decorative sequence is noise, and the final
                 line reads perfectly well on its own. */}
             <p className="border-t border-rule px-4 py-2 font-mono text-[11px] text-ink-mute">
-              {STAGES[stageIndex]}
+              {typing && !done ? <>&hellip;</> : STAGES[stageIndex]}
             </p>
           </FramePanel>
         </Reveal>
@@ -278,13 +300,11 @@ export function ReportsBody() {
 
         <Reveal delay={0.2}>
           <p className="body-copy mt-10 max-w-2xl text-ink-mute">
-            Each report is a File - one self-contained page with its data
-            snapshot baked in, so the charts draw and filter in the browser
-            with nothing running behind them. The prose comes from an agent;
-            the presentation comes from a template polished once, not from a
-            model improvising markup on the morning of the meeting. A job that
-            provisions a network or files a record ends the same way: a
-            declared output, checked, and an event saying it happened.
+            Each report is one self-contained page with its data snapshot
+            baked in, so it opens anywhere with nothing running behind it. The
+            prose comes from an agent; the presentation comes from a template
+            polished once, not a model improvising markup on the morning of
+            the meeting.
           </p>
         </Reveal>
       </div>

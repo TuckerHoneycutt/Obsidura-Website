@@ -315,6 +315,68 @@ html.light .logo-invert {
   }
 }
 
+/* Command palette: the veil fades, the panel rises like a drawn card. */
+.cmd-overlay {
+  animation: cmd-fade 0.18s ease;
+}
+
+.cmd-panel {
+  animation: term-in 0.2s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+
+@keyframes cmd-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Term hover-cards arrive with a small rise, like a note being slid in. */
+.term-card {
+  animation: term-in 0.18s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+
+@keyframes term-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Accordion entries unfold to the height Radix measures for them. */
+.accordion-content {
+  overflow: hidden;
+}
+
+.accordion-content[data-state="open"] {
+  animation: accordion-down 0.3s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+
+.accordion-content[data-state="closed"] {
+  animation: accordion-up 0.24s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
 /* -- View transitions ---------------------------------------------- */
 
 /* Route navigations: old page steps aside quickly, new page arrives
@@ -444,6 +506,17 @@ html.light .logo-invert {
 
   .frieze-wipe {
     clip-path: none;
+    animation: none;
+  }
+
+  .accordion-content[data-state="open"],
+  .accordion-content[data-state="closed"] {
+    animation: none;
+  }
+
+  .term-card,
+  .cmd-overlay,
+  .cmd-panel {
     animation: none;
   }
 

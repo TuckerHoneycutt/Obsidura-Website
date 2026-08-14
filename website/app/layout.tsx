@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ViewTransition } from "react";
 import { Cormorant_Garamond, Cutive_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { CommandMenu } from "@/components/command-menu";
 import { MotionProvider } from "@/components/motion-provider";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
@@ -98,6 +99,7 @@ export default function RootLayout({
             {/* Nav and Footer live in the layout so they persist across
                 client navigations; only the page content transitions. */}
             <Nav />
+            <CommandMenu />
             {/*
               Links that move between chapters declare their direction with
               transitionTypes, and the page slides to match: forward pushes

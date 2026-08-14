@@ -5,6 +5,7 @@ import { FramePanel } from "@/components/ui/frame-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { romanNumeral } from "@/lib/utils";
 import type { EngravingName } from "@/lib/engravings";
 
@@ -45,6 +46,36 @@ const OPTIONS: {
     meta: "containers / no outbound calls",
     href: "/deployment/on-premises",
     art: "hades",
+  },
+];
+
+// The same three options laid over each other, row by row - for the reader
+// who has met the dominions above and now wants the differences in one
+// glance. Every value restates copy from OPTIONS; nothing new is claimed.
+const COMPARE: { name: string; rows: [string, string][] }[] = [
+  {
+    name: "Obsidura Cloud",
+    rows: [
+      ["the arrangement", "Fully managed — we operate the control plane, the executor, and the worker pool."],
+      ["where data lives", "In our cloud; you author definitions and watch runs."],
+      ["the boundary", "Ours to carry, with every call passing the run-scoped proxy."],
+    ],
+  },
+  {
+    name: "Private VPC",
+    rows: [
+      ["the arrangement", "Single-tenant, deployed inside your own network boundary."],
+      ["where data lives", "It never leaves the AWS or GCP account it already lives in."],
+      ["the boundary", "Your account's edge; the proxy holds credentials you issued."],
+    ],
+  },
+  {
+    name: "On-Prem",
+    rows: [
+      ["the arrangement", "Containers on hardware you own."],
+      ["where data lives", "In the room. Nothing about a run leaves it."],
+      ["the boundary", "The wall itself — no outbound calls at all."],
+    ],
   },
 ];
 
@@ -104,6 +135,66 @@ export function DeployBody() {
           </div>
         </section>
       ))}
+
+      <section className="relative border-t border-rule bg-paper-warm/40">
+        <MeanderDivider />
+        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+          <Reveal className="max-w-3xl">
+            <p className="kicker text-accent">side by side</p>
+            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+              Three dominions, <span className="headline-emph">one engine.</span>
+            </h2>
+            <p className="body-copy mt-5 text-ink-mute">
+              The engine and the security model are identical in all three.
+              What changes is who carries the infrastructure, and where the
+              boundary sits.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <FramePanel className="mt-10 max-w-3xl bg-paper">
+              <Tabs defaultValue={COMPARE[0].name}>
+                <TabsList>
+                  {COMPARE.map((c) => (
+                    <TabsTrigger key={c.name} value={c.name}>
+                      {c.name}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+                {COMPARE.map((c, i) => (
+                  <TabsContent key={c.name} value={c.name}>
+                    <dl className="divide-y divide-rule px-5">
+                      {c.rows.map(([term, detail]) => (
+                        <div
+                          key={term}
+                          className="flex flex-col gap-1 py-4 sm:flex-row sm:gap-6"
+                        >
+                          <dt className="kicker shrink-0 !text-[10px] text-accent sm:w-36">
+                            {term}
+                          </dt>
+                          <dd className="body-copy-sm">{detail}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <div className="flex items-center justify-between border-t border-rule px-5 py-3.5">
+                      <span className="kicker flex items-center gap-1.5 !text-[10px] text-accent">
+                        <MeanderMark size={9} />
+                        {OPTIONS[i].dominion}
+                      </span>
+                      <Link
+                        href={OPTIONS[i].href}
+                        className="kicker link-sweep !text-[10px] text-accent transition-colors hover:text-ink"
+                      >
+                        the full account &rarr;
+                      </Link>
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
+            </FramePanel>
+          </Reveal>
+        </div>
+      </section>
 
       <section className="relative border-t border-rule">
         <div className="mx-auto max-w-6xl px-5 py-16">

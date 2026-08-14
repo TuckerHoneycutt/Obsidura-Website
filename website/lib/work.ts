@@ -10,7 +10,7 @@ export const FACES = [
     label: "asked for",
     title: "Someone calls it.",
     plain:
-      "A named process anyone permitted can start: a button in an internal tool, a sentence typed in plain English, or a call from another system. The library of processes is the part of the company anyone can use without knowing how any of it works.",
+      "A named process anyone permitted can start: a button in an internal tool, a sentence typed in plain English, or a call from another system. Nobody needs to know how any of it works.",
     lines: [
       "trigger  manual · press the button labelled 'month-end pack'",
       "trigger  webhook · “which suppliers slipped last quarter?”",
@@ -21,7 +21,7 @@ export const FACES = [
     label: "unattended",
     title: "Nobody calls it.",
     plain:
-      "The same kind of job with a schedule or an event on the front of it, running while everyone is asleep. Reconciliations that happen nightly, checks that run hourly, packs that land on the first of the month before anyone has asked for them.",
+      "The same kind of job with a schedule or an event on the front of it, running while everyone is asleep — nightly reconciliations, hourly checks, packs that land before anyone has asked.",
     lines: [
       "trigger  cron · 0 6 * * 1  weekly exceptions pack",
       "trigger  cron · 0 2 * * *  nightly reconciliation",

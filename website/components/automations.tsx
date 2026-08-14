@@ -9,19 +9,19 @@ import { FACES, WORK } from "@/lib/work";
 // chatbot attached to it, and that has to be set down before anything else
 // lands.
 const DOES = [
-  "Reaches the places your information already lives — databases, file storage, internal sites, cloud tools — through the interfaces they already expose, and works across all of them in one job.",
-  "Starts a job on a schedule, when another system calls in, or when a person presses a button or describes what they want in plain words.",
-  "Uses an AI agent for the parts that need judgement and an ordinary scripted task for the parts that do not — in the same process.",
-  "Hands each step only the data the person who asked is cleared to see, and fetches it on that step's behalf.",
-  "Checks every result against the shape it was promised, and writes down every call, decision, and retry in a record you can read afterwards.",
-  "Keeps the processes themselves under management: versioned, diffed before they go live, watched while they run, and held for a person's sign-off where you say so.",
+  "Reaches the places your information already lives — databases, file storage, internal sites, cloud tools — and works across all of them in one job.",
+  "Starts on a schedule, on a call from another system, or when a person presses a button or asks in plain words.",
+  "Uses an AI agent where judgement is needed and an ordinary script where it is not — in the same process.",
+  "Hands each step only the data the person who asked is cleared to see.",
+  "Checks every result against the shape it was promised, and keeps a record of every call, decision, and retry.",
+  "Keeps the processes themselves under management: versioned, watched, and held for sign-off where you say so.",
 ];
 
 const DOES_NOT = [
-  "A chatbot, or an assistant that sits in your editor. Most of what it does, nobody watches.",
-  "A tool for one kind of task. Reports are the easiest example to show on a page, not the boundary of the thing.",
-  "A model of ours. Bring the one you prefer — it runs as one ordinary step inside the job, and swapping it changes nothing else.",
-  "A place your data moves to. Run it in our cloud, in your own account, or on hardware that makes no outbound calls at all.",
+  "A chatbot, or an assistant in your editor. Most of what it does, nobody watches.",
+  "A tool for one kind of task. Reports are the easiest thing to show on a page, not the boundary.",
+  "A model of ours. Bring the one you prefer — it runs as one step inside the job.",
+  "A place your data moves to. Run it in our cloud, in your own account, or fully offline.",
 ];
 
 function List({ label, items }: { label: string; items: string[] }) {
@@ -101,11 +101,9 @@ export function AutomationsBody() {
 
           <Reveal delay={0.16}>
             <p className="body-copy mt-8 max-w-3xl text-ink-mute">
-              These are the same definitions with a different trigger on the
-              front. A process written to be called can be put on a schedule
-              without rewriting it, and a nightly job can be handed to people
-              as a button the same way. The permissions, the checks, and the
-              record do not change with the door it came in through.
+              The same definitions with a different trigger on the front. The
+              permissions, the checks, and the record do not change with the
+              door a job came in through.
             </p>
           </Reveal>
         </div>
@@ -135,18 +133,15 @@ export function AutomationsBody() {
               <span className="headline-emph">Pantheon can automate.</span>
             </h2>
             <p className="lede-copy mt-6">
-              Not a report generator with other features attached. These are
-              eight ordinary jobs from eight parts of a company, and to the
-              engine they are the same shape: a task, a permission, a check, a
+              Eight ordinary jobs from eight parts of a company &mdash; to the
+              engine, all the same shape: a task, a permission, a check, a
               record.
             </p>
             <p className="body-copy mt-5">
-              Most of them were automatable all along. They simply were not
-              worth automating: wiring one job safely across four systems
-              &mdash; credentials, permissions, retries, a person to call when
-              it broke at 3am &mdash; cost more than doing it by hand every
-              month. That arithmetic is what Pantheon changes. The wiring is
-              paid for once, by the engine, and every job after the first
+              Most of them were automatable all along; they were not{" "}
+              <em>worth</em> automating, because wiring one job safely across
+              four systems cost more than doing it by hand. Pantheon pays for
+              the wiring once, in the engine, and every job after the first
               inherits it.
             </p>
           </Reveal>
@@ -167,12 +162,10 @@ export function AutomationsBody() {
           <Reveal delay={0.2}>
             <div className="mt-10 border-t border-rule pt-8">
               <p className="body-copy max-w-3xl">
-                The engine cannot tell a rocket from a light switch. It knows
-                five kinds of value, four kinds of node, and one way to reach
-                the outside world &mdash; so the work your company does is
-                written down as definitions rather than built into the
-                machinery. That is what makes the range honest rather than a
-                boast.
+                The engine cannot tell a rocket from a light switch. The work
+                your company does is written down as definitions, not built
+                into the machinery &mdash; which is what makes the range
+                honest rather than a boast.
               </p>
               <ChipRow
                 className="mt-6"

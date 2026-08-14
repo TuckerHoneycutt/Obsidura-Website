@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "motion/react";
 import { cn } from "@/lib/utils";
 
@@ -33,44 +33,72 @@ export function MeanderMark({
   );
 }
 
+/** Edge length of one meander tile in the frieze, in px. */
+const FRIEZE_TILE = 12;
+
 /**
  * A running Greek key band: the meander unit repeated edge to edge, the
  * way it appears on temple friezes and pottery rims. Wipes on left to
  * right when scrolled into view, like a band being carved. A fixed
  * pattern id is safe here because every instance renders the identical
  * tile.
+ *
+ * The band shows only whole units: the wrapper is measured and the SVG
+ * drawn at the largest multiple of the tile that fits, centred - so the
+ * run ends on a complete key at any width instead of a clipped one.
  */
 export function MeanderFrieze({ className }: { className?: string }) {
-  const ref = useRef<SVGSVGElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [units, setUnits] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () =>
+      setUnits(Math.floor(el.clientWidth / FRIEZE_TILE));
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <svg
+    <div
       ref={ref}
-      aria-hidden
-      className={cn(
-        "frieze-wipe block w-full text-ink-faint",
-        inView && "in-view",
-        className
-      )}
-      height="12"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.1"
-      strokeLinecap="square"
+      className={cn("flex w-full justify-center", className)}
+      style={{ height: FRIEZE_TILE }}
     >
-      <defs>
-        <pattern
-          id="meander-frieze"
-          width="12"
-          height="12"
-          patternUnits="userSpaceOnUse"
+      {units > 0 && (
+        <svg
+          aria-hidden
+          className={cn("frieze-wipe block text-ink-faint", inView && "in-view")}
+          width={units * FRIEZE_TILE}
+          height={FRIEZE_TILE}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.1"
+          strokeLinecap="square"
         >
-          <path d="M1.5 9.5V2.5h9v5H6V5h2.5" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="12" stroke="none" fill="url(#meander-frieze)" />
-    </svg>
+          <defs>
+            <pattern
+              id="meander-frieze"
+              width={FRIEZE_TILE}
+              height={FRIEZE_TILE}
+              patternUnits="userSpaceOnUse"
+            >
+              <path d="M1.5 9.5V2.5h9v5H6V5h2.5" />
+            </pattern>
+          </defs>
+          <rect
+            width="100%"
+            height={FRIEZE_TILE}
+            stroke="none"
+            fill="url(#meander-frieze)"
+          />
+        </svg>
+      )}
+    </div>
   );
 }
 

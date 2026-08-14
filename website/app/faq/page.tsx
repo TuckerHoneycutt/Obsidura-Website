@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { MeanderMark } from "@/components/ui/meander-mark";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const metadata: Metadata = {
   title: "FAQ - Obsidura",
@@ -108,19 +113,20 @@ export default function FaqPage() {
               Send word through the contact page.
             </p>
 
-            <dl className="mt-14 divide-y divide-rule border-y border-rule">
+            {/* The full answers stay in the FAQPage JSON-LD above, so
+                collapsing the visible copy costs nothing to search. */}
+            <Accordion
+              type="single"
+              collapsible
+              className="mt-14 divide-y divide-rule border-y border-rule"
+            >
               {QUESTIONS.map(({ q, a }) => (
-                <div key={q} className="py-8">
-                  <dt className="flex items-start gap-3 font-display text-[1.75rem] font-medium tracking-tight">
-                    <MeanderMark size={10} className="mt-2.5 text-ink-faint" />
-                    {q}
-                  </dt>
-                  <dd className="body-copy mt-3 pl-[22px]">
-                    {a}
-                  </dd>
-                </div>
+                <AccordionItem key={q} value={q}>
+                  <AccordionTrigger>{q}</AccordionTrigger>
+                  <AccordionContent>{a}</AccordionContent>
+                </AccordionItem>
               ))}
-            </dl>
+            </Accordion>
           </div>
         </section>
       </main>
