@@ -1,0 +1,4 @@
+# Bytecode and dev-harness runtime state — never source.
+__pycache__/
+*.pyc
+devserver/data/
