@@ -79,8 +79,8 @@ by scripts**:
 ### `definitions/external` — curated snapshots + liveness cron
 
 Pre-existing package: `web_snapshot` on `/hooks/curate`, hourly
-`api_liveness` over the web registry. Known gap: the cron principal holds
-no blob grant, so the hourly run fails cosmetically until granted.
+`api_liveness` over the web registry. Cron fires as the `system` user,
+which now holds the grants these runs need (see the briefs package).
 
 ## Shared modules
 
@@ -105,3 +105,36 @@ that has `openpyxl` (the engine's `.venv` works):
 `_fakes.py` provides the ctx fake (same envelope shapes as the real
 connectors) and the shared runner. One suite per action module; see each
 file's docstring for what it pins down.
+
+## Round two additions
+
+### Data quality at ingest (`ingestion`)
+
+`_profile_csv` audits while it profiles: null rates per column, exact
+duplicate rows, extreme numeric outliers (3×IQR), and mostly-numeric
+columns polluted by text. Findings land in `table.quality` on the catalog
+entry; the describe agent is instructed to name them and the deterministic
+commit re-appends them if the description doesn't; extracts carry them as
+`quality_issues`, and the template renders a "data quality — noted at
+ingest" note. Measurement is code; narration is the model's only part.
+
+### `definitions/briefs` — saved prompts, answered every morning
+
+`POST /hooks/schedule` saves a prompt to `config/schedules.json`
+(idempotent on text, capped at 12). `morning_brief` answers every saved
+prompt — daily via cron at 07:00 UTC and on demand via
+`POST /hooks/brief` — using the same extractor and template voice as the
+Your-data report, so a daily re-answer costs nothing. A prompt whose data
+is missing gets its say on the page instead of failing the brief. The
+package also introduces the `system` user with the grants cron-fired runs
+need (fixing the standing hourly liveness failure).
+
+### The ask agent is a SQL analyst (`agents`)
+
+`agent_answer`'s envelope now includes `financial_ledger`,
+`clinical_patients`, and `rocket_test_logs` (query-only) alongside the
+catalog. Aggregates are computed in SQL and copied digit for digit;
+refused calls are reported as grant boundaries, not worked around.
+Verified live: the same patient-count question returns 30 for alice and
+22 for bob (his `ward <> 'Ward-R'` row filter), with the SQL visible in
+the audit trail.

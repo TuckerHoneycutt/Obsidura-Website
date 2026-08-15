@@ -29,4 +29,7 @@ output: kernel.file@1
 on: [ask.hook@1]
 uses:
   - { resource: blob_store@1, verbs: [get] }
+  - { resource: financial_ledger@1, verbs: [query] }
+  - { resource: clinical_patients@1, verbs: [query] }
+  - { resource: rocket_test_logs@1, verbs: [query] }
 policy: { timeout_ms: 180000, retry: 0 }

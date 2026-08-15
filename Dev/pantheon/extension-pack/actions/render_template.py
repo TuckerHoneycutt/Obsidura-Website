@@ -47,6 +47,7 @@ STYLE = (
     "td{padding:8px 12px;border-bottom:1px solid var(--line)}"
     "tr:last-child td{border-bottom:0}"
     "td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}"
+    "ul.issues{margin:8px 0 0;padding-left:20px;font-size:13px;color:#a05c33}"
     "details{margin-top:40px;border-top:1px solid var(--line);padding-top:14px}"
     "summary{font-size:12.5px;color:var(--ink3);cursor:pointer}"
     "pre{white-space:pre-wrap;font-size:12px;color:var(--ink2);"
@@ -106,6 +107,12 @@ def _file_section(filename, extract) -> str:
         kpis.append(f"<div class=\"kpi\"><b>{esc(fmt(stats.get('sum', 0)))}</b>"
                     f"<span>total {esc(name)}</span></div>")
     out.append(f"<div class=\"kpis\">{''.join(kpis)}</div>")
+
+    issues = extract.get("quality_issues") or []
+    if issues:
+        items = "".join(f"<li>{esc(i)}</li>" for i in issues)
+        out.append(f"<h3>data quality — noted at ingest</h3>"
+                   f"<ul class=\"issues\">{items}</ul>")
 
     for label, groups in (extract.get("breakdowns") or {}).items():
         ranked = sorted(groups.items(),

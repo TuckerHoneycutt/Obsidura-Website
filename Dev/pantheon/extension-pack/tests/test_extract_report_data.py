@@ -84,6 +84,20 @@ def test_sample_rows_are_capped():
     assert len(extract["sample_rows"]["rows"]) == extract_report_data.MAX_SAMPLE_ROWS
 
 
+def test_ingest_quality_issues_ride_into_the_extract():
+    entry = {"kind": "table", "sha256": "abc", "source_filename": "pay.csv",
+             "created_at": "2026-08-15",
+             "detail": {"row_source_key": "k1",
+                        "quality": {"issues": ["2 exact duplicate row(s)"]}}}
+    ctx = FakeCtx(objects={
+        "ingest/catalog.json": json.dumps([entry]).encode(),
+        "k1": CSV,
+    })
+    out = extract_report_data.run(ctx, {"prompt": "Summarise pay"})
+    assert out["data"]["data"]["pay.csv"]["quality_issues"] == \
+        ["2 exact duplicate row(s)"]
+
+
 def test_filename_mentions_match_on_the_stem():
     assert _mentioned("pay.xlsx", "summarise pay please")
     assert not _mentioned("q.csv", "quarterly numbers")  # stem too short

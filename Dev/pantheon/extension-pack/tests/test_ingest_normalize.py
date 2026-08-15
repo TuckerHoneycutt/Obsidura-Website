@@ -81,6 +81,35 @@ def test_unknown_media_stores_as_document():
     assert data["file"]["blob_key"] in ctx.objects
 
 
+def test_quality_audit_measures_nulls_duplicates_and_summary_notes_them():
+    rows = b"region,amount\nwest,10\nwest,10\n,30\n" + b"east,20\n" * 5
+    ctx = FakeCtx()
+    out = upload(ctx, "dirty.csv", "text/csv", rows)
+    q = out["data"]["table"]["quality"]
+    assert q["duplicate_rows"] >= 4          # one 'west' dupe + repeated 'east'
+    assert q["null_rates"]["region"] > 0
+    assert any("duplicate" in i for i in q["issues"])
+    assert "quality issue" in out["data"]["summary"]
+
+
+def test_a_clean_table_reports_no_issues():
+    ctx = FakeCtx()
+    out = upload(ctx, "clean.csv", "text/csv",
+                 b"region,amount\nwest,10\neast,20\nnorth,30\n")
+    q = out["data"]["table"]["quality"]
+    assert q["issues"] == []
+    assert "quality issue" not in out["data"]["summary"]
+
+
+def test_extreme_outliers_are_counted():
+    from ingest_normalize import _extreme_outliers
+    tame = [10.0, 11, 12, 10, 11, 12, 10, 11]
+    assert _extreme_outliers(tame) == 0
+    assert _extreme_outliers(tame + [10000.0]) == 1
+    assert _extreme_outliers([1.0] * 20) == 0    # zero spread, no division
+    assert _extreme_outliers([1.0, 99.0]) == 0   # too few to judge
+
+
 def test_dtype_sniffing():
     assert _sniff(["1", "2"]) == "int"
     assert _sniff(["1.5", "2"]) == "float"

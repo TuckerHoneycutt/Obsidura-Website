@@ -22,7 +22,20 @@ def run(ctx, payload: dict) -> dict:
     payload = value_in(payload)
     prompt = (payload.get("prompt") or payload.get("question")
               or "Report on the uploaded data")
+    return record("report_data@1", {
+        "question": prompt + "\n\nConvey this information to answer the "
+        "question as well as it can be answered.",
+        "data": gather_figures(ctx, prompt),
+    })
 
+
+def gather_figures(ctx, prompt: str) -> dict:
+    """filename → computed extract, for the file(s) the prompt asks about.
+
+    Shared with the scheduled brief: same selection (prompt-named file,
+    else the newest uploads), same exact arithmetic. Quality issues noted
+    at ingest ride along so every downstream page can print them.
+    """
     entries = index_load(ctx, CATALOG_KEY)
     tables = [e for e in entries if e.get("kind") == "table"]
     if not tables:
@@ -37,15 +50,15 @@ def run(ctx, payload: dict) -> dict:
 
     data = {}
     for entry in chosen:
-        key = (entry.get("detail") or {}).get("row_source_key") \
+        detail = entry.get("detail") or {}
+        key = detail.get("row_source_key") \
             or f"ingest/tables/{entry['sha256']}.csv"
-        data[entry["source_filename"]] = _extract(blob_get(ctx, key))
-
-    return record("report_data@1", {
-        "question": prompt + "\n\nConvey this information to answer the "
-        "question as well as it can be answered.",
-        "data": data,
-    })
+        extract = _extract(blob_get(ctx, key))
+        issues = (detail.get("quality") or {}).get("issues") or []
+        if issues:
+            extract["quality_issues"] = issues
+        data[entry["source_filename"]] = extract
+    return data
 
 
 def _mentioned(filename: str, lowered_prompt: str) -> bool:

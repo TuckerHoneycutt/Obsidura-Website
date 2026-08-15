@@ -1,0 +1,35 @@
+kind: schema
+name: schedule.request
+version: 1
+document:
+  type: object
+  required:
+  - prompt
+  - requester
+  additionalProperties: false
+  properties:
+    prompt:
+      type: string
+      minLength: 1
+      maxLength: 2000
+    requester:
+      type: string
+
+---
+kind: schema
+name: schedule.added
+version: 1
+document:
+  type: object
+  required:
+  - id
+  - count
+  additionalProperties: false
+  properties:
+    id:
+      type: string
+    prompt:
+      type: string
+    count:
+      type: integer
+      minimum: 0

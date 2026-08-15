@@ -55,13 +55,18 @@ def run(ctx, payload: dict) -> dict:
     if media_type in TABULAR:
         key = f"ingest/tables/{digest}.csv"
         blob_put(ctx, key, data)
-        columns, rows = _profile_csv(data)
+        columns, rows, quality = _profile_csv(data)
         result["kind"] = "table"
-        result["table"] = {"row_source_key": key, "rows": rows, "columns": columns}
+        result["table"] = {"row_source_key": key, "rows": rows,
+                           "columns": columns, "quality": quality}
         result["summary"] = (
             f"Table from {payload['filename']}{sheet_note}: {rows} rows, "
             f"columns {', '.join(c['name'] for c in columns[:12])}"
         )
+        if quality["issues"]:
+            result["summary"] += (
+                f" — {len(quality['issues'])} quality issue(s): "
+                + "; ".join(quality["issues"][:3]))
     elif media_type == "application/json" and len(data) <= INLINE_RECORD_CAP:
         parsed = json.loads(data)
         if not isinstance(parsed, dict):
@@ -118,20 +123,68 @@ def _xlsx_to_csv(data: bytes):
 
 
 def _profile_csv(data: bytes):
-    """Header + row count + cheap dtype sniff from a sample of rows."""
+    """Header, row count, dtype sniff, and a deterministic quality audit.
+
+    One full pass (uploads are webhook-capped, so the table fits in memory):
+    dtypes from the non-empty values, and quality from the whole column —
+    null rates, exact duplicate rows, extreme numeric outliers (3×IQR), and
+    mostly-numeric columns polluted by stray text. Every figure is computed,
+    never judged; the describe agent narrates, this code measures.
+    """
     text = data.decode("utf-8", errors="replace")
     reader = csv.reader(io.StringIO(text))
     header = next(reader, [])
-    sample, rows = [], 0
-    for row in reader:
-        rows += 1
-        if len(sample) < 100:
-            sample.append(row)
-    columns = []
-    for i, name in enumerate(header):
-        values = [r[i] for r in sample if i < len(r) and r[i] != ""]
-        columns.append({"name": name.strip() or f"col_{i}", "dtype": _sniff(values)})
-    return columns, rows
+    all_rows = [r for r in reader]
+    rows = len(all_rows)
+
+    columns, null_rates, outliers, issues = [], {}, {}, []
+    for i, raw_name in enumerate(header):
+        name = raw_name.strip() or f"col_{i}"
+        cells = [r[i].strip() if i < len(r) else "" for r in all_rows]
+        values = [v for v in cells if v != ""]
+        dtype = _sniff(values[:100])
+        columns.append({"name": name, "dtype": dtype})
+
+        empties = len(cells) - len(values)
+        if rows and empties:
+            pct = round(100 * empties / rows, 1)
+            null_rates[name] = pct
+            if pct >= 5:
+                issues.append(f"column '{name}': {pct}% empty")
+
+        if dtype in ("int", "float"):
+            wild = _extreme_outliers([float(v) for v in values])
+            if wild:
+                outliers[name] = wild
+                issues.append(f"column '{name}': {wild} extreme outlier(s)")
+        elif dtype == "text" and values:
+            numeric = sum(1 for v in values if _is_float(v.replace(",", "")))
+            if 0 < len(values) - numeric <= len(values) * 0.4 and numeric >= len(values) * 0.6:
+                issues.append(f"column '{name}': mixed types "
+                              f"({len(values) - numeric} non-numeric among "
+                              f"{len(values)} values)")
+
+    dupes = rows - len({tuple(r) for r in all_rows})
+    if dupes:
+        issues.append(f"{dupes} exact duplicate row(s)")
+
+    quality = {"issues": issues, "duplicate_rows": dupes,
+               "null_rates": null_rates, "outliers": outliers}
+    return columns, rows, quality
+
+
+def _extreme_outliers(values) -> int:
+    """Count beyond 3×IQR of the quartiles — the far-out kind only."""
+    if len(values) < 8:
+        return 0
+    ranked = sorted(values)
+    q1 = ranked[len(ranked) // 4]
+    q3 = ranked[(3 * len(ranked)) // 4]
+    spread = q3 - q1
+    if spread <= 0:
+        return 0
+    lo, hi = q1 - 3 * spread, q3 + 3 * spread
+    return sum(1 for v in values if v < lo or v > hi)
 
 
 def _sniff(values) -> str:

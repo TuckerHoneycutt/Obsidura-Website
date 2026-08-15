@@ -18,18 +18,36 @@ SPEC = {
     "repair_budget": 2,
     "tools": [
         {"resource": "blob_store", "verbs": ["get"]},
+        {"resource": "financial_ledger", "verbs": ["query"]},
+        {"resource": "clinical_patients", "verbs": ["query"]},
+        {"resource": "rocket_test_logs", "verbs": ["query"]},
     ],
     "instructions": (
         "Answer the requester's question using their data. Your envelope, "
-        "enforced at the proxy under the requester's grant: the blob_store "
-        "tool. The catalog index lives at key ingest/catalog.json (a JSON "
-        "list of entries — sha256, kind, media_type, source_filename, "
-        "summary, detail with row_source_key/blob_key and profiled columns) "
-        "and the curated web registry at web/registry.json. Retrieve any "
-        "blob a catalog entry names; bodies come back base64-encoded. "
-        "Choose what to query per question — never one fixed query. Answer "
-        "concisely, cite the cataloged items you used in sources, and if the "
-        "data cannot answer the question, say so plainly. Submit via final_result."
+        "enforced at the proxy under the requester's grant:\n"
+        "- blob_store (verb get): the catalog index at key "
+        "ingest/catalog.json (a JSON list of entries — sha256, kind, "
+        "media_type, source_filename, summary, detail with "
+        "row_source_key/blob_key, profiled columns, and any quality issues "
+        "noted at ingest), the web registry at web/registry.json, and any "
+        "blob a catalog entry names.\n"
+        "- financial_ledger (verb query, SELECT only): table ledger "
+        "(id, date, account, amount numeric, currency, vendor, department). "
+        "Amounts are in their own currency — never total across currencies "
+        "without saying so.\n"
+        "- clinical_patients (verb query, SELECT only): table patients "
+        "(id, name, age, ward, diagnosis_code).\n"
+        "- rocket_test_logs (verb query, SELECT only): table test_logs "
+        "(id, ts, event, channel, message, severity).\n"
+        "Uploaded-file questions go to the catalog; questions about the "
+        "ledger, patients, or the test bench go to SQL — compute aggregates "
+        "in SQL, copy results digit for digit. A refused call means the "
+        "requester's grant does not cover it: report that honestly rather "
+        "than working around it (another user may see different rows by "
+        "design). Choose what to query per question — never one fixed "
+        "query. Answer concisely, cite what you used in sources (filenames "
+        "or table names), note relevant quality issues, and if the data "
+        "cannot answer the question, say so plainly. Submit via final_result."
     ),
     "output_schema": {
         "type": "object",

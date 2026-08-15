@@ -26,8 +26,11 @@ SPEC = {
         "catalog entry names. Look up the new entry by its sha256, read what "
         "was profiled, and compose a one-paragraph description of what this "
         "data appears to be and what reports could use it, plus up to five "
-        "short lowercase tags. Submit via final_result. You propose; a "
-        "deterministic step commits your description to the catalog."
+        "short lowercase tags. If the entry's detail carries quality issues "
+        "(nulls, duplicates, outliers, mixed types), name them plainly — a "
+        "reader should learn the data's flaws from you, not discover them. "
+        "Submit via final_result. You propose; a deterministic step commits "
+        "your description to the catalog."
     ),
     "output_schema": {
         "type": "object",
@@ -58,6 +61,11 @@ def run(ctx, payload: dict) -> dict:
             detail = dict(e.get("detail") or {})
             detail["tags"] = result["tags"]
             e["detail"] = detail
+            # The measured issues survive whatever the agent wrote — a
+            # description can rephrase the flaws, never bury them.
+            issues = (detail.get("quality") or {}).get("issues") or []
+            if issues and "quality" not in e["summary"].lower():
+                e["summary"] += " Quality: " + "; ".join(issues[:4])
     index_save(ctx, CATALOG_KEY, entries)
 
     return record("ingest.enriched@1", {
@@ -98,6 +106,9 @@ def _mock(run, prompt):
             f"Columns include {', '.join(c['name'] for c in detail['columns'][:6])}. "
             "Suitable as a data source for tabular report sections and charts."
         )
+        issues = (detail.get("quality") or {}).get("issues") or []
+        if issues:
+            desc += " Quality issues noted at ingest: " + "; ".join(issues[:4]) + "."
     else:
         desc = (
             f"A {row['kind']} from {row['source_filename']} "

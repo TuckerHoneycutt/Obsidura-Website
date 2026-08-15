@@ -68,6 +68,17 @@ def test_markup_in_the_data_is_escaped():
     assert "&lt;script&gt;" in page
 
 
+def test_quality_issues_render_as_their_own_note():
+    doc = json.loads(json.dumps(DOC))
+    doc["data"]["data"]["pay.xlsx"]["quality_issues"] = [
+        "column 'bonus': 40% empty"]
+    page, _ = render(doc)
+    assert "data quality" in page
+    assert "column 'bonus': 40% empty" in page
+    clean, _ = render(DOC)
+    assert "data quality" not in clean
+
+
 def test_number_formatting():
     assert fmt(27100) == "27,100"
     assert fmt(1234.5) == "1,234.5"

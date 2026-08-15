@@ -1,0 +1,76 @@
+# Briefs package: saved prompts, answered fresh every morning.
+#
+# Two triggers into one task — the clock (cron fires as the `system` user)
+# and a webhook for on-demand runs. Schedules are configuration-as-data: a
+# JSON index in the blob store, added through /hooks/schedule under the
+# caller's grant. The brief itself is deterministic end to end (the mydata
+# extractor + template voice), which is what makes a daily re-answer cost
+# nothing.
+#
+# The `system` user and its grants also repair a standing wart: cron-fired
+# runs previously executed with no grants at all, which is why the hourly
+# liveness tick failed. system now holds exactly what its two cron tasks
+# need — the blob store, and the liveness probe's narrow web allowlist.
+kind: user
+name: system
+version: 1
+token: tok_system_dev
+---
+kind: grant
+name: system_blob
+version: 1
+user: system
+resource: blob_store@1
+verbs: [get, put]
+scope: { type: all }
+---
+kind: grant
+name: system_web
+version: 1
+user: system
+resource: web@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+    - https://api.frankfurter.dev/*
+---
+kind: trigger
+name: schedule.hook
+version: 1
+source: { type: webhook, path: /hooks/schedule }
+emits: schedule.request@1
+---
+kind: task
+name: schedule_add
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.schedule_add.run }
+input: schedule.request@1
+output: schedule.added@1
+on: [schedule.hook@1]
+uses:
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 30000, retry: 1, idempotent: true }
+---
+kind: trigger
+name: brief.tick
+version: 1
+source: { type: cron, schedule: "0 7 * * *" }
+emits: ext.cron_tick@1
+---
+kind: trigger
+name: brief.hook
+version: 1
+source: { type: webhook, path: /hooks/brief }
+emits: ext.cron_tick@1
+---
+kind: task
+name: morning_brief
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.morning_brief.run }
+input: ext.cron_tick@1
+output: kernel.file@1
+on: [brief.tick@1, brief.hook@1]
+uses:
+  - { resource: blob_store@1, verbs: [get] }
+policy: { timeout_ms: 120000, retry: 1, idempotent: true }
