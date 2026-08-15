@@ -1,0 +1,102 @@
+<!-- Upload control for the Pantheon demo shell.
+     Drop this section into the existing shell page (the one with the prompt
+     box). It follows the shell's own pattern: POST to a webhook trigger,
+     poll the run status endpoint. Endpoints to align (checklist item 4):
+       POST /hooks/upload       (the upload.file webhook trigger — verified
+                                 against prototypev1's POST /hooks/{path})
+       GET  /runs/{id}          (run status polling — verified)
+     Files ride as base64 JSON, capped at 8 MB, matching ingest.upload@1. -->
+
+<section id="ptn-upload" style="margin-top: 2rem;">
+  <h2 style="font-size: 1rem; letter-spacing: .05em; text-transform: uppercase;">
+    Add data
+  </h2>
+
+  <label id="ptn-drop"
+         style="display: block; padding: 2rem; border: 2px dashed #8884;
+                border-radius: 8px; text-align: center; cursor: pointer;">
+    Drop a file here or click to choose
+    <br><small>CSV, JSON, PDF, or images &middot; up to 8 MB</small>
+    <input id="ptn-file" type="file" hidden>
+  </label>
+
+  <div id="ptn-upload-status" style="margin-top: .75rem; min-height: 1.5rem;"></div>
+</section>
+
+<script>
+(() => {
+  const MAX_BYTES = 8 * 1024 * 1024;
+  const HOOK = "/hooks/upload";
+  const RUN = (id) => `/runs/${id}`;
+  // The shell page already knows who is signed in; reuse its identity.
+  const REQUESTER = window.PTN_USER || "demo";
+
+  const drop = document.getElementById("ptn-drop");
+  const input = document.getElementById("ptn-file");
+  const status = document.getElementById("ptn-upload-status");
+
+  drop.addEventListener("click", () => input.click());
+  drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.style.borderColor = "#888"; });
+  drop.addEventListener("dragleave", () => { drop.style.borderColor = ""; });
+  drop.addEventListener("drop", (e) => {
+    e.preventDefault();
+    drop.style.borderColor = "";
+    if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]);
+  });
+  input.addEventListener("change", () => { if (input.files[0]) upload(input.files[0]); });
+
+  async function upload(file) {
+    if (file.size > MAX_BYTES) {
+      status.textContent = `Too large: ${(file.size / 1048576).toFixed(1)} MB (limit 8 MB).`;
+      return;
+    }
+    status.textContent = `Uploading ${file.name}…`;
+    const b64 = await toBase64(file);
+    const resp = await fetch(HOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        filename: file.name,
+        media_type: file.type || "application/octet-stream",
+        size_bytes: file.size,
+        content_b64: b64,
+        requester: REQUESTER,
+      }),
+    });
+    if (!resp.ok) {
+      status.textContent = `Upload rejected (${resp.status}).`;
+      return;
+    }
+    const { run_id } = await resp.json();
+    poll(run_id, file.name);
+  }
+
+  async function poll(runId, filename) {
+    for (let i = 0; i < 60; i++) {
+      await new Promise((r) => setTimeout(r, 1000));
+      const resp = await fetch(RUN(runId));
+      if (!resp.ok) continue;
+      const run = await resp.json();
+      if (run.status === "complete") {
+        status.textContent = `${filename} ingested — it is now available to reports.`;
+        return;
+      }
+      if (run.status === "failed") {
+        status.textContent = `Ingestion failed for ${filename} — see run ${runId}.`;
+        return;
+      }
+      status.textContent = `Processing ${filename}… (${run.status})`;
+    }
+    status.textContent = `Still processing ${filename}; check run ${runId}.`;
+  }
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(",", 2)[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+})();
+</script>

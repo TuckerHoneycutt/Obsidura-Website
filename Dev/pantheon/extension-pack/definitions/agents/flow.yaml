@@ -1,0 +1,32 @@
+# Agent actions on the real engine, as script tasks driving the pack's
+# provider-generic harness (mock: keyless; PANTHEON_LLM_ANTHROPIC_API_KEY or
+# PANTHEON_AGENT_MODEL flips them live).
+kind: task
+name: agent_describe
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.agent_describe.run }
+input: ingest.cataloged@1
+output: ingest.enriched@1
+uses:
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 120000, retry: 0 }
+---
+kind: trigger
+name: ask.hook
+version: 1
+source: { type: webhook, path: /hooks/ask }
+emits: ask.question@1
+---
+# Engine entry returns kernel.file (the agent.answer record as a JSON blob):
+# /runs/{id} exposes File outputs only, so this is what lets the demo shell
+# fetch and render the answer + audit trail inline.
+kind: task
+name: agent_answer
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.agent_answer.run_engine }
+input: ask.question@1
+output: kernel.file@1
+on: [ask.hook@1]
+uses:
+  - { resource: blob_store@1, verbs: [get] }
+policy: { timeout_ms: 180000, retry: 0 }

@@ -1,0 +1,78 @@
+# Benchmark package: the caller's own figures vs the market, governed.
+#
+# One resource per host — the base_url pin IS the governance: the research
+# agent can compose any path on an approved statistical API and nothing
+# else, and every call crosses the proxy under the caller's grant into the
+# audit, which the finished page prints. Benchmarks without provenance are
+# hallucinations in a suit; here each one carries the URL it came from or
+# it doesn't ship. alice may reach three sources; bob only one — the same
+# governance beat as everywhere else.
+kind: resource
+name: worldbank
+version: 1
+connector: { type: http, base_url: "https://api.worldbank.org" }
+verbs: [request]
+---
+kind: resource
+name: datausa
+version: 1
+connector: { type: http, base_url: "https://datausa.io" }
+verbs: [request]
+---
+kind: resource
+name: bls
+version: 1
+connector: { type: http, base_url: "https://api.bls.gov" }
+verbs: [request]
+---
+kind: trigger
+name: benchmark.hook
+version: 1
+source: { type: webhook, path: /hooks/benchmark }
+emits: report.request@1
+---
+kind: task
+name: market_compare
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.market_compare.run }
+input: report.request@1
+output: kernel.file@1
+on: [benchmark.hook@1]
+uses:
+  - { resource: blob_store@1, verbs: [get] }
+  - { resource: worldbank@1, verbs: [request] }
+  - { resource: datausa@1, verbs: [request] }
+  - { resource: bls@1, verbs: [request] }
+policy: { timeout_ms: 300000, retry: 1 }
+---
+kind: grant
+name: alice_market_worldbank
+version: 1
+user: alice
+resource: worldbank@1
+verbs: [request]
+scope: { type: all }
+---
+kind: grant
+name: alice_market_datausa
+version: 1
+user: alice
+resource: datausa@1
+verbs: [request]
+scope: { type: all }
+---
+kind: grant
+name: alice_market_bls
+version: 1
+user: alice
+resource: bls@1
+verbs: [request]
+scope: { type: all }
+---
+kind: grant
+name: bob_market_worldbank
+version: 1
+user: bob
+resource: worldbank@1
+verbs: [request]
+scope: { type: all }

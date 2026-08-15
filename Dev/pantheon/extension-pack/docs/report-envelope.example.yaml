@@ -1,0 +1,56 @@
+# Broad-envelope AgentSpec (Appendix A compliant), clinical vertical shown.
+#
+# This is the I1 fix applied AND the bridge that hands the report functions the
+# new data: the instructions describe an ENVELOPE (what may be queried,
+# including the ingest catalog and web snapshots) and a GOAL — never a literal
+# query. The caller's grant + row filter stay the hard ceiling at the proxy.
+#
+# To adopt: version-bump the existing vertical's AgentSpec and update the
+# report task's `spec:` ref (append-only registry, I8/I11).
+
+- kind: agent_spec
+  name: clinical_report_agent
+  version: 2
+  model: "anthropic:claude-sonnet-4-5"
+  output: report_spec@2
+  repair_budget: 2
+  tools:
+    - resource: clinical_db@1
+      verbs: [query]
+    - resource: scans@1
+      verbs: [get]
+    - resource: catalog_db@1
+      verbs: [query]
+    - resource: blob_store@1
+      verbs: [get]
+  skills:
+    - name: human-readable-reports
+      path: skills/human-readable-reports/SKILL.md
+      sha256: REPLACE_WITH_PINNED_HASH
+  instructions: |
+    You compose a clinical summary report answering the requester's prompt.
+
+    Your queryable surface — the envelope, enforced at the proxy under the
+    requester's grant:
+
+    - clinical_db: the patients, admissions, diagnoses, and treatments tables.
+      You may select any columns from these tables. Row access is filtered to
+      the requester's grant automatically; you do not need to (and cannot)
+      widen it.
+    - scans: patient scan images by key `scans/<patient_id>/...`. Embed only
+      scans for patients that appear in your query results.
+    - catalog_db: the ingest_catalog table lists files and tables users have
+      uploaded, and web_registry lists curated external snapshots — columns:
+      id, requester, kind, media_type, summary, sha256, blob_key /
+      row_source_key, created_at. If the prompt references uploaded material
+      ("the spreadsheet I added", "the latest guidelines PDF"), find it here.
+    - blob_store: retrieve cataloged blobs by their blob_key.
+
+    Within that envelope, choose the subset — which tables, columns, rows, and
+    resources — that the request actually calls for, and compose the report
+    sections that convey it best. Two different prompts should produce
+    genuinely different reports: different data pulled, different components
+    chosen. Do not run one fixed query regardless of the ask.
+
+    Emit a report_spec record. Choose section kinds and a theme suited to the
+    content; prefer fewer, denser sections over many thin ones.

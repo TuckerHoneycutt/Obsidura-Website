@@ -1,0 +1,103 @@
+kind: schema
+name: ask.question
+version: 1
+document:
+  type: object
+  required:
+  - question
+  - requester
+  additionalProperties: false
+  properties:
+    question:
+      type: string
+      minLength: 3
+      maxLength: 2000
+    requester:
+      type: string
+
+---
+kind: schema
+name: agent.answer
+version: 1
+document:
+  type: object
+  required:
+  - question
+  - answer
+  - sources
+  - model
+  - audit
+  additionalProperties: false
+  properties:
+    question:
+      type: string
+    answer:
+      type: string
+    sources:
+      type: array
+      items:
+        type: string
+    model:
+      type: string
+    audit:
+      type: array
+      items:
+        type: object
+        required:
+        - resource
+        - verb
+        properties:
+          resource:
+            type: string
+          verb:
+            type: string
+          detail:
+            type: string
+
+---
+kind: schema
+name: ingest.enriched
+version: 1
+document:
+  type: object
+  required:
+  - catalog_id
+  - sha256
+  - kind
+  - description
+  - tags
+  - model
+  - audit
+  additionalProperties: false
+  properties:
+    catalog_id:
+      type: string
+    sha256:
+      type: string
+    kind:
+      type: string
+    description:
+      type: string
+      maxLength: 2000
+    tags:
+      type: array
+      maxItems: 8
+      items:
+        type: string
+        maxLength: 40
+    model:
+      type: string
+    audit:
+      type: array
+      items:
+        type: object
+        required:
+        - resource
+        - verb
+        properties:
+          resource:
+            type: string
+          verb:
+            type: string
+          detail:
+            type: string

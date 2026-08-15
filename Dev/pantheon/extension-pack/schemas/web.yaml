@@ -1,0 +1,105 @@
+kind: schema
+name: web.curate_request
+version: 1
+document:
+  type: object
+  required:
+  - name
+  - url
+  - purpose
+  - requester
+  additionalProperties: false
+  properties:
+    name:
+      type: string
+      pattern: ^[a-z0-9_.-]+$
+      maxLength: 64
+    url:
+      type: string
+      format: uri
+    purpose:
+      type: string
+      maxLength: 500
+    requester:
+      type: string
+
+---
+kind: schema
+name: web.snapshot
+version: 1
+document:
+  type: object
+  required:
+  - name
+  - url
+  - fetched_at
+  - status
+  additionalProperties: false
+  properties:
+    name:
+      type: string
+    url:
+      type: string
+      format: uri
+    fetched_at:
+      type: string
+      format: date-time
+    status:
+      type: string
+      enum:
+      - ok
+      - failed
+    sha256:
+      type: string
+      pattern: ^[a-f0-9]{64}$
+    media_type:
+      type: string
+    blob_key:
+      type: string
+    error:
+      type: string
+
+---
+kind: schema
+name: web.status
+version: 1
+document:
+  type: object
+  required:
+  - checked
+  - ok
+  - failed
+  additionalProperties: false
+  properties:
+    checked:
+      type: integer
+      minimum: 0
+    ok:
+      type: integer
+      minimum: 0
+    failed:
+      type: array
+      items:
+        type: object
+        required:
+        - name
+        - url
+        - error
+        properties:
+          name:
+            type: string
+          url:
+            type: string
+          error:
+            type: string
+
+---
+kind: schema
+name: ext.cron_tick
+version: 1
+document:
+  type: object
+  properties:
+    fired_at:
+      type: string
+      format: date-time

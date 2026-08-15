@@ -1,0 +1,33 @@
+# Reports over the caller's own uploads: deterministic gather AND design.
+#
+# Same GATHER → DESIGN seam as the verticals (report_data@1 in the middle),
+# with both seats held by scripts: ingest already normalized the upload to a
+# typed table, so the figures — totals, means, group-bys — are computed by
+# code from the caller's own bytes, and a template lays them out in
+# milliseconds. Correctness by construction, zero tokens, instant page.
+# The model-designed path stays the demo verticals' showcase.
+kind: trigger
+name: mydata.report.hook
+version: 1
+source: { type: webhook, path: /hooks/report-mydata }
+emits: report.request@1
+---
+kind: task
+name: extract_report_data
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.extract_report_data.run }
+input: report.request@1
+output: report_data@1
+on: [mydata.report.hook@1]
+then: [mydata_render@1]
+uses:
+  - { resource: blob_store@1, verbs: [get] }
+policy: { timeout_ms: 120000, retry: 1, idempotent: true }
+---
+kind: task
+name: mydata_render
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.render_template.run }
+input: report_data@1
+output: kernel.file@1
+policy: { timeout_ms: 60000, retry: 1, idempotent: true }
