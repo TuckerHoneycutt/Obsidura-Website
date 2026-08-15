@@ -12,7 +12,7 @@ import json
 
 from _compat import index_load, value_in
 from extract_report_data import gather_figures
-from render_template import STYLE, _file_section, esc
+from render_template import STYLE, _file_section, colophon, esc
 from schedule_add import SCHEDULES_KEY
 
 MAX_PER_BRIEF = 5
@@ -57,8 +57,11 @@ def run(ctx, payload: dict) -> dict:
         "section{margin-bottom:34px}"
         "</style></head><body><main>"
         "<header><p class=\"kicker\">Pantheon — morning brief</p>"
-        f"<h1>Your saved prompts, answered fresh</h1></header>"
+        "<h1>Your saved prompts, answered fresh</h1>"
+        f"<p class=\"provenance\">{esc(tick[:10] or 'on demand')} · "
+        f"{len(schedules)} saved prompt(s)</p></header>"
         + "".join(sections) +
+        colophon("re-answered from the data as it stands this morning") +
         "<details><summary>Schedules and tick — verbatim</summary>"
         f"<pre>{esc(json.dumps({'tick': tick, 'schedules': schedules}, indent=2, ensure_ascii=False))}</pre>"
         "</details></main></body></html>")

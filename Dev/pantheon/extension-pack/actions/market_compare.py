@@ -17,7 +17,7 @@ import _agent
 from _agent import run_agent
 from _compat import CATALOG_KEY, blob_get, index_load, value_in
 from extract_report_data import _extract
-from render_template import STYLE, esc, fmt
+from render_template import STYLE, colophon, esc, fmt
 
 MAX_TABLES = 2
 
@@ -182,6 +182,7 @@ def _render(prompt, figures, result) -> str:
         "Benchmarks are public statistics; check each basis note before "
         "acting on a comparison.</small></p>"
         f"<h3>every call it made</h3><ul class=\"audit\">{audit_html or '<li>none</li>'}</ul>"
+        + colophon("benchmarks fetched live — every source in the audit above") +
         "<details><summary>Figures and result — verbatim</summary>"
         f"<pre>{esc(json.dumps({'figures': figures, 'result': result}, indent=2, ensure_ascii=False))}</pre>"
         "</details></main></body></html>")
