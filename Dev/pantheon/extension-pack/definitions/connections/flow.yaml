@@ -1,0 +1,83 @@
+# Connections package: external sources, synced into the catalog.
+#
+# Every connection is an importer, not a new query surface: the sync task
+# pulls through a governed per-host resource, shapes what it finds into the
+# same typed-table form an upload takes (profile, quality audit and all),
+# and hands it to the existing catalog chain — so Ask, the reports, the
+# briefs and the quality machinery work on synced data with zero changes.
+#
+# Credentials and hostnames are the operator's, entered in the console's
+# Settings and resolved at call time — the Jira resource doesn't name a
+# site, it names the setting that will. alice holds the sync grants; bob
+# holds none, which is the governance beat.
+kind: resource
+name: jira
+version: 1
+connector:
+  type: http
+  base_url_env: PANTHEON_JIRA_URL
+  auth_header_env: PANTHEON_JIRA_AUTH
+verbs: [request]
+---
+kind: resource
+name: slack
+version: 1
+connector:
+  type: http
+  base_url: "https://slack.com"
+  auth_header_env: PANTHEON_SLACK_AUTH
+verbs: [request]
+---
+kind: trigger
+name: jira.sync.hook
+version: 1
+source: { type: webhook, path: /hooks/sync-jira }
+emits: sync.request@1
+---
+kind: trigger
+name: slack.sync.hook
+version: 1
+source: { type: webhook, path: /hooks/sync-slack }
+emits: sync.request@1
+---
+kind: task
+name: jira_sync
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.jira_sync.run }
+input: sync.request@1
+output: ingest.result@1
+on: [jira.sync.hook@1]
+then: [catalog_register@1]
+uses:
+  - { resource: jira@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 120000, retry: 1, idempotent: true }
+---
+kind: task
+name: slack_sync
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.slack_sync.run }
+input: sync.request@1
+output: ingest.result@1
+on: [slack.sync.hook@1]
+then: [catalog_register@1]
+uses:
+  - { resource: slack@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 120000, retry: 1, idempotent: true }
+---
+kind: grant
+name: alice_jira
+version: 1
+user: alice
+resource: jira@1
+verbs: [request]
+scope: { type: all }
+---
+kind: grant
+name: alice_slack
+version: 1
+user: alice
+resource: slack@1
+verbs: [request]
+scope: { type: all }

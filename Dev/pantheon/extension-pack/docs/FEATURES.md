@@ -138,3 +138,27 @@ refused calls are reported as grant boundaries, not worked around.
 Verified live: the same patient-count question returns 30 for alice and
 22 for bob (his `ward <> 'Ward-R'` row filter), with the SQL visible in
 the audit trail.
+
+### `definitions/connections` — external sources, synced into the catalog
+
+Every connection is an importer, not a new query surface: the sync task
+pulls through a governed per-host resource, shapes the result into the
+same typed table an upload takes (profile and quality audit included),
+and hands it to the existing catalog chain — Ask, the reports, and the
+briefs work on synced data with zero changes.
+
+- **Jira** (`POST /hooks/sync-jira`, optional `jql`): issues become
+  `jira-issues.csv` — key, type, status, assignee, priority, created,
+  resolved, computed cycle_days — which feeds the Delivery report with
+  real tickets. The site URL and credentials are *operator settings*
+  (`PANTHEON_JIRA_URL`, `PANTHEON_JIRA_AUTH`), resolved at call time via
+  the engine's new `base_url_env` connector field; the console composes
+  the Basic header from an email + API token so nobody hand-builds
+  base64.
+- **Slack** (`POST /hooks/sync-slack`, `channel` as `C…` id or `#name`):
+  channel history becomes `slack-<name>.csv` (ts, user, text, replies,
+  reactions); `#names` resolve through conversations.list. Token in
+  `PANTHEON_SLACK_AUTH` as `Bearer xoxb-…`.
+- Grants: alice may sync both; bob holds neither — refused at the proxy.
+  Truncation (partial pages, more history) is said plainly in the
+  catalog summary. Tests stub both APIs via the connector-faithful fake.
