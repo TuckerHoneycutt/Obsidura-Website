@@ -162,3 +162,16 @@ briefs work on synced data with zero changes.
 - Grants: alice may sync both; bob holds neither — refused at the proxy.
   Truncation (partial pages, more history) is said plainly in the
   catalog summary. Tests stub both APIs via the connector-faithful fake.
+
+### Workspaces
+
+Every surface scopes to the person using it. Catalog entries carry their
+`requester`: the deterministic extractor, the benchmark, and each saved
+brief prompt narrow to that person's files (unattributed legacy entries
+stay shared), and the ask agent is told whose workspace it serves and to
+say when an answer draws on someone else's file. The engine's run list
+now exposes the firing user, so the console's gallery, its Default-chip
+leans, and its per-user chat stores all follow the viewer chip — switch
+from alice to bob and the chats, reports and data leans swap wholesale,
+while grants were already his. Verified: bob's your-data report finds
+nothing in his empty workspace while alice's still builds.

@@ -11,7 +11,7 @@ the only model call left in the pipeline is the designer's.
 import csv
 import io
 
-from _compat import CATALOG_KEY, blob_get, index_load, record, value_in
+from _compat import CATALOG_KEY, blob_get, index_load, record, requester, value_in
 
 MAX_FILES = 3          # newest uploads when the prompt names none
 MAX_GROUPS = 24        # a column with more distinct values isn't a category
@@ -25,19 +25,25 @@ def run(ctx, payload: dict) -> dict:
     return record("report_data@1", {
         "question": prompt + "\n\nConvey this information to answer the "
         "question as well as it can be answered.",
-        "data": gather_figures(ctx, prompt),
+        "data": gather_figures(ctx, prompt, requester(ctx, payload)),
     })
 
 
-def gather_figures(ctx, prompt: str) -> dict:
+def gather_figures(ctx, prompt: str, for_user=None) -> dict:
     """filename → computed extract, for the file(s) the prompt asks about.
 
     Shared with the scheduled brief: same selection (prompt-named file,
     else the newest uploads), same exact arithmetic. Quality issues noted
-    at ingest ride along so every downstream page can print them.
+    at ingest ride along so every downstream page can print them. With
+    `for_user` set, the catalog narrows to that person's workspace — the
+    files they uploaded or synced (unattributed legacy entries stay
+    visible to everyone).
     """
     entries = index_load(ctx, CATALOG_KEY)
     tables = [e for e in entries if e.get("kind") == "table"]
+    if for_user:
+        tables = [e for e in tables
+                  if e.get("requester") in (for_user, None, "", "unknown")]
     if not tables:
         raise ValueError(
             "no uploaded tables in the catalog yet — add a CSV or spreadsheet "

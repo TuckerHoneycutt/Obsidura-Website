@@ -28,7 +28,8 @@ def run(ctx, payload: dict) -> dict:
         prompt = entry.get("prompt") or ""
         sections.append(f"<section><h2 class=\"ask\">{esc(prompt)}</h2>")
         try:
-            for filename, extract in gather_figures(ctx, prompt).items():
+            for filename, extract in gather_figures(
+                    ctx, prompt, entry.get("requester")).items():
                 sections.append(_file_section(filename, extract))
         except ValueError as exc:
             sections.append(f"<p class=\"miss\">{esc(exc)}</p>")

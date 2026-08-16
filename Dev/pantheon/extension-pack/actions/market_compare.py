@@ -15,7 +15,7 @@ import os
 
 import _agent
 from _agent import run_agent
-from _compat import CATALOG_KEY, blob_get, index_load, value_in
+from _compat import CATALOG_KEY, blob_get, index_load, requester, value_in
 from extract_report_data import _extract
 from render_template import STYLE, colophon, esc, fmt
 
@@ -85,9 +85,12 @@ def run(ctx, payload: dict) -> dict:
     prompt = (payload.get("prompt") or payload.get("question")
               or "Compare these figures to the market")
 
+    who = requester(ctx, payload)
     entries = index_load(ctx, CATALOG_KEY)
-    tables = sorted((e for e in entries if e.get("kind") == "table"),
-                    key=lambda e: e.get("created_at", ""), reverse=True)
+    tables = sorted(
+        (e for e in entries if e.get("kind") == "table"
+         and e.get("requester") in (who, None, "", "unknown")),
+        key=lambda e: e.get("created_at", ""), reverse=True)
     if not tables:
         raise ValueError(
             "no uploaded tables in the catalog yet — add a CSV or spreadsheet "

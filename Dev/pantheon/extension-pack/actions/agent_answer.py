@@ -45,9 +45,12 @@ SPEC = {
         "requester's grant does not cover it: report that honestly rather "
         "than working around it (another user may see different rows by "
         "design). Choose what to query per question — never one fixed "
-        "query. Answer concisely, cite what you used in sources (filenames "
-        "or table names), note relevant quality issues, and if the data "
-        "cannot answer the question, say so plainly. Submit via final_result."
+        "query. Catalog entries carry a `requester` — the asker's own files "
+        "are their workspace: prefer them, and say plainly when an answer "
+        "draws on a file someone else added. Answer concisely, cite what "
+        "you used in sources (filenames or table names), note relevant "
+        "quality issues, and if the data cannot answer the question, say "
+        "so plainly. Submit via final_result."
     ),
     "output_schema": {
         "type": "object",
@@ -63,7 +66,9 @@ SPEC = {
 
 def run(ctx, payload: dict) -> dict:
     payload = value_in(payload)
-    result = run_agent(ctx, SPEC, payload["question"], _mock)
+    asker = payload.get("requester") or "unknown"
+    result = run_agent(
+        ctx, SPEC, f"Asked by: {asker}\n\n" + payload["question"], _mock)
     return record("agent.answer@1", {
         "question": payload["question"],
         "answer": result["answer"],
