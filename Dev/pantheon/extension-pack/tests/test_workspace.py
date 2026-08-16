@@ -16,6 +16,10 @@ def test_the_snapshot_is_scoped_and_summarized():
                     "quality": {"issues": ["1 exact duplicate row(s)"]},
                     "tags": ["payroll"]},
          "summary": "A payroll table."},
+        {"kind": "table", "source_filename": "jira-issues.csv",
+         "requester": "alice", "created_at": "2026-08-17T09:00:00Z",
+         "detail": {"rows": 3, "columns": []},
+         "summary": "Synced 3 of 3 Jira issues (JQL: ORDER BY updated DESC)."},
         {"kind": "table", "source_filename": "secret.csv", "requester": "bob",
          "created_at": "2026-08-16T10:00:00Z", "detail": {}, "summary": "Bob's."},
         {"kind": "document", "source_filename": "legacy.pdf",
@@ -40,7 +44,12 @@ def test_the_snapshot_is_scoped_and_summarized():
     pay = next(f for f in doc["files"] if f["filename"] == "pay.csv")
     assert pay["rows"] == 9 and pay["columns"] == 2
     assert pay["quality_issues"] == ["1 exact duplicate row(s)"]
+    assert pay["column_list"] == [{"name": "a", "dtype": ""},
+                                  {"name": "b", "dtype": ""}]
+    assert pay["source"] == "upload"
     assert [s["prompt"] for s in doc["schedules"]] == ["Summarise pay"]
+    jira = next(f for f in doc["files"] if f["filename"] == "jira-issues.csv")
+    assert jira["source"] == "jira"
 
 
 def test_an_empty_workspace_is_a_valid_page_not_an_error():

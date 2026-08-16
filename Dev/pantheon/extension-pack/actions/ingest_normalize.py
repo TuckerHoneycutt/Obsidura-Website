@@ -67,6 +67,8 @@ def run(ctx, payload: dict) -> dict:
             result["summary"] += (
                 f" — {len(quality['issues'])} quality issue(s): "
                 + "; ".join(quality["issues"][:3]))
+        if payload.get("note"):
+            result["summary"] += f" ({payload['note']})"
     elif media_type == "application/json" and len(data) <= INLINE_RECORD_CAP:
         parsed = json.loads(data)
         if not isinstance(parsed, dict):
