@@ -102,5 +102,83 @@ def test_unknown_channel_is_a_clear_error():
         assert "#nope" in str(exc)
 
 
+
+
+CSV_BYTES = b"region,amount\nwest,10\neast,20\n"
+
+
+def test_nas_objects_ride_the_ingest_path():
+    import nas_sync
+    ctx = FakeCtx(objects={"reports/q3.csv": CSV_BYTES})
+    out = nas_sync.run(ctx, {"requester": "alice", "path": "reports/q3.csv"})
+    data = out["data"]
+    assert data["kind"] == "table" and data["source_filename"] == "q3.csv"
+    assert data["table"]["rows"] == 2
+
+
+def test_web_files_pull_and_parse():
+    import file_sync
+    ctx = FakeCtx(http={("webfile", "/exports/pay.csv?sv=TOKEN"):
+                        (200, "text/csv", CSV_BYTES)})
+    out = file_sync.run(ctx, {"requester": "alice",
+                              "path": "exports/pay.csv?sv=TOKEN"})
+    data = out["data"]
+    assert data["kind"] == "table"
+    assert data["source_filename"] == "pay.csv"   # the SAS token never names the file
+
+
+def test_msgraph_minted_token_rides_every_call():
+    import base64 as b64
+    import os
+    import msgraph_sync
+    link = "https://contoso.sharepoint.com/:x:/s/x/doc"
+    share = "u!" + b64.urlsafe_b64encode(link.encode()).decode().rstrip("=")
+    ctx = FakeCtx(http={
+        ("mslogin", "/tid/oauth2/v2.0/token"):
+            (200, "application/json",
+             json.dumps({"access_token": "tok-123"}).encode()),
+        ("msgraph", f"/v1.0/shares/{share}/driveItem?$select=name,size,file"):
+            (200, "application/json",
+             json.dumps({"name": "pay.csv",
+                         "file": {"mimeType": "text/csv"}}).encode()),
+        ("msgraph", f"/v1.0/shares/{share}/driveItem/content"):
+            (200, "text/csv", CSV_BYTES),
+    })
+    saved = {k: os.environ.get(k) for k in
+             ("PANTHEON_MS_TENANT", "PANTHEON_MS_CLIENT", "PANTHEON_MS_SECRET")}
+    os.environ.update({"PANTHEON_MS_TENANT": "tid",
+                       "PANTHEON_MS_CLIENT": "cid",
+                       "PANTHEON_MS_SECRET": "sec"})
+    try:
+        out = msgraph_sync.run(ctx, {"requester": "alice", "link": link})
+    finally:
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+    data = out["data"]
+    assert data["source_filename"] == "pay.csv" and data["kind"] == "table"
+    graph_calls = [c for c in ctx.calls if c[0] == "msgraph"]
+    assert all(c[2].get("headers", {}).get("Authorization") == "Bearer tok-123"
+               for c in graph_calls)
+
+
+def test_msgraph_unconfigured_points_at_settings():
+    import os
+    import msgraph_sync
+    saved = {k: os.environ.pop(k, None) for k in
+             ("PANTHEON_MS_TENANT", "PANTHEON_MS_CLIENT", "PANTHEON_MS_SECRET")}
+    try:
+        msgraph_sync.run(FakeCtx(), {"requester": "alice", "link": "https://x/y"})
+        raise AssertionError("expected RuntimeError")
+    except RuntimeError as exc:
+        assert "Settings" in str(exc)
+    finally:
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
+
+
 if __name__ == "__main__":
     run_tests(globals())

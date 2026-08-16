@@ -72,7 +72,12 @@ def blob_put(ctx, key: str, data: bytes, media_type="application/octet-stream") 
 
 
 def blob_get(ctx, key: str) -> bytes:
-    out = ctx.resource("blob_store").get(key=key)
+    return object_get(ctx, "blob_store", key)
+
+
+def object_get(ctx, resource: str, key: str) -> bytes:
+    """Bytes of an object from any s3-shaped resource (NAS, blob store)."""
+    out = ctx.resource(resource).get(key=key)
     if isinstance(out, str):  # tolerate a bare-b64 stand-in
         return base64.b64decode(out)
     if out.get("b64"):
@@ -92,14 +97,19 @@ def db_query(ctx, resource: str, sql: str, params=None):
     return out.get("rows", []) if isinstance(out, dict) else out
 
 
-def http_request(ctx, resource: str, method: str, url: str, body=None):
+def http_request(ctx, resource: str, method: str, url: str, body=None,
+                 headers=None):
     """Normalized: {"status": int, "media_type": str, "body_b64": str}.
 
     The real connector returns {status, headers, body_b64|file}; the media
     type rides in the headers. Oversized bodies come back as a blob handle
-    and are redeemed through ctx.blob_get.
+    and are redeemed through ctx.blob_get. Task-supplied headers pass
+    through (the connector refuses the ones it owns unless the resource
+    opted in).
     """
     kwargs = {"method": method, "path": url}
+    if headers:
+        kwargs["headers"] = headers
     if body is not None:
         kwargs["body_b64"] = base64.b64encode(
             body if isinstance(body, bytes) else str(body).encode()
