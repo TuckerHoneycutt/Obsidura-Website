@@ -180,5 +180,131 @@ def test_msgraph_unconfigured_points_at_settings():
                 os.environ[k] = v
 
 
+GOOGLE_ENV = ("PANTHEON_GOOGLE_CLIENT_ID", "PANTHEON_GOOGLE_CLIENT_SECRET",
+              "PANTHEON_GOOGLE_REFRESH_TOKEN")
+GOOGLE_ID = "1AbCdEfGhIjKlMnOpQrStUv"
+GOOGLE_TOKEN = ("gauth", "/token")
+GOOGLE_META = ("gdrive", f"/drive/v3/files/{GOOGLE_ID}"
+                         "?fields=name,mimeType,size&supportsAllDrives=true")
+
+
+def _with_google_env(fn):
+    """Run fn with the three Google settings present, then restore."""
+    import os
+    saved = {k: os.environ.get(k) for k in GOOGLE_ENV}
+    os.environ.update({"PANTHEON_GOOGLE_CLIENT_ID": "cid",
+                       "PANTHEON_GOOGLE_CLIENT_SECRET": "sec",
+                       "PANTHEON_GOOGLE_REFRESH_TOKEN": "ref"})
+    try:
+        return fn()
+    finally:
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+
+def test_google_sheet_exports_as_csv_and_the_token_rides_every_call():
+    import google_sync
+    ctx = FakeCtx(http={
+        GOOGLE_TOKEN: (200, "application/json",
+                       json.dumps({"access_token": "goog-1"}).encode()),
+        GOOGLE_META: (200, "application/json",
+                      json.dumps({"name": "Q3 pay",
+                                  "mimeType":
+                                  "application/vnd.google-apps.spreadsheet"}).encode()),
+        ("gdrive", f"/drive/v3/files/{GOOGLE_ID}/export?mimeType=text%2Fcsv"):
+            (200, "text/csv", CSV_BYTES),
+    })
+    link = f"https://docs.google.com/spreadsheets/d/{GOOGLE_ID}/edit#gid=0"
+    out = _with_google_env(
+        lambda: google_sync.run(ctx, {"requester": "alice", "link": link}))
+
+    data = out["data"]
+    # A Sheet arrives as a real table, not an opaque document.
+    assert data["kind"] == "table"
+    assert data["source_filename"] == "Q3 pay.csv"
+    # The minted token rides every Drive call, and only Drive calls.
+    drive = [c for c in ctx.calls if c[0] == "gdrive"]
+    assert len(drive) == 2
+    assert all(c[2].get("headers", {}).get("Authorization") == "Bearer goog-1"
+               for c in drive)
+    # The credentials never leave the login resource.
+    assert all("Authorization" not in c[2].get("headers", {})
+               for c in ctx.calls if c[0] == "gauth")
+    # And the file is attributed to Google, not to an upload.
+    assert "google drive" in data["summary"].lower()
+
+
+def test_google_uploaded_file_downloads_as_itself():
+    import google_sync
+    ctx = FakeCtx(http={
+        GOOGLE_TOKEN: (200, "application/json",
+                       json.dumps({"access_token": "goog-1"}).encode()),
+        GOOGLE_META: (200, "application/json",
+                      json.dumps({"name": "pay.csv", "mimeType": "text/csv",
+                                  "size": "42"}).encode()),
+        ("gdrive", f"/drive/v3/files/{GOOGLE_ID}?alt=media&supportsAllDrives=true"):
+            (200, "text/csv", CSV_BYTES),
+    })
+    link = f"https://drive.google.com/file/d/{GOOGLE_ID}/view?usp=sharing"
+    out = _with_google_env(
+        lambda: google_sync.run(ctx, {"requester": "alice", "link": link}))
+    data = out["data"]
+    assert data["kind"] == "table"
+    assert data["source_filename"] == "pay.csv"   # no suffix invented
+
+
+def test_google_folder_link_is_refused_kindly():
+    import google_sync
+    ctx = FakeCtx(http={
+        GOOGLE_TOKEN: (200, "application/json",
+                       json.dumps({"access_token": "goog-1"}).encode()),
+        GOOGLE_META: (200, "application/json",
+                      json.dumps({"name": "Finance",
+                                  "mimeType":
+                                  "application/vnd.google-apps.folder"}).encode()),
+    })
+    # The form an operator actually pastes when they mean "sync this folder".
+    link = f"https://drive.google.com/drive/folders/{GOOGLE_ID}"
+    try:
+        _with_google_env(
+            lambda: google_sync.run(ctx, {"requester": "alice", "link": link}))
+        raise AssertionError("expected ValueError")
+    except ValueError as exc:
+        assert "folder" in str(exc)
+
+
+def test_google_unconfigured_points_at_settings():
+    import os
+    import google_sync
+    saved = {k: os.environ.pop(k, None) for k in GOOGLE_ENV}
+    try:
+        google_sync.run(FakeCtx(), {"requester": "alice",
+                                    "link": f"https://x/d/{GOOGLE_ID}/y"})
+        raise AssertionError("expected RuntimeError")
+    except RuntimeError as exc:
+        assert "Settings" in str(exc)
+    finally:
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
+
+
+def test_google_link_forms_all_yield_the_file_id():
+    from _google import file_id_from_link
+    for link in (
+        f"https://docs.google.com/spreadsheets/d/{GOOGLE_ID}/edit#gid=0",
+        f"https://docs.google.com/document/d/{GOOGLE_ID}/edit",
+        f"https://drive.google.com/file/d/{GOOGLE_ID}/view?usp=sharing",
+        f"https://drive.google.com/open?id={GOOGLE_ID}",
+        GOOGLE_ID,
+    ):
+        assert file_id_from_link(link) == GOOGLE_ID, link
+    assert file_id_from_link("https://example.com/nothing-here") == ""
+    assert file_id_from_link("") == ""
+
+
 if __name__ == "__main__":
     run_tests(globals())

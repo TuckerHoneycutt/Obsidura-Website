@@ -48,3 +48,46 @@ document:
       type: integer
       minimum: 1
       maximum: 500
+
+---
+# Third wave: Google. `link` already covered Drive, so v3 exists for the
+# arguments the rest of the suite needs — a Gmail search, a calendar window,
+# a BigQuery statement. Declared together, once, so the surfaces that arrive
+# later need no fourth version: the registry is append-only, and a schema
+# version is cheaper to over-declare than to re-cut.
+kind: schema
+name: sync.request
+version: 3
+document:
+  type: object
+  required:
+  - requester
+  additionalProperties: false
+  properties:
+    requester:
+      type: string
+    jql:
+      type: string
+      maxLength: 1000
+    channel:
+      type: string
+      maxLength: 200
+    path:
+      type: string
+      maxLength: 900
+    link:
+      type: string
+      maxLength: 1600
+    query:
+      type: string
+      maxLength: 1000
+    range:
+      type: string
+      maxLength: 100
+    sql:
+      type: string
+      maxLength: 4000
+    limit:
+      type: integer
+      minimum: 1
+      maximum: 500

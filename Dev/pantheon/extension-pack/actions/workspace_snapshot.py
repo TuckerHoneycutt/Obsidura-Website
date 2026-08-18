@@ -64,4 +64,6 @@ def _source_of(entry) -> str:
         return "webfile"
     if "microsoft 365" in text:
         return "ms"
+    if "google drive" in text:
+        return "google"
     return "upload"

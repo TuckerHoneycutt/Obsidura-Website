@@ -1,0 +1,70 @@
+# Connections, third wave: Google.
+#
+# Same rule as the waves before it — an importer, not a query surface. The
+# shape is Microsoft's: the task mints its own short-lived token at a
+# governed login resource, so the Drive resource opts into task-supplied
+# Authorization and the executor never holds a Google credential.
+#
+# Where this differs from Microsoft: the grant is a url_allowlist rather
+# than `all`. Google's one refresh token spans a wide consent, and the
+# allowlist is what keeps this task to the two Drive endpoints it actually
+# needs. Patterns are prefix-matched against the fully normalized url, so
+# `…/files/` covers both `files/{id}?alt=media` and `files/{id}/export`.
+kind: resource
+name: gauth
+version: 1
+connector:
+  type: http
+  base_url: "https://oauth2.googleapis.com"
+verbs: [request]
+---
+kind: resource
+name: gdrive
+version: 1
+connector:
+  type: http
+  base_url: "https://www.googleapis.com"
+  allow_task_auth: true
+verbs: [request]
+---
+kind: trigger
+name: google.sync.hook
+version: 1
+source: { type: webhook, path: /hooks/sync-google }
+emits: sync.request@3
+---
+kind: task
+name: google_sync
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.google_sync.run }
+input: sync.request@3
+output: ingest.result@1
+on: [google.sync.hook@1]
+then: [catalog_register@1]
+uses:
+  - { resource: gauth@1, verbs: [request] }
+  - { resource: gdrive@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 180000, retry: 1, idempotent: true }
+---
+kind: grant
+name: alice_gauth
+version: 1
+user: alice
+resource: gauth@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://oauth2.googleapis.com/token"
+---
+kind: grant
+name: alice_gdrive
+version: 1
+user: alice
+resource: gdrive@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://www.googleapis.com/drive/v3/files/"
