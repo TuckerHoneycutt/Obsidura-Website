@@ -11,6 +11,7 @@ import json
 
 from _compat import CATALOG_KEY, index_load, requester, value_in
 from schedule_add import SCHEDULES_KEY
+from sync_schedule_add import SYNC_SCHEDULES_KEY
 
 
 def run(ctx, payload: dict) -> dict:
@@ -45,7 +46,15 @@ def run(ctx, payload: dict) -> dict:
         if s.get("requester") in (who, None, "", "unknown")
     ]
 
-    doc = {"user": who, "files": files, "schedules": schedules}
+    syncs = [
+        {"id": s.get("id") or "", "source": s.get("source") or "",
+         "arg": (s.get("arg") or "")[:120],
+         "created": (s.get("created_at") or "")[:10]}
+        for s in index_load(ctx, SYNC_SCHEDULES_KEY)
+        if s.get("requester") in (who, None, "", "unknown")
+    ]
+
+    doc = {"user": who, "files": files, "schedules": schedules, "syncs": syncs}
     return {"kind": "file",
             **ctx.blob_put(json.dumps(doc).encode("utf-8"), "application/json")}
 

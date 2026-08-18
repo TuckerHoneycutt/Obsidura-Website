@@ -235,3 +235,122 @@ scope:
   type: url_allowlist
   patterns:
   - "https://storage.googleapis.com/storage/v1/b/"
+---
+# Phase three: the morning refresh. Saved recipes live in a blob index the
+# clock buttons write; the 06:30 tick — before the 07:00 brief, so the
+# brief reads this morning's data — replays them as the system user. The
+# manual trigger drives the same task, for "refresh now" and for proving
+# the path without waiting for dawn. System grants mirror alice's
+# allowlists exactly: cron runs hold no more of the shared token's reach
+# than a person does.
+kind: trigger
+name: sync.schedule.hook
+version: 1
+source: { type: webhook, path: /hooks/schedule-sync }
+emits: sync.schedule@1
+---
+kind: task
+name: sync_schedule_add
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.sync_schedule_add.run }
+input: sync.schedule@1
+output: sync.scheduled@1
+on: [sync.schedule.hook@1]
+uses:
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 30000, retry: 1, idempotent: true }
+---
+kind: trigger
+name: google.sync.tick
+version: 1
+source: { type: cron, schedule: "30 6 * * *" }
+emits: ext.cron_tick@1
+---
+kind: trigger
+name: google.refresh.manual
+version: 1
+source: { type: manual }
+emits: ext.cron_tick@1
+---
+kind: task
+name: google_refresh
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.google_refresh.run }
+input: ext.cron_tick@1
+output: sync.refreshed@1
+on: [google.sync.tick@1, google.refresh.manual@1]
+uses:
+  - { resource: gauth@1, verbs: [request] }
+  - { resource: gdrive@1, verbs: [request] }
+  - { resource: gmail@1, verbs: [request] }
+  - { resource: gcalendar@1, verbs: [request] }
+  - { resource: gbigquery@1, verbs: [request] }
+  - { resource: gstorage@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 300000, retry: 0, idempotent: true }
+---
+kind: grant
+name: system_gauth
+version: 1
+user: system
+resource: gauth@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://oauth2.googleapis.com/token"
+---
+kind: grant
+name: system_gdrive
+version: 1
+user: system
+resource: gdrive@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://www.googleapis.com/drive/v3/files/"
+---
+kind: grant
+name: system_gmail
+version: 1
+user: system
+resource: gmail@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://gmail.googleapis.com/gmail/v1/users/me/messages"
+---
+kind: grant
+name: system_gcalendar
+version: 1
+user: system
+resource: gcalendar@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://calendar.googleapis.com/calendar/v3/calendars/primary/events"
+---
+kind: grant
+name: system_gbigquery
+version: 1
+user: system
+resource: gbigquery@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://bigquery.googleapis.com/bigquery/v2/projects/"
+---
+kind: grant
+name: system_gstorage
+version: 1
+user: system
+resource: gstorage@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://storage.googleapis.com/storage/v1/b/"

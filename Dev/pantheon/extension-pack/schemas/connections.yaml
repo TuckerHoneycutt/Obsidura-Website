@@ -91,3 +91,63 @@ document:
       type: integer
       minimum: 1
       maximum: 500
+
+---
+# A saved Google sync recipe: which door, with what argument — or which
+# saved recipe to remove. The 06:30 refresh replays the saved list.
+kind: schema
+name: sync.schedule
+version: 1
+document:
+  type: object
+  required:
+  - requester
+  additionalProperties: false
+  properties:
+    requester:
+      type: string
+    source:
+      type: string
+      enum: [drive, gmail, gcal, bigquery, gcs]
+    arg:
+      type: string
+      maxLength: 4000
+    remove:
+      type: string
+      maxLength: 40
+
+---
+kind: schema
+name: sync.scheduled
+version: 1
+document:
+  type: object
+  required:
+  - action
+  - id
+  - count
+  properties:
+    action:
+      type: string
+      enum: [saved, removed]
+    id:
+      type: string
+    count:
+      type: integer
+
+---
+kind: schema
+name: sync.refreshed
+version: 1
+document:
+  type: object
+  required:
+  - ran
+  - failed
+  properties:
+    ran:
+      type: integer
+    failed:
+      type: integer
+    notes:
+      type: string
