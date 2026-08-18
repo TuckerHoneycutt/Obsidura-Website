@@ -14,6 +14,8 @@ personal accounts, which domain-wide delegation does not.
 """
 
 import base64
+import csv
+import io
 import json
 import os
 import re
@@ -83,13 +85,33 @@ def file_id_from_link(link: str) -> str:
     return link if _BARE_ID.match(link) else ""
 
 
-def explain(status: int, what: str) -> str:
+def explain(status: int, what: str, scope: str = "Drive") -> str:
     """Google's refusals in the operator's language, not the wire's."""
     if status in (401, 403):
         return (f"Google refused access to {what} (HTTP {status}) — check that "
-                "the refresh token carries the Drive read scope, and that the "
-                "file is shared with the account that authorized Pantheon")
+                f"the refresh token carries the {scope} read scope, and that "
+                "the account that authorized Pantheon can see it")
     if status == 404:
-        return (f"Google has no {what} at that link (HTTP 404) — check the link, "
-                "and that it is shared with the account that authorized Pantheon")
+        return (f"Google has no {what} there (HTTP 404) — check the link or "
+                "name, and that it is visible to the account that authorized "
+                "Pantheon")
     return f"Google refused {what} (HTTP {status})"
+
+
+def rows_to_csv(header: list, rows: list) -> bytes:
+    """Rows (lists of cells) as CSV bytes for the ingest path's table branch."""
+    out = io.StringIO()
+    writer = csv.writer(out)
+    writer.writerow(header)
+    for row in rows:
+        writer.writerow(["" if cell is None else cell for cell in row])
+    return out.getvalue().encode("utf-8")
+
+
+def get_json(ctx, resource: str, path: str, auth: dict, what: str,
+             scope: str = "Drive") -> dict:
+    """One authorized GET, decoded, with refusals explained."""
+    resp = http_request(ctx, resource, "GET", path, headers=auth)
+    if resp["status"] != 200:
+        raise RuntimeError(explain(resp["status"], what, scope))
+    return json.loads(base64.b64decode(resp.get("body_b64") or "") or b"{}")

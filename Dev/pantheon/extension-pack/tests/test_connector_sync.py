@@ -292,6 +292,142 @@ def test_google_unconfigured_points_at_settings():
                 os.environ[k] = v
 
 
+def test_gmail_search_becomes_a_message_table():
+    import urllib.parse as up
+    import gmail_sync
+    list_path = ("/gmail/v1/users/me/messages?"
+                 + up.urlencode({"q": "from:stripe", "maxResults": "2"}))
+    meta = ("?format=metadata&metadataHeaders=From&metadataHeaders=To"
+            "&metadataHeaders=Subject&metadataHeaders=Date")
+    ctx = FakeCtx(http={
+        GOOGLE_TOKEN: (200, "application/json",
+                       json.dumps({"access_token": "goog-2"}).encode()),
+        ("gmail", list_path): (200, "application/json",
+                               json.dumps({"messages": [{"id": "m1"},
+                                                        {"id": "m2"}]}).encode()),
+        ("gmail", f"/gmail/v1/users/me/messages/m1{meta}"):
+            (200, "application/json",
+             json.dumps({"snippet": "your invoice",
+                         "labelIds": ["INBOX"],
+                         "payload": {"headers": [
+                             {"name": "From", "value": "billing@stripe.com"},
+                             {"name": "Subject", "value": "Invoice #1"},
+                             {"name": "Date", "value": "Mon, 4 Aug 2026"}]}}).encode()),
+        ("gmail", f"/gmail/v1/users/me/messages/m2{meta}"):
+            (200, "application/json",
+             json.dumps({"snippet": "receipt",
+                         "payload": {"headers": []}}).encode()),
+    })
+    out = _with_google_env(
+        lambda: gmail_sync.run(ctx, {"requester": "alice",
+                                     "query": "from:stripe", "limit": 2}))
+    data = out["data"]
+    assert data["kind"] == "table"
+    assert data["source_filename"] == "gmail-messages.csv"
+    assert "gmail" in data["summary"].lower()
+    mail_calls = [c for c in ctx.calls if c[0] == "gmail"]
+    assert len(mail_calls) == 3  # one list, two metadata
+    assert all(c[2]["headers"]["Authorization"] == "Bearer goog-2"
+               for c in mail_calls)
+
+
+def test_gcal_range_becomes_an_event_table():
+    import urllib.parse as up
+    import gcal_sync
+    params = up.urlencode({
+        "timeMin": "2026-07-01T00:00:00Z", "timeMax": "2026-09-30T00:00:00Z",
+        "singleEvents": "true", "orderBy": "startTime", "maxResults": "250"})
+    ctx = FakeCtx(http={
+        GOOGLE_TOKEN: (200, "application/json",
+                       json.dumps({"access_token": "goog-3"}).encode()),
+        ("gcalendar", f"/calendar/v3/calendars/primary/events?{params}"):
+            (200, "application/json",
+             json.dumps({"items": [
+                 {"start": {"dateTime": "2026-07-02T10:00:00Z"},
+                  "end": {"dateTime": "2026-07-02T10:30:00Z"},
+                  "summary": "Standup",
+                  "organizer": {"email": "ana@co"},
+                  "attendees": [{"email": "bo@co"}],
+                  "status": "confirmed"}]}).encode()),
+    })
+    out = _with_google_env(
+        lambda: gcal_sync.run(ctx, {"requester": "alice",
+                                    "range": "2026-07-01..2026-09-30"}))
+    data = out["data"]
+    assert data["kind"] == "table"
+    assert data["source_filename"] == "calendar-events.csv"
+    assert "calendar" in data["summary"].lower()
+
+
+def test_bigquery_rows_materialize_as_a_table():
+    import os
+    import bigquery_sync
+    ctx = FakeCtx(http={
+        GOOGLE_TOKEN: (200, "application/json",
+                       json.dumps({"access_token": "goog-4"}).encode()),
+        ("gbigquery", "/bigquery/v2/projects/proj-1/queries"):
+            (200, "application/json",
+             json.dumps({"jobComplete": True,
+                         "schema": {"fields": [{"name": "vendor"},
+                                               {"name": "amount"}]},
+                         "totalRows": "2",
+                         "rows": [{"f": [{"v": "acme"}, {"v": "10.5"}]},
+                                  {"f": [{"v": "globex"}, {"v": "4"}]}]}).encode()),
+    })
+    saved = os.environ.get("PANTHEON_GCP_PROJECT")
+    os.environ["PANTHEON_GCP_PROJECT"] = "proj-1"
+    try:
+        out = _with_google_env(
+            lambda: bigquery_sync.run(ctx, {"requester": "alice",
+                                            "sql": "SELECT vendor, amount FROM t"}))
+    finally:
+        if saved is None:
+            os.environ.pop("PANTHEON_GCP_PROJECT", None)
+        else:
+            os.environ["PANTHEON_GCP_PROJECT"] = saved
+    data = out["data"]
+    assert data["kind"] == "table"
+    assert data["source_filename"] == "bigquery-results.csv"
+    assert "bigquery" in data["summary"].lower()
+
+
+def test_bigquery_without_a_project_points_at_settings():
+    import os
+    import bigquery_sync
+    saved = os.environ.pop("PANTHEON_GCP_PROJECT", None)
+    try:
+        _with_google_env(
+            lambda: bigquery_sync.run(FakeCtx(), {"requester": "alice",
+                                                  "sql": "SELECT 1"}))
+        raise AssertionError("expected RuntimeError")
+    except RuntimeError as exc:
+        assert "Settings" in str(exc)
+    finally:
+        if saved is not None:
+            os.environ["PANTHEON_GCP_PROJECT"] = saved
+
+
+def test_gcs_object_rides_the_ingest_path():
+    import gcs_sync
+    ctx = FakeCtx(http={
+        GOOGLE_TOKEN: (200, "application/json",
+                       json.dumps({"access_token": "goog-5"}).encode()),
+        ("gstorage", "/storage/v1/b/bkt/o/reports%2Fq3.csv"):
+            (200, "application/json",
+             json.dumps({"name": "reports/q3.csv", "size": "36",
+                         "contentType": "text/csv"}).encode()),
+        ("gstorage", "/storage/v1/b/bkt/o/reports%2Fq3.csv?alt=media"):
+            (200, "text/csv", CSV_BYTES),
+    })
+    out = _with_google_env(
+        lambda: gcs_sync.run(ctx, {"requester": "alice",
+                                   "path": "gs://bkt/reports/q3.csv"}))
+    data = out["data"]
+    assert data["kind"] == "table"
+    assert data["source_filename"] == "q3.csv"
+    assert "cloud storage" in data["summary"].lower()
+
+
 def test_google_link_forms_all_yield_the_file_id():
     from _google import file_id_from_link
     for link in (

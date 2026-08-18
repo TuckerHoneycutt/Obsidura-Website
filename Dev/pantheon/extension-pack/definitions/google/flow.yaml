@@ -68,3 +68,170 @@ scope:
   type: url_allowlist
   patterns:
   - "https://www.googleapis.com/drive/v3/files/"
+---
+# The rest of the suite: Gmail, Calendar, BigQuery, Cloud Storage. One
+# resource per Google host, each pinned and opted into task auth; the same
+# gauth token exchange serves them all — one consent, one refresh token.
+# Every grant stays a url_allowlist, holding each task to the read
+# endpoints it names and nothing else the shared token could reach.
+kind: resource
+name: gmail
+version: 1
+connector:
+  type: http
+  base_url: "https://gmail.googleapis.com"
+  allow_task_auth: true
+verbs: [request]
+---
+kind: resource
+name: gcalendar
+version: 1
+connector:
+  type: http
+  base_url: "https://calendar.googleapis.com"
+  allow_task_auth: true
+verbs: [request]
+---
+kind: resource
+name: gbigquery
+version: 1
+connector:
+  type: http
+  base_url: "https://bigquery.googleapis.com"
+  allow_task_auth: true
+verbs: [request]
+---
+kind: resource
+name: gstorage
+version: 1
+connector:
+  type: http
+  base_url: "https://storage.googleapis.com"
+  allow_task_auth: true
+verbs: [request]
+---
+kind: trigger
+name: gmail.sync.hook
+version: 1
+source: { type: webhook, path: /hooks/sync-gmail }
+emits: sync.request@3
+---
+kind: trigger
+name: gcal.sync.hook
+version: 1
+source: { type: webhook, path: /hooks/sync-gcal }
+emits: sync.request@3
+---
+kind: trigger
+name: bigquery.sync.hook
+version: 1
+source: { type: webhook, path: /hooks/sync-bigquery }
+emits: sync.request@3
+---
+kind: trigger
+name: gcs.sync.hook
+version: 1
+source: { type: webhook, path: /hooks/sync-gcs }
+emits: sync.request@3
+---
+kind: task
+name: gmail_sync
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.gmail_sync.run }
+input: sync.request@3
+output: ingest.result@1
+on: [gmail.sync.hook@1]
+then: [catalog_register@1]
+uses:
+  - { resource: gauth@1, verbs: [request] }
+  - { resource: gmail@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 180000, retry: 1, idempotent: true }
+---
+kind: task
+name: gcal_sync
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.gcal_sync.run }
+input: sync.request@3
+output: ingest.result@1
+on: [gcal.sync.hook@1]
+then: [catalog_register@1]
+uses:
+  - { resource: gauth@1, verbs: [request] }
+  - { resource: gcalendar@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 120000, retry: 1, idempotent: true }
+---
+kind: task
+name: bigquery_sync
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.bigquery_sync.run }
+input: sync.request@3
+output: ingest.result@1
+on: [bigquery.sync.hook@1]
+then: [catalog_register@1]
+uses:
+  - { resource: gauth@1, verbs: [request] }
+  - { resource: gbigquery@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+# jobs.query may hold the line 20s, then the action polls up to two more
+# minutes — the task ceiling leaves room for both plus ingest.
+policy: { timeout_ms: 240000, retry: 1, idempotent: true }
+---
+kind: task
+name: gcs_sync
+version: 1
+runner: { type: script, runtime: python, entry: ext_actions.gcs_sync.run }
+input: sync.request@3
+output: ingest.result@1
+on: [gcs.sync.hook@1]
+then: [catalog_register@1]
+uses:
+  - { resource: gauth@1, verbs: [request] }
+  - { resource: gstorage@1, verbs: [request] }
+  - { resource: blob_store@1, verbs: [get, put] }
+policy: { timeout_ms: 180000, retry: 1, idempotent: true }
+---
+kind: grant
+name: alice_gmail
+version: 1
+user: alice
+resource: gmail@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://gmail.googleapis.com/gmail/v1/users/me/messages"
+---
+kind: grant
+name: alice_gcalendar
+version: 1
+user: alice
+resource: gcalendar@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://calendar.googleapis.com/calendar/v3/calendars/primary/events"
+---
+kind: grant
+name: alice_gbigquery
+version: 1
+user: alice
+resource: gbigquery@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://bigquery.googleapis.com/bigquery/v2/projects/"
+---
+kind: grant
+name: alice_gstorage
+version: 1
+user: alice
+resource: gstorage@1
+verbs: [request]
+scope:
+  type: url_allowlist
+  patterns:
+  - "https://storage.googleapis.com/storage/v1/b/"

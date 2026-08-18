@@ -64,6 +64,9 @@ def _source_of(entry) -> str:
         return "webfile"
     if "microsoft 365" in text:
         return "ms"
-    if "google drive" in text:
+    # The whole Google suite is one connection card, so its five surfaces
+    # share one map node; the per-surface phrase stays in the summary.
+    if ("google drive" in text or "gmail" in text or "google calendar" in text
+            or "bigquery" in text or "cloud storage" in text):
         return "google"
     return "upload"
