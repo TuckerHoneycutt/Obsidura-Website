@@ -1,36 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ContactForm } from "@/components/contact-form";
-import { Engraving } from "@/components/ui/engraving";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderMark } from "@/components/ui/meander-mark";
-import { SOCIALS } from "@/lib/socials";
 
 export const metadata: Metadata = {
   title: "Contact - Obsidura",
   description:
-    "Get in touch with Obsidura — book a demo, ask about deployment, or write directly to the officers of the company.",
+    "Get in touch with Obsidura — book a demo, ask about deployment, or send word to the company.",
   alternates: {
     canonical: "/contact",
   },
 };
-
-const OFFICERS = [
-  {
-    name: "Jarrett Whaley",
-    role: "Chief Executive Officer",
-    email: "jarrett@obsidura.com",
-  },
-  {
-    name: "Ethan Pascuales",
-    role: "Chief Technology Officer",
-    email: "ethan@obsidura.com",
-  },
-  {
-    name: "Tucker Honeycutt",
-    role: "Chief Operating Officer",
-    email: "tucker@obsidura.com",
-  },
-];
 
 export default function ContactPage() {
   return (
@@ -63,78 +44,20 @@ export default function ContactPage() {
               <p className="font-mono text-[12px] leading-relaxed text-ink-mute">
                 Prefer email directly? That address lands in the same inbox.
               </p>
+              <p className="font-mono text-[12px] leading-relaxed text-ink-mute">
+                Rather write to a person? The officers are listed on the{" "}
+                <Link
+                  href="/about"
+                  className="link-sweep text-ink-soft transition-colors hover:text-ink"
+                >
+                  about page
+                </Link>
+                .
+              </p>
             </div>
           </div>
 
           <ContactForm />
-        </div>
-      </section>
-
-      {/* The directory: Hermes carries the message; the officers receive it.
-          Same two-column mount as the chapter pages - engraving beside
-          text - so the page reads as one of the family. */}
-      <section className="border-t border-rule">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:py-24">
-          <div className="hidden lg:block">
-            <Engraving name="hermes" maxHeight={560} dim />
-            <p className="kicker mt-4 text-center !text-[10px]">
-              hermes, messenger of the gods
-            </p>
-          </div>
-
-          <div>
-            <p className="kicker mb-6 text-accent">the directory</p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-[1.05] font-light tracking-tight">
-              Or write to <span className="headline-emph">a person.</span>
-            </h2>
-
-            <ul className="mt-10">
-              {OFFICERS.map(({ name, role, email }) => (
-                <li
-                  key={email}
-                  className="flex flex-col gap-1.5 border-t border-rule py-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-                >
-                  <div>
-                    <p className="font-display text-2xl font-light tracking-tight">
-                      {name}
-                    </p>
-                    <p className="kicker mt-1 !text-[10px] text-ink-mute">
-                      {role}
-                    </p>
-                  </div>
-                  <a
-                    href={`mailto:${email}`}
-                    className="kicker link-sweep shrink-0 transition-colors hover:text-ink"
-                  >
-                    {email}
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-12 border-t border-rule pt-6">
-              <p className="kicker mb-4 flex items-center gap-2.5">
-                <MeanderMark size={10} />
-                obsidura, elsewhere
-              </p>
-              <div className="flex flex-wrap gap-x-8 gap-y-3">
-                {SOCIALS.map(({ label, href }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="kicker link-sweep transition-colors hover:text-ink"
-                  >
-                    {label} &rarr;
-                  </a>
-                ))}
-              </div>
-              <p className="mt-4 font-mono text-[12px] leading-relaxed text-ink-mute">
-                We are @obsidura on every platform.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
     </main>

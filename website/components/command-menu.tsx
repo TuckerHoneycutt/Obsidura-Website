@@ -9,6 +9,7 @@ import { MeanderMark } from "@/components/ui/meander-mark";
 // Every destination the footer knows, grouped the way the footer groups
 // them - the palette is the same directory made reachable by keyboard.
 const ELSEWHERE = [
+  { label: "About", href: "/about" },
   { label: "Integrations", href: "/integrations" },
   { label: "Connections", href: "/connections" },
   { label: "Security", href: "/security" },

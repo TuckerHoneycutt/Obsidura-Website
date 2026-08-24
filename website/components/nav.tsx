@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
@@ -9,17 +9,11 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { CHAPTERS } from "@/lib/chapters";
 import { cn } from "@/lib/utils";
 
-// Four of the five chapters fit the centre row; governance reads as part of
-// the same account and stays reachable from the index, the pager, and the
-// mobile panel below.
-const NAV_CHAPTERS = ["automations", "workflows", "runtime", "deploy"];
-
-const navChapters = CHAPTERS.filter((c) => NAV_CHAPTERS.includes(c.slug));
-
 // The panel lists every chapter, then the pages that only the footer
 // otherwise reaches. Contact is absent because the panel closes on it
 // as its own CTA below.
 const PANEL_PAGES = [
+  { label: "About", href: "/about" },
   { label: "Integrations", href: "/integrations" },
   { label: "Security", href: "/security" },
   { label: "FAQ", href: "/faq" },
@@ -49,6 +43,27 @@ function SearchIcon({ className }: { className?: string }) {
   );
 }
 
+function ChevronIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 10 10"
+      width={9}
+      height={9}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="square"
+      aria-hidden
+      className={cn(
+        "shrink-0 transition-transform duration-200",
+        open && "rotate-180"
+      )}
+    >
+      <path d="M2 3.5l3 3 3-3" />
+    </svg>
+  );
+}
+
 /** Opens the command palette mounted in the layout; the event keeps the
     two components uncoupled. */
 const openSearch = () =>
@@ -71,6 +86,101 @@ function MenuIcon({ open }: { open: boolean }) {
         <path d="M3 7h18M3 12h18M3 17h18" />
       )}
     </svg>
+  );
+}
+
+/**
+ * The five chapters folded behind one word. The dropdown holds every
+ * chapter - governance included, since the width constraint that kept it
+ * off the old inline row no longer applies.
+ */
+function PantheonMenu({ pathname }: { pathname: string }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+
+  // The trigger lights up when the reader is inside any chapter, the same
+  // signal the inline links used to give per page.
+  const current = CHAPTERS.some((c) => pathname === `/${c.slug}`);
+
+  // Route changes dismiss the menu during render, same as the mobile panel.
+  const [routeAtOpen, setRouteAtOpen] = useState(pathname);
+  if (routeAtOpen !== pathname) {
+    setRouteAtOpen(pathname);
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={menuId}
+        className={cn(
+          "link-sweep font-display flex items-center gap-2 text-[15px] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
+          current || open ? "text-ink" : "text-ink-mute"
+        )}
+      >
+        Pantheon
+        <ChevronIcon open={open} />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id={menuId}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18, ease: [0.21, 0.47, 0.32, 0.98] }}
+            // Sits below the header's bottom border so the panel reads as
+            // hung from the rule rather than floating over the row.
+            className="absolute top-full left-1/2 z-50 mt-[21px] w-56 -translate-x-1/2 border border-rule bg-paper"
+          >
+            <ul className="p-2">
+              {CHAPTERS.map((chapter) => {
+                const href = `/${chapter.slug}`;
+                return (
+                  <li key={chapter.slug}>
+                    <Link
+                      href={href}
+                      transitionTypes={["nav-forward"]}
+                      aria-current={pathname === href ? "page" : undefined}
+                      className={cn(
+                        "font-display flex items-baseline gap-3 px-3 py-2.5 text-lg font-light tracking-tight transition-colors hover:bg-paper-warm hover:text-ink",
+                        pathname === href ? "text-ink" : "text-ink-soft"
+                      )}
+                    >
+                      <span className="kicker w-6 shrink-0 text-accent">
+                        {chapter.numeral}
+                      </span>
+                      {label(chapter.slug)}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -137,9 +247,10 @@ export function Nav() {
           </span>
         </Link>
         <div className="hidden items-center justify-center gap-8 lg:flex">
-          {/* Contact rides the same row as the chapters - it replaced the
-              demo button, which pointed at the same page. */}
-          {[...navChapters.map((c) => c.slug), "contact"].map((slug) => {
+          {/* The chapters fold into the Pantheon menu; the company pages
+              ride the row beside it. */}
+          <PantheonMenu pathname={pathname} />
+          {["about", "contact"].map((slug) => {
             const href = `/${slug}`;
             const current = pathname === href;
             return (
@@ -220,7 +331,7 @@ export function Nav() {
                   search the site
                 </span>
               </button>
-              <p className="kicker !text-[10px] text-accent">the account</p>
+              <p className="kicker !text-[10px] text-accent">pantheon</p>
               <ul className="mt-3 space-y-1">
                 {CHAPTERS.map((chapter) => (
                   <li key={chapter.slug}>
