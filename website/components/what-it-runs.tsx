@@ -11,8 +11,8 @@ const SHOWN = [WORK[0], WORK[1], WORK[4], WORK[7]];
 /**
  * The breadth beat, kept to a strip. A reader who has just been told what
  * Pantheon is will assume it does one kind of thing, and which kind depends on
- * whichever example they saw first - so four examples far apart, the two ways
- * a run starts in a sentence, and a way through to the rest.
+ * whichever example they saw first - so four examples far apart, the four
+ * kinds of work in a sentence, and a way through to the rest.
  */
 export function WhatItRuns() {
   return (
@@ -22,13 +22,15 @@ export function WhatItRuns() {
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">what it runs</p>
           <h2 className="font-display mt-6 text-[clamp(2rem,4vw,3.15rem)] leading-[1.06] font-light tracking-tight">
-            Some of it runs itself.{" "}
-            <span className="headline-emph">The rest you ask for.</span>
+            One layer beneath.{" "}
+            <span className="headline-emph">Four kinds of work on top.</span>
           </h2>
           <p className="lede-copy mt-7">
-            A schedule, another system calling in, or a person with a button or
-            a sentence &mdash; the same process serves all three doors, and
-            anything software and data can touch is in range.
+            Cron jobs that recur on a schedule, actions fired once, workflows
+            that carry a process end to end, and questions asked in chat and
+            answered from the context of your data &mdash; all against the
+            same governed layer, and anything software and data can touch is
+            in range.
           </p>
         </Reveal>
 
@@ -51,7 +53,7 @@ export function WhatItRuns() {
             transitionTypes={["nav-forward"]}
             className="kicker link-sweep mt-8 inline-block text-accent transition-colors hover:text-ink"
           >
-            the rest of the range, and one job followed to the end &rarr;
+            the rest of the possibilities, and one job followed to the end &rarr;
           </Link>
         </Reveal>
       </div>

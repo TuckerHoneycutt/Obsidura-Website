@@ -4,28 +4,46 @@
  * differ from the range it claims in another.
  */
 
-/** The two doors a run can come in through. Same definitions behind both. */
+/** The four kinds of work that run against the layer. */
 export const FACES = [
   {
-    label: "asked for",
-    title: "Someone calls it.",
+    label: "cron jobs",
+    title: "It recurs on a schedule.",
     plain:
-      "A named process anyone permitted can start: a button in an internal tool, a sentence typed in plain English, or a call from another system. Nobody needs to know how any of it works.",
+      "Work with a cadence on the front of it, running while everyone is asleep — nightly reconciliations, hourly checks, the morning pack landing before anyone has asked.",
+    lines: [
+      "trigger  cron · 0 2 * * *  nightly reconciliation",
+      "trigger  cron · 0 6 * * 1  weekly exceptions pack",
+    ],
+  },
+  {
+    label: "actions",
+    title: "It fires once.",
+    plain:
+      "A single named operation anyone permitted can trigger — a button in an internal tool, or a call from another system — done, recorded, and out of the way.",
     lines: [
       "trigger  manual · press the button labelled 'month-end pack'",
-      "trigger  webhook · “which suppliers slipped last quarter?”",
       "trigger  webhook · called by the ticketing system",
     ],
   },
   {
-    label: "unattended",
-    title: "Nobody calls it.",
+    label: "workflows",
+    title: "It carries a process end to end.",
     plain:
-      "The same kind of job with a schedule or an event on the front of it, running while everyone is asleep — nightly reconciliations, hourly checks, packs that land before anyone has asked.",
+      "Several steps chained across systems — scripts where the path is fixed, agents where judgement is needed, and a person to sign off where you say so.",
     lines: [
-      "trigger  cron · 0 6 * * 1  weekly exceptions pack",
-      "trigger  cron · 0 2 * * *  nightly reconciliation",
-      "trigger  webhook · fires when a test run finishes",
+      "agent gathers → render task → approval gate → filed",
+      "every seam schema-checked · every step on the record",
+    ],
+  },
+  {
+    label: "chat",
+    title: "It answers from your data.",
+    plain:
+      "A question asked in plain English, answered from the context of the layer — scoped to what you are allowed to see, with the sources on the record.",
+    lines: [
+      "“which suppliers slipped last quarter?”",
+      "answer drawn from the layer · scoped to your role",
     ],
   },
 ] as const;

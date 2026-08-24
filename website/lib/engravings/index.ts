@@ -13,6 +13,7 @@ export type EngravingName =
   | "hades"
   | "hephaestus"
   | "herakles"
+  | "hermes"
   | "olympus"
   | "poseidon"
   | "zeus";
@@ -47,6 +48,11 @@ export const ENGRAVINGS: Record<EngravingName, Engraving> = {
     load: () => import("./herakles").then((m) => m.HERAKLES),
     lines: 57,
     cols: 157,
+  },
+  hermes: {
+    load: () => import("./hermes").then((m) => m.HERMES),
+    lines: 105,
+    cols: 85,
   },
   olympus: {
     load: () => import("./olympus").then((m) => m.OLYMPUS),

@@ -71,11 +71,11 @@ function Face({ face }: { face: (typeof FACES)[number] }) {
 }
 
 /**
- * The body of the works chapter: what Pantheon actually runs. The two faces
- * first, because "it runs by itself" and "you can ask it for things" are
- * different products to most readers and it matters that they are one system
- * here. Then the range, stated as eight ordinary jobs rather than as a claim
- * about generality.
+ * The body of the works chapter: what Pantheon actually runs. The four kinds
+ * of work first, because "a cron job", "an action", "a workflow", and "a chat
+ * that knows your data" read as different products to most readers and it
+ * matters that they run against one layer here. Then the range, stated as
+ * eight ordinary jobs rather than as a claim about generality.
  */
 export function AutomationsBody() {
   return (
@@ -84,10 +84,10 @@ export function AutomationsBody() {
         <MeanderDivider />
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
-            <p className="kicker text-accent">two faces, one system</p>
+            <p className="kicker text-accent">four kinds, one layer</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Work that arrives on its own, and work you{" "}
-              <span className="headline-emph">go and ask for.</span>
+              Cron jobs, actions, workflows, and a{" "}
+              <span className="headline-emph">chat that knows your data.</span>
             </h2>
           </Reveal>
 
@@ -101,9 +101,9 @@ export function AutomationsBody() {
 
           <Reveal delay={0.16}>
             <p className="body-copy mt-8 max-w-3xl text-ink-mute">
-              The same definitions with a different trigger on the front. The
+              Four kinds of work, one governed layer beneath them. The
               permissions, the checks, and the record do not change with the
-              door a job came in through.
+              kind of work or the door it came in through.
             </p>
           </Reveal>
         </div>

@@ -2,10 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { LogoMark } from "@/components/logo-mark";
 import { MeanderFrieze, MeanderMark } from "@/components/ui/meander-mark";
+import { SOCIALS } from "@/lib/socials";
 
 const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[] = [
   {
-    heading: "the account",
+    heading: "system",
     links: [
       { label: "Automations", href: "/automations" },
       { label: "Workflows", href: "/workflows" },
@@ -18,6 +19,7 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
     heading: "platform",
     links: [
       { label: "Integrations", href: "/integrations" },
+      { label: "Connections", href: "/connections" },
       { label: "Security", href: "/security" },
       { label: "FAQ", href: "/faq" },
     ],
@@ -38,18 +40,11 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
       { label: "On-Premises", href: "/deployment/on-premises" },
     ],
   },
-  {
-    heading: "company",
-    links: [
-      { label: "Contact", href: "/contact" },
-      { label: "Privacy", href: "/privacy" },
-    ],
-  },
 ];
 
+// The bottom bar carries what the directory does not: the company pages.
+// Everything else already has a column, so nothing is listed twice.
 const LINKS = [
-  { label: "FAQ", href: "/faq" },
-  { label: "Security", href: "/security" },
   { label: "Privacy", href: "/privacy" },
   { label: "Contact", href: "/contact" },
 ];
@@ -87,7 +82,12 @@ export function Footer() {
       <div className="relative mx-auto mt-12 grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 border-t border-rule px-5 py-10 sm:grid-cols-4">
         {DIRECTORY.map(({ heading, links }) => (
           <div key={heading}>
-            <p className="kicker mb-4 !text-[10px] text-accent">{heading}</p>
+            {/* Column heads wear the frame-panel label dress - kicker over a
+                rule - so they read as section titles rather than as one more
+                link in the stack. */}
+            <p className="kicker mb-4 border-b border-rule pb-2.5 text-accent">
+              {heading}
+            </p>
             <ul className="space-y-2.5">
               {links.map((link) => (
                 <li key={link.href}>
@@ -102,6 +102,25 @@ export function Footer() {
             </ul>
           </div>
         ))}
+      </div>
+      {/* The profiles run as one strip in the dress of the "forged on
+          pantheon" line - seven external links read better as a band than
+          as a column towering over the directory. Plain anchors, since
+          they leave the site. */}
+      <div className="relative mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-7 gap-y-3 border-t border-rule px-5 py-7 text-ink-mute">
+        <MeanderMark size={10} className="text-ink-faint" />
+        {SOCIALS.map(({ label, href }) => (
+          <a
+            key={href}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="kicker link-sweep !text-[10px] transition-colors hover:text-ink"
+          >
+            {label}
+          </a>
+        ))}
+        <MeanderMark size={10} className="text-ink-faint" />
       </div>
       <div className="relative mx-auto flex max-w-6xl flex-col gap-5 border-t border-rule px-5 py-9 sm:flex-row sm:items-center sm:justify-between">
         <p className="kicker flex items-center gap-2.5">

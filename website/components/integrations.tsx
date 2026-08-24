@@ -23,6 +23,14 @@ export function Integrations() {
           Integrations
         </Link>
         <InfiniteMarquee items={INTEGRATIONS} className="flex-1" />
+        {/* The marquee stays shipped-only; the designed catalog gets a
+            door, not a place in the list. */}
+        <Link
+          href="/connections"
+          className="kicker link-sweep shrink-0 text-ink-mute transition-colors hover:text-ink"
+        >
+          the v1 catalog &rarr;
+        </Link>
       </div>
     </section>
   );

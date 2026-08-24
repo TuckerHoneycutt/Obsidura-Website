@@ -20,11 +20,11 @@ export const metadata: Metadata = {
 const QUESTIONS = [
   {
     q: "What is Obsidura?",
-    a: "Obsidura is the company. Pantheon is the product: a workflow automation platform that lets people define, run, and manage reliable processes - ordinary scripted tasks and AI agents in the same job. It connects the systems your information is scattered across, runs work across them on a schedule or on demand, and escalates to a person where you say it must.",
+    a: "Obsidura is the company. Pantheon is the product: a data layer for AI agents. It aggregates the systems your information is scattered across into one secure, governed layer and sets agents to work against it - recurring jobs on a schedule, one-off actions, whole workflows, or a question asked in plain English and answered from your data. Access is scoped to each person's role, and it escalates to a person where you say it must.",
   },
   {
     q: "What is Pantheon?",
-    a: "In plain terms, a place to define, run, and manage reliable processes. Underneath, a workflow orchestration engine where definitions are data, not code: your YAML compiles into a typed graph held in Postgres, a Rust executor instantiates runs from it, task bodies run in containers speaking JSON-RPC over stdio, and every resource call passes through a proxy scoped to that run.",
+    a: "In plain terms, one governed layer over your company's data, and a place to define, run, and manage the work that agents do against it. Underneath, a workflow orchestration engine where definitions are data, not code: your YAML compiles into a typed graph held in Postgres, a Rust executor instantiates runs from it, task bodies run in containers speaking JSON-RPC over stdio, and every resource call passes through a proxy scoped to that run.",
   },
   {
     q: "What kinds of work can it automate?",
@@ -64,7 +64,11 @@ const QUESTIONS = [
   },
   {
     q: "Which systems can it connect to today?",
-    a: "Three connector kinds: Postgres, S3-compatible object storage, and HTTP. HTTP is the general case - if a system has an interface a program can call, a task can work against it through the same proxy. Mail, MCP, and memory connectors are designed for and deliberately deferred.",
+    a: "Three connector kinds: Postgres, S3-compatible object storage, and HTTP. HTTP is the general case - if a system has an interface a program can call, a task can work against it through the same proxy. The v1 connector catalog - Google Workspace, Microsoft 365, Slack, Jira, Azure, NAS shares, more databases, and MCP servers - is specified and public on the connections page, and arrives in phases.",
+  },
+  {
+    q: "How will we connect our own services?",
+    a: "Through the Connections surface: pick the service, walk its consent screen or enter a credential, and the secret goes into executor custody - never into YAML, a diff, or a container. Setting up a connection is self-serve; making it reachable from a job always goes through a reviewed resource definition. Grants are then written per user in each service's own terms - a folder prefix for Drive, a channel allowlist for Slack, a JQL fragment for Jira.",
   },
   {
     q: "Are you locked to one agent framework?",

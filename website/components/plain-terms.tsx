@@ -19,12 +19,13 @@ export function PlainTerms() {
             <span className="headline-emph">and keep it under management.</span>
           </h2>
           <p className="lede-copy mt-7">
-            Pantheon is a workflow automation platform: a place to define, run,
-            and manage reliable processes, built from ordinary scripted tasks
-            and AI agents in the same job. A process is written down once and
-            then runs, over and over, without anyone minding it. An agent may
-            do the thinking, but the engine decides what it can reach, checks
-            what it produces, and keeps the record of what happened.
+            Pantheon is a data layer for agents: it aggregates the data
+            scattered across your systems into one secure, governed layer, and
+            gives you a place to define, run, and manage the work that agents
+            do against it - scripted tasks and AI agents in the same job, on a
+            schedule or on demand. An agent may do the thinking, but the
+            engine decides what your role lets it reach, checks what it
+            produces, and keeps the record of what happened.
           </p>
         </Reveal>
 

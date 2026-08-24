@@ -60,10 +60,12 @@ export default function IntegrationsPage() {
           heading: "What is not built yet",
           body: [
             "Mail connectors, MCP servers, and a memory connector are all designed for and deliberately deferred. They are not in the engine today, and we would rather say so than imply a checkbox we have not built.",
+            "The surface those connectors will arrive through - Google Workspace, Microsoft 365, Slack, Jira, and the rest - is specified and public, down to each service's grant grammar. The connections page shows the whole design.",
           ],
         },
       ]}
       related={[
+        { label: "Connections - the v1 surface", href: "/connections" },
         { label: "What Pantheon runs", href: "/automations" },
         { label: "How workflows are built", href: "/workflows" },
         { label: "Security model", href: "/security" },

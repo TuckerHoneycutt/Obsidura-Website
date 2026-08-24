@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { Engraving } from "@/components/ui/engraving";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderMark } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
+import type { EngravingName } from "@/lib/engravings";
 
 export type SubpageSection = {
   heading: string;
@@ -25,6 +27,8 @@ export function Subpage({
   headlineLead,
   headlineEmph,
   lede,
+  art,
+  artHeight = 560,
   sections,
   related,
 }: {
@@ -32,22 +36,41 @@ export function Subpage({
   headlineLead: string;
   headlineEmph: string;
   lede: string;
+  /** Engraving mounted beside the hero, as on the chapter pages. */
+  art?: EngravingName;
+  artHeight?: number;
   sections: SubpageSection[];
   related: RelatedLink[];
 }) {
+  const hero = (
+    <Reveal>
+      <p className="kicker mb-6 text-accent">{kicker}</p>
+      <h1 className="font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
+        {headlineLead} <span className="headline-emph">{headlineEmph}</span>
+      </h1>
+      <p className="lede-copy mt-6 max-w-xl">{lede}</p>
+    </Reveal>
+  );
+
   return (
     <main className="flex-1">
       <section className="relative">
-        <div className="mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
-          <Reveal>
-            <p className="kicker mb-6 text-accent">{kicker}</p>
-            <h1 className="font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
-              {headlineLead}{" "}
-              <span className="headline-emph">{headlineEmph}</span>
-            </h1>
-            <p className="lede-copy mt-6 max-w-xl">{lede}</p>
-          </Reveal>
-
+        {/* With art, the hero widens to the chapter pages' two-column
+            mount - text beside the engraving - and the reading column
+            resumes below. Without it, nothing changes. */}
+        {art ? (
+          <div className="mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+              {hero}
+              <Reveal delay={0.1}>
+                <Engraving name={art} maxHeight={artHeight} dim />
+              </Reveal>
+            </div>
+          </div>
+        ) : (
+          <div className="mx-auto max-w-3xl px-5 pt-16 lg:pt-24">{hero}</div>
+        )}
+        <div className="mx-auto max-w-3xl px-5 pb-20 lg:pb-28">
           <div className="mt-14 space-y-12">
             {sections.map(({ heading, body, bullets }, i) => (
               <Reveal key={heading} delay={Math.min(i * 0.06, 0.18)}>

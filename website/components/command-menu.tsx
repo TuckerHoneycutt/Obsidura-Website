@@ -10,6 +10,7 @@ import { MeanderMark } from "@/components/ui/meander-mark";
 // them - the palette is the same directory made reachable by keyboard.
 const ELSEWHERE = [
   { label: "Integrations", href: "/integrations" },
+  { label: "Connections", href: "/connections" },
   { label: "Security", href: "/security" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
@@ -123,7 +124,10 @@ export function CommandMenu() {
         />
         <kbd className="kicker shrink-0 !text-[10px] text-ink-faint">esc</kbd>
       </div>
-      <Command.List className="max-h-[55vh] overflow-y-auto p-2">
+      {/* data-lenis-prevent: Lenis owns the wheel even while stopped, and
+          without it the list swallows scroll and the lower groups are
+          unreachable by mouse. */}
+      <Command.List data-lenis-prevent className="max-h-[55vh] overflow-y-auto p-2">
         <Command.Empty className="px-3 py-6 font-mono text-[12px] text-ink-mute">
           Nothing by that name. The footer carries the full directory.
         </Command.Empty>

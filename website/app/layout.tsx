@@ -8,6 +8,7 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ViewportFrame } from "@/components/viewport-frame";
+import { SOCIALS } from "@/lib/socials";
 import "./globals.css";
 
 const cutiveMono = Cutive_Mono({
@@ -24,11 +25,11 @@ const cormorant = Cormorant_Garamond({
 });
 
 const DESCRIPTION =
-  "Pantheon is a workflow automation platform for defining, running, and managing reliable processes - ordinary scripted tasks and AI agents in the same job. It connects the systems your information is scattered across and runs work across them on a schedule or on demand, scoped to whoever asked and recorded end to end.";
+  "Pantheon is Obsidura's data layer for AI agents. It aggregates the data scattered across your systems into one secure, governed layer and sets agents to work against it - recurring jobs on a schedule, one-off actions, whole workflows, or questions asked in plain English and answered from the context of your data. Access is scoped to each person's role, and every step is recorded end to end.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://obsidura.com"),
-  title: "Obsidura Pantheon | All-Purpose Workflow Automation Platform",
+  title: "Obsidura Pantheon | The Secure Data Layer for AI Agents",
   description: DESCRIPTION,
   alternates: {
     canonical: "/",
@@ -49,6 +50,7 @@ const JSON_LD = {
       logo: "https://obsidura.com/logo-mark.png",
       email: "contact@obsidura.com",
       description: DESCRIPTION,
+      sameAs: SOCIALS.map((s) => s.href),
     },
     {
       "@type": "WebSite",
@@ -65,7 +67,7 @@ const JSON_LD = {
       operatingSystem: "Web, Linux",
       url: "https://obsidura.com",
       description:
-        "Pantheon is Obsidura's all-purpose workflow automation platform: processes declared as YAML and compiled into a typed graph, scripted tasks and AI agents executed the same way, contracts validated at every seam, a run-scoped resource proxy that holds all credentials, and an append-only run log. Processes run on a schedule or are called on demand by anyone permitted.",
+        "Pantheon is Obsidura's data layer for AI agents: connectors aggregate the systems your data lives in into one governed layer, scripted tasks and AI agents run against it the same way, every resource call passes through a run-scoped proxy enforcing role-based grants, and an append-only run log records every step. Work runs as recurring scheduled jobs, one-off actions, whole workflows, or plain-English questions answered from your data.",
       publisher: { "@id": "https://obsidura.com/#organization" },
     },
   ],

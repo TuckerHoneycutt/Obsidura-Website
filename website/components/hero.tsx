@@ -27,16 +27,16 @@ export function Hero() {
           to land on two lines instead of breaking mid-phrase. */}
       <div className="relative mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
         <motion.p {...rise(0)} className="kicker mb-7 text-accent">
-          obsidura pantheon &mdash; all-purpose workflow automation
+          obsidura pantheon &mdash; the data layer for agents
         </motion.p>
 
         <motion.h1
           {...rise(0.1)}
           className="font-display text-[clamp(2.75rem,6.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          Your company&rsquo;s work, automated.
+          All your data, one layer.
           <br />
-          <span className="headline-emph">Nothing taken on trust.</span>
+          <span className="headline-emph">Agents that put it to work.</span>
         </motion.h1>
       </div>
 
@@ -46,10 +46,11 @@ export function Hero() {
             {...rise(0.2)}
             className="max-w-xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
           >
-            Your information sits in many places. Pantheon is where you
-            define, run, and manage the work that crosses them &mdash;
-            scripted tasks and AI agents in one process, some running quietly
-            on a schedule, the rest asked for with a button or a sentence. It
+            Your information sits in many places. Pantheon aggregates it into
+            one secure, governed layer and sets agents to work against it
+            &mdash; recurring jobs on a schedule, one-off actions, whole
+            workflows, or a question asked in plain English and answered from
+            the context of your data. Access is scoped to your role: it
             touches only what you are already allowed to touch, and keeps a
             record of everything it did.
           </motion.p>

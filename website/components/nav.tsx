@@ -17,12 +17,12 @@ const NAV_CHAPTERS = ["automations", "workflows", "runtime", "deploy"];
 const navChapters = CHAPTERS.filter((c) => NAV_CHAPTERS.includes(c.slug));
 
 // The panel lists every chapter, then the pages that only the footer
-// otherwise reaches.
+// otherwise reaches. Contact is absent because the panel closes on it
+// as its own CTA below.
 const PANEL_PAGES = [
   { label: "Integrations", href: "/integrations" },
   { label: "Security", href: "/security" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
 ] as const;
 
 /** Chapter titles double as their nav labels, capitalised from the slug. */
@@ -125,20 +125,26 @@ export function Nav() {
       {/* Auto side columns rather than equal thirds: the search bar made
           the right cluster wider than the left, and equal tracks squeezed
           it into wrapping. The links sit centred in the leftover space. */}
-      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 sm:grid-cols-[auto_1fr_auto]">
+      {/* The viewport frame's top rule crosses the header 12px down, so from
+          md (where the frame exists) the top padding carries that 12px extra:
+          the gap from the rule to the content then equals the gap from the
+          content to the header's bottom border. */}
+      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 md:pt-7 sm:grid-cols-[auto_1fr_auto]">
         <Link href="/" className="group flex w-max items-center gap-2.5">
           <LogoMark size={26} />
           <span className="font-display text-xl leading-none font-medium tracking-[0.3em] uppercase">
             Obsidura
           </span>
         </Link>
-        <div className="hidden items-center justify-center gap-8 sm:flex">
-          {navChapters.map((chapter) => {
-            const href = `/${chapter.slug}`;
+        <div className="hidden items-center justify-center gap-8 lg:flex">
+          {/* Contact rides the same row as the chapters - it replaced the
+              demo button, which pointed at the same page. */}
+          {[...navChapters.map((c) => c.slug), "contact"].map((slug) => {
+            const href = `/${slug}`;
             const current = pathname === href;
             return (
               <Link
-                key={chapter.slug}
+                key={slug}
                 href={href}
                 transitionTypes={["nav-forward"]}
                 aria-current={current ? "page" : undefined}
@@ -147,7 +153,7 @@ export function Nav() {
                   current ? "text-ink" : "text-ink-mute"
                 )}
               >
-                {label(chapter.slug)}
+                {label(slug)}
               </Link>
             );
           })}
@@ -172,26 +178,18 @@ export function Nav() {
             type="button"
             onClick={openSearch}
             aria-label="Search the site"
-            className="hidden size-8 items-center justify-center border border-rule text-ink-mute transition-colors hover:border-accent-deep hover:text-ink sm:flex xl:hidden"
+            className="hidden size-8 items-center justify-center border border-rule text-ink-mute transition-colors hover:border-accent-deep hover:text-ink lg:flex xl:hidden"
           >
             <SearchIcon />
           </button>
           <ThemeToggle />
-          {/* Below sm the hamburger takes this slot; the panel carries its
-              own demo CTA, so nothing is lost. */}
-          <Link
-            href="/contact"
-            className="font-display hidden border border-accent-deep px-3.5 py-2 text-sm font-medium tracking-[0.18em] whitespace-nowrap text-accent uppercase transition-colors hover:bg-accent hover:text-paper sm:inline-block"
-          >
-            Book a demo
-          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={panelId}
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex size-8 items-center justify-center border border-rule text-ink-mute transition-colors hover:border-accent-deep hover:text-ink sm:hidden"
+            className="flex size-8 items-center justify-center border border-rule text-ink-mute transition-colors hover:border-accent-deep hover:text-ink lg:hidden"
           >
             <MenuIcon open={open} />
           </button>
@@ -206,7 +204,7 @@ export function Nav() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.28, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="overflow-hidden border-t border-rule bg-paper sm:hidden"
+            className="overflow-hidden border-t border-rule bg-paper lg:hidden"
           >
             <div className="px-6 py-6">
               <button
@@ -263,7 +261,7 @@ export function Nav() {
                 onClick={close}
                 className="kicker mt-6 block bg-accent px-5 py-3.5 text-center !text-paper"
               >
-                Book a demo
+                Contact
               </Link>
             </div>
           </motion.div>
