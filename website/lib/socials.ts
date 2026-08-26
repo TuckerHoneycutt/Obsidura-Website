@@ -22,11 +22,6 @@ export const SOCIALS: Social[] = [
     href: "https://www.instagram.com/obsidura",
   },
   {
-    label: "YouTube",
-    handle: "@obsidura",
-    href: "https://www.youtube.com/@obsidura",
-  },
-  {
     label: "TikTok",
     handle: "@obsidura",
     href: "https://www.tiktok.com/@obsidura",
