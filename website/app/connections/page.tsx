@@ -297,8 +297,8 @@ verbs: [get, list]`}
                     Have a system we should reach first?
                   </h2>
                   <p className="body-copy mt-2 max-w-md text-ink-mute">
-                    The catalog ships in phases, and design partners set the
-                    order. Tell us what your work lives in.
+                    The catalog ships in phases. Tell us what your work lives
+                    in, and we will reach it first.
                   </p>
                 </div>
                 <Link

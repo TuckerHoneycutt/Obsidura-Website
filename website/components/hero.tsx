@@ -44,13 +44,10 @@ export function Hero() {
             {...rise(0.2)}
             className="max-w-xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
           >
-            Your information sits in many places. Pantheon aggregates it into
-            one secure, governed layer and sets agents to work against it
-            &mdash; recurring jobs on a schedule, one-off actions, whole
-            workflows, or a question asked in plain English and answered from
-            the context of your data. Access is scoped to your role: it
-            touches only what you are already allowed to touch, and keeps a
-            record of everything it did.
+            Pantheon aggregates the data scattered across your systems into
+            one secure, governed layer and runs agents against it: scheduled
+            jobs, one-off actions, whole workflows, and plain-English
+            questions. Every run is scoped to your role and recorded.
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-10 flex flex-wrap gap-4">
@@ -73,13 +70,6 @@ export function Hero() {
             </Magnetic>
           </motion.div>
 
-          <motion.div {...rise(0.4)} className="mt-12">
-            <FramePanel className="inline-block bg-paper-warm/40 px-4 py-3">
-              <p className="kicker">
-                now onboarding design partners &mdash; q3 2026
-              </p>
-            </FramePanel>
-          </motion.div>
         </div>
 
         <motion.div {...rise(0.35)}>

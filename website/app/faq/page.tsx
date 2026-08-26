@@ -80,7 +80,7 @@ const QUESTIONS = [
   },
   {
     q: "How do we get started?",
-    a: "Book a demo through the contact page. We map one of your workflows on a 30-minute call and show you the audit log by the end of it. We are currently onboarding design partners.",
+    a: "Book a demo through the contact page. We map one of your workflows on a 30-minute call and show you the audit log by the end of it.",
   },
 ];
 
