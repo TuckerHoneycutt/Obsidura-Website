@@ -8,11 +8,11 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
   {
     heading: "system",
     links: [
-      { label: "Automations", href: "/automations" },
+      { label: "Pantheon", href: "/automations" },
       { label: "Workflows", href: "/workflows" },
-      { label: "Governance", href: "/governance" },
-      { label: "Runtime", href: "/runtime" },
-      { label: "Deployment", href: "/deploy" },
+      { label: "Roles and Permissions", href: "/governance" },
+      { label: "Reliability", href: "/runtime" },
+      { label: "Deploy", href: "/deploy" },
     ],
   },
   {

@@ -29,8 +29,6 @@ const DOMINIONS = [
   { label: "On-Premises", href: "/deployment/on-premises" },
 ];
 
-const label = (slug: string) => slug.charAt(0).toUpperCase() + slug.slice(1);
-
 function Heading({ children }: { children: ReactNode }) {
   return <span className="kicker !text-[10px] text-accent">{children}</span>;
 }
@@ -136,18 +134,15 @@ export function CommandMenu() {
           {CHAPTERS.map((c) => (
             <Item
               key={c.slug}
-              value={label(c.slug)}
-              keywords={[c.name]}
+              value={c.label}
+              keywords={[c.slug]}
               onSelect={() => go(`/${c.slug}`)}
             >
               <span className="flex items-baseline gap-3">
                 <span className="kicker w-6 shrink-0 text-accent">
                   {c.numeral}
                 </span>
-                {label(c.slug)}
-              </span>
-              <span className="kicker !text-[10px] text-ink-faint">
-                {c.name}
+                {c.label}
               </span>
             </Item>
           ))}

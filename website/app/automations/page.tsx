@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Chapter } from "@/components/chapter";
-import { PlainTerms } from "@/components/plain-terms";
 import { AutomationsBody } from "@/components/automations";
 import { RunWalkthrough } from "@/components/run-walkthrough";
 import { ReportsBody } from "@/components/reports";
@@ -17,7 +16,6 @@ export const metadata: Metadata = {
 export default function AutomationsPage() {
   return (
     <Chapter slug="automations">
-      <PlainTerms />
       <AutomationsBody />
       {/* Having said what it runs, say how a run goes - then show one of the
           eight finishing, because the range is only credible if something is

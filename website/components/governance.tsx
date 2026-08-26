@@ -38,7 +38,7 @@ const REQUESTERS: Requester[] = [
       ["patients in report", "12"],
       ["scans rendered", "0"],
     ],
-    note: "Twenty-four patients withheld, and the report never hints at them.",
+    note: "Twenty-four patients withheld; they do not appear in the report.",
   },
 ];
 
@@ -52,8 +52,8 @@ const AUDIT: [string, string][] = [
 ];
 
 const LOG_NOTES: string[] = [
-  "Status, the audit trail, approval, and crash recovery all read this one table, so none of them can drift from each other.",
-  "Kill the executor mid-run and it rebuilds every run by folding the log, then finishes the work.",
+  "Status, the audit trail, approval, and crash recovery all read from this one table, so they always agree.",
+  "If the executor is killed mid-run, it rebuilds each run's state from the log and finishes the work.",
   "A task can gate on human approval. The pending decision persists, so the run survives a restart and continues when someone signs off.",
 ];
 
@@ -167,7 +167,7 @@ export function GovernanceBody() {
           </Reveal>
           <Reveal delay={0.1} className="lg:pt-2">
             <h3 className="font-display text-[clamp(1.6rem,2.4vw,2rem)] leading-tight font-light tracking-tight">
-              One table, folded four ways.
+              One table, four uses.
             </h3>
             <ul className="mt-6 space-y-4">
               {LOG_NOTES.map((note) => (

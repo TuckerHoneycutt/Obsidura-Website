@@ -320,7 +320,7 @@ export function WorkflowsBody() {
                 />
               </div>
               <p className="body-copy-sm border-t border-rule px-4 py-3.5 text-ink-mute">
-                You never drew an edge. Every arrow above came out of an{" "}
+                No edges are drawn by hand. Every arrow above comes from an{" "}
                 <span className="font-mono text-[13px] text-ink">on:</span>,{" "}
                 <span className="font-mono text-[13px] text-ink">then:</span>,
                 or{" "}
@@ -337,7 +337,7 @@ export function WorkflowsBody() {
           <div className="grid gap-6 sm:grid-cols-2">
             <FramePanel className="bg-paper">
               <p className="kicker border-b border-rule px-4 py-2 !text-[10px] text-accent">
-                four primitives &mdash; the whole vocabulary
+                four primitives
               </p>
               <dl className="divide-y divide-rule">
                 {PRIMITIVES.map(([term, variants]) => (
@@ -356,7 +356,7 @@ export function WorkflowsBody() {
 
             <FramePanel className="bg-paper">
               <p className="kicker border-b border-rule px-4 py-2 !text-[10px] text-accent">
-                five values &mdash; everything that crosses a seam
+                five values &mdash; everything passed between tasks
               </p>
               <dl className="divide-y divide-rule">
                 {VALUES.map(([term, gloss]) => (
@@ -374,10 +374,10 @@ export function WorkflowsBody() {
             </FramePanel>
           </div>
           <p className="body-copy mt-6 max-w-3xl text-ink-mute">
-            That is the entire vocabulary, and it is closed on purpose. All
-            your business meaning lives in Records, checked against schemas
-            you register, so the engine never grows a branch for your domain
-            and your hundredth workflow type costs the same as your first.
+            That is the entire vocabulary, and it is closed on purpose. Your
+            business data lives in Records, checked against schemas you
+            register, so the engine never needs custom code for your domain
+            and the cost of adding workflow types stays flat.
           </p>
         </Reveal>
       </div>

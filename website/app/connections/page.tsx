@@ -42,7 +42,7 @@ export default function ConnectionsPage() {
             <p className="kicker mb-6 text-accent">
               connections &mdash; the v1 surface, designed
             </p>
-            <h1 className="font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
+            <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
               Connections to the places{" "}
               <span className="headline-emph">your information lives.</span>
             </h1>
@@ -75,7 +75,7 @@ export default function ConnectionsPage() {
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the surface</p>
-            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               Setup is self-serve,{" "}
               <span className="headline-emph">and reachability is reviewed.</span>
             </h2>
@@ -101,7 +101,7 @@ export default function ConnectionsPage() {
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the contract</p>
-            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               Every connector answers{" "}
               <span className="headline-emph">four questions.</span>
             </h2>
@@ -134,7 +134,7 @@ export default function ConnectionsPage() {
           <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             <Reveal>
               <p className="kicker text-accent">the split</p>
-              <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+              <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
                 A connection is{" "}
                 <span className="headline-emph">not a resource.</span>
               </h2>
@@ -192,7 +192,7 @@ verbs: [get, list]`}
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the catalog</p>
-            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               Scope is granted in each service&rsquo;s{" "}
               <span className="headline-emph">own words.</span>
             </h2>
@@ -232,7 +232,7 @@ verbs: [get, list]`}
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">parsing</p>
-            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               Files are parsed{" "}
               <span className="headline-emph">before agents read them.</span>
             </h2>

@@ -7,28 +7,28 @@ import { Reveal } from "@/components/ui/reveal";
 // run of their systems, answered in the order they get raised.
 const CASES = [
   {
-    label: "the model invents something",
-    title: "It does not get through.",
+    label: "invalid model output",
+    title: "It is caught and rejected.",
     plain:
-      "Every result has a declared shape, and one that does not match is not passed along. The error goes back to the model to correct, twice at most, and then the run fails plainly and says which step failed and why.",
+      "Every result has a declared shape, and one that does not match is not passed along. The error goes back to the model to correct, twice at most, and then the run fails with a clear record of which step failed and why.",
     log: "report.spec@1 · repair 2 of 2 exhausted · typed failure written",
     href: "/security",
     linkLabel: "model output is untrusted input",
   },
   {
-    label: "the machine dies halfway",
-    title: "The run picks itself back up.",
+    label: "the machine fails mid-run",
+    title: "The run resumes where it stopped.",
     plain:
-      "Nothing is held in the engine's head. Every event is appended to one log, and the state of a run is read back out of it, so a run interrupted in the middle carries on from where it stopped rather than starting over or quietly vanishing.",
+      "No state lives only in the engine's memory. Every event is appended to one log and the state of a run is read back from it, so an interrupted run continues from where it stopped instead of starting over.",
     log: "executor restarted · run resumed from seq 41 · completed",
     href: "/governance",
     linkLabel: "the log it recovers from",
   },
   {
-    label: "a person has to sign off",
-    title: "It waits, for as long as it takes.",
+    label: "approval required",
+    title: "The run waits for the decision.",
     plain:
-      "A step can be gated on a human approval. The run suspends — through restarts, overnight, over a weekend — until somebody approves or denies it, and both answers become part of the same record as everything else.",
+      "A step can be gated on a human approval. The run suspends until somebody approves or denies it — surviving restarts in the meantime — and either decision is written to the same record as everything else.",
     log: "awaiting approval · 2 approvers · run suspended durably",
     href: "/governance",
     linkLabel: "the record it keeps",
@@ -46,8 +46,8 @@ export function Assurances() {
       <MeanderDivider />
       <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
         <Reveal className="max-w-3xl">
-          <p className="kicker text-accent">when it does not go smoothly</p>
-          <h2 className="font-display mt-6 text-[clamp(2rem,4vw,3.15rem)] leading-[1.06] font-light tracking-tight">
+          <p className="kicker text-accent">failure handling</p>
+          <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">
             What happens{" "}
             <span className="headline-emph">when a run fails.</span>
           </h2>

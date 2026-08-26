@@ -84,8 +84,8 @@ export function AutomationsBody() {
         <MeanderDivider />
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
-            <p className="kicker text-accent">four kinds, one layer</p>
-            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            <p className="kicker text-accent">capabilities</p>
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               Cron jobs, actions, workflows,{" "}
               <span className="headline-emph">and plain-English questions.</span>
             </h2>
@@ -102,8 +102,8 @@ export function AutomationsBody() {
           <Reveal delay={0.16}>
             <p className="body-copy mt-8 max-w-3xl text-ink-mute">
               Four kinds of work, one governed layer beneath them. The
-              permissions, the checks, and the record do not change with the
-              kind of work or the door it came in through.
+              permissions, the checks, and the record are the same regardless
+              of the kind of work or how it was started.
             </p>
           </Reveal>
         </div>
@@ -128,7 +128,7 @@ export function AutomationsBody() {
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the range</p>
-            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               What it <span className="headline-emph">can automate.</span>
             </h2>
             <p className="lede-copy mt-6">

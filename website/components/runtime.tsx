@@ -4,10 +4,10 @@ import { MeanderDivider } from "@/components/ui/meander-mark";
 import { romanNumeral } from "@/lib/utils";
 
 const GUARANTEES: string[] = [
-  "Every task carries a policy - timeout, retry, budget, idempotency - and runs in a container drawn from a warm pool, so cold starts never show.",
+  "Every task carries a policy - timeout, retry, budget, idempotency - and runs in a container drawn from a warm pool, so there are no cold-start delays.",
   "There are no checkpoints to fall out of sync. Executor state is a fold of the run's event log, so a killed executor rebuilds every run and finishes it.",
   "Structured outputs are schema-validated at every boundary; malformed responses are repaired or fail typed before they touch your data.",
-  "Large data never travels inline. Files and tables move as handles, so a run costs the same whether it reasons over a hundred rows or fifty thousand.",
+  "Large data never travels inline. Files and tables move as handles, so a run costs the same whether it processes a hundred rows or fifty thousand.",
   "No agent framework is baked into the executor. The harness lives inside the runner image, and swapping it touches zero engine code.",
 ];
 
@@ -28,7 +28,7 @@ export function RuntimeBody() {
           <Reveal>
             <FramePanel className="bg-paper-warm/30">
               <div className="border-b border-rule px-5 py-2.5">
-                <span className="kicker !text-[10px]">what holds</span>
+                <span className="kicker !text-[10px]">guarantees</span>
               </div>
               <ul className="divide-y divide-rule">
                 {GUARANTEES.map((g, i) => (
@@ -41,7 +41,7 @@ export function RuntimeBody() {
                 ))}
               </ul>
               <p className="body-copy-sm border-t border-rule px-5 py-4 text-ink-mute">
-                The agents spend their time working, not failing quietly.
+                Failures are surfaced immediately, never silent.
               </p>
             </FramePanel>
           </Reveal>
@@ -51,9 +51,8 @@ export function RuntimeBody() {
               Model output is untrusted input.
             </h2>
             <p className="body-copy mt-4">
-              The runtime treats what comes back from a model the way a kernel
-              treats userspace: never as something to be believed, always as
-              something to be checked at the boundary.
+              Nothing that comes back from a model is trusted by default.
+              Every output is checked at the boundary before it is used.
             </p>
 
             {/* The mechanism stays in the mono voice - it is the part written

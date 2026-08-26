@@ -32,25 +32,19 @@ export function ChapterIndex() {
                   </span>
 
                   <span className="min-w-0 flex-1">
-                    <span className="font-display block text-[clamp(1.6rem,3vw,2.35rem)] leading-tight font-light tracking-tight">
-                      {chapter.headlineLead}{" "}
-                      <span className="headline-emph">
-                        {chapter.headlineEmph}
-                      </span>
+                    <span className="font-display block text-[clamp(1.4rem,2.7vw,2.1rem)] leading-tight font-light tracking-tight">
+                      {chapter.label}
                     </span>
                     <span className="body-copy mt-1.5 block text-ink-mute">
                       {chapter.blurb}
                     </span>
                   </span>
 
-                  <span className="kicker shrink-0 !text-[10px] sm:w-40 sm:text-right">
-                    {chapter.name}
-                    <span
-                      aria-hidden
-                      className="ml-2 inline-block transition-transform group-hover:translate-x-1"
-                    >
-                      &rarr;
-                    </span>
+                  <span
+                    aria-hidden
+                    className="kicker shrink-0 transition-transform group-hover:translate-x-1"
+                  >
+                    &rarr;
                   </span>
                 </Link>
               </li>

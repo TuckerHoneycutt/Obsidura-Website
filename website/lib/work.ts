@@ -8,9 +8,9 @@
 export const FACES = [
   {
     label: "cron jobs",
-    title: "It recurs on a schedule.",
+    title: "It runs on a schedule.",
     plain:
-      "Work with a cadence on the front of it, running while everyone is asleep — nightly reconciliations, hourly checks, the morning pack landing before anyone has asked.",
+      "Work that repeats at a set time — nightly reconciliations, hourly checks, a report ready every morning.",
     lines: [
       "trigger  cron · 0 2 * * *  nightly reconciliation",
       "trigger  cron · 0 6 * * 1  weekly exceptions pack",
@@ -18,9 +18,9 @@ export const FACES = [
   },
   {
     label: "actions",
-    title: "It fires once.",
+    title: "It runs once.",
     plain:
-      "A single named operation anyone permitted can trigger — a button in an internal tool, or a call from another system — done, recorded, and out of the way.",
+      "A single operation started by a person or another system — a button in an internal tool, or a webhook call. It runs, is recorded, and is done.",
     lines: [
       "trigger  manual · press the button labelled 'month-end pack'",
       "trigger  webhook · called by the ticketing system",
@@ -28,9 +28,9 @@ export const FACES = [
   },
   {
     label: "workflows",
-    title: "It carries a process end to end.",
+    title: "It runs a multi-step process.",
     plain:
-      "Several steps chained across systems — scripts where the path is fixed, agents where judgement is needed, and a person to sign off where you say so.",
+      "Several steps across different systems — scripts where the path is fixed, AI agents where judgement is needed, and a person approving where you require it.",
     lines: [
       "agent gathers → render task → approval gate → filed",
       "every seam schema-checked · every step on the record",
@@ -38,9 +38,9 @@ export const FACES = [
   },
   {
     label: "chat",
-    title: "It answers from your data.",
+    title: "It answers questions about your data.",
     plain:
-      "A question asked in plain English, answered from the context of the layer — scoped to what you are allowed to see, with the sources on the record.",
+      "Ask a question in plain English and get an answer drawn from your data — limited to what you are allowed to see, with the sources recorded.",
     lines: [
       "“which suppliers slipped last quarter?”",
       "answer drawn from the layer · scoped to your role",

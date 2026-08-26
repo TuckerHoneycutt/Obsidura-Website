@@ -195,7 +195,7 @@ export function RunWalkthrough() {
       <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">one run, start to finish</p>
-          <h2 className="font-display mt-6 text-[clamp(2rem,4vw,3.15rem)] leading-[1.06] font-light tracking-tight">
+          <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">
             How a run <span className="headline-emph">works.</span>
           </h2>
           <p className="lede-copy mt-7">

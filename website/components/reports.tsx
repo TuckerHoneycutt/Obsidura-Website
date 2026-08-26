@@ -231,7 +231,7 @@ export function ReportsBody() {
       <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">one of them, all the way through</p>
-          <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+          <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
             A report,{" "}
             <span className="headline-emph">from request to delivery.</span>
           </h2>

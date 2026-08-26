@@ -60,7 +60,7 @@ export default function PrivacyPage() {
             <p className="kicker mb-6 text-accent">
               appendix ii &mdash; privacy
             </p>
-            <h1 className="font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
+            <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
               Privacy <span className="headline-emph">policy.</span>
             </h1>
             <p className="lede-copy mt-6 max-w-xl">

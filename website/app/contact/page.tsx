@@ -36,21 +36,20 @@ const OFFICERS = [
 export default function ContactPage() {
   return (
     <main className="flex-1">
+      {/* One section, two columns: everything about reaching or following
+          the company on the left, the form on the right. The two stacks are
+          about the same height, so neither side trails off into dead space. */}
       <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 pt-16 pb-20 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:pt-24 lg:pb-28">
+        <div className="mx-auto grid max-w-6xl gap-10 px-5 pt-12 pb-14 lg:grid-cols-[1fr_1.15fr] lg:gap-14 lg:pt-16 lg:pb-16">
           <div>
             <p className="kicker mb-6 text-accent">
               obsidura &mdash; intelligent infrastructure
             </p>
-            <h1 className="font-display text-[clamp(2.75rem,6vw,4.5rem)] leading-[1.02] font-light tracking-tight">
+            <h1 className="font-display text-[clamp(2.4rem,5.2vw,3.9rem)] leading-[1.02] font-light tracking-tight">
               Speak <span className="headline-emph">to us.</span>
             </h1>
-            <p className="lede-copy mt-7 max-w-md">
-              Design partners, deployment questions, or a thirty-minute demo
-              — send word and we will see it carried to the right person.
-            </p>
 
-            <div className="mt-10 space-y-4">
+            <div className="mt-8 space-y-4">
               <FramePanel className="inline-block bg-paper-warm/40 px-4 py-3">
                 <p className="kicker flex items-center gap-2.5">
                   <MeanderMark size={10} />
@@ -66,50 +65,42 @@ export default function ContactPage() {
                 Prefer email directly? That address lands in the same inbox.
               </p>
             </div>
-          </div>
 
-          <ContactForm />
-        </div>
-      </section>
-
-      <section className="border-t border-rule">
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
-          <div className="max-w-2xl">
-            <p className="kicker mb-6 text-accent">obsidura, elsewhere</p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-[1.05] font-light tracking-tight">
-              Keep up with <span className="headline-emph">the works.</span>
-            </h2>
-            <p className="lede-copy mt-6 max-w-xl">
-              Keep up to date as we continue to build and ship on all
-              platforms.
-            </p>
-
-            {/* Each profile wears a frame-panel dress: glyph, platform,
-                handle. The glyphs render in currentColor so the brand
-                marks sit in the site's ink rather than their own colors. */}
-            <div className="mt-9 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-              {SOCIALS.map(({ label, handle, href }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-3 border border-rule bg-paper-warm/40 px-3.5 py-3 transition-colors hover:border-accent-deep"
-                >
-                  <SocialGlyph
-                    label={label}
-                    className="text-ink-mute transition-colors group-hover:text-ink"
-                  />
-                  <span className="min-w-0">
-                    <span className="kicker block !text-[10px] transition-colors group-hover:text-ink">
-                      {label}
+            <div className="mt-9 border-t border-rule pt-6">
+              <p className="kicker mb-2 font-semibold text-accent">
+                obsidura, elsewhere
+              </p>
+              <p className="font-mono text-[12px] leading-relaxed text-ink-mute">
+                Keep up to date as we continue to build and ship on all
+                platforms.
+              </p>
+              {/* Each profile wears a frame-panel dress: glyph, platform,
+                  handle. The glyphs render in currentColor so the brand
+                  marks sit in the site's ink rather than their own colors. */}
+              <div className="mt-4 grid grid-cols-2 gap-2.5">
+                {SOCIALS.map(({ label, handle, href }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 border border-rule bg-paper-warm/40 px-3.5 py-3 transition-colors hover:border-accent-deep"
+                  >
+                    <SocialGlyph
+                      label={label}
+                      className="text-ink-mute transition-colors group-hover:text-ink"
+                    />
+                    <span className="min-w-0">
+                      <span className="kicker block !text-[10px] transition-colors group-hover:text-ink">
+                        {label}
+                      </span>
+                      <span className="block truncate font-mono text-[11px] text-ink-faint">
+                        {handle}
+                      </span>
                     </span>
-                    <span className="block truncate font-mono text-[11px] text-ink-faint">
-                      {handle}
-                    </span>
-                  </span>
-                </a>
-              ))}
+                  </a>
+                ))}
+              </div>
             </div>
 
             {/* The officers wait behind the fold - closed until asked for,
@@ -117,15 +108,15 @@ export default function ContactPage() {
             <Accordion
               type="single"
               collapsible
-              className="mt-10 border-t border-rule"
+              className="mt-7 border-t border-rule"
             >
               <AccordionItem value="officers">
-                <AccordionTrigger className="py-5">
+                <AccordionTrigger className="py-4">
                   <span className="font-display text-2xl font-light tracking-tight">
                     The Team
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="!pb-5">
+                <AccordionContent className="!pb-4">
                   <ul>
                     {OFFICERS.map(({ name, role, email }) => (
                       <li
@@ -153,6 +144,8 @@ export default function ContactPage() {
               </AccordionItem>
             </Accordion>
           </div>
+
+          <ContactForm />
         </div>
       </section>
     </main>

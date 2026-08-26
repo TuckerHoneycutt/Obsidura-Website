@@ -170,7 +170,7 @@ function PantheonMenu({ pathname }: { pathname: string }) {
                       <span className="kicker w-6 shrink-0 text-accent">
                         {chapter.numeral}
                       </span>
-                      {label(chapter.slug)}
+                      {chapter.label}
                     </Link>
                   </li>
                 );
@@ -343,7 +343,7 @@ export function Nav() {
                       <span className="kicker w-6 shrink-0 text-accent">
                         {chapter.numeral}
                       </span>
-                      {label(chapter.slug)}
+                      {chapter.label}
                     </Link>
                   </li>
                 ))}

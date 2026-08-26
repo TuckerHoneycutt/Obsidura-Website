@@ -22,7 +22,7 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
             className="group flex flex-col justify-center border-b border-rule py-10 sm:border-b-0 sm:pr-8"
           >
             <span className="kicker !text-[10px]">
-              &larr; {prev.numeral} &mdash; {prev.name}
+              &larr; {prev.numeral} &mdash; {prev.label}
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
               {prev.headlineLead} {prev.headlineEmph}
@@ -48,7 +48,7 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
             className="group flex flex-col justify-center py-10 sm:items-end sm:border-l sm:border-rule sm:pl-8 sm:text-right"
           >
             <span className="kicker !text-[10px] text-accent">
-              {next.numeral} &mdash; {next.name} &rarr;
+              {next.numeral} &mdash; {next.label} &rarr;
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
               {next.headlineLead} {next.headlineEmph}
@@ -95,9 +95,9 @@ export function Chapter({
           <Reveal className="max-w-3xl">
             <p className="kicker flex items-center gap-2.5 text-accent">
               <MeanderMark size={10} />
-              {chapter.numeral} &mdash; {chapter.name}
+              {chapter.numeral} &mdash; {chapter.label}
             </p>
-            <h1 className="font-display mt-6 text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
+            <h1 className="font-display mt-6 text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
               {chapter.headlineLead}{" "}
               <span className="headline-emph">{chapter.headlineEmph}</span>
             </h1>

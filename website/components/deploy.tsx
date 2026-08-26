@@ -106,7 +106,7 @@ export function DeployBody() {
                 <span className="kicker text-accent">
                   {romanNumeral(i + 1)}
                 </span>
-                <h2 className="font-display mt-3 text-[clamp(1.9rem,3.4vw,2.75rem)] leading-tight font-light tracking-tight">
+                <h2 className="font-display mt-3 text-[clamp(1.65rem,3vw,2.4rem)] leading-tight font-light tracking-tight">
                   {opt.name}
                 </h2>
                 <p className="lede-copy mt-4">{opt.detail}</p>
@@ -141,7 +141,7 @@ export function DeployBody() {
         <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">side by side</p>
-            <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               The same engine{" "}
               <span className="headline-emph">in all three.</span>
             </h2>
