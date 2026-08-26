@@ -50,9 +50,13 @@ export function Engraving({
           fontSize: `min(${widthFit}, ${heightFit})`,
           lineHeight: 1,
         }}
+        // Opaque paper, not transparent: the page's grain texture would
+        // otherwise show between the characters and muddy the drawing. The
+        // dim variant lowers the text color's alpha rather than the
+        // element's opacity so the backing stays solid.
         className={cn(
-          "m-0 font-mono whitespace-pre select-none",
-          dim ? "text-ink opacity-55" : "text-ink"
+          "m-0 bg-paper font-mono whitespace-pre select-none",
+          dim ? "text-ink/55" : "text-ink"
         )}
       >
         {art}

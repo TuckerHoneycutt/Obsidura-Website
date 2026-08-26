@@ -18,7 +18,7 @@
   --accent: #ffffff;
   --accent-deep: #a8a8a8;
   --accent-pale: #1d1d1d;
-  --grain: rgba(255, 255, 255, 0.04);
+  --grain: rgba(255, 255, 255, 0.06);
   /* Gold leaf: the one sacred color, reserved for the dominion cards */
   --gilt: #c9a86a;
   --gilt-glow: rgba(201, 168, 106, 0.1);
@@ -38,7 +38,7 @@ html.light {
   --accent: #000000;
   --accent-deep: #4a4a4a;
   --accent-pale: #ececec;
-  --grain: rgba(0, 0, 0, 0.05);
+  --grain: rgba(0, 0, 0, 0.07);
   --gilt: #a5854a;
   --gilt-glow: rgba(165, 133, 74, 0.12);
   color-scheme: light;
