@@ -34,9 +34,9 @@ export function Hero() {
           {...rise(0.1)}
           className="font-display text-[clamp(2.75rem,6.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          Your company&apos;s data in one layer,
+          Your company&apos;s data built upon
           <br />
-          <span className="headline-emph">with agents that work on it.</span>
+          <span className="headline-emph">Intelligent Infrastructure.</span>
         </motion.h1>
       </div>
 

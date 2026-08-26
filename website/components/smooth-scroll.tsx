@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import "@/lib/scroll-to-section";
@@ -11,6 +12,37 @@ import "@/lib/scroll-to-section";
  * prefers reduced motion.
  */
 export function SmoothScroll() {
+  const pathname = usePathname();
+  const firstRender = useRef(true);
+  const poppedState = useRef(false);
+
+  // The router resets window scroll on navigation, but Lenis's animated
+  // position still holds the old page's offset and its next frame writes it
+  // back - so a page opened from partway down another page lands partway
+  // down too. Snapping Lenis itself to the top keeps the two in agreement.
+  // Back/forward and hash targets are left alone so the browser's own
+  // restoration and the anchor handling keep working.
+  useEffect(() => {
+    const onPop = () => {
+      poppedState.current = true;
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (poppedState.current) {
+      poppedState.current = false;
+      return;
+    }
+    if (window.location.hash) return;
+    window.__lenis?.scrollTo(0, { immediate: true });
+  }, [pathname]);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
