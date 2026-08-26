@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
  * Miniature marks for the report previews on the homepage. These stand in
  * for the charts a rendered report carries, so they follow the same mark
  * rules as a real chart rather than being loose decoration: one series in
- * one colour, hairline solid axes, 4px rounded data-ends square at the
- * baseline, 2px lines, markers ringed in the surface colour, and no value
+ * one color, hairline solid axes, 4px rounded data-ends square at the
+ * baseline, 2px lines, markers ringed in the surface color, and no value
  * printed on every point.
  *
  * The readout replaces the caption on hover instead of floating a tooltip
@@ -132,7 +132,7 @@ export function MiniLine({
   labels,
   caption,
   unit = "",
-  /** Index of the one point worth calling out - drawn ringed, not labelled. */
+  /** Index of the one point worth calling out - drawn ringed, not labeled. */
   flag,
   className,
 }: {
@@ -183,8 +183,8 @@ export function MiniLine({
           vectorEffect="non-scaling-stroke"
           className="stroke-ink"
         />
-        {/* The anomaly: ringed in the surface colour so it reads where it
-            crosses the trace, rather than labelled with a number. */}
+        {/* The anomaly: ringed in the surface color so it reads where it
+            crosses the trace, rather than labeled with a number. */}
         {flagged && (
           <circle
             cx={flagged[0]}

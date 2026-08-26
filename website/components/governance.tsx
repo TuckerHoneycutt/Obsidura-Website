@@ -25,7 +25,7 @@ const REQUESTERS: Requester[] = [
       ["patients in report", "36"],
       ["scans rendered", "12"],
     ],
-    note: "The full ward, because the grant covers the full ward.",
+    note: "The grant covers the whole ward, so all 36 patients appear.",
   },
   {
     user: "u_rhodes",
@@ -124,7 +124,7 @@ export function GovernanceBody() {
               <span aria-hidden className="text-ink-faint">
                 &gt;
               </span>
-              Summarise this week&rsquo;s admissions on ward 3.
+              Summarize this week&rsquo;s admissions on ward 3.
             </p>
           </FramePanel>
         </Reveal>
@@ -144,7 +144,7 @@ export function GovernanceBody() {
         <Reveal delay={0.2} className="mt-6">
           <FramePanel className="bg-paper-warm/20">
             <p className="kicker border-b border-rule px-4 py-2 !text-[10px]">
-              every scope decision, written down
+              every scope decision, recorded
             </p>
             <div className="overflow-x-auto px-4 py-3.5">
               {AUDIT.map(([time, text]) => (

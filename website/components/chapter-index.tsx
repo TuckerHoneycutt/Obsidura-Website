@@ -7,7 +7,7 @@ import { CHAPTERS } from "@/lib/chapters";
  * The way in. A numbered table of contents rather than a row of cards -
  * the site reads as five chapters now, and the index should say so plainly.
  * Every entry is tagged nav-forward, so the page slides in the direction the
- * reader is travelling.
+ * reader is traveling.
  */
 export function ChapterIndex() {
   return (

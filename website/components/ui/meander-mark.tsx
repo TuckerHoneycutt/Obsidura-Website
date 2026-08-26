@@ -44,7 +44,7 @@ const FRIEZE_TILE = 12;
  * tile.
  *
  * The band shows only whole units: the wrapper is measured and the SVG
- * drawn at the largest multiple of the tile that fits, centred - so the
+ * drawn at the largest multiple of the tile that fits, centered - so the
  * run ends on a complete key at any width instead of a clipped one.
  */
 export function MeanderFrieze({ className }: { className?: string }) {

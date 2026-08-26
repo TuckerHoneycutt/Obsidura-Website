@@ -22,7 +22,7 @@ export const FACES = [
     plain:
       "A single operation started by a person or another system — a button in an internal tool, or a webhook call. It runs, is recorded, and is done.",
     lines: [
-      "trigger  manual · press the button labelled 'month-end pack'",
+      "trigger  manual · press the button labeled 'month-end pack'",
       "trigger  webhook · called by the ticketing system",
     ],
   },
@@ -30,7 +30,7 @@ export const FACES = [
     label: "workflows",
     title: "It runs a multi-step process.",
     plain:
-      "Several steps across different systems — scripts where the path is fixed, AI agents where judgement is needed, and a person approving where you require it.",
+      "Several steps across different systems — scripts where the path is fixed, AI agents where judgment is needed, and a person approving where you require it.",
     lines: [
       "agent gathers → render task → approval gate → filed",
       "every seam schema-checked · every step on the record",
@@ -62,8 +62,8 @@ export const WORK = [
   },
   {
     domain: "engineering",
-    short: "Rocket test diagnostics, checked against the standard the programme is held to.",
-    line: "Rocket test diagnostics — telemetry read against the test log, anomalies called out, checked against the standard the programme is held to.",
+    short: "Rocket test diagnostics, checked against the standard the program is held to.",
+    line: "Rocket test diagnostics — telemetry read against the test log, anomalies called out, checked against the standard the program is held to.",
   },
   {
     domain: "finance",

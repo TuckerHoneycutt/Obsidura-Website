@@ -28,7 +28,7 @@ const QUESTIONS = [
   },
   {
     q: "What kinds of work can it automate?",
-    a: "Anything software and data can touch. A month-end performance pack, a nightly ledger reconciliation, diagnostics over rocket test telemetry checked against the standard a programme is held to, a clinical cohort summary, standing up a new network segment with a human gate on the change, matching invoices against purchase orders, or turning the office lights on. To the engine these are the same shape: a task, a permission, a check, and a record.",
+    a: "Anything software and data can touch. A month-end performance pack, a nightly ledger reconciliation, diagnostics over rocket test telemetry checked against the standard a program is held to, a clinical cohort summary, standing up a new network segment with a human gate on the change, matching invoices against purchase orders, or turning the office lights on. To the engine these are the same shape: a task, a permission, a check, and a record.",
   },
   {
     q: "Does it only produce reports?",

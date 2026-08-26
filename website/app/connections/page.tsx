@@ -240,7 +240,7 @@ verbs: [get, list]`}
               An agent never reads a binary. A spreadsheet from OneDrive, a
               PDF from the NAS, a mail thread &mdash; each lands in the blob
               store as a file, and a deterministic parser turns it into typed
-              tables and records before any judgement is applied. Parsing is
+              tables and records before any judgment is applied. Parsing is
               not a matter of opinion, so no model is involved.
             </p>
             <p className="body-copy mt-4 text-ink-mute">

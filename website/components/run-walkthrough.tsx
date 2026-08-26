@@ -9,7 +9,7 @@ import { TracingRail } from "@/components/ui/tracing-rail";
 /**
  * A line of the machine's own voice. `mark` promotes the phrase that carries
  * the beat to full-strength ink, since the palette is monochrome and there is
- * no colour to spend on emphasis.
+ * no color to spend on emphasis.
  */
 function Line({ mark, children }: { mark?: string; children: React.ReactNode }) {
   return (

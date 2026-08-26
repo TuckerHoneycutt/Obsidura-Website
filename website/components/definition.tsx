@@ -197,11 +197,11 @@ const PRIMITIVES: [string, string][] = [
 ];
 
 const VALUES: [string, string][] = [
-  ["Text", "a body of words"],
-  ["File", "content-addressed blob handle"],
-  ["Table", "columns plus a row source"],
-  ["Record", "typed against a registered schema"],
-  ["Error", "typed failure, routed not thrown"],
+  ["Text", "plain text"],
+  ["File", "a file, passed by handle"],
+  ["Table", "rows and columns, passed by handle"],
+  ["Record", "structured data, checked against a schema"],
+  ["Error", "a typed failure"],
 ];
 
 /**
@@ -377,7 +377,7 @@ export function WorkflowsBody() {
             That is the entire vocabulary, and it is closed on purpose. Your
             business data lives in Records, checked against schemas you
             register, so the engine never needs custom code for your domain
-            and the cost of adding workflow types stays flat.
+            and adding more workflows never changes the engine.
           </p>
         </Reveal>
       </div>

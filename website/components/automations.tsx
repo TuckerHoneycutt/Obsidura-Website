@@ -11,7 +11,7 @@ import { FACES, WORK } from "@/lib/work";
 const DOES = [
   "Reaches the places your information already lives — databases, file storage, internal sites, cloud tools — and works across all of them in one job.",
   "Starts on a schedule, on a call from another system, or when a person presses a button or asks in plain words.",
-  "Uses an AI agent where judgement is needed and an ordinary script where it is not — in the same process.",
+  "Uses an AI agent where judgment is needed and an ordinary script where it is not — in the same process.",
   "Hands each step only the data the person who asked is cleared to see.",
   "Checks every result against the shape it was promised, and keeps a record of every call, decision, and retry.",
   "Keeps the processes themselves under management: versioned, watched, and held for sign-off where you say so.",
@@ -169,7 +169,7 @@ export function AutomationsBody() {
               <ChipRow
                 className="mt-6"
                 items={[
-                  "agents where judgement is needed",
+                  "agents where judgment is needed",
                   "plain scripts where it is not",
                   "a person in the loop where you say so",
                 ]}

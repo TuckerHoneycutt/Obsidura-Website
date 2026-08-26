@@ -18,7 +18,7 @@ const PANEL_PAGES = [
   { label: "FAQ", href: "/faq" },
 ] as const;
 
-/** Chapter titles double as their nav labels, capitalised from the slug. */
+/** Page slugs double as nav labels, capitalized from the slug. */
 function label(slug: string) {
   return slug.charAt(0).toUpperCase() + slug.slice(1);
 }
@@ -233,7 +233,7 @@ export function Nav() {
     >
       {/* Auto side columns rather than equal thirds: the search bar made
           the right cluster wider than the left, and equal tracks squeezed
-          it into wrapping. The links sit centred in the leftover space. */}
+          it into wrapping. The links sit centered in the leftover space. */}
       {/* The viewport frame's top rule crosses the header 12px down, so from
           md (where the frame exists) the top padding carries that 12px extra:
           the gap from the rule to the content then equals the gap from the

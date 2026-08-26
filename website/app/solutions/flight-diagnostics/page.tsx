@@ -16,7 +16,7 @@ export default function FlightDiagnosticsPage() {
       kicker="a worked example &mdash; flight diagnostics"
       headlineLead="Agents for"
       headlineEmph="flight diagnostics."
-      lede="Telemetry is the case that breaks naive plumbing. A single test produces far more data than anything should put inside a message payload, and the useful answer is a handful of charts, a short list of anomalies, and a check against the standard the programme is held to. This job runs itself when a test finishes, and it is the one that proves values stay small while data stays large."
+      lede="Telemetry is the case that breaks naive plumbing. A single test produces far more data than anything should put inside a message payload, and the useful answer is a handful of charts, a short list of anomalies, and a check against the standard the program is held to. This job runs itself when a test finishes, and it is the one that proves values stay small while data stays large."
       sections={[
         {
           heading: "What the pipeline touches",
