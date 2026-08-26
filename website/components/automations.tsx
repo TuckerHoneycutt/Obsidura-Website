@@ -86,8 +86,8 @@ export function AutomationsBody() {
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">four kinds, one layer</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Cron jobs, actions, workflows, and a{" "}
-              <span className="headline-emph">chat that knows your data.</span>
+              Cron jobs, actions, workflows,{" "}
+              <span className="headline-emph">and plain-English questions.</span>
             </h2>
           </Reveal>
 
@@ -129,8 +129,7 @@ export function AutomationsBody() {
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the range</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Anything software and data can touch,{" "}
-              <span className="headline-emph">Pantheon can automate.</span>
+              What it <span className="headline-emph">can automate.</span>
             </h2>
             <p className="lede-copy mt-6">
               Eight ordinary jobs from eight parts of a company &mdash; to the

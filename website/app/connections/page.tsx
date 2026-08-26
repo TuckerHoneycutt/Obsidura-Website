@@ -43,7 +43,7 @@ export default function ConnectionsPage() {
               connections &mdash; the v1 surface, designed
             </p>
             <h1 className="font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
-              Plug in the places{" "}
+              Connections to the places{" "}
               <span className="headline-emph">your information lives.</span>
             </h1>
             <p className="lede-copy mt-6 max-w-xl">
@@ -76,8 +76,8 @@ export default function ConnectionsPage() {
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the surface</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Setup is self-serve.{" "}
-              <span className="headline-emph">Reachability is reviewed.</span>
+              Setup is self-serve,{" "}
+              <span className="headline-emph">and reachability is reviewed.</span>
             </h2>
             <p className="body-copy mt-5 text-ink-mute">
               Four screens: the wall of connections, the catalog, the
@@ -102,8 +102,8 @@ export default function ConnectionsPage() {
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the contract</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Four questions,{" "}
-              <span className="headline-emph">or it does not ship.</span>
+              Every connector answers{" "}
+              <span className="headline-emph">four questions.</span>
             </h2>
             <p className="body-copy mt-5">
               A new service is never a new engine feature. Every connector
@@ -193,7 +193,7 @@ verbs: [get, list]`}
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">the catalog</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Scope, in each service&rsquo;s{" "}
+              Scope is granted in each service&rsquo;s{" "}
               <span className="headline-emph">own words.</span>
             </h2>
             <p className="body-copy mt-5">
@@ -233,7 +233,8 @@ verbs: [get, list]`}
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">parsing</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Files are <span className="headline-emph">not data yet.</span>
+              Files are parsed{" "}
+              <span className="headline-emph">before agents read them.</span>
             </h2>
             <p className="body-copy mt-5">
               An agent never reads a binary. A spreadsheet from OneDrive, a

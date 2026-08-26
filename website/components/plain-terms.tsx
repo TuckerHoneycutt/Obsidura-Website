@@ -15,8 +15,7 @@ export function PlainTerms() {
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">in plain terms</p>
           <h2 className="font-display mt-6 text-[clamp(2rem,4vw,3.15rem)] leading-[1.06] font-light tracking-tight">
-            Define it once, run it forever,{" "}
-            <span className="headline-emph">and keep it under management.</span>
+            What <span className="headline-emph">Pantheon is.</span>
           </h2>
           <p className="lede-copy mt-7">
             Pantheon is a data layer for agents: it aggregates the data

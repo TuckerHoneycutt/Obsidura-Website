@@ -9,7 +9,6 @@ import { MeanderMark } from "@/components/ui/meander-mark";
 // Every destination the footer knows, grouped the way the footer groups
 // them - the palette is the same directory made reachable by keyboard.
 const ELSEWHERE = [
-  { label: "About", href: "/about" },
   { label: "Integrations", href: "/integrations" },
   { label: "Connections", href: "/connections" },
   { label: "Security", href: "/security" },
@@ -133,7 +132,7 @@ export function CommandMenu() {
           Nothing by that name. The footer carries the full directory.
         </Command.Empty>
 
-        <Command.Group heading={<Heading>the account</Heading>} className="p-1">
+        <Command.Group heading={<Heading>the system</Heading>} className="p-1">
           {CHAPTERS.map((c) => (
             <Item
               key={c.slug}

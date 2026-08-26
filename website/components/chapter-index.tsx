@@ -15,7 +15,7 @@ export function ChapterIndex() {
       <MeanderDivider />
       <div className="mx-auto max-w-6xl px-5 py-14 lg:py-20">
         <Reveal>
-          <p className="kicker text-accent">the account, in five parts</p>
+          <p className="kicker text-accent">the system, in five parts</p>
         </Reveal>
 
         <ol className="mt-8 border-t border-rule">

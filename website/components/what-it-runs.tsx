@@ -22,8 +22,8 @@ export function WhatItRuns() {
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">what it runs</p>
           <h2 className="font-display mt-6 text-[clamp(2rem,4vw,3.15rem)] leading-[1.06] font-light tracking-tight">
-            One layer beneath.{" "}
-            <span className="headline-emph">Four kinds of work on top.</span>
+            Pantheon runs{" "}
+            <span className="headline-emph">four kinds of work.</span>
           </h2>
           <p className="lede-copy mt-7">
             Cron jobs that recur on a schedule, actions fired once, workflows

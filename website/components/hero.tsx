@@ -27,16 +27,16 @@ export function Hero() {
           to land on two lines instead of breaking mid-phrase. */}
       <div className="relative mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
         <motion.p {...rise(0)} className="kicker mb-7 text-accent">
-          obsidura pantheon &mdash; the data layer for agents
+          obsidura pantheon &mdash; intelligent infrastructure
         </motion.p>
 
         <motion.h1
           {...rise(0.1)}
           className="font-display text-[clamp(2.75rem,6.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          All your data, one layer.
+          Your company&apos;s data in one layer,
           <br />
-          <span className="headline-emph">Agents that put it to work.</span>
+          <span className="headline-emph">with agents that work on it.</span>
         </motion.h1>
       </div>
 

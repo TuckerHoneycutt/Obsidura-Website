@@ -54,8 +54,7 @@ export default function SecurityPage() {
               appendix iii &mdash; security
             </p>
             <h1 className="font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] font-light tracking-tight">
-              Security is{" "}
-              <span className="headline-emph">the architecture.</span>
+              The security <span className="headline-emph">model.</span>
             </h1>
             <p className="lede-copy mt-6 max-w-xl">
               Pantheon asks to run work against your systems, much of it

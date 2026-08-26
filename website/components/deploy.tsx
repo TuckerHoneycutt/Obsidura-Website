@@ -142,7 +142,8 @@ export function DeployBody() {
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">side by side</p>
             <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-              Three dominions, <span className="headline-emph">one engine.</span>
+              The same engine{" "}
+              <span className="headline-emph">in all three.</span>
             </h2>
             <p className="body-copy mt-5 text-ink-mute">
               The engine and the security model are identical in all three.

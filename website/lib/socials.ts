@@ -16,16 +16,10 @@ export const SOCIALS: Social[] = [
     handle: "/obsidura",
     href: "https://www.linkedin.com/company/obsidura",
   },
-  { label: "GitHub", handle: "@obsidura", href: "https://github.com/obsidura" },
   {
     label: "Instagram",
     handle: "@obsidura",
     href: "https://www.instagram.com/obsidura",
-  },
-  {
-    label: "Facebook",
-    handle: "/obsidura",
-    href: "https://www.facebook.com/obsidura",
   },
   {
     label: "YouTube",

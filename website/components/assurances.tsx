@@ -48,8 +48,8 @@ export function Assurances() {
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">when it does not go smoothly</p>
           <h2 className="font-display mt-6 text-[clamp(2rem,4vw,3.15rem)] leading-[1.06] font-light tracking-tight">
-            Anything works on a good day.{" "}
-            <span className="headline-emph">Here are the bad ones.</span>
+            What happens{" "}
+            <span className="headline-emph">when a run fails.</span>
           </h2>
         </Reveal>
 

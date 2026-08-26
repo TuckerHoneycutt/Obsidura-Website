@@ -196,8 +196,7 @@ export function RunWalkthrough() {
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">one run, start to finish</p>
           <h2 className="font-display mt-6 text-[clamp(2rem,4vw,3.15rem)] leading-[1.06] font-light tracking-tight">
-            Every job, whatever it is,{" "}
-            <span className="headline-emph">runs the same five ways.</span>
+            How a run <span className="headline-emph">works.</span>
           </h2>
           <p className="lede-copy mt-7">
             Followed here with a request for a report, because its result is

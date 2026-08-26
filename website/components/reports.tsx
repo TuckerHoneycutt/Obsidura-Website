@@ -232,8 +232,8 @@ export function ReportsBody() {
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">one of them, all the way through</p>
           <h2 className="font-display mt-6 text-[clamp(1.9rem,3.6vw,2.85rem)] leading-[1.08] font-light tracking-tight">
-            Asked for in a sentence.{" "}
-            <span className="headline-emph">Finished in minutes.</span>
+            A report,{" "}
+            <span className="headline-emph">from request to delivery.</span>
           </h2>
           <p className="lede-copy mt-6">
             Someone asks in plain words; the run gathers what that person is

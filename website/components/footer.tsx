@@ -45,7 +45,6 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
 // The bottom bar carries what the directory does not: the company pages.
 // Everything else already has a column, so nothing is listed twice.
 const LINKS = [
-  { label: "About", href: "/about" },
   { label: "Privacy", href: "/privacy" },
   { label: "Contact", href: "/contact" },
 ];

@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 // otherwise reaches. Contact is absent because the panel closes on it
 // as its own CTA below.
 const PANEL_PAGES = [
-  { label: "About", href: "/about" },
   { label: "Integrations", href: "/integrations" },
   { label: "Security", href: "/security" },
   { label: "FAQ", href: "/faq" },
@@ -250,7 +249,7 @@ export function Nav() {
           {/* The chapters fold into the Pantheon menu; the company pages
               ride the row beside it. */}
           <PantheonMenu pathname={pathname} />
-          {["about", "contact"].map((slug) => {
+          {["contact"].map((slug) => {
             const href = `/${slug}`;
             const current = pathname === href;
             return (

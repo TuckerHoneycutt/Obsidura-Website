@@ -94,6 +94,14 @@ const nextConfig: NextConfig = {
         destination: "/solutions/clinical-summary",
         permanent: true,
       },
+      // The about page folded into contact. Temporary rather than permanent:
+      // a standalone about page may yet come back, and a 308 would be cached
+      // past its welcome.
+      {
+        source: "/about",
+        destination: "/contact",
+        permanent: false,
+      },
     ];
   },
 };
