@@ -25,14 +25,6 @@ const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[]
     ],
   },
   {
-    heading: "worked examples",
-    links: [
-      { label: "Financial Audit", href: "/solutions/financial-audit" },
-      { label: "Flight Diagnostics", href: "/solutions/flight-diagnostics" },
-      { label: "Clinical Summaries", href: "/solutions/clinical-summary" },
-    ],
-  },
-  {
     heading: "deployment",
     links: [
       { label: "Obsidura Cloud", href: "/deployment/cloud" },

@@ -17,12 +17,6 @@ const ELSEWHERE = [
   { label: "Privacy", href: "/privacy" },
 ];
 
-const EXAMPLES = [
-  { label: "Financial Audit", href: "/solutions/financial-audit" },
-  { label: "Flight Diagnostics", href: "/solutions/flight-diagnostics" },
-  { label: "Clinical Summaries", href: "/solutions/clinical-summary" },
-];
-
 const DOMINIONS = [
   { label: "Obsidura Cloud", href: "/deployment/cloud" },
   { label: "Private VPC", href: "/deployment/private-vpc" },
@@ -144,17 +138,6 @@ export function CommandMenu() {
                 </span>
                 {c.label}
               </span>
-            </Item>
-          ))}
-        </Command.Group>
-
-        <Command.Group
-          heading={<Heading>worked examples</Heading>}
-          className="border-t border-rule p-1 pt-2"
-        >
-          {EXAMPLES.map((p) => (
-            <Item key={p.href} value={p.label} onSelect={() => go(p.href)}>
-              {p.label}
             </Item>
           ))}
         </Command.Group>

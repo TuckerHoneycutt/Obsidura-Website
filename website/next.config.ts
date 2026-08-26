@@ -79,20 +79,13 @@ const nextConfig: NextConfig = {
         destination: "/automations",
         permanent: true,
       },
+      // The worked-example pages were removed; anything still pointing at
+      // them - including the older per-vertical aliases - lands on the
+      // chapter that carries the examples now.
       {
-        source: "/solutions/finance-operations",
-        destination: "/solutions/financial-audit",
-        permanent: true,
-      },
-      {
-        source: "/solutions/customer-support",
-        destination: "/solutions/flight-diagnostics",
-        permanent: true,
-      },
-      {
-        source: "/solutions/revenue-operations",
-        destination: "/solutions/clinical-summary",
-        permanent: true,
+        source: "/solutions/:path*",
+        destination: "/automations",
+        permanent: false,
       },
       // The about page folded into contact. Temporary rather than permanent:
       // a standalone about page may yet come back, and a 308 would be cached

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "clean": "rm -rf .next tsconfig.tsbuildinfo",
+    "clean:full": "rm -rf .next tsconfig.tsbuildinfo node_modules && npm ci"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.20",

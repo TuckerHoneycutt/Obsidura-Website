@@ -17,7 +17,7 @@ export type RelatedLink = {
 };
 
 /**
- * Shared layout for the standalone landing pages (/platform, /solutions/*,
+ * Shared layout for the standalone landing pages (/integrations,
  * /deployment/*, ...). Each page supplies data; the composition - kicker,
  * two-part headline, mono lede, ruled sections, related links, and the
  * closing demo panel - stays identical across all of them.

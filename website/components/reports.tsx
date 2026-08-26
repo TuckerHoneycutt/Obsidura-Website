@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MiniColumns, MiniLine, MiniStat } from "@/components/ui/mini-chart";
@@ -16,7 +15,6 @@ type Report = {
   chart: React.ReactNode;
   rows: string[];
   detail: string;
-  href: string;
 };
 
 // The three pipelines from the spec, each drawing on a different mix of
@@ -45,7 +43,6 @@ const REPORTS: Report[] = [
     ],
     detail:
       "A ledger, a pile of scanned receipts, and an external rate API reconciled in one run.",
-    href: "/solutions/financial-audit",
   },
   {
     vertical: "flight diagnostics",
@@ -83,7 +80,6 @@ const REPORTS: Report[] = [
     ],
     detail:
       "Tens of thousands of telemetry rows moved by handle, never inline, and read against the test log.",
-    href: "/solutions/flight-diagnostics",
   },
   {
     vertical: "clinical summary",
@@ -108,7 +104,6 @@ const REPORTS: Report[] = [
     ],
     detail:
       "Patient records and the scans themselves, scoped to whoever asked - two people get two different reports.",
-    href: "/solutions/clinical-summary",
   },
 ];
 
@@ -174,14 +169,6 @@ function ReportCard({ report }: { report: Report }) {
           <p className="body-copy-sm !text-[15px] text-ink-mute">
             {report.detail}
           </p>
-          {/* The link is on the link, not the whole card: wrapping an anchor
-              around the chart would nest its hit targets inside an anchor. */}
-          <Link
-            href={report.href}
-            className="kicker link-sweep mt-3 inline-block text-accent transition-colors hover:text-ink"
-          >
-            the full account &rarr;
-          </Link>
         </div>
       </div>
     </FramePanel>

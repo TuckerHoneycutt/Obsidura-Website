@@ -69,8 +69,6 @@ export default function IntegrationsPage() {
         { label: "What Pantheon runs", href: "/automations" },
         { label: "How workflows are built", href: "/workflows" },
         { label: "Security model", href: "/security" },
-        { label: "Financial audit", href: "/solutions/financial-audit" },
-        { label: "Clinical summaries", href: "/solutions/clinical-summary" },
       ]}
     />
   );
