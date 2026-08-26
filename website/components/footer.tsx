@@ -71,7 +71,9 @@ export function Footer() {
         <p className="kicker !text-[10px]">forged on pantheon</p>
         <MeanderMark size={10} />
       </div>
-      <div className="relative mx-auto mt-12 grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 border-t border-rule px-5 py-10 sm:grid-cols-4">
+      {/* Three groups since the worked examples retired: one column each
+          on phones, spread evenly across the full measure from sm up. */}
+      <div className="relative mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-x-12 gap-y-10 border-t border-rule px-5 py-12 sm:grid-cols-3">
         {DIRECTORY.map(({ heading, links }) => (
           <div key={heading}>
             {/* Column heads wear the frame-panel label dress - kicker over a
@@ -96,9 +98,9 @@ export function Footer() {
         ))}
       </div>
       {/* The profiles run as one strip in the dress of the "forged on
-          pantheon" line - seven external links read better as a band than
-          as a column towering over the directory. Plain anchors, since
-          they leave the site. */}
+          pantheon" line - external links read better as a band than as a
+          column towering over the directory. Plain anchors, since they
+          leave the site. */}
       <div className="relative mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-7 gap-y-3 border-t border-rule px-5 py-7 text-ink-mute">
         <MeanderMark size={10} className="text-ink-faint" />
         {SOCIALS.map(({ label, href }) => (
