@@ -4,7 +4,6 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { TracedMark } from "@/components/traced-mark";
 import { FramePanel } from "@/components/ui/frame-panel";
-import { Magnetic } from "@/components/ui/magnetic";
 import { Spotlight } from "@/components/ui/spotlight";
 
 const rise = (delay: number) => ({
@@ -51,23 +50,19 @@ export function Hero() {
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-10 flex flex-wrap gap-4">
-            <Magnetic>
-              <Link
-                href="/contact"
-                className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
-              >
-                Book a demo
-              </Link>
-            </Magnetic>
-            <Magnetic strength={0.15}>
-              <Link
-                href="/automations"
-                transitionTypes={["nav-forward"]}
-                className="kicker inline-block border border-rule px-6 py-3.5 !text-ink-soft transition-colors hover:border-accent-deep hover:!text-ink"
-              >
-                See what it runs &rarr;
-              </Link>
-            </Magnetic>
+            <Link
+              href="/contact"
+              className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
+            >
+              Book a demo
+            </Link>
+            <Link
+              href="/automations"
+              transitionTypes={["nav-forward"]}
+              className="kicker inline-block border border-rule px-6 py-3.5 !text-ink-soft transition-colors hover:border-accent-deep hover:!text-ink"
+            >
+              See what it runs &rarr;
+            </Link>
           </motion.div>
 
         </div>

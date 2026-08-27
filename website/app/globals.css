@@ -324,6 +324,16 @@ html.light .logo-invert {
   animation: term-in 0.2s cubic-bezier(0.21, 0.47, 0.32, 0.98);
 }
 
+/* The palette input is focused the moment the panel opens and owns the
+   whole row, so the global focus ring draws a second, wider box around
+   the bar. The bordered panel is the focus affordance here; the ring adds
+   nothing but the artifact. (The input's own outline-none utility loses
+   to the unlayered global rule, hence the scoped opt-out.) */
+.cmd-panel:focus-visible,
+.cmd-panel input:focus-visible {
+  outline: none;
+}
+
 @keyframes cmd-fade {
   from {
     opacity: 0;

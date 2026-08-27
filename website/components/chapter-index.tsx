@@ -40,10 +40,7 @@ export function ChapterIndex() {
                     </span>
                   </span>
 
-                  <span
-                    aria-hidden
-                    className="kicker shrink-0 transition-transform group-hover:translate-x-1"
-                  >
+                  <span aria-hidden className="kicker shrink-0">
                     &rarr;
                   </span>
                 </Link>
