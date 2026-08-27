@@ -9,6 +9,11 @@
 # Separate projects — not part of the Obsidura website
 Aurora/
 
+# Internal materials — kept local, not published with the site
+Pitch Decks/
+presentation/
+website/specs/
+
 # Debug logs
 npm-debug.log*
 yarn-debug.log*
