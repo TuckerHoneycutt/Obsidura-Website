@@ -29,7 +29,7 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://obsidura.com"),
-  title: "Obsidura Pantheon | The Secure Data Layer for AI Agents",
+  title: "Obsidura | Intelligent Infrastructure",
   description: DESCRIPTION,
   alternates: {
     canonical: "/",

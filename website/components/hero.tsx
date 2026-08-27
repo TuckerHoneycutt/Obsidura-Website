@@ -43,10 +43,10 @@ export function Hero() {
             {...rise(0.2)}
             className="max-w-xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
           >
-            Pantheon aggregates the data scattered across your systems into
-            one secure, governed layer and runs agents against it: scheduled
-            jobs, one-off actions, whole workflows, and plain-English
-            questions. Every run is scoped to your role and recorded.
+            Obsidura builds intelligent infrastructure across all of a
+            company&apos;s data sources. Our platform, Pantheon, aggregates
+            that data into one governed layer and lets agents run across it,
+            with every run permission-scoped and recorded.
           </motion.p>
 
           <motion.div {...rise(0.3)} className="mt-10 flex flex-wrap gap-4">
