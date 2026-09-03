@@ -1,9 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { TracedMark } from "@/components/traced-mark";
-import { FramePanel } from "@/components/ui/frame-panel";
 import { Spotlight } from "@/components/ui/spotlight";
 
 const rise = (delay: number) => ({
@@ -17,15 +16,36 @@ const rise = (delay: number) => ({
  * decode. So: the category in the kicker, the promise in the headline, and a
  * plain-language definition underneath - what the thing runs, on what, under
  * what constraint - before anyone is asked to click anything.
+ *
+ * The mark no longer sits beside the copy as an exhibit; it hangs faded
+ * behind the whole column, and everything reads down the center over it.
  */
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <Spotlight />
-      {/* The claim gets the full measure - at this size it needs all 1152px
-          to land on two lines instead of breaking mid-phrase. */}
-      <div className="relative mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
-        <motion.p {...rise(0)} className="kicker mb-7 text-accent">
+
+      {/* The watermark: the mark at hero scale, faint enough that the copy
+          stays the foreground. logo-invert flips it for the dark paper. */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+      >
+        <Image
+          src="/logo-mark.svg"
+          alt=""
+          width={718}
+          height={718}
+          unoptimized
+          className="logo-invert h-[clamp(20rem,50vw,34rem)] w-auto opacity-10 select-none"
+        />
+      </motion.div>
+
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-16 pb-16 text-center lg:pt-28 lg:pb-24">
+        <motion.p {...rise(0)} className="kicker mb-7 !text-[13px] text-accent">
           obsidura pantheon &mdash; the data layer for agents
         </motion.p>
 
@@ -35,50 +55,34 @@ export function Hero() {
         >
           Intelligent <span className="headline-emph">Infrastructure.</span>
         </motion.h1>
-      </div>
 
-      <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pt-10 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14 lg:pb-24">
-        <div>
-          <motion.p
-            {...rise(0.2)}
-            className="max-w-xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
+        <motion.p
+          {...rise(0.2)}
+          className="mt-8 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
+        >
+          Obsidura builds intelligent infrastructure across all of a
+          company&apos;s data sources. Our platform, Pantheon, aggregates
+          that data into one governed layer and lets agents run across it,
+          with every run permission-scoped and recorded.
+        </motion.p>
+
+        <motion.div
+          {...rise(0.3)}
+          className="mt-10 flex flex-wrap justify-center gap-4"
+        >
+          <Link
+            href="/contact"
+            className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
           >
-            Obsidura builds intelligent infrastructure across all of a
-            company&apos;s data sources. Our platform, Pantheon, aggregates
-            that data into one governed layer and lets agents run across it,
-            with every run permission-scoped and recorded.
-          </motion.p>
-
-          <motion.div {...rise(0.3)} className="mt-10 flex flex-wrap gap-4">
-            <Link
-              href="/contact"
-              className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
-            >
-              Book a demo
-            </Link>
-            <Link
-              href="/automations"
-              transitionTypes={["nav-forward"]}
-              className="kicker inline-block border border-rule px-6 py-3.5 !text-ink-soft transition-colors hover:border-accent-deep hover:!text-ink"
-            >
-              See what it runs &rarr;
-            </Link>
-          </motion.div>
-
-        </div>
-
-        <motion.div {...rise(0.35)}>
-          {/* Museum mount: a sealed frame on warm paper with a faint gilt
-              halo, so the mark reads as an exhibited artifact. */}
-          <FramePanel className="bg-paper-warm/40">
-            <div className="relative p-6 sm:p-10">
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--gilt-glow),transparent_72%)]"
-              />
-              <TracedMark />
-            </div>
-          </FramePanel>
+            Book a demo
+          </Link>
+          <Link
+            href="/automations"
+            transitionTypes={["nav-forward"]}
+            className="kicker inline-block border border-accent-deep bg-paper px-6 py-3.5 !text-ink transition-colors hover:border-accent"
+          >
+            See what it runs &rarr;
+          </Link>
         </motion.div>
       </div>
     </section>

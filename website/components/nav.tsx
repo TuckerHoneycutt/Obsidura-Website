@@ -9,13 +9,14 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { CHAPTERS } from "@/lib/chapters";
 import { cn } from "@/lib/utils";
 
-// The panel lists every chapter, then the pages that only the footer
-// otherwise reaches. Contact is absent because the panel closes on it
-// as its own CTA below.
+// The panel lists every chapter, then every other page the site has.
+// Contact is absent because the panel closes on it as its own CTA below.
 const PANEL_PAGES = [
   { label: "Integrations", href: "/integrations" },
+  { label: "Connections", href: "/connections" },
   { label: "Security", href: "/security" },
   { label: "FAQ", href: "/faq" },
+  { label: "Privacy", href: "/privacy" },
 ] as const;
 
 /** Page slugs double as nav labels, capitalized from the slug. */
@@ -183,9 +184,54 @@ function PantheonMenu({ pathname }: { pathname: string }) {
   );
 }
 
+/** A collapsible group in the mobile panel: kicker header, chevron, and an
+    animated reveal - the same dropdown language as the desktop menu. */
+function PanelGroup({
+  label,
+  open,
+  onToggle,
+  children,
+}: {
+  label: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-t border-rule">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between py-4 text-left"
+      >
+        <span className="kicker !text-[10px] text-accent">{label}</span>
+        <ChevronIcon open={open} />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.24, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="overflow-hidden"
+          >
+            <div className="pb-4">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // One group open at a time; the chapters lead because they are the site.
+  const [panelGroup, setPanelGroup] = useState<"pantheon" | "elsewhere">(
+    "pantheon"
+  );
   const panelId = useId();
 
   const close = useCallback(() => setOpen(false), []);
@@ -316,60 +362,75 @@ export function Nav() {
             transition={{ duration: 0.28, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="overflow-hidden border-t border-rule bg-paper lg:hidden"
           >
-            <div className="px-6 py-6">
+            {/* Scrolls on its own (data-lenis-prevent, since Lenis owns the
+                wheel even while stopped) so every entry stays reachable on
+                short screens where the panel outgrows the viewport. */}
+            <div
+              data-lenis-prevent
+              className="max-h-[calc(100dvh-6rem)] overflow-y-auto px-6 py-6"
+            >
               <button
                 type="button"
                 onClick={() => {
                   close();
                   openSearch();
                 }}
-                className="mb-6 flex h-10 w-full items-center gap-2.5 border border-rule px-3 text-left"
+                className="mb-5 flex h-10 w-full items-center gap-2.5 border border-rule px-3 text-left"
               >
                 <SearchIcon className="text-ink-faint" />
                 <span className="kicker !text-[10px] text-ink-mute">
                   search the site
                 </span>
               </button>
-              <p className="kicker !text-[10px] text-accent">pantheon</p>
-              <ul className="mt-3 space-y-1">
-                {CHAPTERS.map((chapter) => (
-                  <li key={chapter.slug}>
-                    <Link
-                      href={`/${chapter.slug}`}
-                      transitionTypes={["nav-forward"]}
-                      onClick={close}
-                      className="font-display flex items-baseline gap-3 py-2 text-2xl font-light tracking-tight"
-                    >
-                      <span className="kicker w-6 shrink-0 text-accent">
-                        {chapter.numeral}
-                      </span>
-                      {chapter.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
 
-              <p className="kicker mt-6 border-t border-rule pt-5 !text-[10px] text-accent">
-                elsewhere
-              </p>
-              <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1">
-                {PANEL_PAGES.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={close}
-                      className="font-display block py-2 text-lg font-light tracking-tight text-ink-soft"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <PanelGroup
+                label="pantheon"
+                open={panelGroup === "pantheon"}
+                onToggle={() => setPanelGroup("pantheon")}
+              >
+                <ul className="space-y-1">
+                  {CHAPTERS.map((chapter) => (
+                    <li key={chapter.slug}>
+                      <Link
+                        href={`/${chapter.slug}`}
+                        transitionTypes={["nav-forward"]}
+                        onClick={close}
+                        className="font-display flex items-baseline gap-3 py-2 text-2xl font-light tracking-tight"
+                      >
+                        <span className="kicker w-6 shrink-0 text-accent">
+                          {chapter.numeral}
+                        </span>
+                        {chapter.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </PanelGroup>
+
+              <PanelGroup
+                label="elsewhere"
+                open={panelGroup === "elsewhere"}
+                onToggle={() => setPanelGroup("elsewhere")}
+              >
+                <ul className="grid grid-cols-2 gap-x-6 gap-y-1">
+                  {PANEL_PAGES.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        onClick={close}
+                        className="font-display block py-2 text-lg font-light tracking-tight text-ink-soft"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </PanelGroup>
 
               <Link
                 href="/contact"
                 onClick={close}
-                className="kicker mt-6 block bg-accent px-5 py-3.5 text-center !text-paper"
+                className="kicker mt-5 block bg-accent px-5 py-3.5 text-center !text-paper"
               >
                 Contact
               </Link>

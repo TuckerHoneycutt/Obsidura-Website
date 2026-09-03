@@ -18,7 +18,7 @@ export function WhatItRuns() {
   return (
     <section className="relative border-t border-rule bg-paper-warm/40">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+      <div className="mx-auto max-w-6xl px-5 pt-10 pb-16 lg:pt-12 lg:pb-20">
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">what it runs</p>
           <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">
@@ -26,11 +26,11 @@ export function WhatItRuns() {
             <span className="headline-emph">four kinds of work.</span>
           </h2>
           <p className="lede-copy mt-7">
-            Cron jobs that recur on a schedule, actions fired once, workflows
-            that carry a process end to end, and questions asked in chat and
-            answered from the context of your data &mdash; all against the
-            same governed layer, and anything software and data can touch is
-            in range.
+            Our automation platform, Pantheon, runs cron jobs that recur on
+            a schedule, actions fired once, workflows that carry a process
+            end to end, and questions asked in chat and answered from the
+            context of your data. All four run against the same governed
+            layer, and anything software and data can touch is in range.
           </p>
         </Reveal>
 
