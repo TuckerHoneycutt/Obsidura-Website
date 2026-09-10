@@ -61,6 +61,40 @@ function usePrefersReducedMotion() {
   );
 }
 
+function LogRow({ line, animated = false }: { line: LogLine; animated?: boolean }) {
+  const rowClass =
+    "flex gap-3 py-0.5 font-mono text-[11px] leading-relaxed sm:text-[12.5px]";
+  const content = (
+    <>
+      <span className="shrink-0 text-ink-faint">[{line.time}]</span>
+      <span
+        className={cn(
+          "w-16 shrink-0 uppercase tracking-wider",
+          KIND_STYLE[line.kind]
+        )}
+      >
+        {line.kind}
+      </span>
+      <span className="text-ink-soft">{line.text}</span>
+    </>
+  );
+
+  if (!animated) {
+    return <p className={rowClass}>{content}</p>;
+  }
+
+  return (
+    <motion.p
+      initial={{ opacity: 0, x: -6 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3 }}
+      className={rowClass}
+    >
+      {content}
+    </motion.p>
+  );
+}
+
 /**
  * The append-only run log, replayed. Every claim the governance chapter
  * makes - scope decisions, the repair loop, the sealed envelope - is a line
@@ -99,30 +133,25 @@ export function RunLog() {
           run_events &mdash; append-only
         </span>
       </div>
-      <div className="h-[300px] overflow-hidden px-4 py-3 sm:h-[280px]">
-        {RUN.slice(0, shown).map((line, i) => (
-          <motion.p
-            key={`${line.time}-${i}`}
-            initial={{ opacity: 0, x: -6 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex gap-3 py-0.5 font-mono text-[11px] leading-relaxed sm:text-[12.5px]"
-          >
-            <span className="shrink-0 text-ink-faint">[{line.time}]</span>
-            <span
-              className={cn(
-                "w-16 shrink-0 uppercase tracking-wider",
-                KIND_STYLE[line.kind]
-              )}
-            >
-              {line.kind}
-            </span>
-            <span className="text-ink-soft">{line.text}</span>
-          </motion.p>
-        ))}
-        <p className="flex gap-3 py-0.5 font-mono text-[12.5px]">
-          <span className="animate-pulse text-accent">&#9608;</span>
-        </p>
+      <div className="grid px-4 py-3">
+        {/* The finished log, invisible, holds the cell at its final height
+            for whatever width the lines wrap at - so the replay never
+            clips its closing lines and never leaves dead rows below the
+            cursor. The fixed-height reserve it replaces did both. */}
+        <div aria-hidden className="invisible [grid-area:1/1]">
+          {RUN.map((line, i) => (
+            <LogRow key={`reserve-${i}`} line={line} />
+          ))}
+          <p className="py-0.5 font-mono text-[12.5px]">&#9608;</p>
+        </div>
+        <div className="[grid-area:1/1]">
+          {RUN.slice(0, shown).map((line, i) => (
+            <LogRow key={`${line.time}-${i}`} line={line} animated />
+          ))}
+          <p className="flex gap-3 py-0.5 font-mono text-[12.5px]">
+            <span className="animate-pulse text-accent">&#9608;</span>
+          </p>
+        </div>
       </div>
     </FramePanel>
   );

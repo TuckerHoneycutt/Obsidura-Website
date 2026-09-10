@@ -47,7 +47,7 @@ const PRINCIPLES: { heading: string; body: string }[] = [
 
 export default function SecurityPage() {
   return (
-    <main className="flex-1">
+    <main id="content" tabIndex={-1} className="flex-1">
         <section className="relative">
           <div className="mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
             <p className="kicker mb-6 text-accent">

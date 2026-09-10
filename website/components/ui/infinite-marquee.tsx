@@ -20,7 +20,12 @@ export function InfiniteMarquee({
       <div className="animate-marquee flex w-max items-center gap-10">
         {track.map((item, i) => (
           <Fragment key={`${item}-${i}`}>
-            <span className="kicker whitespace-nowrap text-ink-faint">
+            {/* The second copy exists only for the seamless loop; hiding it
+                from assistive tech keeps the list from being read twice. */}
+            <span
+              aria-hidden={i >= items.length || undefined}
+              className="kicker whitespace-nowrap text-ink-faint"
+            >
               {item}
             </span>
             <span

@@ -35,7 +35,7 @@ const OFFICERS = [
 
 export default function ContactPage() {
   return (
-    <main className="flex-1">
+    <main id="content" tabIndex={-1} className="flex-1">
       {/* One section, two columns: everything about reaching or following
           the company on the left, the form on the right. The two stacks are
           about the same height, so neither side trails off into dead space. */}

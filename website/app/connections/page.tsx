@@ -34,7 +34,7 @@ const CONTRACT = [
 
 export default function ConnectionsPage() {
   return (
-    <main className="flex-1">
+    <main id="content" tabIndex={-1} className="flex-1">
       {/* Hero */}
       <section className="relative">
         <div className="mx-auto max-w-6xl px-5 pt-16 lg:pt-24">

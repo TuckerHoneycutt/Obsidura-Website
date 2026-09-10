@@ -89,10 +89,20 @@ export function Chapter({
   const { chapter, prev, next } = chapterAt(slug);
 
   return (
-    <main className="flex-1">
+    <main id="content" tabIndex={-1} className="flex-1">
       <section className="relative overflow-hidden">
-        <div className="mx-auto max-w-6xl px-5 pt-16 pb-12 lg:pt-24">
-          <Reveal className="max-w-3xl">
+        <div className="relative mx-auto max-w-6xl px-5 pt-16 pb-12 lg:pt-24">
+          {/* The chapter's numeral at monumental scale fills the opening's
+              right side - the same carved treatment the homepage index
+              gives the sequence, so arriving here reads as stepping into
+              the entry you chose. Ghost-faint: the lede keeps the floor. */}
+          <span
+            aria-hidden
+            className="font-display pointer-events-none absolute top-1/2 right-8 hidden -translate-y-1/2 leading-none font-light uppercase select-none text-[clamp(12rem,22vw,19rem)] text-ink/[0.07] lg:block"
+          >
+            {chapter.numeral}
+          </span>
+          <Reveal className="relative max-w-3xl">
             <p className="kicker flex items-center gap-2.5 text-accent">
               <MeanderMark size={10} />
               {chapter.numeral} &mdash; {chapter.label}

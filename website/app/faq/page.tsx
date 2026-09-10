@@ -101,10 +101,14 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
       />
-      <main className="flex-1">
+      <main id="content" tabIndex={-1} className="flex-1">
         <section className="relative">
-          <div className="mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
-            <p className="kicker mb-6 text-accent">
+          <div className="relative mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
+            {/* On wide screens the appendix label hangs in the left margin
+                as true marginalia - the gutter annotating the text, the way
+                a printed appendix would - so the column's offset reads as
+                set on purpose rather than left over. */}
+            <p className="kicker mb-6 text-accent xl:absolute xl:top-[6.6rem] xl:right-full xl:mr-14 xl:mb-0 xl:w-36 xl:text-right">
               appendix i &mdash; questions
             </p>
             <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">

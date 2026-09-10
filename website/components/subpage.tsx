@@ -53,7 +53,7 @@ export function Subpage({
   );
 
   return (
-    <main className="flex-1">
+    <main id="content" tabIndex={-1} className="flex-1">
       <section className="relative">
         {/* With art, the hero widens to the chapter pages' two-column
             mount - text beside the engraving - and the reading column

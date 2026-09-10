@@ -74,6 +74,11 @@ export function ContactForm() {
         onSubmit={handleSubmit}
         action="/api/contact"
         method="post"
+        // The server action returns field errors in the site's own voice;
+        // without noValidate the browser's native bubbles fire first and
+        // those errors are never reached. required stays on the fields for
+        // its semantics - screen readers still announce the fields as such.
+        noValidate
         className="relative flex flex-col gap-6 px-6 py-8 sm:px-8"
       >
         <div className="grid gap-6 sm:grid-cols-2">
@@ -87,13 +92,20 @@ export function ContactForm() {
               type="text"
               required
               autoComplete="name"
+              aria-invalid={state.fieldErrors?.name ? true : undefined}
+              aria-describedby={
+                state.fieldErrors?.name ? "name-error" : undefined
+              }
               className={cn(
                 fieldClass,
                 state.fieldErrors?.name && "border-accent"
               )}
             />
             {state.fieldErrors?.name ? (
-              <p className="mt-2 font-mono text-[12px] text-ink-mute">
+              <p
+                id="name-error"
+                className="mt-2 font-mono text-[12px] text-ink-mute"
+              >
                 {state.fieldErrors.name}
               </p>
             ) : null}
@@ -108,13 +120,20 @@ export function ContactForm() {
               type="email"
               required
               autoComplete="email"
+              aria-invalid={state.fieldErrors?.email ? true : undefined}
+              aria-describedby={
+                state.fieldErrors?.email ? "email-error" : undefined
+              }
               className={cn(
                 fieldClass,
                 state.fieldErrors?.email && "border-accent"
               )}
             />
             {state.fieldErrors?.email ? (
-              <p className="mt-2 font-mono text-[12px] text-ink-mute">
+              <p
+                id="email-error"
+                className="mt-2 font-mono text-[12px] text-ink-mute"
+              >
                 {state.fieldErrors.email}
               </p>
             ) : null}
@@ -143,6 +162,10 @@ export function ContactForm() {
             name="message"
             required
             rows={6}
+            aria-invalid={state.fieldErrors?.message ? true : undefined}
+            aria-describedby={
+              state.fieldErrors?.message ? "message-error" : undefined
+            }
             className={cn(
               fieldClass,
               "resize-y min-h-[9rem]",
@@ -150,7 +173,10 @@ export function ContactForm() {
             )}
           />
           {state.fieldErrors?.message ? (
-            <p className="mt-2 font-mono text-[12px] text-ink-mute">
+            <p
+              id="message-error"
+              className="mt-2 font-mono text-[12px] text-ink-mute"
+            >
               {state.fieldErrors.message}
             </p>
           ) : null}

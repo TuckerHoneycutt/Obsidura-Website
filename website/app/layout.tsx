@@ -98,6 +98,15 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          {/* First focusable on every page. Parked above the viewport and
+              slid in on keyboard focus, so mouse users never see it and a
+              keyboard user is offered it before the nav's five stops. */}
+          <a
+            href="#content"
+            className="kicker fixed top-4 left-4 z-[200] -translate-y-24 bg-accent px-5 py-3 !text-paper transition-transform focus-visible:translate-y-0"
+          >
+            Skip to content
+          </a>
           <SmoothScroll />
           <ViewportFrame />
           <MotionProvider>
