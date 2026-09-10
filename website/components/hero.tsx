@@ -40,7 +40,7 @@ export function Hero() {
           width={718}
           height={718}
           unoptimized
-          className="logo-invert h-[clamp(20rem,50vw,34rem)] w-auto opacity-10 select-none"
+          className="logo-invert h-[clamp(20rem,50vw,34rem)] w-auto opacity-[0.06] select-none"
         />
       </motion.div>
 
@@ -51,7 +51,7 @@ export function Hero() {
 
         <motion.h1
           {...rise(0.1)}
-          className="font-display text-[clamp(2.1rem,4.6vw,3.8rem)] leading-[1.02] font-light tracking-tight"
+          className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
           Intelligent <span className="headline-emph">Infrastructure.</span>
         </motion.h1>

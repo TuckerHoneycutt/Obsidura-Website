@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { InfiniteMarquee } from "@/components/ui/infinite-marquee";
 
+// Each connector is read with the scope that governs it, so the strip says
+// "connector, governed thus" instead of mixing the two voices in one list.
+// The last two are platform-wide and stand alone.
 const INTEGRATIONS = [
-  "Postgres",
-  "Object storage",
-  "HTTP services",
-  "Row-filter scope",
-  "Key-prefix scope",
-  "URL allowlist",
+  "Postgres · row-filter scope",
+  "Object storage · key-prefix scope",
+  "HTTP services · URL allowlist",
   "Run-scoped proxy",
   "Audited per call",
 ];

@@ -89,9 +89,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
+        {/* Obsidian is the house palette - black volcanic glass is the
+            material the name claims - so dark is the default and light is
+            the opt-out, kept one click away on the toggle. */}
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem={false}
           disableTransitionOnChange
         >

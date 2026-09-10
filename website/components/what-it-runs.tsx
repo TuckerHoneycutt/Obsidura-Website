@@ -18,7 +18,7 @@ export function WhatItRuns() {
   return (
     <section className="relative border-t border-rule bg-paper-warm/40">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 pt-10 pb-16 lg:pt-12 lg:pb-20">
+      <div className="mx-auto max-w-6xl px-5 pt-10 pb-12 lg:pt-12 lg:pb-14">
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">what it runs</p>
           <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">

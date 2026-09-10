@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChapterIndexArt } from "@/components/chapter-index-art";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
 import { CHAPTERS } from "@/lib/chapters";
@@ -8,6 +9,12 @@ import { CHAPTERS } from "@/lib/chapters";
  * the site reads as five chapters now, and the index should say so plainly.
  * Every entry is tagged nav-forward, so the page slides in the direction the
  * reader is traveling.
+ *
+ * The numerals are set in the display serif at chapter scale - the sequence
+ * is real structure, so it gets the carved treatment rather than a label -
+ * and a hovered row surfaces a ghost band of its chapter's engraving in the
+ * otherwise empty right side. The hovered numeral takes gilt: the one drop
+ * of the sacred color the homepage spends.
  */
 export function ChapterIndex() {
   return (
@@ -25,13 +32,18 @@ export function ChapterIndex() {
                 <Link
                   href={`/${chapter.slug}`}
                   transitionTypes={["nav-forward"]}
-                  className="group flex flex-col gap-2 border-b border-rule py-6 transition-colors hover:bg-paper-warm/50 sm:flex-row sm:items-baseline sm:gap-8 sm:px-3"
+                  className="group relative flex flex-col gap-2 overflow-hidden border-b border-rule py-6 transition-colors hover:bg-paper-warm/50 sm:flex-row sm:items-baseline sm:gap-8 sm:px-3"
                 >
-                  <span className="kicker w-10 shrink-0 text-accent">
+                  {/* Deploy's plates belong to its dominion cards, so the
+                      index previews Hermes instead - the one who travels
+                      between all three realms. */}
+                  <ChapterIndexArt name={chapter.art ?? "hermes"} />
+
+                  <span className="font-display relative w-12 shrink-0 text-[clamp(1.8rem,2.6vw,2.35rem)] leading-none font-light uppercase text-accent transition-colors group-hover:[color:var(--gilt)] group-focus-visible:[color:var(--gilt)] sm:w-16">
                     {chapter.numeral}
                   </span>
 
-                  <span className="min-w-0 flex-1">
+                  <span className="relative min-w-0 flex-1">
                     <span className="font-display block text-[clamp(1.4rem,2.7vw,2.1rem)] leading-tight font-light tracking-tight">
                       {chapter.label}
                     </span>
@@ -40,7 +52,7 @@ export function ChapterIndex() {
                     </span>
                   </span>
 
-                  <span aria-hidden className="kicker shrink-0">
+                  <span aria-hidden className="kicker relative shrink-0">
                     &rarr;
                   </span>
                 </Link>
