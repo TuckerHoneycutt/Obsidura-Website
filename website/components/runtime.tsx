@@ -28,7 +28,7 @@ export function RuntimeBody() {
           <Reveal>
             <FramePanel className="bg-paper-warm/30">
               <div className="border-b border-rule px-5 py-2.5">
-                <span className="kicker !text-[0.625rem]">guarantees</span>
+                <span className="kicker !text-[0.71875rem]">guarantees</span>
               </div>
               <ul className="divide-y divide-rule">
                 {GUARANTEES.map((g, i) => (

@@ -72,7 +72,7 @@ export function Footer() {
       </div>
       <div className="relative mx-auto mt-10 flex max-w-shell items-center justify-center gap-2.5 px-gutter text-ink-mute">
         <MeanderMark size={10} />
-        <p className="kicker !text-[0.625rem]">forged on pantheon</p>
+        <p className="kicker !text-[0.71875rem]">forged on pantheon</p>
         <MeanderMark size={10} />
       </div>
       {/* Three groups since the worked examples retired: one column each
@@ -113,7 +113,7 @@ export function Footer() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="kicker link-sweep !text-[0.625rem] transition-colors hover:text-ink"
+            className="kicker link-sweep !text-[0.71875rem] transition-colors hover:text-ink"
           >
             {label}
           </a>

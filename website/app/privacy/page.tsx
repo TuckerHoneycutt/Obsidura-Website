@@ -96,7 +96,7 @@ export default function PrivacyPage() {
             ))}
           </div>
 
-          <p className="kicker mt-14 border-t border-rule pt-6 !text-[0.625rem]">
+          <p className="kicker mt-14 border-t border-rule pt-6 !text-[0.71875rem]">
             effective august 2026 &mdash; questions: contact@obsidura.com
           </p>
         </div>

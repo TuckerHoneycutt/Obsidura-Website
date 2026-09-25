@@ -144,7 +144,7 @@ function ReportCard({ report }: { report: Report }) {
           <p className="font-display text-[0.9375rem] leading-tight font-medium">
             {report.title}
           </p>
-          <p className="kicker mt-1.5 !text-[0.5625rem]">{report.sources}</p>
+          <p className="kicker mt-1.5 !text-[0.6875rem]">{report.sources}</p>
 
           <div className="mt-4 flex gap-5 border-t border-rule pt-3.5">
             {report.stats.map((s) => (
@@ -160,7 +160,7 @@ function ReportCard({ report }: { report: Report }) {
             {report.rows.map((row) => (
               <p
                 key={row}
-                className="truncate font-mono text-[0.59375rem] tracking-tight text-ink-mute tabular-nums"
+                className="truncate font-mono text-[0.71875rem] tracking-tight text-ink-mute tabular-nums"
               >
                 {row}
               </p>
@@ -262,7 +262,7 @@ export function ReportsBody() {
             {/* The run talking back. Deliberately not a live region: four
                 announcements of a decorative sequence is noise, and the final
                 line reads perfectly well on its own. */}
-            <p className="border-t border-rule px-4 py-2 font-mono text-[0.6875rem] text-ink-mute">
+            <p className="border-t border-rule px-4 py-2 font-mono text-[0.78125rem] text-ink-mute">
               {typing && !done ? <>&hellip;</> : STAGES[stageIndex]}
             </p>
           </FramePanel>

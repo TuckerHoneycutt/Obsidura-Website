@@ -64,7 +64,7 @@ function usePrefersReducedMotion() {
 
 function LogRow({ line, animated = false }: { line: LogLine; animated?: boolean }) {
   const rowClass =
-    "flex gap-3 py-0.5 font-mono text-[0.6875rem] leading-relaxed sm:text-[0.78125rem]";
+    "flex gap-3 py-0.5 font-mono text-[0.78125rem] leading-relaxed sm:text-[0.78125rem]";
   const content = (
     <>
       <span className="shrink-0 text-ink-faint">[{line.time}]</span>

@@ -58,7 +58,7 @@ export function Assurances() {
             <Reveal key={c.label} delay={Math.min(i * 0.07, 0.2)}>
               <GlowPanel className="h-full bg-paper-warm/30">
                 <div className="flex h-full flex-col">
-                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
+                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.71875rem] text-accent">
                     {c.label}
                   </p>
                   <div className="px-5 py-5">
@@ -68,7 +68,7 @@ export function Assurances() {
                     <p className="body-copy-sm mt-3 max-w-[62ch]">{c.plain}</p>
                   </div>
                   <div className="mt-auto border-t border-rule px-5 py-4">
-                    <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
+                    <p className="font-mono text-[0.78125rem] leading-relaxed break-words text-ink-mute">
                       {c.log}
                     </p>
                     <Link

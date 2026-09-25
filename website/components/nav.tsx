@@ -205,7 +205,7 @@ function PanelGroup({
         aria-expanded={open}
         className="flex w-full items-center justify-between py-4 text-left"
       >
-        <span className="kicker !text-[0.625rem] text-accent">{label}</span>
+        <span className="kicker !text-[0.71875rem] text-accent">{label}</span>
         <ChevronIcon open={open} />
       </button>
       <AnimatePresence initial={false}>
@@ -323,10 +323,10 @@ export function Nav() {
             className="group hidden h-8 w-[clamp(11rem,14vw,14rem)] items-center gap-2.5 border border-rule px-3 text-left transition-colors hover:border-accent-deep xl:flex"
           >
             <SearchIcon className="text-ink-faint transition-colors group-hover:text-ink" />
-            <span className="kicker !text-[0.625rem] text-ink-faint transition-colors group-hover:text-ink">
+            <span className="kicker !text-[0.71875rem] text-ink-faint transition-colors group-hover:text-ink">
               search
             </span>
-            <kbd className="ml-auto font-mono text-[0.625rem] text-ink-faint">
+            <kbd className="ml-auto font-mono text-[0.71875rem] text-ink-faint">
               &#8984;K
             </kbd>
           </button>
@@ -378,7 +378,7 @@ export function Nav() {
                 className="mb-5 flex h-10 w-full items-center gap-2.5 border border-rule px-3 text-left"
               >
                 <SearchIcon className="text-ink-faint" />
-                <span className="kicker !text-[0.625rem] text-ink-mute">
+                <span className="kicker !text-[0.71875rem] text-ink-mute">
                   search the site
                 </span>
               </button>

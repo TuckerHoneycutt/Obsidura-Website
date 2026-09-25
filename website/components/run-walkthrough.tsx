@@ -17,7 +17,7 @@ import { TracingRail } from "@/components/ui/tracing-rail";
 function Line({ mark, children }: { mark?: string; children: React.ReactNode }) {
   return (
     <LogLine>
-      <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
+      <p className="font-mono text-[0.78125rem] leading-relaxed break-words text-ink-mute">
         {mark && <span className="text-syn-key">{mark}&nbsp;&nbsp;</span>}
         {children}
       </p>
@@ -170,7 +170,7 @@ output: report.spec@1`}
           <p className="font-display text-[0.9375rem] leading-tight font-medium text-ink">
             Q2 Ledger Reconciliation
           </p>
-          <p className="kicker mt-1.5 !text-[0.5625rem]">
+          <p className="kicker mt-1.5 !text-[0.6875rem]">
             postgres · object store · http
           </p>
           <div className="mt-3.5 flex gap-5 border-t border-rule pt-3">

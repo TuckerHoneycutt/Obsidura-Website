@@ -27,7 +27,7 @@ const DOES_NOT = [
 function List({ label, items }: { label: string; items: string[] }) {
   return (
     <FramePanel className="h-full bg-paper-warm/30">
-      <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
+      <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.71875rem] text-accent">
         {label}
       </p>
       <ul className="space-y-4 px-5 py-5">
@@ -46,7 +46,7 @@ function Face({ face }: { face: (typeof FACES)[number] }) {
   return (
     <FramePanel className="h-full bg-paper-warm/30">
       <div className="flex h-full flex-col">
-        <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
+        <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.71875rem] text-accent">
           {face.label}
         </p>
         <div className="px-5 py-5">
@@ -59,7 +59,7 @@ function Face({ face }: { face: (typeof FACES)[number] }) {
           {face.lines.map((line) => (
             <p
               key={line}
-              className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute"
+              className="font-mono text-[0.78125rem] leading-relaxed break-words text-ink-mute"
             >
               {line}
             </p>
@@ -151,7 +151,7 @@ export function AutomationsBody() {
             {WORK.map((item, i) => (
               <Reveal key={item.domain} delay={Math.min(i * 0.04, 0.24)}>
                 <li className="flex flex-col gap-1.5 border-t border-rule py-5 sm:flex-row sm:gap-6">
-                  <span className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-28 xl:w-32">
+                  <span className="kicker shrink-0 !text-[0.71875rem] text-accent sm:w-28 xl:w-32">
                     {item.domain}
                   </span>
                   <span className="body-copy-sm">{item.line}</span>

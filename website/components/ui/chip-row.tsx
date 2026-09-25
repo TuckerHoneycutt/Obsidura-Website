@@ -17,7 +17,7 @@ export function ChipRow({
       {items.map((item, i) => (
         <span
           key={i}
-          className="kicker !text-[0.625rem] flex items-center gap-1.5 border border-rule px-2.5 py-1.5 not-first:border-l-0"
+          className="kicker !text-[0.71875rem] flex items-center gap-1.5 border border-rule px-2.5 py-1.5 not-first:border-l-0"
         >
           {item}
         </span>

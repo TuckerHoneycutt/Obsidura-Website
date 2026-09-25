@@ -41,7 +41,7 @@ export function WhatItRuns() {
           {SHOWN.map((item, i) => (
             <Reveal key={item.domain} delay={Math.min(i * 0.05, 0.2)}>
               <li className="flex flex-col gap-1 border-t border-rule py-4 sm:flex-row sm:gap-6">
-                <span className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-28">
+                <span className="kicker shrink-0 !text-[0.71875rem] text-accent sm:w-28">
                   {item.domain}
                 </span>
                 <span className="body-copy-sm">{item.short}</span>

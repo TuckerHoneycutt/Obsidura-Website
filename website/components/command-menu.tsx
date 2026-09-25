@@ -24,7 +24,7 @@ const DOMINIONS = [
 ];
 
 function Heading({ children }: { children: ReactNode }) {
-  return <span className="kicker !text-[0.625rem] text-accent">{children}</span>;
+  return <span className="kicker !text-[0.71875rem] text-accent">{children}</span>;
 }
 
 function Item({
@@ -114,7 +114,7 @@ export function CommandMenu() {
           placeholder="Name the page you want&hellip;"
           className="w-full bg-transparent py-3.5 font-mono text-sm text-ink outline-none placeholder:text-ink-faint"
         />
-        <kbd className="kicker shrink-0 !text-[0.625rem] text-ink-faint">esc</kbd>
+        <kbd className="kicker shrink-0 !text-[0.71875rem] text-ink-faint">esc</kbd>
       </div>
       {/* data-lenis-prevent: Lenis owns the wheel even while stopped, and
           without it the list swallows scroll and the lower groups are

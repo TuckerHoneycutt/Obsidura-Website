@@ -188,7 +188,7 @@ export function DeployBody() {
                           key={term}
                           className="flex flex-col gap-1 py-4 sm:flex-row sm:gap-6 xl:gap-10"
                         >
-                          <dt className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-36">
+                          <dt className="kicker shrink-0 !text-[0.71875rem] text-accent sm:w-36">
                             {term}
                           </dt>
                           <dd className="body-copy-sm">{detail}</dd>
@@ -196,13 +196,13 @@ export function DeployBody() {
                       ))}
                     </dl>
                     <div className="flex items-center justify-between border-t border-rule px-5 py-3.5">
-                      <span className="kicker flex items-center gap-1.5 !text-[0.625rem] text-accent">
+                      <span className="kicker flex items-center gap-1.5 !text-[0.71875rem] text-accent">
                         <MeanderMark size={9} />
                         {OPTIONS[i].dominion}
                       </span>
                       <Link
                         href={OPTIONS[i].href}
-                        className="kicker link-sweep !text-[0.625rem] text-accent transition-colors hover:text-ink"
+                        className="kicker link-sweep !text-[0.71875rem] text-accent transition-colors hover:text-ink"
                       >
                         the full account &rarr;
                       </Link>

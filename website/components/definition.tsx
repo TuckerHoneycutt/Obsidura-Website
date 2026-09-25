@@ -138,7 +138,7 @@ function Node({
       )}
     >
       <span className="font-mono text-[0.78125rem] text-ink">{name}</span>
-      <span className="kicker !text-[0.5625rem]">{kind}</span>
+      <span className="kicker !text-[0.6875rem]">{kind}</span>
     </div>
   );
 }
@@ -156,7 +156,7 @@ function Edge({ label, active }: { label: string; active: boolean }) {
       />
       <span
         className={cn(
-          "kicker !text-[0.5625rem] transition-colors",
+          "kicker !text-[0.6875rem] transition-colors",
           active ? "!text-ink" : "text-accent"
         )}
       >
@@ -209,7 +209,7 @@ export function WorkflowsBody() {
                 tabs={["audit.yaml", "render.py"]}
                 meta="what you write"
               />
-              <div className="overflow-x-auto py-2.5 font-mono text-[0.71875rem] leading-[1.75]">
+              <div className="overflow-x-auto py-2.5 font-mono text-[0.8125rem] leading-[1.75]">
                 {YAML.map((line, i) => (
                   <YamlRow
                     key={i}
@@ -236,8 +236,8 @@ export function WorkflowsBody() {
           <Reveal delay={0.2} className="lg:sticky lg:top-28 lg:self-start">
             <FramePanel className="bg-paper">
               <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-                <span className="kicker !text-[0.625rem]">ptn apply</span>
-                <span className="kicker !text-[0.625rem] text-accent">
+                <span className="kicker !text-[0.71875rem]">ptn apply</span>
+                <span className="kicker !text-[0.71875rem] text-accent">
                   what gets built
                 </span>
               </div>
@@ -268,7 +268,7 @@ export function WorkflowsBody() {
                       : "border-rule"
                   )}
                 >
-                  <p className="kicker !text-[0.5625rem] text-accent">
+                  <p className="kicker !text-[0.6875rem] text-accent">
                     derived from uses:
                   </p>
                   <div className="mt-2 space-y-1.5">
@@ -285,7 +285,7 @@ export function WorkflowsBody() {
                         <span className="font-mono text-[0.75rem] text-ink-soft">
                           {use.name}
                         </span>
-                        <span className="kicker !text-[0.5625rem]">{use.meta}</span>
+                        <span className="kicker !text-[0.6875rem]">{use.meta}</span>
                       </div>
                     ))}
                   </div>
@@ -327,7 +327,7 @@ export function WorkflowsBody() {
           >
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-1">
               <FramePanel className="bg-paper">
-                <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem] text-accent">
+                <p className="kicker border-b border-rule px-4 py-2 !text-[0.71875rem] text-accent">
                   four primitives
                 </p>
                 <dl className="divide-y divide-rule">
@@ -339,14 +339,14 @@ export function WorkflowsBody() {
                       <dt className="font-display text-lg font-medium">
                         {term}
                       </dt>
-                      <dd className="kicker !text-[0.5625rem]">{variants}</dd>
+                      <dd className="kicker !text-[0.6875rem]">{variants}</dd>
                     </div>
                   ))}
                 </dl>
               </FramePanel>
 
               <FramePanel className="bg-paper">
-                <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem] text-accent">
+                <p className="kicker border-b border-rule px-4 py-2 !text-[0.71875rem] text-accent">
                   five values &mdash; everything passed between tasks
                 </p>
                 <dl className="divide-y divide-rule">
@@ -358,7 +358,7 @@ export function WorkflowsBody() {
                       <dt className="font-display text-lg font-medium">
                         {term}
                       </dt>
-                      <dd className="kicker !text-[0.5625rem]">{gloss}</dd>
+                      <dd className="kicker !text-[0.6875rem]">{gloss}</dd>
                     </div>
                   ))}
                 </dl>

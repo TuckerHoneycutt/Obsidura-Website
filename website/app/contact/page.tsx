@@ -91,10 +91,10 @@ export default function ContactPage() {
                       className="text-ink-mute transition-colors group-hover:text-ink"
                     />
                     <span className="min-w-0">
-                      <span className="kicker block !text-[0.625rem] transition-colors group-hover:text-ink">
+                      <span className="kicker block !text-[0.71875rem] transition-colors group-hover:text-ink">
                         {label}
                       </span>
-                      <span className="block truncate font-mono text-[0.6875rem] text-ink-faint">
+                      <span className="block truncate font-mono text-[0.78125rem] text-ink-faint">
                         {handle}
                       </span>
                     </span>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                           <p className="font-display text-xl font-light tracking-tight">
                             {name}
                           </p>
-                          <p className="kicker mt-1 !text-[0.625rem] text-ink-mute">
+                          <p className="kicker mt-1 !text-[0.71875rem] text-ink-mute">
                             {role}
                           </p>
                         </div>

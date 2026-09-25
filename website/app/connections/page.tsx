@@ -131,7 +131,7 @@ export default function ConnectionsPage() {
             {CONTRACT.map((item, i) => (
               <Reveal key={item.q} delay={Math.min(i * 0.06, 0.2)}>
                 <FramePanel className="h-full bg-paper">
-                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
+                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.71875rem] text-accent">
                     {item.q}
                   </p>
                   <p className="body-copy-sm px-5 py-4">{item.a}</p>
@@ -170,15 +170,15 @@ export default function ConnectionsPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <FramePanel className="bg-paper-warm/30">
-                <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
+                <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.71875rem] text-accent">
                   the two halves
                 </p>
                 <div className="space-y-2 px-5 py-4">
-                  <p className="font-mono text-[0.6875rem] leading-relaxed text-ink-mute">
+                  <p className="font-mono text-[0.78125rem] leading-relaxed text-ink-mute">
                     <span className="text-ink">connection&nbsp;&nbsp;</span>
                     m365-prod · token pair · executor custody
                   </p>
-                  <p className="font-mono text-[0.6875rem] leading-relaxed text-ink-mute">
+                  <p className="font-mono text-[0.78125rem] leading-relaxed text-ink-mute">
                     created in the surface · no review · revocable in place
                   </p>
                 </div>
@@ -192,7 +192,7 @@ connector: ms.graph
 connection: m365-prod
 verbs: [get, list]`}
                   />
-                  <p className="mt-3 font-mono text-[0.65625rem] text-ink-faint">
+                  <p className="mt-3 font-mono text-[0.75rem] text-ink-faint">
                     ptn plan &amp;&amp; ptn apply &mdash; reviewed, like any
                     other change
                   </p>
@@ -231,11 +231,11 @@ verbs: [get, list]`}
             {SERVICES.map((s, i) => (
               <Reveal key={s.id} delay={Math.min(i * 0.04, 0.24)}>
                 <li className="flex flex-col gap-1.5 border-t border-rule py-5 sm:flex-row sm:gap-6">
-                  <span className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-32">
+                  <span className="kicker shrink-0 !text-[0.71875rem] text-accent sm:w-32">
                     {s.label}
                   </span>
                   <span className="body-copy-sm">
-                    <span className="font-mono text-[0.6875rem] text-ink-mute">
+                    <span className="font-mono text-[0.78125rem] text-ink-mute">
                       {s.connector}
                     </span>{" "}
                     &mdash; {s.scope}
@@ -279,7 +279,7 @@ verbs: [get, list]`}
                   (p) => (
                     <span
                       key={p}
-                      className="flex items-center gap-2 border border-rule px-3 py-1.5 font-mono text-[0.6875rem] text-ink-mute"
+                      className="flex items-center gap-2 border border-rule px-3 py-1.5 font-mono text-[0.78125rem] text-ink-mute"
                     >
                       <MeanderMark size={8} className="text-ink-faint" />
                       {p}

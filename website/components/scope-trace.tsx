@@ -167,14 +167,14 @@ function Gate({ requester, t }: { requester: Requester; t: number }) {
       )}
     >
       <div className="flex items-baseline justify-between gap-3 px-4 pt-2.5">
-        <span className="font-mono text-[0.5625rem] tracking-[0.12em] text-ink-soft uppercase">
+        <span className="font-mono text-[0.6875rem] tracking-[0.12em] text-ink-soft uppercase">
           proxy
         </span>
-        <span className="font-mono text-[0.625rem] text-ink-faint">
+        <span className="font-mono text-[0.71875rem] text-ink-faint">
           {evaluated} evaluated
         </span>
       </div>
-      <div className="px-4 pt-2 pb-3 font-mono text-[0.6875rem] leading-[1.75] sm:text-[0.71875rem]">
+      <div className="px-4 pt-2 pb-3 font-mono text-[0.78125rem] leading-[1.75] sm:text-[0.8125rem]">
         <div className="flex flex-wrap gap-[3px]">
           {WARD_3.map((id, i) => {
             const pass = !requester.consent || RESEARCH.has(id);
@@ -232,7 +232,7 @@ function Group({ requester, t }: { requester: Requester; t: number }) {
         meta={requester.role}
         controls={false}
       />
-      <div className="overflow-x-auto py-2.5 font-mono text-[0.6875rem] leading-[1.75] sm:text-[0.71875rem]">
+      <div className="overflow-x-auto py-2.5 font-mono text-[0.78125rem] leading-[1.75] sm:text-[0.8125rem]">
         {lines.map((line, i) => (
           <CodeRow key={i} n={i + 1} active={cursor?.line === i && typing}>
             {line && (
@@ -250,14 +250,14 @@ function Group({ requester, t }: { requester: Requester; t: number }) {
 
       <div className="border-t border-rule">
         <div className="flex items-baseline justify-between gap-3 px-4 pt-2.5">
-          <span className="font-mono text-[0.5625rem] tracking-[0.12em] text-ink-soft uppercase">
+          <span className="font-mono text-[0.6875rem] tracking-[0.12em] text-ink-soft uppercase">
             returned to the task
           </span>
-          <span className="font-mono text-[0.625rem] text-ink-faint">
+          <span className="font-mono text-[0.71875rem] text-ink-faint">
             {shownRows.length} rows
           </span>
         </div>
-        <div className="px-4 pt-2 pb-4 font-mono text-[0.6875rem] sm:text-[0.71875rem]">
+        <div className="px-4 pt-2 pb-4 font-mono text-[0.78125rem] sm:text-[0.8125rem]">
           <ul className="grid h-[11.75rem] grid-cols-6 content-start gap-1 sm:h-[7.75rem] sm:grid-cols-9">
             <AnimatePresence mode="popLayout">
               {shownRows.map((id) => (
@@ -344,7 +344,7 @@ export function ScopeTrace() {
             <span key={i} className="size-[7px] rounded-full border border-rule" />
           ))}
         </span>
-        <span className="flex-1 text-center font-mono text-[0.625rem] text-ink-faint">
+        <span className="flex-1 text-center font-mono text-[0.71875rem] text-ink-faint">
           governance &mdash; one prompt, two requesters
         </span>
         {!reduced && (
@@ -352,7 +352,7 @@ export function ScopeTrace() {
             type="button"
             onClick={() => setPlaying((p) => !p)}
             aria-label={playing ? "Pause the animation" : "Play the animation"}
-            className="font-mono text-[0.625rem] text-ink-mute transition-colors hover:text-ink"
+            className="font-mono text-[0.71875rem] text-ink-mute transition-colors hover:text-ink"
           >
             {playing ? "pause" : "play"}
           </button>
@@ -400,7 +400,7 @@ export function ScopeTrace() {
         </div>
 
         <div className="border-t border-rule">
-          <div className="flex gap-5 px-4 pt-2 font-mono text-[0.5625rem] tracking-[0.12em] uppercase">
+          <div className="flex gap-5 px-4 pt-2 font-mono text-[0.6875rem] tracking-[0.12em] uppercase">
             <span className="border-b border-accent pb-1.5 text-ink">
               audit log
             </span>
@@ -413,7 +413,7 @@ export function ScopeTrace() {
                 <p
                   key={time + text}
                   className={cn(
-                    "flex gap-3 py-0.5 font-mono text-[0.6875rem] whitespace-pre transition-opacity duration-300 sm:text-[0.71875rem]",
+                    "flex gap-3 py-0.5 font-mono text-[0.78125rem] whitespace-pre transition-opacity duration-300 sm:text-[0.8125rem]",
                     i < auditShown ? "opacity-100" : "opacity-0"
                   )}
                 >

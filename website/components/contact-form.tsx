@@ -12,7 +12,7 @@ const fieldClass =
   // and it is far too quiet to navigate a form by.
   "w-full border border-rule bg-paper px-3.5 py-3 font-mono text-sm text-ink transition-colors placeholder:text-ink-faint focus:border-accent-deep";
 
-const labelClass = "kicker mb-2 block !text-[0.625rem]";
+const labelClass = "kicker mb-2 block !text-[0.71875rem]";
 
 export function ContactForm() {
   const [state, setState] = useState<ContactState>(initialState);

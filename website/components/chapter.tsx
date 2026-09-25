@@ -21,7 +21,7 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
             transitionTypes={BACK}
             className="group flex flex-col justify-center border-b border-rule py-10 sm:border-b-0 sm:pr-[clamp(2rem,3vw,3.5rem)]"
           >
-            <span className="kicker !text-[0.625rem]">
+            <span className="kicker !text-[0.71875rem]">
               &larr; {prev.numeral} &mdash; {prev.label}
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
@@ -34,7 +34,7 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
             transitionTypes={BACK}
             className="group flex flex-col justify-center border-b border-rule py-10 sm:border-b-0 sm:pr-[clamp(2rem,3vw,3.5rem)]"
           >
-            <span className="kicker !text-[0.625rem]">&larr; the index</span>
+            <span className="kicker !text-[0.71875rem]">&larr; the index</span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
               Back to the beginning
             </span>
@@ -47,7 +47,7 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
             transitionTypes={FORWARD}
             className="group flex flex-col justify-center py-10 sm:items-end sm:border-l sm:border-rule sm:pl-[clamp(2rem,3vw,3.5rem)] sm:text-right"
           >
-            <span className="kicker !text-[0.625rem] text-accent">
+            <span className="kicker !text-[0.71875rem] text-accent">
               {next.numeral} &mdash; {next.label} &rarr;
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
@@ -60,7 +60,7 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
             transitionTypes={FORWARD}
             className="group flex flex-col justify-center py-10 sm:items-end sm:border-l sm:border-rule sm:pl-[clamp(2rem,3vw,3.5rem)] sm:text-right"
           >
-            <span className="kicker !text-[0.625rem] text-accent">
+            <span className="kicker !text-[0.71875rem] text-accent">
               the last word &rarr;
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">

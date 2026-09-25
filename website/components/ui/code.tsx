@@ -304,7 +304,7 @@ export function EditorTabs({
           <span
             key={tab}
             className={cn(
-              "flex items-center gap-2 border-r border-rule px-3.5 py-2 font-mono text-[0.6875rem] whitespace-nowrap",
+              "flex items-center gap-2 border-r border-rule px-3.5 py-2 font-mono text-[0.78125rem] whitespace-nowrap",
               i === active
                 ? "relative -mb-px bg-editor text-ink before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-accent"
                 : "text-ink-faint"
@@ -320,7 +320,7 @@ export function EditorTabs({
         ))}
       </div>
       {meta && (
-        <span className="kicker ml-auto flex items-center px-4 !text-[0.5625rem]">
+        <span className="kicker ml-auto flex items-center px-4 !text-[0.6875rem]">
           {meta}
         </span>
       )}
@@ -337,7 +337,7 @@ export function StatusBar({
   right?: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 border-t border-rule bg-paper-warm/60 px-3.5 py-1 font-mono text-[0.625rem] text-ink-faint">
+    <div className="flex items-center justify-between gap-4 border-t border-rule bg-paper-warm/60 px-3.5 py-1 font-mono text-[0.71875rem] text-ink-faint">
       <span className="truncate">{left}</span>
       <span className="flex shrink-0 gap-4">{right}</span>
     </div>
@@ -383,7 +383,7 @@ export function CodeBlock({
       <div
         className={cn(
           "overflow-x-auto bg-editor py-2.5 font-mono leading-[1.75]",
-          lang === "markdown" ? "text-[0.75rem]" : "text-[0.6875rem]"
+          lang === "markdown" ? "text-[0.75rem]" : "text-[0.78125rem]"
         )}
       >
         {lines.map((line, i) => (
@@ -437,10 +437,10 @@ export function WindowBar({
   return (
     <div className="grid grid-cols-[3rem_minmax(0,1fr)_auto] items-center gap-3 border-b border-rule bg-paper-warm/60 py-2 pr-4 pl-3.5">
       <WindowDots />
-      <span className="truncate text-center font-mono text-[0.625rem] text-ink-faint">
+      <span className="truncate text-center font-mono text-[0.71875rem] text-ink-faint">
         {title}
       </span>
-      <span className="flex min-w-[3rem] justify-end font-mono text-[0.625rem] text-ink-faint">
+      <span className="flex min-w-[3rem] justify-end font-mono text-[0.71875rem] text-ink-faint">
         {meta}
       </span>
     </div>
@@ -458,14 +458,14 @@ export function BrowserBar({
   return (
     <div className="flex items-center gap-3 border-b border-rule bg-paper-warm/60 py-2 pr-4 pl-3.5">
       <WindowDots />
-      <span className="flex min-w-0 flex-1 items-center gap-2 border border-rule bg-editor px-2.5 py-1 font-mono text-[0.625rem]">
+      <span className="flex min-w-0 flex-1 items-center gap-2 border border-rule bg-editor px-2.5 py-1 font-mono text-[0.71875rem]">
         <span aria-hidden className="text-ink-faint">
           file://
         </span>
         <span className="truncate text-ink-soft">{url}</span>
       </span>
       {meta && (
-        <span className="kicker shrink-0 !text-[0.5625rem]">{meta}</span>
+        <span className="kicker shrink-0 !text-[0.6875rem]">{meta}</span>
       )}
     </div>
   );
@@ -484,7 +484,7 @@ export function OutputLines({
   className?: string;
 }) {
   return (
-    <div className={cn("space-y-1 bg-editor font-mono text-[0.6875rem] leading-relaxed", className)}>
+    <div className={cn("space-y-1 bg-editor font-mono text-[0.78125rem] leading-relaxed", className)}>
       {lines.map((line) => {
         const [, head, rest] = line.match(/^(\S+)(.*)$/) ?? [, line, ""];
         return (

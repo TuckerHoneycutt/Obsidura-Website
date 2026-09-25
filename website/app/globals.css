@@ -137,10 +137,22 @@ body {
 
 .kicker {
   font-family: var(--font-cutive), monospace;
-  font-size: 0.6875rem;
+  font-size: 0.78125rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-mute);
+}
+
+/*
+ * Cutive ships a single hairline weight, and font-weight would only get a
+ * smeared synthetic bold. A stroke in the text's own colour thickens the
+ * stems instead, sized in em so it tracks the label size. Auto smoothing
+ * lets macOS darken the stems too, which the page-wide antialiased turns off.
+ */
+.kicker,
+.font-mono {
+  -webkit-text-stroke: 0.02em currentColor;
+  -webkit-font-smoothing: auto;
 }
 
 /*
