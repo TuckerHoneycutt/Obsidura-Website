@@ -64,17 +64,14 @@ export default function ConnectionsPage() {
 
           {/* The honesty strip: this page is a design, not a shipped list. */}
           <Reveal delay={0.08}>
-            <CodeBlock
-              framed
-              className="max-w-3xl"
-              filename="STATUS.md"
-              lang="markdown"
-              status={false}
-              code={[
-                "> [!NOTE]",
-                "> Today the engine ships three connector kinds: **Postgres**, **object storage**, and **HTTP**. What follows is the v1 connector surface as specified, arriving in phases; this page will say so as each one lands, and not before.",
-              ].join("\n")}
-            />
+            <FramePanel className="max-w-3xl bg-paper-warm/40">
+              <p className="body-copy-sm px-5 py-4 text-ink-mute">
+                Today the engine ships three connector kinds &mdash;
+                Postgres, object storage, and HTTP. What follows is the v1
+                connector surface as specified, arriving in phases; this page
+                will say so as each one lands, and not before.
+              </p>
+            </FramePanel>
           </Reveal>
         </div>
       </section>
@@ -133,14 +130,12 @@ export default function ConnectionsPage() {
           <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {CONTRACT.map((item, i) => (
               <Reveal key={item.q} delay={Math.min(i * 0.06, 0.2)}>
-                <CodeBlock
-                  framed
-                  className="h-full"
-                  filename={`${String(i + 1).padStart(2, "0")}-${item.q.replace(/[^a-z]+/g, "-")}.md`}
-                  lang="markdown"
-                  status={false}
-                  code={[`## ${item.q}`, "", item.a].join("\n")}
-                />
+                <FramePanel className="h-full bg-paper">
+                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
+                    {item.q}
+                  </p>
+                  <p className="body-copy-sm px-5 py-4">{item.a}</p>
+                </FramePanel>
               </Reveal>
             ))}
           </div>
