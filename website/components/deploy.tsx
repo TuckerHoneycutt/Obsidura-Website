@@ -56,17 +56,35 @@ const COMPARE: { name: string; rows: [string, string][] }[] = [
   {
     name: "Obsidura Cloud",
     rows: [
-      ["the arrangement", "Fully managed — we operate the control plane, the executor, and the worker pool."],
-      ["where data lives", "In our cloud; you author definitions and watch runs."],
-      ["the boundary", "Ours to carry, with every call passing the run-scoped proxy."],
+      [
+        "the arrangement",
+        "Fully managed — we operate the control plane, the executor, and the worker pool.",
+      ],
+      [
+        "where data lives",
+        "In our cloud; you author definitions and watch runs.",
+      ],
+      [
+        "the boundary",
+        "Ours to carry, with every call passing the run-scoped proxy.",
+      ],
     ],
   },
   {
     name: "Private VPC",
     rows: [
-      ["the arrangement", "Single-tenant, deployed inside your own network boundary."],
-      ["where data lives", "It never leaves the AWS or GCP account it already lives in."],
-      ["the boundary", "Your account's edge; the proxy holds credentials you issued."],
+      [
+        "the arrangement",
+        "Single-tenant, deployed inside your own network boundary.",
+      ],
+      [
+        "where data lives",
+        "It never leaves the AWS or GCP account it already lives in.",
+      ],
+      [
+        "the boundary",
+        "Your account's edge; the proxy holds credentials you issued.",
+      ],
     ],
   },
   {
@@ -93,8 +111,8 @@ export function DeployBody() {
           className="relative border-t border-rule odd:bg-paper-warm/40"
         >
           <MeanderDivider />
-          <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-            <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+          <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+            <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16 xl:gap-24">
               <Reveal className={i % 2 === 1 ? "lg:order-2" : undefined}>
                 <Engraving name={opt.art} maxHeight={620} dim />
               </Reveal>
@@ -110,7 +128,7 @@ export function DeployBody() {
                   {opt.name}
                 </h2>
                 <p className="lede-copy mt-4">{opt.detail}</p>
-                <p className="body-copy mt-4 max-w-lg">{opt.body}</p>
+                <p className="body-copy mt-4 max-w-xl">{opt.body}</p>
                 <Link
                   href={opt.href}
                   className="kicker link-sweep mt-5 inline-block text-accent transition-colors hover:text-ink"
@@ -138,22 +156,22 @@ export function DeployBody() {
 
       <section className="relative border-t border-rule bg-paper-warm/40">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <Reveal className="max-w-3xl">
+        <div className="mx-auto grid max-w-shell items-start gap-10 px-gutter py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 lg:py-20 xl:gap-24">
+          <Reveal className="max-w-3xl lg:sticky lg:top-24">
             <p className="kicker text-accent">side by side</p>
             <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
               The same engine{" "}
               <span className="headline-emph">in all three.</span>
             </h2>
             <p className="body-copy mt-5 text-ink-mute">
-              The engine and the security model are identical in all three.
-              What changes is who carries the infrastructure, and where the
-              boundary sits.
+              The engine and the security model are identical in all three. What
+              changes is who carries the infrastructure, and where the boundary
+              sits.
             </p>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <FramePanel className="mt-10 max-w-3xl bg-paper">
+            <FramePanel className="bg-paper">
               <Tabs defaultValue={COMPARE[0].name}>
                 <TabsList>
                   {COMPARE.map((c) => (
@@ -168,9 +186,9 @@ export function DeployBody() {
                       {c.rows.map(([term, detail]) => (
                         <div
                           key={term}
-                          className="flex flex-col gap-1 py-4 sm:flex-row sm:gap-6"
+                          className="flex flex-col gap-1 py-4 sm:flex-row sm:gap-6 xl:gap-10"
                         >
-                          <dt className="kicker shrink-0 !text-[10px] text-accent sm:w-36">
+                          <dt className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-36">
                             {term}
                           </dt>
                           <dd className="body-copy-sm">{detail}</dd>
@@ -178,13 +196,13 @@ export function DeployBody() {
                       ))}
                     </dl>
                     <div className="flex items-center justify-between border-t border-rule px-5 py-3.5">
-                      <span className="kicker flex items-center gap-1.5 !text-[10px] text-accent">
+                      <span className="kicker flex items-center gap-1.5 !text-[0.625rem] text-accent">
                         <MeanderMark size={9} />
                         {OPTIONS[i].dominion}
                       </span>
                       <Link
                         href={OPTIONS[i].href}
-                        className="kicker link-sweep !text-[10px] text-accent transition-colors hover:text-ink"
+                        className="kicker link-sweep !text-[0.625rem] text-accent transition-colors hover:text-ink"
                       >
                         the full account &rarr;
                       </Link>
@@ -198,17 +216,17 @@ export function DeployBody() {
       </section>
 
       <section className="relative border-t border-rule">
-        <div className="mx-auto max-w-6xl px-5 py-16">
+        <div className="mx-auto max-w-shell px-gutter py-16">
           <Reveal>
             <FramePanel className="bg-paper-warm/40">
-              <div className="flex flex-col items-start gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col items-start gap-6 px-[clamp(1.5rem,3vw,3rem)] py-[clamp(2rem,3vw,2.75rem)] sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="font-display text-3xl font-light tracking-tight">
                     Put Pantheon to work.
                   </h2>
-                  <p className="body-copy mt-2 max-w-md text-ink-mute">
-                    A 30-minute call. We map one job you already do by hand
-                    and show you the audit log by the end of it.
+                  <p className="body-copy mt-2 max-w-xl text-ink-mute">
+                    A 30-minute call. We map one job you already do by hand and
+                    show you the audit log by the end of it.
                   </p>
                 </div>
                 <Magnetic className="shrink-0">

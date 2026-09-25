@@ -20,7 +20,9 @@ import { cn } from "@/lib/utils";
  */
 export function Engraving({
   name,
-  /** Tallest the art may get, in px. The width fit wins when it is smaller. */
+  /** Tallest the art may get, in px at the base 16px root. It is applied in
+      rem, so the budget grows with the fluid root on wide screens. The width
+      fit wins when it is smaller. */
   maxHeight = 620,
   className,
   dim = false,
@@ -34,7 +36,8 @@ export function Engraving({
   const { lines, cols } = ENGRAVINGS[name];
 
   const widthFit = `${(100 / (cols * CHAR_RATIO)).toFixed(4)}cqw`;
-  const heightFit = `${(maxHeight / lines).toFixed(3)}px`;
+  const heightFit = `${(maxHeight / 16 / lines).toFixed(4)}rem`;
+  const minHeight = `${(maxHeight / 16).toFixed(4)}rem`;
 
   return (
     <div
@@ -42,7 +45,7 @@ export function Engraving({
       aria-hidden
       // The container is what cqw resolves against, so the art tracks
       // whatever column it is dropped into.
-      style={{ containerType: "inline-size", minHeight: maxHeight }}
+      style={{ containerType: "inline-size", minHeight }}
       className={cn("flex items-center justify-center", className)}
     >
       <pre

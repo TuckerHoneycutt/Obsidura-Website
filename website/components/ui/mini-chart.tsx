@@ -47,7 +47,7 @@ function Caption({
   readout: string | null;
 }) {
   return (
-    <p className="kicker mt-1.5 !text-[9px] truncate">
+    <p className="kicker mt-1.5 !text-[0.5625rem] truncate">
       {readout ? <span className="!text-ink">{readout}</span> : caption}
     </p>
   );
@@ -262,8 +262,8 @@ export function MiniStat({
 }) {
   return (
     <div className={cn("min-w-0", className)}>
-      <p className="kicker !text-[9px] truncate">{label}</p>
-      <p className="mt-1 font-mono text-[15px] leading-none text-ink">
+      <p className="kicker !text-[0.5625rem] truncate">{label}</p>
+      <p className="mt-1 font-mono text-[0.9375rem] leading-none text-ink">
         {value}
       </p>
     </div>

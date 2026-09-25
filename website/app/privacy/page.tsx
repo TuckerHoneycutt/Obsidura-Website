@@ -52,48 +52,55 @@ const SECTIONS: { heading: string; body: string[] }[] = [
   },
 ];
 
+// Title and section headings on the left, text on the right at lg.
+const ROW =
+  "grid gap-y-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-x-[clamp(3rem,6vw,6rem)]";
+
 export default function PrivacyPage() {
   return (
     <main id="content" tabIndex={-1} className="flex-1">
-        <section className="relative">
-          <div className="mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
-            <p className="kicker mb-6 text-accent">
-              appendix ii &mdash; privacy
-            </p>
-            <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
-              Privacy <span className="headline-emph">policy.</span>
-            </h1>
-            <p className="lede-copy mt-6 max-w-xl">
+      <section className="relative">
+        {/* Wide frame, reading-measure prose: the title and each section
+            heading hold the left column, the policy text runs on the right. */}
+        <div className="mx-auto max-w-shell px-gutter pt-16 pb-20 lg:pt-24 lg:pb-28">
+          <div className="grid gap-y-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-x-[clamp(3rem,6vw,6rem)]">
+            <div>
+              <p className="kicker mb-6 text-accent">
+                appendix ii &mdash; privacy
+              </p>
+              <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
+                Privacy <span className="headline-emph">policy.</span>
+              </h1>
+            </div>
+            <p className="lede-copy max-w-xl lg:self-end">
               The short version: we collect what you send us through the
               contact form, we use it to reply to you, and we do not sell
               it. The longer version follows.
             </p>
-
-            <div className="mt-14 space-y-10">
-              {SECTIONS.map(({ heading, body }) => (
-                <div key={heading}>
-                  <h2 className="font-display text-2xl font-medium tracking-tight">
-                    {heading}
-                  </h2>
-                  <div className="mt-3 space-y-3">
-                    {body.map((p) => (
-                      <p
-                        key={p}
-                        className="body-copy"
-                      >
-                        {p}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <p className="kicker mt-14 border-t border-rule pt-6 !text-[10px]">
-              effective august 2026 &mdash; questions: contact@obsidura.com
-            </p>
           </div>
-        </section>
+
+          <div className="mt-14 space-y-10 lg:mt-20 lg:space-y-14">
+            {SECTIONS.map(({ heading, body }) => (
+              <div key={heading} className={ROW}>
+                <h2 className="font-display text-2xl font-medium tracking-tight">
+                  {heading}
+                </h2>
+                <div className="max-w-2xl space-y-3">
+                  {body.map((p) => (
+                    <p key={p} className="body-copy">
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="kicker mt-14 border-t border-rule pt-6 !text-[0.625rem]">
+            effective august 2026 &mdash; questions: contact@obsidura.com
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

@@ -129,19 +129,19 @@ function ReportCard({ report }: { report: Report }) {
     <FramePanel className="h-full bg-paper-warm/30">
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between gap-3 border-b border-rule px-4 py-2">
-          <span className="kicker !text-[10px] text-accent">
+          <span className="kicker !text-[0.625rem] text-accent">
             {report.vertical}
           </span>
-          <span className="kicker !text-[10px]">html file</span>
+          <span className="kicker !text-[0.625rem]">html file</span>
         </div>
 
         {/* The artifact itself, in miniature: a titled page with figures,
             a chart, and a table - what the render task actually composes. */}
         <div className="px-4 py-5">
-          <p className="font-display text-[15px] leading-tight font-medium">
+          <p className="font-display text-[0.9375rem] leading-tight font-medium">
             {report.title}
           </p>
-          <p className="kicker mt-1.5 !text-[9px]">{report.sources}</p>
+          <p className="kicker mt-1.5 !text-[0.5625rem]">{report.sources}</p>
 
           <div className="mt-4 flex gap-5 border-t border-rule pt-3.5">
             {report.stats.map((s) => (
@@ -157,7 +157,7 @@ function ReportCard({ report }: { report: Report }) {
             {report.rows.map((row) => (
               <p
                 key={row}
-                className="truncate font-mono text-[9.5px] tracking-tight text-ink-mute tabular-nums"
+                className="truncate font-mono text-[0.59375rem] tracking-tight text-ink-mute tabular-nums"
               >
                 {row}
               </p>
@@ -166,7 +166,7 @@ function ReportCard({ report }: { report: Report }) {
         </div>
 
         <div className="mt-auto border-t border-rule px-4 py-4">
-          <p className="body-copy-sm !text-[15px] text-ink-mute">
+          <p className="body-copy-sm !text-[0.9375rem] text-ink-mute">
             {report.detail}
           </p>
         </div>
@@ -215,14 +215,16 @@ export function ReportsBody() {
   return (
     <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-        <Reveal className="max-w-3xl">
-          <p className="kicker text-accent">one of them, all the way through</p>
-          <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
-            A report,{" "}
-            <span className="headline-emph">from request to delivery.</span>
-          </h2>
-          <p className="lede-copy mt-6">
+      <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+        <Reveal className="grid max-w-3xl gap-x-16 lg:max-w-none lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-end">
+          <div>
+            <p className="kicker text-accent">one of them, all the way through</p>
+            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
+              A report,{" "}
+              <span className="headline-emph">from request to delivery.</span>
+            </h2>
+          </div>
+          <p className="lede-copy mt-6 max-w-2xl lg:mt-0">
             Someone asks in plain words; the run gathers what that person is
             permitted to see across three systems, and hands back finished
             documents.
@@ -233,14 +235,14 @@ export function ReportsBody() {
         <Reveal className="mt-10">
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-              <span className="kicker !text-[10px]">
+              <span className="kicker !text-[0.625rem]">
                 report.request &mdash; webhook trigger
               </span>
-              <span className="kicker !text-[10px] text-accent">
+              <span className="kicker !text-[0.625rem] text-accent">
                 requester: u_ellis
               </span>
             </div>
-            <p className="flex items-start gap-3 px-4 py-4 font-mono text-[13px] text-ink sm:text-sm">
+            <p className="flex items-start gap-3 px-4 py-4 font-mono text-[0.8125rem] text-ink sm:text-sm">
               <span aria-hidden className="text-ink-faint">
                 &gt;
               </span>
@@ -261,13 +263,13 @@ export function ReportsBody() {
             {/* The run talking back. Deliberately not a live region: four
                 announcements of a decorative sequence is noise, and the final
                 line reads perfectly well on its own. */}
-            <p className="border-t border-rule px-4 py-2 font-mono text-[11px] text-ink-mute">
+            <p className="border-t border-rule px-4 py-2 font-mono text-[0.6875rem] text-ink-mute">
               {typing && !done ? <>&hellip;</> : STAGES[stageIndex]}
             </p>
           </FramePanel>
         </Reveal>
 
-        <div ref={ref} className="mt-8 grid gap-6 lg:grid-cols-3">
+        <div ref={ref} className="mt-8 grid gap-6 lg:grid-cols-3 xl:gap-8">
           {REPORTS.map((report, i) => (
             <motion.div
               key={report.vertical}

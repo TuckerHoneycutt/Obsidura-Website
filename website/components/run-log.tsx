@@ -63,7 +63,7 @@ function usePrefersReducedMotion() {
 
 function LogRow({ line, animated = false }: { line: LogLine; animated?: boolean }) {
   const rowClass =
-    "flex gap-3 py-0.5 font-mono text-[11px] leading-relaxed sm:text-[12.5px]";
+    "flex gap-3 py-0.5 font-mono text-[0.6875rem] leading-relaxed sm:text-[0.78125rem]";
   const content = (
     <>
       <span className="shrink-0 text-ink-faint">[{line.time}]</span>
@@ -126,10 +126,10 @@ export function RunLog() {
   return (
     <FramePanel className="bg-paper-warm/40">
       <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-        <span className="kicker !text-[10px]">
+        <span className="kicker !text-[0.625rem]">
           live run &mdash; financial audit
         </span>
-        <span className="kicker !text-[10px] text-accent">
+        <span className="kicker !text-[0.625rem] text-accent">
           run_events &mdash; append-only
         </span>
       </div>
@@ -142,13 +142,13 @@ export function RunLog() {
           {RUN.map((line, i) => (
             <LogRow key={`reserve-${i}`} line={line} />
           ))}
-          <p className="py-0.5 font-mono text-[12.5px]">&#9608;</p>
+          <p className="py-0.5 font-mono text-[0.78125rem]">&#9608;</p>
         </div>
         <div className="[grid-area:1/1]">
           {RUN.slice(0, shown).map((line, i) => (
             <LogRow key={`${line.time}-${i}`} line={line} animated />
           ))}
-          <p className="flex gap-3 py-0.5 font-mono text-[12.5px]">
+          <p className="flex gap-3 py-0.5 font-mono text-[0.78125rem]">
             <span className="animate-pulse text-accent">&#9608;</span>
           </p>
         </div>

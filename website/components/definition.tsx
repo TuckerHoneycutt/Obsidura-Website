@@ -154,8 +154,8 @@ function Node({
         active ? "border-accent-deep bg-accent-pale" : "border-rule bg-paper"
       )}
     >
-      <span className="font-mono text-[12.5px] text-ink">{name}</span>
-      <span className="kicker !text-[9px]">{kind}</span>
+      <span className="font-mono text-[0.78125rem] text-ink">{name}</span>
+      <span className="kicker !text-[0.5625rem]">{kind}</span>
     </div>
   );
 }
@@ -173,7 +173,7 @@ function Edge({ label, active }: { label: string; active: boolean }) {
       />
       <span
         className={cn(
-          "kicker !text-[9px] transition-colors",
+          "kicker !text-[0.5625rem] transition-colors",
           active ? "!text-ink" : "text-accent"
         )}
       >
@@ -217,19 +217,19 @@ export function WorkflowsBody() {
   return (
     <section className="relative border-t border-rule bg-paper-warm/60">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+      <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,0.95fr)] xl:gap-10">
           <Reveal delay={0.1}>
             <FramePanel className="bg-paper">
               <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-                <span className="kicker !text-[10px]">
+                <span className="kicker !text-[0.625rem]">
                   pipelines/audit.yaml
                 </span>
-                <span className="kicker !text-[10px] text-accent">
+                <span className="kicker !text-[0.625rem] text-accent">
                   what you write
                 </span>
               </div>
-              <pre className="overflow-x-auto px-4 py-4 font-mono text-[11.5px] leading-[1.75] whitespace-pre">
+              <pre className="overflow-x-auto px-4 py-4 font-mono text-[0.71875rem] leading-[1.75] whitespace-pre">
                 {YAML.map((line, i) => (
                   <YamlRow
                     key={i}
@@ -247,8 +247,8 @@ export function WorkflowsBody() {
           <Reveal delay={0.2} className="lg:sticky lg:top-28 lg:self-start">
             <FramePanel className="bg-paper">
               <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-                <span className="kicker !text-[10px]">ptn apply</span>
-                <span className="kicker !text-[10px] text-accent">
+                <span className="kicker !text-[0.625rem]">ptn apply</span>
+                <span className="kicker !text-[0.625rem] text-accent">
                   what gets built
                 </span>
               </div>
@@ -279,7 +279,7 @@ export function WorkflowsBody() {
                       : "border-rule"
                   )}
                 >
-                  <p className="kicker !text-[9px] text-accent">
+                  <p className="kicker !text-[0.5625rem] text-accent">
                     derived from uses:
                   </p>
                   <div className="mt-2 space-y-1.5">
@@ -293,10 +293,10 @@ export function WorkflowsBody() {
                           lit(use.ref) && LIT
                         )}
                       >
-                        <span className="font-mono text-[12px] text-ink-soft">
+                        <span className="font-mono text-[0.75rem] text-ink-soft">
                           {use.name}
                         </span>
-                        <span className="kicker !text-[9px]">{use.meta}</span>
+                        <span className="kicker !text-[0.5625rem]">{use.meta}</span>
                       </div>
                     ))}
                   </div>
@@ -321,65 +321,68 @@ export function WorkflowsBody() {
               </div>
               <p className="body-copy-sm border-t border-rule px-4 py-3.5 text-ink-mute">
                 No edges are drawn by hand. Every arrow above comes from an{" "}
-                <span className="font-mono text-[13px] text-ink">on:</span>,{" "}
-                <span className="font-mono text-[13px] text-ink">then:</span>,
+                <span className="font-mono text-[0.8125rem] text-ink">on:</span>,{" "}
+                <span className="font-mono text-[0.8125rem] text-ink">then:</span>,
                 or{" "}
-                <span className="font-mono text-[13px] text-ink">uses:</span>{" "}
+                <span className="font-mono text-[0.8125rem] text-ink">uses:</span>{" "}
                 reference &mdash; hover either side to see which.
               </p>
             </FramePanel>
           </Reveal>
+
+          {/* The closed vocabulary: the argument for why the engine stays the
+              same size as your library of workflow types grows. */}
+          <Reveal
+            delay={0.15}
+            className="mt-6 lg:col-span-2 lg:mt-2 xl:col-span-1 xl:mt-0"
+          >
+            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-1">
+              <FramePanel className="bg-paper">
+                <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem] text-accent">
+                  four primitives
+                </p>
+                <dl className="divide-y divide-rule">
+                  {PRIMITIVES.map(([term, variants]) => (
+                    <div
+                      key={term}
+                      className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 py-3"
+                    >
+                      <dt className="font-display text-lg font-medium">
+                        {term}
+                      </dt>
+                      <dd className="kicker !text-[0.5625rem]">{variants}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </FramePanel>
+
+              <FramePanel className="bg-paper">
+                <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem] text-accent">
+                  five values &mdash; everything passed between tasks
+                </p>
+                <dl className="divide-y divide-rule">
+                  {VALUES.map(([term, gloss]) => (
+                    <div
+                      key={term}
+                      className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 py-3"
+                    >
+                      <dt className="font-display text-lg font-medium">
+                        {term}
+                      </dt>
+                      <dd className="kicker !text-[0.5625rem]">{gloss}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </FramePanel>
+            </div>
+            <p className="body-copy mt-6 max-w-3xl text-ink-mute">
+              That is the entire vocabulary, and it is closed on purpose. Your
+              business data lives in Records, checked against schemas you
+              register, so the engine never needs custom code for your domain
+              and adding more workflows never changes the engine.
+            </p>
+          </Reveal>
         </div>
-
-        {/* The closed vocabulary: the argument for why the engine stays the
-            same size as your library of workflow types grows. */}
-        <Reveal delay={0.15} className="mt-14">
-          <div className="grid gap-6 sm:grid-cols-2">
-            <FramePanel className="bg-paper">
-              <p className="kicker border-b border-rule px-4 py-2 !text-[10px] text-accent">
-                four primitives
-              </p>
-              <dl className="divide-y divide-rule">
-                {PRIMITIVES.map(([term, variants]) => (
-                  <div
-                    key={term}
-                    className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 py-3"
-                  >
-                    <dt className="font-display text-lg font-medium">
-                      {term}
-                    </dt>
-                    <dd className="kicker !text-[9px]">{variants}</dd>
-                  </div>
-                ))}
-              </dl>
-            </FramePanel>
-
-            <FramePanel className="bg-paper">
-              <p className="kicker border-b border-rule px-4 py-2 !text-[10px] text-accent">
-                five values &mdash; everything passed between tasks
-              </p>
-              <dl className="divide-y divide-rule">
-                {VALUES.map(([term, gloss]) => (
-                  <div
-                    key={term}
-                    className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 py-3"
-                  >
-                    <dt className="font-display text-lg font-medium">
-                      {term}
-                    </dt>
-                    <dd className="kicker !text-[9px]">{gloss}</dd>
-                  </div>
-                ))}
-              </dl>
-            </FramePanel>
-          </div>
-          <p className="body-copy mt-6 max-w-3xl text-ink-mute">
-            That is the entire vocabulary, and it is closed on purpose. Your
-            business data lives in Records, checked against schemas you
-            register, so the engine never needs custom code for your domain
-            and adding more workflows never changes the engine.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

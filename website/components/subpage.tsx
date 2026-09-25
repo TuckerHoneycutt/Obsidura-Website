@@ -55,52 +55,59 @@ export function Subpage({
   return (
     <main id="content" tabIndex={-1} className="flex-1">
       <section className="relative">
-        {/* With art, the hero widens to the chapter pages' two-column
-            mount - text beside the engraving - and the reading column
-            resumes below. Without it, nothing changes. */}
-        {art ? (
-          <div className="mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
-            <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+        <div className="mx-auto max-w-shell px-gutter pt-16 pb-20 lg:pt-24 lg:pb-28">
+          {/* With art, the hero takes the chapter pages' two-column mount -
+              text beside the engraving, the art given the wider span.
+              Without it, the hero keeps its reading measure. */}
+          {art ? (
+            <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-[clamp(3rem,5vw,6rem)]">
               {hero}
               <Reveal delay={0.1}>
                 <Engraving name={art} maxHeight={artHeight} dim />
               </Reveal>
             </div>
-          </div>
-        ) : (
-          <div className="mx-auto max-w-3xl px-5 pt-16 lg:pt-24">{hero}</div>
-        )}
-        <div className="mx-auto max-w-3xl px-5 pb-20 lg:pb-28">
-          <div className="mt-14 space-y-12">
+          ) : (
+            <div className="max-w-3xl">{hero}</div>
+          )}
+
+          {/* From lg the sections run as ruled rows: the heading holds a
+              left column, the prose keeps its measure in the right. */}
+          <div className="mt-14 space-y-12 lg:mt-20 lg:space-y-0">
             {sections.map(({ heading, body, bullets }, i) => (
-              <Reveal key={heading} delay={Math.min(i * 0.06, 0.18)}>
-                <h2 className="font-display text-[1.75rem] font-medium tracking-tight">
+              <Reveal
+                key={heading}
+                delay={Math.min(i * 0.06, 0.18)}
+                className="lg:grid lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(3rem,5vw,6rem)] lg:border-t lg:border-rule lg:py-10"
+              >
+                <h2 className="font-display text-[1.75rem] leading-tight font-medium tracking-tight">
                   {heading}
                 </h2>
-                {body?.map((p) => (
-                  <p key={p} className="body-copy mt-3">
-                    {p}
-                  </p>
-                ))}
-                {bullets && (
-                  <ul className="mt-4 space-y-3">
-                    {bullets.map((b) => (
-                      <li key={b} className="body-copy flex gap-3">
-                        <MeanderMark
-                          size={10}
-                          className="mt-2 text-ink-faint"
-                        />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <div className="max-w-3xl lg:[&>:first-child]:mt-0">
+                  {body?.map((p) => (
+                    <p key={p} className="body-copy mt-3">
+                      {p}
+                    </p>
+                  ))}
+                  {bullets && (
+                    <ul className="mt-4 space-y-3">
+                      {bullets.map((b) => (
+                        <li key={b} className="body-copy flex gap-3">
+                          <MeanderMark
+                            size={10}
+                            className="mt-2 text-ink-faint"
+                          />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </Reveal>
             ))}
           </div>
 
-          <Reveal className="mt-14 border-t border-rule pt-6">
-            <p className="kicker mb-4">further reading</p>
+          <Reveal className="mt-14 border-t border-rule pt-6 lg:mt-0 lg:grid lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(3rem,5vw,6rem)] lg:py-10">
+            <p className="kicker mb-4 lg:mb-0">further reading</p>
             <div className="flex flex-wrap gap-x-8 gap-y-3">
               {related.map(({ label, href }) => (
                 <Link
@@ -115,15 +122,15 @@ export function Subpage({
           </Reveal>
 
           <Reveal delay={0.08}>
-            <FramePanel className="mt-14 bg-paper-warm/40">
-              <div className="flex flex-col items-start gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+            <FramePanel className="mt-14 bg-paper-warm/40 lg:mt-6">
+              <div className="flex flex-col items-start gap-6 px-[clamp(1.5rem,3vw,3rem)] py-[clamp(2rem,3vw,3rem)] sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="font-display text-3xl font-light tracking-tight">
                     Put Pantheon to work.
                   </h2>
                   <p className="body-copy mt-2 max-w-md text-ink-mute">
-                    A 30-minute call. We map one job you already do by hand
-                    and show you the audit log by the end of it.
+                    A 30-minute call. We map one job you already do by hand and
+                    show you the audit log by the end of it.
                   </p>
                 </div>
                 <Link

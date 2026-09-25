@@ -23,12 +23,12 @@ export function RuntimeBody() {
   return (
     <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+      <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16 xl:gap-20">
           <Reveal>
             <FramePanel className="bg-paper-warm/30">
               <div className="border-b border-rule px-5 py-2.5">
-                <span className="kicker !text-[10px]">guarantees</span>
+                <span className="kicker !text-[0.625rem]">guarantees</span>
               </div>
               <ul className="divide-y divide-rule">
                 {GUARANTEES.map((g, i) => (
@@ -36,7 +36,7 @@ export function RuntimeBody() {
                     <span className="kicker mt-1 w-7 shrink-0 text-accent">
                       {romanNumeral(i + 1)}
                     </span>
-                    <p className="body-copy-sm">{g}</p>
+                    <p className="body-copy-sm max-w-[62ch]">{g}</p>
                   </li>
                 ))}
               </ul>
@@ -47,10 +47,10 @@ export function RuntimeBody() {
           </Reveal>
 
           <Reveal delay={0.1} className="lg:sticky lg:top-28 lg:self-start">
-            <h2 className="font-display text-[clamp(1.6rem,2.4vw,2rem)] leading-tight font-light tracking-tight">
+            <h2 className="font-display max-w-xl text-[clamp(1.6rem,2.4vw,2.25rem)] leading-tight font-light tracking-tight">
               Model output is untrusted input.
             </h2>
-            <p className="body-copy mt-4">
+            <p className="body-copy mt-4 max-w-xl">
               Nothing that comes back from a model is trusted by default.
               Every output is checked at the boundary before it is used.
             </p>
@@ -63,7 +63,7 @@ export function RuntimeBody() {
                 {MECHANISM.map((m) => (
                   <li
                     key={m}
-                    className="flex gap-3 font-mono text-[12.5px] leading-relaxed text-ink-mute"
+                    className="flex gap-3 font-mono text-[0.78125rem] leading-relaxed text-ink-mute"
                   >
                     <span aria-hidden className="text-accent">
                       &gt;

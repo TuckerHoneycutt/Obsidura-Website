@@ -5,6 +5,7 @@ import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
 import { SERVICES } from "@/lib/connections";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Connections - Set Up What Pantheon Reaches | Obsidura",
@@ -32,12 +33,17 @@ const CONTRACT = [
   },
 ];
 
+// Section intros compose across the frame at lg: kicker and heading on
+// the left, the prose at reading measure on the right.
+const INTRO =
+  "grid gap-y-5 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-end lg:gap-x-[clamp(3rem,6vw,6rem)]";
+
 export default function ConnectionsPage() {
   return (
     <main id="content" tabIndex={-1} className="flex-1">
       {/* Hero */}
       <section className="relative">
-        <div className="mx-auto max-w-6xl px-5 pt-16 lg:pt-24">
+        <div className="mx-auto grid max-w-shell gap-y-10 px-gutter pt-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end lg:gap-x-[clamp(3rem,6vw,6rem)] lg:pt-24">
           <Reveal className="max-w-3xl">
             <p className="kicker mb-6 text-accent">
               connections &mdash; the v1 surface, designed
@@ -57,7 +63,7 @@ export default function ConnectionsPage() {
 
           {/* The honesty strip: this page is a design, not a shipped list. */}
           <Reveal delay={0.08}>
-            <FramePanel className="mt-10 max-w-3xl bg-paper-warm/40">
+            <FramePanel className="max-w-3xl bg-paper-warm/40">
               <p className="body-copy-sm px-5 py-4 text-ink-mute">
                 Today the engine ships three connector kinds &mdash;
                 Postgres, object storage, and HTTP. What follows is the v1
@@ -72,20 +78,24 @@ export default function ConnectionsPage() {
       {/* The surface itself */}
       <section className="relative mt-16 border-t border-rule lg:mt-20">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <Reveal className="max-w-3xl">
-            <p className="kicker text-accent">the surface</p>
-            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
-              Setup is self-serve,{" "}
-              <span className="headline-emph">and reachability is reviewed.</span>
-            </h2>
-            <p className="body-copy mt-5 text-ink-mute">
-              Four screens: the wall of connections, the catalog, the
-              verification probe, and the grants. Try it &mdash; this is the
-              designed behavior running against local state, with nothing
-              real behind it. Connect a service and it joins the wall; revoke
-              one and everything referencing it goes visibly stale.
-            </p>
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+          <Reveal className={INTRO}>
+            <div>
+              <p className="kicker text-accent">the surface</p>
+              <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
+                Setup is self-serve,{" "}
+                <span className="headline-emph">and reachability is reviewed.</span>
+              </h2>
+            </div>
+            <div className="max-w-2xl">
+              <p className="body-copy text-ink-mute">
+                Four screens: the wall of connections, the catalog, the
+                verification probe, and the grants. Try it &mdash; this is the
+                designed behavior running against local state, with nothing
+                real behind it. Connect a service and it joins the wall; revoke
+                one and everything referencing it goes visibly stale.
+              </p>
+            </div>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="mt-10">
@@ -98,25 +108,29 @@ export default function ConnectionsPage() {
       {/* The contract */}
       <section className="relative border-t border-rule bg-paper-warm/40">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <Reveal className="max-w-3xl">
-            <p className="kicker text-accent">the contract</p>
-            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
-              Every connector answers{" "}
-              <span className="headline-emph">four questions.</span>
-            </h2>
-            <p className="body-copy mt-5">
-              A new service is never a new engine feature. Every connector
-              &mdash; present or future &mdash; is fully described by four
-              answers, registered as data. A connector that cannot answer all
-              four is not ready to exist.
-            </p>
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+          <Reveal className={INTRO}>
+            <div>
+              <p className="kicker text-accent">the contract</p>
+              <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
+                Every connector answers{" "}
+                <span className="headline-emph">four questions.</span>
+              </h2>
+            </div>
+            <div className="max-w-2xl">
+              <p className="body-copy">
+                A new service is never a new engine feature. Every connector
+                &mdash; present or future &mdash; is fully described by four
+                answers, registered as data. A connector that cannot answer all
+                four is not ready to exist.
+              </p>
+            </div>
           </Reveal>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {CONTRACT.map((item, i) => (
               <Reveal key={item.q} delay={Math.min(i * 0.06, 0.2)}>
                 <FramePanel className="h-full bg-paper">
-                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[10px] text-accent">
+                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
                     {item.q}
                   </p>
                   <p className="body-copy-sm px-5 py-4">{item.a}</p>
@@ -130,9 +144,9 @@ export default function ConnectionsPage() {
       {/* Connection vs resource */}
       <section className="relative border-t border-rule">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-            <Reveal>
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-center lg:gap-x-[clamp(3rem,6vw,6rem)]">
+            <Reveal className="max-w-2xl">
               <p className="kicker text-accent">the split</p>
               <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
                 A connection is{" "}
@@ -155,27 +169,27 @@ export default function ConnectionsPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <FramePanel className="bg-paper-warm/30">
-                <p className="kicker border-b border-rule px-5 py-2.5 !text-[10px] text-accent">
+                <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
                   the two halves
                 </p>
                 <div className="space-y-2 px-5 py-4">
-                  <p className="font-mono text-[11px] leading-relaxed text-ink-mute">
+                  <p className="font-mono text-[0.6875rem] leading-relaxed text-ink-mute">
                     <span className="text-ink">connection&nbsp;&nbsp;</span>
                     m365-prod · token pair · executor custody
                   </p>
-                  <p className="font-mono text-[11px] leading-relaxed text-ink-mute">
+                  <p className="font-mono text-[0.6875rem] leading-relaxed text-ink-mute">
                     created in the surface · no review · revocable in place
                   </p>
                 </div>
                 <div className="border-t border-rule px-5 py-4">
-                  <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed whitespace-pre text-ink-soft">
+                  <pre className="overflow-x-auto font-mono text-[0.6875rem] leading-relaxed whitespace-pre text-ink-soft">
                     {`kind: resource
 name: board-files@1
 connector: ms.graph
 connection: m365-prod
 verbs: [get, list]`}
                   </pre>
-                  <p className="mt-3 font-mono text-[10.5px] text-ink-faint">
+                  <p className="mt-3 font-mono text-[0.65625rem] text-ink-faint">
                     ptn plan &amp;&amp; ptn apply &mdash; reviewed, like any
                     other change
                   </p>
@@ -189,32 +203,36 @@ verbs: [get, list]`}
       {/* Scope grammar table */}
       <section className="relative border-t border-rule bg-paper-warm/40">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <Reveal className="max-w-3xl">
-            <p className="kicker text-accent">the catalog</p>
-            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
-              Scope is granted in each service&rsquo;s{" "}
-              <span className="headline-emph">own words.</span>
-            </h2>
-            <p className="body-copy mt-5">
-              A grant never says &ldquo;full access.&rdquo; It narrows the
-              service in the grammar the service itself understands &mdash;
-              the same move as the row filter, the key prefix, and the URL
-              allowlist that ship today. Grammars rhyme across connectors
-              wherever the service allows it: the Jira grant is a JQL
-              fragment ANDed onto every query, which is the Postgres row
-              filter wearing different clothes.
-            </p>
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+          <Reveal className={INTRO}>
+            <div>
+              <p className="kicker text-accent">the catalog</p>
+              <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
+                Scope is granted in each service&rsquo;s{" "}
+                <span className="headline-emph">own words.</span>
+              </h2>
+            </div>
+            <div className="max-w-2xl">
+              <p className="body-copy">
+                A grant never says &ldquo;full access.&rdquo; It narrows the
+                service in the grammar the service itself understands &mdash;
+                the same move as the row filter, the key prefix, and the URL
+                allowlist that ship today. Grammars rhyme across connectors
+                wherever the service allows it: the Jira grant is a JQL
+                fragment ANDed onto every query, which is the Postgres row
+                filter wearing different clothes.
+              </p>
+            </div>
           </Reveal>
-          <ul className="mt-10 grid gap-x-10 gap-y-px sm:grid-cols-2">
+          <ul className="mt-10 grid gap-x-10 gap-y-px sm:grid-cols-2 2xl:grid-cols-3">
             {SERVICES.map((s, i) => (
               <Reveal key={s.id} delay={Math.min(i * 0.04, 0.24)}>
                 <li className="flex flex-col gap-1.5 border-t border-rule py-5 sm:flex-row sm:gap-6">
-                  <span className="kicker shrink-0 !text-[10px] text-accent sm:w-32">
+                  <span className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-32">
                     {s.label}
                   </span>
                   <span className="body-copy-sm">
-                    <span className="font-mono text-[11px] text-ink-mute">
+                    <span className="font-mono text-[0.6875rem] text-ink-mute">
                       {s.connector}
                     </span>{" "}
                     &mdash; {s.scope}
@@ -229,39 +247,43 @@ verbs: [get, list]`}
       {/* Parsing */}
       <section className="relative border-t border-rule">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <Reveal className="max-w-3xl">
-            <p className="kicker text-accent">parsing</p>
-            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
-              Files are parsed{" "}
-              <span className="headline-emph">before agents read them.</span>
-            </h2>
-            <p className="body-copy mt-5">
-              An agent never reads a binary. A spreadsheet from OneDrive, a
-              PDF from the NAS, a mail thread &mdash; each lands in the blob
-              store as a file, and a deterministic parser turns it into typed
-              tables and records before any judgment is applied. Parsing is
-              not a matter of opinion, so no model is involved.
-            </p>
-            <p className="body-copy mt-4 text-ink-mute">
-              Every parsed value carries its provenance &mdash; which file,
-              which version, fetched when &mdash; so a report can cite its
-              inputs and an answer can say where it came from. This is what
-              turns &ldquo;connected&rdquo; into &ldquo;can make reports and
-              answer questions.&rdquo;
-            </p>
-            <div className="mt-8 flex flex-wrap gap-2">
-              {["parse.xlsx", "parse.csv", "parse.pdf", "parse.eml"].map(
-                (p) => (
-                  <span
-                    key={p}
-                    className="flex items-center gap-2 border border-rule px-3 py-1.5 font-mono text-[11px] text-ink-mute"
-                  >
-                    <MeanderMark size={8} className="text-ink-faint" />
-                    {p}
-                  </span>
-                )
-              )}
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+          <Reveal className={cn(INTRO, "lg:items-start")}>
+            <div>
+              <p className="kicker text-accent">parsing</p>
+              <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
+                Files are parsed{" "}
+                <span className="headline-emph">before agents read them.</span>
+              </h2>
+            </div>
+            <div className="max-w-2xl">
+              <p className="body-copy">
+                An agent never reads a binary. A spreadsheet from OneDrive, a
+                PDF from the NAS, a mail thread &mdash; each lands in the blob
+                store as a file, and a deterministic parser turns it into typed
+                tables and records before any judgment is applied. Parsing is
+                not a matter of opinion, so no model is involved.
+              </p>
+              <p className="body-copy mt-4 text-ink-mute">
+                Every parsed value carries its provenance &mdash; which file,
+                which version, fetched when &mdash; so a report can cite its
+                inputs and an answer can say where it came from. This is what
+                turns &ldquo;connected&rdquo; into &ldquo;can make reports and
+                answer questions.&rdquo;
+              </p>
+              <div className="mt-8 flex flex-wrap gap-2">
+                {["parse.xlsx", "parse.csv", "parse.pdf", "parse.eml"].map(
+                  (p) => (
+                    <span
+                      key={p}
+                      className="flex items-center gap-2 border border-rule px-3 py-1.5 font-mono text-[0.6875rem] text-ink-mute"
+                    >
+                      <MeanderMark size={8} className="text-ink-faint" />
+                      {p}
+                    </span>
+                  )
+                )}
+            </div>
             </div>
           </Reveal>
         </div>
@@ -269,7 +291,7 @@ verbs: [get, list]`}
 
       {/* Further reading + CTA, composed as the subpages do */}
       <section className="relative border-t border-rule">
-        <div className="mx-auto max-w-6xl px-5 py-16">
+        <div className="mx-auto grid max-w-shell gap-y-14 px-gutter py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-x-[clamp(3rem,6vw,6rem)]">
           <Reveal className="border-rule">
             <p className="kicker mb-4">further reading</p>
             <div className="flex flex-wrap gap-x-8 gap-y-3">
@@ -290,7 +312,7 @@ verbs: [get, list]`}
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <FramePanel className="mt-14 bg-paper-warm/40">
+            <FramePanel className="bg-paper-warm/40">
               <div className="flex flex-col items-start gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="font-display text-3xl font-light tracking-tight">

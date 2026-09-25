@@ -53,27 +53,27 @@ export function Footer() {
       </div>
       {/* Full-contrast lockup: mark and wordmark proportioned per the brand
           lockup, where the mark stands roughly twice the wordmark cap height */}
-      <div className="mx-auto mt-10 flex max-w-6xl items-center justify-center gap-[clamp(0.625rem,1.75vw,1.375rem)] px-5">
+      <div className="mx-auto mt-10 flex max-w-shell items-center justify-center gap-[clamp(0.625rem,1.75vw,1.375rem)] px-gutter">
         <Image
           src="/logo-mark.svg"
           alt=""
           width={718}
           height={718}
           unoptimized
-          className="logo-invert h-[clamp(3.5rem,12vw,10.25rem)] w-auto select-none"
+          className="logo-invert h-[clamp(3.5rem,12vw,12.25rem)] w-auto select-none"
         />
-        <p className="font-display text-[clamp(2.75rem,9.5vw,8rem)] leading-none font-light tracking-[0.1em] uppercase">
+        <p className="font-display text-[clamp(2.75rem,9.5vw,9.5rem)] leading-none font-light tracking-[0.1em] uppercase">
           Obsidura
         </p>
       </div>
-      <div className="relative mx-auto mt-10 flex max-w-6xl items-center justify-center gap-2.5 px-5 text-ink-mute">
+      <div className="relative mx-auto mt-10 flex max-w-shell items-center justify-center gap-2.5 px-gutter text-ink-mute">
         <MeanderMark size={10} />
-        <p className="kicker !text-[10px]">forged on pantheon</p>
+        <p className="kicker !text-[0.625rem]">forged on pantheon</p>
         <MeanderMark size={10} />
       </div>
       {/* Three groups since the worked examples retired: one column each
           on phones, spread evenly across the full measure from sm up. */}
-      <div className="relative mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-x-12 gap-y-10 border-t border-rule px-5 py-12 sm:grid-cols-3">
+      <div className="relative mx-auto mt-12 grid max-w-shell grid-cols-1 gap-x-gutter gap-y-10 border-t border-rule px-gutter py-12 sm:grid-cols-3">
         {DIRECTORY.map(({ heading, links }) => (
           <div key={heading}>
             {/* Column heads wear the frame-panel label dress - kicker over a
@@ -101,7 +101,7 @@ export function Footer() {
           pantheon" line - external links read better as a band than as a
           column towering over the directory. Plain anchors, since they
           leave the site. */}
-      <div className="relative mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-7 gap-y-3 border-t border-rule px-5 py-7 text-ink-mute">
+      <div className="relative mx-auto flex max-w-shell flex-wrap items-center justify-center gap-x-7 gap-y-3 border-t border-rule px-gutter py-7 text-ink-mute">
         <MeanderMark size={10} className="text-ink-faint" />
         {SOCIALS.map(({ label, href }) => (
           <a
@@ -109,14 +109,14 @@ export function Footer() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="kicker link-sweep !text-[10px] transition-colors hover:text-ink"
+            className="kicker link-sweep !text-[0.625rem] transition-colors hover:text-ink"
           >
             {label}
           </a>
         ))}
         <MeanderMark size={10} className="text-ink-faint" />
       </div>
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-5 border-t border-rule px-5 py-9 sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative mx-auto flex max-w-shell flex-col gap-5 border-t border-rule px-gutter py-9 sm:flex-row sm:items-center sm:justify-between">
         <p className="kicker flex items-center gap-2.5">
           <LogoMark size={16} />
           &copy; 2026 Obsidura

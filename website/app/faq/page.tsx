@@ -103,30 +103,30 @@ export default function FaqPage() {
       />
       <main id="content" tabIndex={-1} className="flex-1">
         <section className="relative">
-          <div className="relative mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
-            {/* On wide screens the appendix label hangs in the left margin
-                as true marginalia - the gutter annotating the text, the way
-                a printed appendix would - so the column's offset reads as
-                set on purpose rather than left over. */}
-            <p className="kicker mb-6 text-accent xl:absolute xl:top-[6.6rem] xl:right-full xl:mr-14 xl:mb-0 xl:w-36 xl:text-right">
-              appendix i &mdash; questions
-            </p>
-            <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
-              Frequently asked{" "}
-              <span className="headline-emph">questions.</span>
-            </h1>
-            <p className="lede-copy mt-6 max-w-xl">
-              What Pantheon can automate, how a run starts, how it touches
-              your systems, and where everything runs. Something missing?
-              Send word through the contact page.
-            </p>
+          {/* Wide frame, two columns: the appendix title and its lede hold
+              the left, the questions run at reading measure on the right. */}
+          <div className="mx-auto grid max-w-shell gap-y-14 px-gutter pt-16 pb-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-x-[clamp(3rem,6vw,6rem)] lg:pt-24 lg:pb-28">
+            <div>
+              <p className="kicker mb-6 text-accent">
+                appendix i &mdash; questions
+              </p>
+              <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
+                Frequently asked{" "}
+                <span className="headline-emph">questions.</span>
+              </h1>
+              <p className="lede-copy mt-6 max-w-xl">
+                What Pantheon can automate, how a run starts, how it touches
+                your systems, and where everything runs. Something missing?
+                Send word through the contact page.
+              </p>
+            </div>
 
             {/* The full answers stay in the FAQPage JSON-LD above, so
                 collapsing the visible copy costs nothing to search. */}
             <Accordion
               type="single"
               collapsible
-              className="mt-14 divide-y divide-rule border-y border-rule"
+              className="max-w-3xl divide-y divide-rule self-start border-y border-rule"
             >
               {QUESTIONS.map(({ q, a }) => (
                 <AccordionItem key={q} value={q}>

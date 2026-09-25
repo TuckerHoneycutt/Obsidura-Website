@@ -13,7 +13,7 @@ import { TracingRail } from "@/components/ui/tracing-rail";
  */
 function Line({ mark, children }: { mark?: string; children: React.ReactNode }) {
   return (
-    <p className="font-mono text-[11px] leading-relaxed break-words text-ink-mute">
+    <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
       {mark && <span className="text-ink">{mark}&nbsp;&nbsp;</span>}
       {children}
     </p>
@@ -29,7 +29,7 @@ function Apparatus({
 }) {
   return (
     <FramePanel className="bg-paper-warm/30" interactive={false}>
-      <p className="kicker border-b border-rule px-4 py-2 !text-[10px]">
+      <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem]">
         {label}
       </p>
       <div className="space-y-2 px-4 py-4">{children}</div>
@@ -71,7 +71,7 @@ const STEPS: Step[] = [
       "Which steps run, what each may touch, and the shape the answer must take are declared in plain files — reviewed like any other change, and checked for mistakes when registered, not at three in the morning.",
     panel: (
       <Apparatus label="one of the definitions, in full">
-        <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed whitespace-pre text-ink-soft">
+        <pre className="overflow-x-auto font-mono text-[0.6875rem] leading-relaxed whitespace-pre text-ink-soft">
           {`kind: task
 name: compose_report@1
 runner: agent
@@ -149,10 +149,10 @@ output: report.spec@1`}
     panel: (
       <Apparatus label="what lands at the end of the run">
         <div className="pb-1">
-          <p className="font-display text-[15px] leading-tight font-medium text-ink">
+          <p className="font-display text-[0.9375rem] leading-tight font-medium text-ink">
             Q2 Ledger Reconciliation
           </p>
-          <p className="kicker mt-1.5 !text-[9px]">
+          <p className="kicker mt-1.5 !text-[0.5625rem]">
             postgres · object store · http
           </p>
           <div className="mt-3.5 flex gap-5 border-t border-rule pt-3">
@@ -192,13 +192,15 @@ export function RunWalkthrough() {
   return (
     <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
-        <Reveal className="max-w-3xl">
-          <p className="kicker text-accent">one run, start to finish</p>
-          <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">
-            How a run <span className="headline-emph">works.</span>
-          </h2>
-          <p className="lede-copy mt-7">
+      <div className="mx-auto max-w-shell px-gutter py-16 lg:py-24">
+        <Reveal className="grid max-w-3xl gap-x-16 lg:max-w-none lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-end">
+          <div>
+            <p className="kicker text-accent">one run, start to finish</p>
+            <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">
+              How a run <span className="headline-emph">works.</span>
+            </h2>
+          </div>
+          <p className="lede-copy mt-7 max-w-2xl lg:mt-0">
             Followed here with a request for a report, because its result is
             the one you can see on a page. On the left, what happens; on the
             right, the system saying the same thing in its own words.
@@ -211,7 +213,7 @@ export function RunWalkthrough() {
           <ol className="border-t border-rule">
             {STEPS.map((step, i) => (
               <Reveal key={step.numeral} delay={Math.min(i * 0.05, 0.2)}>
-                <li className="grid gap-8 border-b border-rule py-10 lg:grid-cols-[2.5rem_minmax(0,1fr)_minmax(0,1fr)] lg:gap-10">
+                <li className="grid gap-8 border-b border-rule py-10 lg:grid-cols-[2.5rem_minmax(0,1fr)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[3rem_minmax(0,5fr)_minmax(0,6fr)] xl:gap-x-16">
                   <p className="kicker text-accent lg:relative lg:z-10 lg:self-start lg:bg-paper lg:py-2">
                     {step.numeral}
                   </p>

@@ -71,7 +71,7 @@ export function Term({
           collisionPadding={16}
           className="term-card z-[90] max-w-xs border border-rule bg-paper px-4 py-3.5"
         >
-          <p className="kicker !text-[10px] text-accent">{entry.title}</p>
+          <p className="kicker !text-[0.625rem] text-accent">{entry.title}</p>
           <p className="body-copy-sm mt-2 text-ink-soft">{entry.plain}</p>
         </HoverCardPrimitive.Content>
       </HoverCardPrimitive.Portal>

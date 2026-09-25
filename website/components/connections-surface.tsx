@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 function Health({ health }: { health: Connection["health"] }) {
   const filled = health === "healthy";
   return (
-    <span className="flex items-center gap-2 font-mono text-[11px] text-ink-mute">
+    <span className="flex items-center gap-2 font-mono text-[0.6875rem] text-ink-mute">
       <span
         aria-hidden
         className={cn(
@@ -37,7 +37,7 @@ function Health({ health }: { health: Connection["health"] }) {
 
 function Line({ mark, children }: { mark?: string; children: React.ReactNode }) {
   return (
-    <p className="font-mono text-[11px] leading-relaxed break-words text-ink-mute">
+    <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
       {mark && <span className="text-ink">{mark}&nbsp;&nbsp;</span>}
       {children}
     </p>
@@ -55,7 +55,7 @@ function GhostButton({
     <button
       type="button"
       onClick={onClick}
-      className="kicker border border-rule px-3.5 py-2 !text-[10px] transition-colors hover:border-accent-deep hover:text-ink"
+      className="kicker border border-rule px-3.5 py-2 !text-[0.625rem] transition-colors hover:border-accent-deep hover:text-ink"
     >
       {children}
     </button>
@@ -76,7 +76,7 @@ function SolidButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="kicker bg-accent px-4 py-2.5 !text-[10px] !text-paper transition-colors hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-40"
+      className="kicker bg-accent px-4 py-2.5 !text-[0.625rem] !text-paper transition-colors hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-40"
     >
       {children}
     </button>
@@ -110,24 +110,24 @@ function IndexView({
               >
                 <span className="flex items-center gap-3">
                   <MeanderMark size={9} className="shrink-0 text-ink-faint" />
-                  <span className="font-mono text-[13px] text-ink">
+                  <span className="font-mono text-[0.8125rem] text-ink">
                     {c.name}
                   </span>
-                  <span className="kicker !text-[9px] text-accent">
+                  <span className="kicker !text-[0.5625rem] text-accent">
                     {service.label}
                   </span>
                 </span>
-                <span className="pl-6 font-mono text-[10.5px] text-ink-faint sm:pl-0">
+                <span className="pl-6 font-mono text-[0.65625rem] text-ink-faint sm:pl-0">
                   {c.referencedBy.length > 0
                     ? `referenced by: ${c.referencedBy.join(", ")}`
                     : "not yet referenced by a resource"}
                 </span>
                 <span className="flex items-center gap-5 pl-6 sm:pl-0">
-                  <span className="kicker hidden !text-[9px] text-ink-faint md:inline">
+                  <span className="kicker hidden !text-[0.5625rem] text-ink-faint md:inline">
                     {c.identity}
                   </span>
                   <Health health={c.health} />
-                  <span className="font-mono text-[10.5px] text-ink-faint">
+                  <span className="font-mono text-[0.65625rem] text-ink-faint">
                     {c.lastCall}
                   </span>
                 </span>
@@ -137,7 +137,7 @@ function IndexView({
         })}
       </ul>
       <div className="flex items-center justify-between border-t border-rule px-5 py-3.5">
-        <p className="font-mono text-[10.5px] text-ink-faint">
+        <p className="font-mono text-[0.65625rem] text-ink-faint">
           {connections.length} connections · secrets in executor custody
         </p>
         <GhostButton onClick={onAdd}>+ connect a service</GhostButton>
@@ -189,15 +189,15 @@ function AddView({
             <span className="font-display text-lg leading-tight font-light tracking-tight">
               {s.label}
             </span>
-            <span className="font-mono text-[10px] text-ink-mute">
+            <span className="font-mono text-[0.625rem] text-ink-mute">
               {s.connector}
             </span>
             {s.covers && (
-              <span className="font-mono text-[10px] text-ink-faint">
+              <span className="font-mono text-[0.625rem] text-ink-faint">
                 {s.covers}
               </span>
             )}
-            <span className="kicker mt-1 !text-[9px] text-accent">
+            <span className="kicker mt-1 !text-[0.5625rem] text-accent">
               {s.lane}
               {s.phase !== "shipped" && ` · arrives ${s.phase}`}
             </span>
@@ -210,7 +210,7 @@ function AddView({
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-4">
               <div>
-                <p className="kicker mb-2 !text-[10px]">identity</p>
+                <p className="kicker mb-2 !text-[0.625rem]">identity</p>
                 <div className="flex flex-wrap gap-2">
                   {(["delegated", "service", "both"] as const).map((mode) => {
                     const allowed = service.identities.includes(mode);
@@ -222,7 +222,7 @@ function AddView({
                         aria-pressed={identity === mode}
                         onClick={() => setIdentity(mode)}
                         className={cn(
-                          "kicker border px-3 py-1.5 !text-[10px] transition-colors",
+                          "kicker border px-3 py-1.5 !text-[0.625rem] transition-colors",
                           identity === mode
                             ? "border-accent-deep text-ink"
                             : "border-rule",
@@ -236,7 +236,7 @@ function AddView({
                     );
                   })}
                 </div>
-                <p className="mt-2 font-mono text-[10.5px] text-ink-faint">
+                <p className="mt-2 font-mono text-[0.65625rem] text-ink-faint">
                   {identity === "delegated"
                     ? "users consent individually — runs act as the person who asked"
                     : identity === "service"
@@ -245,7 +245,7 @@ function AddView({
                 </p>
               </div>
               <div>
-                <label htmlFor="conn-name" className="kicker mb-2 block !text-[10px]">
+                <label htmlFor="conn-name" className="kicker mb-2 block !text-[0.625rem]">
                   name
                 </label>
                 <input
@@ -254,10 +254,10 @@ function AddView({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder={suggested}
-                  className="w-56 border border-rule bg-paper px-3 py-2 font-mono text-[12px] text-ink transition-colors placeholder:text-ink-faint focus:border-accent-deep"
+                  className="w-56 border border-rule bg-paper px-3 py-2 font-mono text-[0.75rem] text-ink transition-colors placeholder:text-ink-faint focus:border-accent-deep"
                 />
                 {collision && (
-                  <p className="mt-2 font-mono text-[10.5px] text-ink-mute">
+                  <p className="mt-2 font-mono text-[0.65625rem] text-ink-mute">
                     a connection named &lsquo;{finalName}&rsquo; already exists
                   </p>
                 )}
@@ -329,12 +329,12 @@ function VerifyView({
           </Line>
         ))}
         {!done && (
-          <p aria-hidden className="animate-pulse font-mono text-[11px] text-accent">
+          <p aria-hidden className="animate-pulse font-mono text-[0.6875rem] text-accent">
             &#9608;
           </p>
         )}
         {done && (
-          <p className="flex items-center gap-2 font-mono text-[11px] text-ink">
+          <p className="flex items-center gap-2 font-mono text-[0.6875rem] text-ink">
             <span aria-hidden className="inline-block size-[7px] border border-ink bg-ink" />
             connection healthy
           </p>
@@ -344,17 +344,17 @@ function VerifyView({
       {done && (
         <div className="mt-6 grid gap-5 border-t border-rule pt-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div>
-            <p className="kicker mb-3 !text-[10px]">
+            <p className="kicker mb-3 !text-[0.625rem]">
               next: make it reachable — a resource definition, through review
             </p>
-            <pre className="overflow-x-auto border border-rule bg-paper px-4 py-3.5 font-mono text-[11px] leading-relaxed whitespace-pre text-ink-soft">
+            <pre className="overflow-x-auto border border-rule bg-paper px-4 py-3.5 font-mono text-[0.6875rem] leading-relaxed whitespace-pre text-ink-soft">
               {`kind: resource
 name: ${resource.name}
 connector: ${resource.connector}
 connection: ${name}
 verbs: ${resource.verbs}`}
             </pre>
-            <p className="mt-3 font-mono text-[10.5px] text-ink-faint">
+            <p className="mt-3 font-mono text-[0.65625rem] text-ink-faint">
               ptn plan && ptn apply &mdash; setup is self-serve; reachability
               is reviewed.
             </p>
@@ -384,13 +384,13 @@ function DetailView({
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
         <div className="flex flex-wrap items-center gap-4">
-          <span className="font-mono text-[13px] text-ink">
+          <span className="font-mono text-[0.8125rem] text-ink">
             {connection.name}
           </span>
-          <span className="kicker !text-[9px] text-accent">
+          <span className="kicker !text-[0.5625rem] text-accent">
             {service.label} · {service.connector}
           </span>
-          <span className="kicker !text-[9px] text-ink-faint">
+          <span className="kicker !text-[0.5625rem] text-ink-faint">
             {connection.identity}
           </span>
           <Health health={connection.health} />
@@ -422,7 +422,7 @@ function DetailView({
       </div>
 
       <div className="border-t border-rule">
-        <p className="kicker border-b border-rule px-5 py-2.5 !text-[10px] text-accent">
+        <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
           grants &mdash; scope in the connector&rsquo;s own grammar:{" "}
           {service.scope}
         </p>
@@ -432,11 +432,11 @@ function DetailView({
               key={`${g.user}-${g.scope}`}
               className="grid gap-1 px-5 py-3 sm:grid-cols-[7rem_9rem_minmax(0,1fr)] sm:gap-4"
             >
-              <span className="font-mono text-[11px] text-ink">{g.user}</span>
-              <span className="font-mono text-[11px] text-ink-mute">
+              <span className="font-mono text-[0.6875rem] text-ink">{g.user}</span>
+              <span className="font-mono text-[0.6875rem] text-ink-mute">
                 verbs [{g.verbs}]
               </span>
-              <span className="font-mono text-[11px] break-words text-ink-mute">
+              <span className="font-mono text-[0.6875rem] break-words text-ink-mute">
                 scope {g.scope}
               </span>
             </li>
@@ -495,7 +495,7 @@ export function ConnectionsSurface() {
   return (
     <FramePanel className="bg-paper-warm/30">
       <div className="flex items-center justify-between gap-4 border-b border-rule px-5 py-2.5">
-        <p className="kicker flex items-center gap-2.5 !text-[10px] text-accent">
+        <p className="kicker flex items-center gap-2.5 !text-[0.625rem] text-accent">
           <MeanderMark size={9} />
           connections &mdash; {title}
         </p>
@@ -503,7 +503,7 @@ export function ConnectionsSurface() {
           <button
             type="button"
             onClick={() => setView({ screen: "index" })}
-            className="kicker !text-[10px] text-ink-mute transition-colors hover:text-ink"
+            className="kicker !text-[0.625rem] text-ink-mute transition-colors hover:text-ink"
           >
             &larr; the wall
           </button>

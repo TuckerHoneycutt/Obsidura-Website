@@ -33,7 +33,7 @@ export function LogoMark({
             }
           : undefined
       }
-      style={{ width: size, height: size }}
+      style={{ width: `${size / 16}rem`, height: `${size / 16}rem` }}
     >
       <Image
         src="/logo-mark.svg"

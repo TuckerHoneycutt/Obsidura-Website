@@ -27,14 +27,14 @@ const DOES_NOT = [
 function List({ label, items }: { label: string; items: string[] }) {
   return (
     <FramePanel className="h-full bg-paper-warm/30">
-      <p className="kicker border-b border-rule px-5 py-2.5 !text-[10px] text-accent">
+      <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
         {label}
       </p>
       <ul className="space-y-4 px-5 py-5">
         {items.map((item) => (
           <li key={item} className="flex gap-3">
             <MeanderMark size={10} className="mt-2 text-ink-faint" />
-            <span className="body-copy-sm">{item}</span>
+            <span className="body-copy-sm max-w-[40rem]">{item}</span>
           </li>
         ))}
       </ul>
@@ -46,7 +46,7 @@ function Face({ face }: { face: (typeof FACES)[number] }) {
   return (
     <FramePanel className="h-full bg-paper-warm/30">
       <div className="flex h-full flex-col">
-        <p className="kicker border-b border-rule px-5 py-2.5 !text-[10px] text-accent">
+        <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
           {face.label}
         </p>
         <div className="px-5 py-5">
@@ -59,7 +59,7 @@ function Face({ face }: { face: (typeof FACES)[number] }) {
           {face.lines.map((line) => (
             <p
               key={line}
-              className="font-mono text-[11px] leading-relaxed break-words text-ink-mute"
+              className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute"
             >
               {line}
             </p>
@@ -82,7 +82,7 @@ export function AutomationsBody() {
     <>
       <section className="relative border-t border-rule">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
           <Reveal className="max-w-3xl">
             <p className="kicker text-accent">capabilities</p>
             <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
@@ -91,7 +91,7 @@ export function AutomationsBody() {
             </h2>
           </Reveal>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <div className="mt-10 grid gap-6 lg:grid-cols-2 2xl:grid-cols-4">
             {FACES.map((face, i) => (
               <Reveal key={face.label} delay={0.06 + i * 0.08}>
                 <Face face={face} />
@@ -111,8 +111,8 @@ export function AutomationsBody() {
 
       <section className="relative border-t border-rule">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <div className="grid gap-6 lg:grid-cols-2">
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+          <div className="grid gap-6 lg:grid-cols-2 xl:gap-8">
             <Reveal>
               <List label="what it does" items={DOES} />
             </Reveal>
@@ -125,18 +125,20 @@ export function AutomationsBody() {
 
       <section className="relative border-t border-rule bg-paper-warm/40">
         <MeanderDivider />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-          <Reveal className="max-w-3xl">
-            <p className="kicker text-accent">the range</p>
-            <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
-              What it <span className="headline-emph">can automate.</span>
-            </h2>
-            <p className="lede-copy mt-6">
-              Eight ordinary jobs from eight parts of a company &mdash; to the
-              engine, all the same shape: a task, a permission, a check, a
-              record.
-            </p>
-            <p className="body-copy mt-5">
+        <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
+          <Reveal className="grid max-w-3xl gap-x-16 lg:max-w-none lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-end">
+            <div>
+              <p className="kicker text-accent">the range</p>
+              <h2 className="font-display mt-6 text-[clamp(1.65rem,3.2vw,2.5rem)] leading-[1.08] font-light tracking-tight">
+                What it <span className="headline-emph">can automate.</span>
+              </h2>
+              <p className="lede-copy mt-6 max-w-2xl">
+                Eight ordinary jobs from eight parts of a company &mdash; to the
+                engine, all the same shape: a task, a permission, a check, a
+                record.
+              </p>
+            </div>
+            <p className="body-copy mt-5 max-w-2xl lg:mt-0">
               Most of them were automatable all along; they were not{" "}
               <em>worth</em> automating, because wiring one job safely across
               four systems cost more than doing it by hand. Pantheon pays for
@@ -145,11 +147,11 @@ export function AutomationsBody() {
             </p>
           </Reveal>
 
-          <ul className="mt-10 grid gap-x-10 gap-y-px sm:grid-cols-2">
+          <ul className="mt-10 grid gap-x-10 gap-y-px sm:grid-cols-2 xl:gap-x-16">
             {WORK.map((item, i) => (
               <Reveal key={item.domain} delay={Math.min(i * 0.04, 0.24)}>
                 <li className="flex flex-col gap-1.5 border-t border-rule py-5 sm:flex-row sm:gap-6">
-                  <span className="kicker shrink-0 !text-[10px] text-accent sm:w-28">
+                  <span className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-28 xl:w-32">
                     {item.domain}
                   </span>
                   <span className="body-copy-sm">{item.line}</span>
@@ -159,7 +161,7 @@ export function AutomationsBody() {
           </ul>
 
           <Reveal delay={0.2}>
-            <div className="mt-10 border-t border-rule pt-8">
+            <div className="mt-10 grid gap-x-16 border-t border-rule pt-8 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-end">
               <p className="body-copy max-w-3xl">
                 The engine cannot tell a rocket from a light switch. The work
                 your company does is written down as definitions, not built
@@ -167,7 +169,7 @@ export function AutomationsBody() {
                 honest rather than a boast.
               </p>
               <ChipRow
-                className="mt-6"
+                className="mt-6 lg:mt-0 lg:justify-end"
                 items={[
                   "agents where judgment is needed",
                   "plain scripts where it is not",

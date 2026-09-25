@@ -20,7 +20,7 @@ export function ChapterIndex() {
   return (
     <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-14 lg:py-20">
+      <div className="mx-auto max-w-shell px-gutter py-14 lg:py-20">
         <Reveal>
           <p className="kicker text-accent">the system, in five parts</p>
         </Reveal>
@@ -47,7 +47,7 @@ export function ChapterIndex() {
                     <span className="font-display block text-[clamp(1.4rem,2.7vw,2.1rem)] leading-tight font-light tracking-tight">
                       {chapter.label}
                     </span>
-                    <span className="body-copy mt-1.5 block text-ink-mute">
+                    <span className="body-copy mt-1.5 block max-w-2xl text-ink-mute">
                       {chapter.blurb}
                     </span>
                   </span>

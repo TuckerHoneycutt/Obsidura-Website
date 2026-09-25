@@ -1,5 +1,8 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+
+/** A plain string, or an entry with a mark set in front of its name. */
+export type MarqueeItem = string | { label: string; icon?: ReactNode };
 
 /**
  * Aceternity-style infinite moving items strip. Items are duplicated once and
@@ -11,29 +14,43 @@ export function InfiniteMarquee({
   items,
   className,
 }: {
-  items: string[];
+  items: MarqueeItem[];
   className?: string;
 }) {
   const track = [...items, ...items];
   return (
     <div className={cn("overflow-hidden mask-fade-x", className)}>
-      <div className="animate-marquee flex w-max items-center gap-10">
-        {track.map((item, i) => (
-          <Fragment key={`${item}-${i}`}>
-            {/* The second copy exists only for the seamless loop; hiding it
-                from assistive tech keeps the list from being read twice. */}
-            <span
-              aria-hidden={i >= items.length || undefined}
-              className="kicker whitespace-nowrap text-ink-faint"
-            >
-              {item}
-            </span>
-            <span
-              aria-hidden
-              className="size-[3px] shrink-0 rotate-45 bg-ink-faint"
-            />
-          </Fragment>
-        ))}
+      {/* Duration grows with the list so a longer strip keeps the same
+          reading pace instead of racing to finish the loop in 36s. */}
+      <div
+        className="animate-marquee flex w-max items-center gap-10"
+        style={{ animationDuration: `${Math.max(36, items.length * 7)}s` }}
+      >
+        {track.map((raw, i) => {
+          const item = typeof raw === "string" ? { label: raw } : raw;
+          return (
+            <Fragment key={`${item.label}-${i}`}>
+              {/* The second copy exists only for the seamless loop; hiding
+                  it from assistive tech keeps the list from being read
+                  twice. */}
+              <span
+                aria-hidden={i >= items.length || undefined}
+                className="kicker flex items-center gap-2.5 whitespace-nowrap text-ink-faint"
+              >
+                {item.icon && (
+                  <span className="flex size-[1.4em] shrink-0 [&>svg]:size-full">
+                    {item.icon}
+                  </span>
+                )}
+                {item.label}
+              </span>
+              <span
+                aria-hidden
+                className="size-[3px] shrink-0 rotate-45 bg-ink-faint"
+              />
+            </Fragment>
+          );
+        })}
       </div>
     </div>
   );

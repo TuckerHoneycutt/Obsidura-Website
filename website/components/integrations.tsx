@@ -1,21 +1,34 @@
 import Link from "next/link";
-import { InfiniteMarquee } from "@/components/ui/infinite-marquee";
+import { BrandIcon } from "@/components/ui/brand-icons";
+import {
+  InfiniteMarquee,
+  type MarqueeItem,
+} from "@/components/ui/infinite-marquee";
 
-// Each connector is read with the scope that governs it, so the strip says
-// "connector, governed thus" instead of mixing the two voices in one list.
-// The last two are platform-wide and stand alone.
-const INTEGRATIONS = [
-  "Postgres · row-filter scope",
-  "Object storage · key-prefix scope",
-  "HTTP services · URL allowlist",
-  "Run-scoped proxy",
-  "Audited per call",
+// The services teams already work in, named the way they know them. REST
+// APIs close the strip: the HTTP connector reaches anything that speaks one,
+// local resources and internal databases included.
+const INTEGRATIONS: MarqueeItem[] = [
+  { label: "Google Workspace", icon: <BrandIcon name="google" /> },
+  "Microsoft 365",
+  "Microsoft Azure",
+  "Slack",
+  { label: "Jira", icon: <BrandIcon name="jira" /> },
+  { label: "Confluence", icon: <BrandIcon name="confluence" /> },
+  { label: "Linear", icon: <BrandIcon name="linear" /> },
+  { label: "GitHub", icon: <BrandIcon name="github" /> },
+  { label: "Notion", icon: <BrandIcon name="notion" /> },
+  { label: "Postgres", icon: <BrandIcon name="postgres" /> },
+  "S3-compatible storage",
+  "NAS (SMB)",
+  { label: "MCP servers", icon: <BrandIcon name="mcp" /> },
+  "REST APIs",
 ];
 
 export function Integrations() {
   return (
     <section className="border-t border-rule">
-      <div className="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-10 sm:flex-row sm:items-center sm:gap-10">
+      <div className="mx-auto flex max-w-shell flex-col gap-5 px-gutter py-10 sm:flex-row sm:items-center sm:gap-10 xl:gap-14">
         <Link
           href="/integrations"
           className="kicker link-sweep shrink-0 transition-colors hover:text-ink"

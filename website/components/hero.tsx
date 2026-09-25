@@ -44,8 +44,8 @@ export function Hero() {
         />
       </motion.div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-16 pb-16 text-center lg:pt-28 lg:pb-24">
-        <motion.p {...rise(0)} className="kicker mb-7 !text-[13px] text-accent">
+      <div className="relative mx-auto flex max-w-shell flex-col items-center px-gutter pt-16 pb-16 text-center lg:pt-28 lg:pb-24">
+        <motion.p {...rise(0)} className="kicker mb-7 !text-[0.8125rem] text-accent">
           obsidura pantheon &mdash; the data layer for agents
         </motion.p>
 

@@ -134,7 +134,7 @@ function PantheonMenu({ pathname }: { pathname: string }) {
         aria-expanded={open}
         aria-controls={menuId}
         className={cn(
-          "link-sweep font-display flex items-center gap-2 text-[15px] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
+          "link-sweep font-display flex items-center gap-2 text-[0.9375rem] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
           current || open ? "text-ink" : "text-ink-mute"
         )}
       >
@@ -152,7 +152,7 @@ function PantheonMenu({ pathname }: { pathname: string }) {
             transition={{ duration: 0.18, ease: [0.21, 0.47, 0.32, 0.98] }}
             // Sits below the header's bottom border so the panel reads as
             // hung from the rule rather than floating over the row.
-            className="absolute top-full left-1/2 z-50 mt-[21px] w-56 -translate-x-1/2 border border-rule bg-paper"
+            className="absolute top-full left-1/2 z-50 mt-[calc(1.25rem+1px)] w-[clamp(14rem,18vw,16rem)] -translate-x-1/2 border border-rule bg-paper"
           >
             <ul className="p-2">
               {CHAPTERS.map((chapter) => {
@@ -205,7 +205,7 @@ function PanelGroup({
         aria-expanded={open}
         className="flex w-full items-center justify-between py-4 text-left"
       >
-        <span className="kicker !text-[10px] text-accent">{label}</span>
+        <span className="kicker !text-[0.625rem] text-accent">{label}</span>
         <ChevronIcon open={open} />
       </button>
       <AnimatePresence initial={false}>
@@ -284,14 +284,14 @@ export function Nav() {
           md (where the frame exists) the top padding carries that 12px extra:
           the gap from the rule to the content then equals the gap from the
           content to the header's bottom border. */}
-      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 md:pt-7 sm:grid-cols-[auto_1fr_auto]">
+      <nav className="mx-auto grid max-w-shell grid-cols-[1fr_auto] items-center gap-6 px-gutter py-4 md:pt-7 sm:grid-cols-[auto_1fr_auto]">
         <Link href="/" className="group flex w-max items-center gap-2.5">
           <LogoMark size={26} />
           <span className="font-display text-xl leading-none font-medium tracking-[0.3em] uppercase">
             Obsidura
           </span>
         </Link>
-        <div className="hidden items-center justify-center gap-8 lg:flex">
+        <div className="hidden items-center justify-center gap-[clamp(2rem,3vw,3rem)] lg:flex">
           {/* The chapters fold into the Pantheon menu; the company pages
               ride the row beside it. */}
           <PantheonMenu pathname={pathname} />
@@ -305,7 +305,7 @@ export function Nav() {
                 transitionTypes={["nav-forward"]}
                 aria-current={current ? "page" : undefined}
                 className={cn(
-                  "link-sweep font-display text-[15px] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
+                  "link-sweep font-display text-[0.9375rem] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
                   current ? "text-ink" : "text-ink-mute"
                 )}
               >
@@ -320,13 +320,13 @@ export function Nav() {
           <button
             type="button"
             onClick={openSearch}
-            className="group hidden h-8 w-44 items-center gap-2.5 border border-rule px-3 text-left transition-colors hover:border-accent-deep xl:flex"
+            className="group hidden h-8 w-[clamp(11rem,14vw,14rem)] items-center gap-2.5 border border-rule px-3 text-left transition-colors hover:border-accent-deep xl:flex"
           >
             <SearchIcon className="text-ink-faint transition-colors group-hover:text-ink" />
-            <span className="kicker !text-[10px] text-ink-faint transition-colors group-hover:text-ink">
+            <span className="kicker !text-[0.625rem] text-ink-faint transition-colors group-hover:text-ink">
               search
             </span>
-            <kbd className="ml-auto font-mono text-[10px] text-ink-faint">
+            <kbd className="ml-auto font-mono text-[0.625rem] text-ink-faint">
               &#8984;K
             </kbd>
           </button>
@@ -367,7 +367,7 @@ export function Nav() {
                 short screens where the panel outgrows the viewport. */}
             <div
               data-lenis-prevent
-              className="max-h-[calc(100dvh-6rem)] overflow-y-auto px-6 py-6"
+              className="max-h-[calc(100dvh-6rem)] overflow-y-auto px-gutter py-6"
             >
               <button
                 type="button"
@@ -378,7 +378,7 @@ export function Nav() {
                 className="mb-5 flex h-10 w-full items-center gap-2.5 border border-rule px-3 text-left"
               >
                 <SearchIcon className="text-ink-faint" />
-                <span className="kicker !text-[10px] text-ink-mute">
+                <span className="kicker !text-[0.625rem] text-ink-mute">
                   search the site
                 </span>
               </button>

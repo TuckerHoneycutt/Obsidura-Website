@@ -60,6 +60,26 @@ html.light {
   --font-display: var(--font-display), serif;
 }
 
+/*
+ * Layout scale. The frame spans most of a wide screen (max-w-shell) while
+ * the gutter (px-gutter) grows with the viewport, so the page reads as
+ * composed at every width rather than as a column floating in black.
+ * Running prose keeps its own narrow measure inside that frame.
+ */
+@theme {
+  --container-shell: 90rem;
+  --spacing-gutter: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+/*
+ * Proportional rem: 16px through laptop widths, easing up to 18px on large
+ * displays so type, spacing and the shell grow together. Percent-based so a
+ * reader's own browser font size still scales everything.
+ */
+html {
+  font-size: clamp(100%, 0.5rem + 0.5vw, 112.5%);
+}
+
 body {
   background: var(--paper);
   color: var(--ink);

@@ -40,7 +40,7 @@ export default function ContactPage() {
           the company on the left, the form on the right. The two stacks are
           about the same height, so neither side trails off into dead space. */}
       <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 pt-12 pb-14 lg:grid-cols-[1fr_1.15fr] lg:gap-14 lg:pt-16 lg:pb-16">
+        <div className="mx-auto grid max-w-shell gap-10 px-gutter pt-12 pb-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-x-[clamp(3.5rem,6vw,7rem)] lg:pt-16 lg:pb-16">
           <div>
             <p className="kicker mb-6 text-accent">
               obsidura &mdash; intelligent infrastructure
@@ -61,7 +61,7 @@ export default function ContactPage() {
                   </a>
                 </p>
               </FramePanel>
-              <p className="font-mono text-[12px] leading-relaxed text-ink-mute">
+              <p className="font-mono text-[0.75rem] leading-relaxed text-ink-mute">
                 Prefer email directly? That address lands in the same inbox.
               </p>
             </div>
@@ -70,7 +70,7 @@ export default function ContactPage() {
               <p className="kicker mb-2 font-semibold text-accent">
                 obsidura, elsewhere
               </p>
-              <p className="font-mono text-[12px] leading-relaxed text-ink-mute">
+              <p className="font-mono text-[0.75rem] leading-relaxed text-ink-mute">
                 Keep up to date as we continue to build and ship on all
                 platforms.
               </p>
@@ -91,10 +91,10 @@ export default function ContactPage() {
                       className="text-ink-mute transition-colors group-hover:text-ink"
                     />
                     <span className="min-w-0">
-                      <span className="kicker block !text-[10px] transition-colors group-hover:text-ink">
+                      <span className="kicker block !text-[0.625rem] transition-colors group-hover:text-ink">
                         {label}
                       </span>
-                      <span className="block truncate font-mono text-[11px] text-ink-faint">
+                      <span className="block truncate font-mono text-[0.6875rem] text-ink-faint">
                         {handle}
                       </span>
                     </span>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                           <p className="font-display text-xl font-light tracking-tight">
                             {name}
                           </p>
-                          <p className="kicker mt-1 !text-[10px] text-ink-mute">
+                          <p className="kicker mt-1 !text-[0.625rem] text-ink-mute">
                             {role}
                           </p>
                         </div>

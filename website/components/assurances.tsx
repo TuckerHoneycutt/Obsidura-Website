@@ -44,7 +44,7 @@ export function Assurances() {
   return (
     <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
+      <div className="mx-auto max-w-shell px-gutter py-16 lg:py-24">
         <Reveal className="max-w-3xl">
           <p className="kicker text-accent">failure handling</p>
           <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">
@@ -53,22 +53,22 @@ export function Assurances() {
           </h2>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 lg:grid-cols-3 xl:gap-8">
           {CASES.map((c, i) => (
             <Reveal key={c.label} delay={Math.min(i * 0.07, 0.2)}>
               <GlowPanel className="h-full bg-paper-warm/30">
                 <div className="flex h-full flex-col">
-                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[10px] text-accent">
+                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
                     {c.label}
                   </p>
                   <div className="px-5 py-5">
                     <h3 className="font-display text-[1.45rem] leading-tight font-light tracking-tight">
                       {c.title}
                     </h3>
-                    <p className="body-copy-sm mt-3">{c.plain}</p>
+                    <p className="body-copy-sm mt-3 max-w-[62ch]">{c.plain}</p>
                   </div>
                   <div className="mt-auto border-t border-rule px-5 py-4">
-                    <p className="font-mono text-[11px] leading-relaxed break-words text-ink-mute">
+                    <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
                       {c.log}
                     </p>
                     <Link

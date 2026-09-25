@@ -30,7 +30,7 @@ export function TabsTrigger({
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        "kicker relative px-4 py-3 !text-[10px] text-ink-mute transition-colors hover:text-ink data-[state=active]:text-accent",
+        "kicker relative px-4 py-3 !text-[0.625rem] text-ink-mute transition-colors hover:text-ink data-[state=active]:text-accent",
         "after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-transparent data-[state=active]:after:bg-accent",
         className
       )}

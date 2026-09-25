@@ -45,10 +45,16 @@ const REQUESTERS: Requester[] = [
 const AUDIT: [string, string][] = [
   ["09:12:01", "grant   u_ellis    patients   query   row filter: ward = 3"],
   ["09:12:01", "scope   patients -> 36 rows in scope"],
-  ["09:12:02", "grant   u_ellis    scans      get     key prefix: scans/ward-3/"],
+  [
+    "09:12:02",
+    "grant   u_ellis    scans      get     key prefix: scans/ward-3/",
+  ],
   ["09:12:04", "grant   u_rhodes   patients   query   + consent = 'research'"],
   ["09:12:04", "scope   patients -> 12 rows in scope, 24 withheld"],
-  ["09:12:05", "deny    u_rhodes   scans      get     no grant for this resource"],
+  [
+    "09:12:05",
+    "deny    u_rhodes   scans      get     no grant for this resource",
+  ],
 ];
 
 const LOG_NOTES: string[] = [
@@ -62,21 +68,25 @@ function RequesterCard({ requester }: { requester: Requester }) {
     <FramePanel className="h-full bg-paper-warm/30">
       <div className="flex h-full flex-col">
         <div className="flex items-baseline justify-between gap-3 border-b border-rule px-4 py-2.5">
-          <span className="font-mono text-[13px] text-ink">
+          <span className="font-mono text-[0.8125rem] text-ink">
             {requester.user}
           </span>
-          <span className="kicker !text-[9px]">{requester.role}</span>
+          <span className="kicker !text-[0.5625rem]">{requester.role}</span>
         </div>
 
         <div className="px-4 py-4">
-          <p className="kicker !text-[9px] text-accent">grants at the proxy</p>
+          <p className="kicker !text-[0.5625rem] text-accent">
+            grants at the proxy
+          </p>
           <div className="mt-2.5 space-y-2">
             {requester.grants.map(([resource, scope]) => (
               <div key={resource}>
-                <p className="font-mono text-[12px] text-ink-soft">
+                <p className="font-mono text-[0.75rem] text-ink-soft">
                   {resource}
                 </p>
-                <p className="font-mono text-[11px] text-ink-faint">{scope}</p>
+                <p className="font-mono text-[0.6875rem] text-ink-faint">
+                  {scope}
+                </p>
               </div>
             ))}
           </div>
@@ -85,14 +95,14 @@ function RequesterCard({ requester }: { requester: Requester }) {
         <div className="mt-auto flex gap-6 border-t border-rule px-4 py-4">
           {requester.results.map(([label, value]) => (
             <div key={label}>
-              <p className="kicker !text-[9px]">{label}</p>
+              <p className="kicker !text-[0.5625rem]">{label}</p>
               <p className="mt-1 font-mono text-2xl leading-none text-ink">
                 {value}
               </p>
             </div>
           ))}
         </div>
-        <p className="body-copy-sm border-t border-rule px-4 py-3.5 !text-[15px] text-ink-mute">
+        <p className="body-copy-sm border-t border-rule px-4 py-3.5 !text-[0.9375rem] text-ink-mute">
           {requester.note}
         </p>
       </div>
@@ -109,18 +119,18 @@ export function GovernanceBody() {
   return (
     <section className="relative border-t border-rule">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+      <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
         <Reveal>
           <FramePanel className="bg-paper-warm/40">
             <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-              <span className="kicker !text-[10px]">
+              <span className="kicker !text-[0.625rem]">
                 one prompt, issued twice
               </span>
-              <span className="kicker !text-[10px] text-accent">
+              <span className="kicker !text-[0.625rem] text-accent">
                 clinical summary
               </span>
             </div>
-            <p className="flex items-center gap-3 px-4 py-4 font-mono text-[13px] text-ink sm:text-sm">
+            <p className="flex items-center gap-3 px-4 py-4 font-mono text-[0.8125rem] text-ink sm:text-sm">
               <span aria-hidden className="text-ink-faint">
                 &gt;
               </span>
@@ -129,39 +139,41 @@ export function GovernanceBody() {
           </FramePanel>
         </Reveal>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
-          {REQUESTERS.map((requester, i) => (
-            <Reveal
-              key={requester.user}
-              delay={0.15 + i * 0.1}
-              className="h-full"
-            >
-              <RequesterCard requester={requester} />
-            </Reveal>
-          ))}
+        <div className="mt-6 grid gap-6 2xl:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
+            {REQUESTERS.map((requester, i) => (
+              <Reveal
+                key={requester.user}
+                delay={0.15 + i * 0.1}
+                className="h-full"
+              >
+                <RequesterCard requester={requester} />
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.2} className="h-full">
+            <FramePanel className="h-full bg-paper-warm/20">
+              <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem]">
+                every scope decision, recorded
+              </p>
+              <div className="overflow-x-auto px-4 py-3.5">
+                {AUDIT.map(([time, text]) => (
+                  <p
+                    key={time + text}
+                    className="flex gap-3 py-0.5 font-mono text-[0.6875rem] whitespace-pre sm:text-[0.75rem]"
+                  >
+                    <span className="shrink-0 text-ink-faint">[{time}]</span>
+                    <span className="text-ink-soft">{text}</span>
+                  </p>
+                ))}
+              </div>
+            </FramePanel>
+          </Reveal>
         </div>
 
-        <Reveal delay={0.2} className="mt-6">
-          <FramePanel className="bg-paper-warm/20">
-            <p className="kicker border-b border-rule px-4 py-2 !text-[10px]">
-              every scope decision, recorded
-            </p>
-            <div className="overflow-x-auto px-4 py-3.5">
-              {AUDIT.map(([time, text]) => (
-                <p
-                  key={time + text}
-                  className="flex gap-3 py-0.5 font-mono text-[11px] whitespace-pre sm:text-[12px]"
-                >
-                  <span className="shrink-0 text-ink-faint">[{time}]</span>
-                  <span className="text-ink-soft">{text}</span>
-                </p>
-              ))}
-            </div>
-          </FramePanel>
-        </Reveal>
-
         {/* The log itself: the table all of that was read out of. */}
-        <div className="mt-16 grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
+        <div className="mt-16 grid gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-12 xl:gap-20">
           <Reveal>
             <RunLog />
           </Reveal>
@@ -169,7 +181,7 @@ export function GovernanceBody() {
             <h3 className="font-display text-[clamp(1.6rem,2.4vw,2rem)] leading-tight font-light tracking-tight">
               One table, four uses.
             </h3>
-            <ul className="mt-6 space-y-4">
+            <ul className="mt-6 max-w-xl space-y-4">
               {LOG_NOTES.map((note) => (
                 <li key={note} className="flex gap-3">
                   <span aria-hidden className="kicker mt-1.5 text-accent">

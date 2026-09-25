@@ -12,7 +12,7 @@ const fieldClass =
   // and it is far too quiet to navigate a form by.
   "w-full border border-rule bg-paper px-3.5 py-3 font-mono text-sm text-ink transition-colors placeholder:text-ink-faint focus:border-accent-deep";
 
-const labelClass = "kicker mb-2 block !text-[10px]";
+const labelClass = "kicker mb-2 block !text-[0.625rem]";
 
 export function ContactForm() {
   const [state, setState] = useState<ContactState>(initialState);
@@ -56,7 +56,7 @@ export function ContactForm() {
 
   if (state.ok) {
     return (
-      <FramePanel className="bg-paper-warm/40 px-6 py-10 sm:px-8">
+      <FramePanel className="bg-paper-warm/40 px-6 py-10 sm:px-8 xl:px-10">
         <p className="kicker text-accent">received</p>
         <p className="font-display mt-4 text-3xl font-light tracking-tight">
           Message sent.
@@ -79,7 +79,7 @@ export function ContactForm() {
         // those errors are never reached. required stays on the fields for
         // its semantics - screen readers still announce the fields as such.
         noValidate
-        className="relative flex flex-col gap-6 px-6 py-8 sm:px-8"
+        className="relative flex flex-col gap-6 px-6 py-8 sm:px-8 xl:px-10 xl:py-10"
       >
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
@@ -104,7 +104,7 @@ export function ContactForm() {
             {state.fieldErrors?.name ? (
               <p
                 id="name-error"
-                className="mt-2 font-mono text-[12px] text-ink-mute"
+                className="mt-2 font-mono text-[0.75rem] text-ink-mute"
               >
                 {state.fieldErrors.name}
               </p>
@@ -132,7 +132,7 @@ export function ContactForm() {
             {state.fieldErrors?.email ? (
               <p
                 id="email-error"
-                className="mt-2 font-mono text-[12px] text-ink-mute"
+                className="mt-2 font-mono text-[0.75rem] text-ink-mute"
               >
                 {state.fieldErrors.email}
               </p>
@@ -175,7 +175,7 @@ export function ContactForm() {
           {state.fieldErrors?.message ? (
             <p
               id="message-error"
-              className="mt-2 font-mono text-[12px] text-ink-mute"
+              className="mt-2 font-mono text-[0.75rem] text-ink-mute"
             >
               {state.fieldErrors.message}
             </p>
@@ -198,12 +198,12 @@ export function ContactForm() {
           {state.message ? (
             <p
               aria-live="polite"
-              className="font-mono text-[13px] text-ink-mute"
+              className="font-mono text-[0.8125rem] text-ink-mute"
             >
               {state.message}
             </p>
           ) : (
-            <p className="font-mono text-[13px] text-ink-faint">
+            <p className="font-mono text-[0.8125rem] text-ink-faint">
               We typically reply within one business day.
             </p>
           )}

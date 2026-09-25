@@ -18,8 +18,11 @@ export function WhatItRuns() {
   return (
     <section className="relative border-t border-rule bg-paper-warm/40">
       <MeanderDivider />
-      <div className="mx-auto max-w-6xl px-5 pt-10 pb-12 lg:pt-12 lg:pb-14">
-        <Reveal className="max-w-3xl">
+      {/* Wide screens set the claim beside its examples: the intro and its
+          door hold the narrower column at a reading measure, the four
+          examples take the wider span. */}
+      <div className="mx-auto grid max-w-shell gap-x-[clamp(3rem,6vw,7rem)] px-gutter pt-10 pb-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:pt-12 lg:pb-14">
+        <Reveal className="max-w-3xl lg:col-start-1 lg:row-start-1">
           <p className="kicker text-accent">what it runs</p>
           <h2 className="font-display mt-6 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.06] font-light tracking-tight">
             Pantheon runs{" "}
@@ -34,11 +37,11 @@ export function WhatItRuns() {
           </p>
         </Reveal>
 
-        <ul className="mt-10 grid gap-x-12 sm:grid-cols-2">
+        <ul className="mt-10 grid gap-x-12 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:self-center">
           {SHOWN.map((item, i) => (
             <Reveal key={item.domain} delay={Math.min(i * 0.05, 0.2)}>
               <li className="flex flex-col gap-1 border-t border-rule py-4 sm:flex-row sm:gap-6">
-                <span className="kicker shrink-0 !text-[10px] text-accent sm:w-28">
+                <span className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-28">
                   {item.domain}
                 </span>
                 <span className="body-copy-sm">{item.short}</span>
@@ -47,7 +50,7 @@ export function WhatItRuns() {
           ))}
         </ul>
 
-        <Reveal delay={0.16}>
+        <Reveal delay={0.16} className="lg:col-start-1 lg:row-start-2">
           <Link
             href="/automations"
             transitionTypes={["nav-forward"]}

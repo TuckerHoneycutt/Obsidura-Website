@@ -14,14 +14,14 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
       aria-label="Chapters"
       className="relative border-t border-rule bg-paper-warm/30"
     >
-      <div className="mx-auto grid max-w-6xl gap-px px-5 sm:grid-cols-2">
+      <div className="mx-auto grid max-w-shell gap-px px-gutter sm:grid-cols-2">
         {prev ? (
           <Link
             href={`/${prev.slug}`}
             transitionTypes={BACK}
-            className="group flex flex-col justify-center border-b border-rule py-10 sm:border-b-0 sm:pr-8"
+            className="group flex flex-col justify-center border-b border-rule py-10 sm:border-b-0 sm:pr-[clamp(2rem,3vw,3.5rem)]"
           >
-            <span className="kicker !text-[10px]">
+            <span className="kicker !text-[0.625rem]">
               &larr; {prev.numeral} &mdash; {prev.label}
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
@@ -32,9 +32,9 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
           <Link
             href="/"
             transitionTypes={BACK}
-            className="group flex flex-col justify-center border-b border-rule py-10 sm:border-b-0 sm:pr-8"
+            className="group flex flex-col justify-center border-b border-rule py-10 sm:border-b-0 sm:pr-[clamp(2rem,3vw,3.5rem)]"
           >
-            <span className="kicker !text-[10px]">&larr; the index</span>
+            <span className="kicker !text-[0.625rem]">&larr; the index</span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
               Back to the beginning
             </span>
@@ -45,9 +45,9 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
           <Link
             href={`/${next.slug}`}
             transitionTypes={FORWARD}
-            className="group flex flex-col justify-center py-10 sm:items-end sm:border-l sm:border-rule sm:pl-8 sm:text-right"
+            className="group flex flex-col justify-center py-10 sm:items-end sm:border-l sm:border-rule sm:pl-[clamp(2rem,3vw,3.5rem)] sm:text-right"
           >
-            <span className="kicker !text-[10px] text-accent">
+            <span className="kicker !text-[0.625rem] text-accent">
               {next.numeral} &mdash; {next.label} &rarr;
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
@@ -58,9 +58,9 @@ function Pager({ prev, next }: { prev?: ChapterMeta; next?: ChapterMeta }) {
           <Link
             href="/contact"
             transitionTypes={FORWARD}
-            className="group flex flex-col justify-center py-10 sm:items-end sm:border-l sm:border-rule sm:pl-8 sm:text-right"
+            className="group flex flex-col justify-center py-10 sm:items-end sm:border-l sm:border-rule sm:pl-[clamp(2rem,3vw,3.5rem)] sm:text-right"
           >
-            <span className="kicker !text-[10px] text-accent">
+            <span className="kicker !text-[0.625rem] text-accent">
               the last word &rarr;
             </span>
             <span className="font-display mt-2 text-2xl font-light tracking-tight transition-colors group-hover:text-ink-mute">
@@ -91,17 +91,7 @@ export function Chapter({
   return (
     <main id="content" tabIndex={-1} className="flex-1">
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto max-w-6xl px-5 pt-16 pb-12 lg:pt-24">
-          {/* The chapter's numeral at monumental scale fills the opening's
-              right side - the same carved treatment the homepage index
-              gives the sequence, so arriving here reads as stepping into
-              the entry you chose. Ghost-faint: the lede keeps the floor. */}
-          <span
-            aria-hidden
-            className="font-display pointer-events-none absolute top-1/2 right-8 hidden -translate-y-1/2 leading-none font-light uppercase select-none text-[clamp(12rem,22vw,19rem)] text-ink/[0.07] lg:block"
-          >
-            {chapter.numeral}
-          </span>
+        <div className="relative mx-auto max-w-shell px-gutter pt-16 pb-12 lg:pt-24">
           <Reveal className="relative max-w-3xl">
             <p className="kicker flex items-center gap-2.5 text-accent">
               <MeanderMark size={10} />
@@ -116,7 +106,7 @@ export function Chapter({
         </div>
 
         {chapter.art && (
-          <div className="mx-auto max-w-6xl px-5 pb-16">
+          <div className="mx-auto max-w-shell px-gutter pb-16">
             <Engraving
               name={chapter.art}
               maxHeight={chapter.artHeight}

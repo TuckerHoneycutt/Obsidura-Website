@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { romanNumeral } from "@/lib/utils";
+import { cn, romanNumeral } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Security - Obsidura",
@@ -45,44 +45,55 @@ const PRINCIPLES: { heading: string; body: string }[] = [
   },
 ];
 
+// Numeral and heading on the left, the principle on the right at lg.
+const ROW =
+  "grid gap-y-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-x-[clamp(3rem,6vw,6rem)]";
+
 export default function SecurityPage() {
   return (
     <main id="content" tabIndex={-1} className="flex-1">
-        <section className="relative">
-          <div className="mx-auto max-w-3xl px-5 pt-16 pb-20 lg:pt-24 lg:pb-28">
-            <p className="kicker mb-6 text-accent">
-              appendix iii &mdash; security
-            </p>
-            <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
-              The security <span className="headline-emph">model.</span>
-            </h1>
-            <p className="lede-copy mt-6 max-w-xl">
+      <section className="relative">
+        {/* Wide frame, reading-measure prose: the title and each principle
+            hold the left column, the argument runs on the right. */}
+        <div className="mx-auto max-w-shell px-gutter pt-16 pb-20 lg:pt-24 lg:pb-28">
+          <div className="grid gap-y-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-x-[clamp(3rem,6vw,6rem)]">
+            <div>
+              <p className="kicker mb-6 text-accent">
+                appendix iii &mdash; security
+              </p>
+              <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
+                The security <span className="headline-emph">model.</span>
+              </h1>
+            </div>
+            <p className="lede-copy max-w-xl lg:self-end">
               Pantheon asks to run work against your systems, much of it
               while nobody is watching, so the burden of proof is on us.
               These are the principles the platform is built around - not
               bolted on. Where something is recorded today but not yet
               enforced, it says so.
             </p>
+          </div>
 
-            <ol className="mt-14 divide-y divide-rule border-y border-rule">
-              {PRINCIPLES.map(({ heading, body }, i) => (
-                <li key={heading} className="flex gap-5 py-8">
+          <ol className="mt-14 divide-y divide-rule border-y border-rule lg:mt-20">
+            {PRINCIPLES.map(({ heading, body }, i) => (
+              <li key={heading} className={cn(ROW, "py-8")}>
+                <div className="flex gap-5">
                   <span className="kicker mt-2 w-7 shrink-0 text-accent">
                     {romanNumeral(i + 1)}
                   </span>
-                  <div>
-                    <h2 className="font-display text-[1.75rem] font-medium tracking-tight">
-                      {heading}
-                    </h2>
-                    <p className="body-copy mt-3">
-                      {body}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+                  <h2 className="font-display text-[1.75rem] font-medium tracking-tight">
+                    {heading}
+                  </h2>
+                </div>
+                {/* Indented under the heading when stacked, so the numeral
+                    keeps its own margin; beside it once there is room. */}
+                <p className="body-copy max-w-2xl pl-12 lg:pl-0">{body}</p>
+              </li>
+            ))}
+          </ol>
 
-            <p className="body-copy mt-14 border-t border-rule pt-6 text-ink-mute">
+          <div className={cn(ROW, "mt-14 border-t border-rule pt-6")}>
+            <p className="body-copy max-w-2xl text-ink-mute lg:col-start-2">
               Found a vulnerability in this site or our platform? Email{" "}
               <a
                 href="mailto:contact@obsidura.com"
@@ -94,7 +105,8 @@ export default function SecurityPage() {
               remediate before public disclosure.
             </p>
           </div>
-        </section>
+        </div>
+      </section>
     </main>
   );
 }
