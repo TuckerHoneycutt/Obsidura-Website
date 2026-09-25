@@ -134,8 +134,8 @@ function PantheonMenu({ pathname }: { pathname: string }) {
         aria-expanded={open}
         aria-controls={menuId}
         className={cn(
-          "link-sweep font-display flex items-center gap-2 text-[0.9375rem] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
-          current || open ? "text-ink" : "text-ink-mute"
+          "link-sweep font-display flex items-center gap-2 text-[0.9375rem] font-semibold tracking-[0.14em] uppercase transition-colors hover:text-ink",
+          current || open ? "text-ink" : "text-ink-soft"
         )}
       >
         Pantheon
@@ -164,7 +164,7 @@ function PantheonMenu({ pathname }: { pathname: string }) {
                       transitionTypes={["nav-forward"]}
                       aria-current={pathname === href ? "page" : undefined}
                       className={cn(
-                        "font-display flex items-baseline gap-3 px-3 py-2.5 text-lg font-light tracking-tight transition-colors hover:bg-paper-warm hover:text-ink",
+                        "font-display flex items-baseline gap-3 px-3 py-2.5 text-lg tracking-tight transition-colors hover:bg-paper-warm hover:text-ink",
                         pathname === href ? "text-ink" : "text-ink-soft"
                       )}
                     >
@@ -275,7 +275,7 @@ export function Nav() {
       // Named so the directional slide leaves it alone: the header is the
       // fixed point that tells you the page moved, not the viewport.
       style={{ viewTransitionName: "site-header" }}
-      className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-sm"
+      className="sticky top-0 z-50 border-b border-rule bg-paper/85 subpixel-antialiased backdrop-blur-sm"
     >
       {/* Auto side columns rather than equal thirds: the search bar made
           the right cluster wider than the left, and equal tracks squeezed
@@ -305,8 +305,8 @@ export function Nav() {
                 transitionTypes={["nav-forward"]}
                 aria-current={current ? "page" : undefined}
                 className={cn(
-                  "link-sweep font-display text-[0.9375rem] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
-                  current ? "text-ink" : "text-ink-mute"
+                  "link-sweep font-display text-[0.9375rem] font-semibold tracking-[0.14em] uppercase transition-colors hover:text-ink",
+                  current ? "text-ink" : "text-ink-soft"
                 )}
               >
                 {label(slug)}
@@ -322,11 +322,11 @@ export function Nav() {
             onClick={openSearch}
             className="group hidden h-8 w-[clamp(11rem,14vw,14rem)] items-center gap-2.5 border border-rule px-3 text-left transition-colors hover:border-accent-deep xl:flex"
           >
-            <SearchIcon className="text-ink-faint transition-colors group-hover:text-ink" />
-            <span className="kicker !text-[0.71875rem] text-ink-faint transition-colors group-hover:text-ink">
+            <SearchIcon className="text-ink-mute transition-colors group-hover:text-ink" />
+            <span className="kicker !text-[0.71875rem] text-ink-mute transition-colors group-hover:text-ink">
               search
             </span>
-            <kbd className="ml-auto font-mono text-[0.71875rem] text-ink-faint">
+            <kbd className="ml-auto font-mono text-[0.71875rem] text-ink-mute">
               &#8984;K
             </kbd>
           </button>
@@ -377,7 +377,7 @@ export function Nav() {
                 }}
                 className="mb-5 flex h-10 w-full items-center gap-2.5 border border-rule px-3 text-left"
               >
-                <SearchIcon className="text-ink-faint" />
+                <SearchIcon className="text-ink-mute" />
                 <span className="kicker !text-[0.71875rem] text-ink-mute">
                   search the site
                 </span>
@@ -418,7 +418,7 @@ export function Nav() {
                       <Link
                         href={link.href}
                         onClick={close}
-                        className="font-display block py-2 text-lg font-light tracking-tight text-ink-soft"
+                        className="font-display block py-2 text-lg tracking-tight text-ink-soft"
                       >
                         {link.label}
                       </Link>
