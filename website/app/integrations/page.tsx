@@ -17,6 +17,10 @@ export default function IntegrationsPage() {
       headlineLead="Connected to your"
       headlineEmph="systems of record."
       lede="An automation is only useful if it can reach the systems the work actually lives in. A Resource is any persistent system Pantheon can reach, and what matters is not the length of the list but the single path all of them take - no task body ever holds a credential, and every call is scoped to the person the run is acting for."
+      leadLink={{
+        label: "the v1 catalog - every service, and when it ships",
+        href: "/connections",
+      }}
       sections={[
         {
           heading: "Three connector kinds",

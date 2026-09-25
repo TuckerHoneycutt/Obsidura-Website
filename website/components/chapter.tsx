@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DemoPanel } from "@/components/demo-panel";
 import { Engraving } from "@/components/ui/engraving";
 import { MeanderMark } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
@@ -117,6 +118,16 @@ export function Chapter({
       </section>
 
       {children}
+
+      {/* Every chapter closes on the same offer, so a reader convinced
+          halfway through the sequence does not have to finish it to act. */}
+      <section className="relative border-t border-rule">
+        <div className="mx-auto max-w-shell px-gutter py-16">
+          <Reveal>
+            <DemoPanel />
+          </Reveal>
+        </div>
+      </section>
 
       <Pager prev={prev} next={next} />
     </main>

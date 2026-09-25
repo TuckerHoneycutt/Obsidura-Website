@@ -36,7 +36,7 @@ export const CHAPTERS: Chapter[] = [
     blurb: "Define, run, and manage reliable processes - scripted tasks and AI agents in the same job.",
     art: "olympus",
     artHeight: 620,
-    title: "Automations - What Pantheon Runs | Obsidura",
+    title: "Pantheon - What It Runs | Obsidura",
     description:
       "Pantheon aggregates the systems your information is scattered across into one governed data layer, with agents working against it: cron jobs on a schedule, one-off actions, whole workflows, and plain-English questions answered from your data.",
   },
@@ -64,7 +64,7 @@ export const CHAPTERS: Chapter[] = [
     blurb: "Every resource call is checked against the caller's grants, and every decision is recorded.",
     art: "athena-owl",
     artHeight: 560,
-    title: "Governance - Scoped Access and the Run Log | Obsidura",
+    title: "Roles and Permissions - Scoped Access and the Run Log | Obsidura",
     description:
       "A run-scoped resource proxy enforces per-user grants on every call, and one append-only run log carries status, audit, approval, and crash recovery.",
   },
@@ -78,7 +78,7 @@ export const CHAPTERS: Chapter[] = [
     blurb: "Bad model output is repaired, and an interrupted run resumes from the log.",
     art: "hephaestus",
     artHeight: 680,
-    title: "Runtime - Durable Agent Execution | Obsidura",
+    title: "Reliability - Durable Agent Execution | Obsidura",
     description:
       "A Rust executor over an append-only run log, warm container workers speaking JSON-RPC over stdio, schema validation at every seam, and bounded repair for agent output.",
   },
@@ -88,9 +88,9 @@ export const CHAPTERS: Chapter[] = [
     label: "Deploy",
     headlineLead: "Cloud, private VPC,",
     headlineEmph: "or on-premises.",
-    lede: "Run Pantheon fully managed, inside your own cloud account, or on hardware that makes no outbound calls at all. When the war was won, the brothers drew lots for the cosmos - the heavens, the sea, the world below. Choose your dominion; the agents serve in all three.",
+    lede: "Run Pantheon fully managed, inside your own cloud account, or on hardware that makes no outbound calls at all. The engine and the security model are the same in all three.",
     blurb: "Run it in our cloud, in your own VPC, or fully on-premises.",
-    title: "Deployment - Cloud, Private VPC, or On-Premises | Obsidura",
+    title: "Deploy - Cloud, Private VPC, or On-Premises | Obsidura",
     description:
       "Deploy Pantheon in Obsidura Cloud, single-tenant in your own AWS or GCP account, or fully on-premises with no outbound calls.",
   },

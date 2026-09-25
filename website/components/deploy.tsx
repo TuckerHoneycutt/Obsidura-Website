@@ -2,11 +2,10 @@ import Link from "next/link";
 import { ChipRow } from "@/components/ui/chip-row";
 import { Engraving } from "@/components/ui/engraving";
 import { FramePanel } from "@/components/ui/frame-panel";
-import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { romanNumeral } from "@/lib/utils";
+import { cn, romanNumeral } from "@/lib/utils";
 import type { EngravingName } from "@/lib/engravings";
 
 // After the war, the three brothers drew lots for the cosmos: Zeus took
@@ -102,19 +101,31 @@ const COMPARE: { name: string; rows: [string, string][] }[] = [
  * size rather than a thumbnail - these are 110-line drawings, and needing the
  * room is much of why the chapters have pages of their own now.
  */
+// The tinted band, made opaque so the engraving's own backing can match it
+// exactly - a translucent band over the grain has no single colour to match.
+const BAND = "bg-[color-mix(in_srgb,var(--paper-warm)_40%,var(--paper))]";
+
 export function DeployBody() {
   return (
     <>
       {OPTIONS.map((opt, i) => (
         <section
           key={opt.name}
-          className="relative border-t border-rule odd:bg-paper-warm/40"
+          className={cn(
+            "relative border-t border-rule",
+            i % 2 === 1 && BAND
+          )}
         >
           <MeanderDivider />
           <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
             <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16 xl:gap-24">
               <Reveal className={i % 2 === 1 ? "lg:order-2" : undefined}>
-                <Engraving name={opt.art} maxHeight={620} dim />
+                <Engraving
+                  name={opt.art}
+                  maxHeight={620}
+                  dim
+                  backing={i % 2 === 1 ? BAND : undefined}
+                />
               </Reveal>
 
               <Reveal
@@ -210,34 +221,6 @@ export function DeployBody() {
                   </TabsContent>
                 ))}
               </Tabs>
-            </FramePanel>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="relative border-t border-rule">
-        <div className="mx-auto max-w-shell px-gutter py-16">
-          <Reveal>
-            <FramePanel className="bg-paper-warm/40">
-              <div className="flex flex-col items-start gap-6 px-[clamp(1.5rem,3vw,3rem)] py-[clamp(2rem,3vw,2.75rem)] sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <h2 className="font-display text-3xl font-light tracking-tight">
-                    Put Pantheon to work.
-                  </h2>
-                  <p className="body-copy mt-2 max-w-xl text-ink-mute">
-                    A 30-minute call. We map one job you already do by hand and
-                    show you the audit log by the end of it.
-                  </p>
-                </div>
-                <Magnetic className="shrink-0">
-                  <Link
-                    href="/contact"
-                    className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
-                  >
-                    Book a demo
-                  </Link>
-                </Magnetic>
-              </div>
             </FramePanel>
           </Reveal>
         </div>

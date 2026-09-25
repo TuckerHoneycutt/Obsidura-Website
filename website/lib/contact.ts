@@ -8,10 +8,25 @@ export type ContactState = {
   };
 };
 
+/** The reasons a visitor writes, offered on the form for triage. */
+export const CONTACT_TOPICS = [
+  { value: "demo", label: "Book a demo" },
+  { value: "deployment", label: "A deployment question" },
+  { value: "other", label: "Something else" },
+] as const;
+
+function topicLabel(value: string) {
+  return (
+    CONTACT_TOPICS.find((t) => t.value === value) ?? CONTACT_TOPICS[2]
+  ).label;
+}
+
 export type ContactInput = {
   name: string;
   email: string;
   company?: string;
+  /** Unknown or missing values fall back to "other" when the mail is sent. */
+  topic?: string;
   message: string;
   company_url?: string;
 };
@@ -32,6 +47,7 @@ export function parseContactInput(body: unknown): ContactInput {
     name: str(record.name),
     email: str(record.email),
     company: str(record.company),
+    topic: str(record.topic),
     message: str(record.message),
     company_url: str(record.company_url),
   };
@@ -91,10 +107,11 @@ export async function sendContactEmail(
         from,
         to: [to],
         reply_to: input.email,
-        subject: `Contact from ${input.name}${
+        subject: `[${topicLabel(input.topic ?? "")}] ${input.name}${
           input.company ? ` (${input.company})` : ""
         }`,
         text: [
+          `Topic: ${topicLabel(input.topic ?? "")}`,
           `Name: ${input.name}`,
           `Email: ${input.email}`,
           input.company ? `Company: ${input.company}` : null,

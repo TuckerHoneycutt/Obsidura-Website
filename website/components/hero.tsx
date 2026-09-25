@@ -46,24 +46,25 @@ export function Hero() {
 
       <div className="relative mx-auto flex max-w-shell flex-col items-center px-gutter pt-16 pb-16 text-center lg:pt-28 lg:pb-24">
         <motion.p {...rise(0)} className="kicker mb-7 !text-[0.8125rem] text-accent">
-          obsidura pantheon &mdash; the data layer for agents
+          obsidura &mdash; intelligent infrastructure
         </motion.p>
 
         <motion.h1
           {...rise(0.1)}
           className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          Intelligent <span className="headline-emph">Infrastructure.</span>
+          The data layer <span className="headline-emph">for your agents.</span>
         </motion.h1>
 
         <motion.p
           {...rise(0.2)}
           className="mt-8 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
         >
-          Obsidura builds intelligent infrastructure across all of a
-          company&apos;s data sources. Our platform, Pantheon, aggregates
-          that data into one governed layer and lets agents run across it,
-          with every run permission-scoped and recorded.
+          Pantheon pulls the data scattered across your systems into one
+          governed layer, then puts agents to work on it &mdash; on a
+          schedule, on demand, or in answer to a plain-English question.
+          Every run is scoped to the caller&apos;s role and recorded end to
+          end.
         </motion.p>
 
         <motion.div

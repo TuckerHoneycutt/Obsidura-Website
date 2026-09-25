@@ -13,8 +13,8 @@ import { CHAPTERS } from "@/lib/chapters";
  * The numerals are set in the display serif at chapter scale - the sequence
  * is real structure, so it gets the carved treatment rather than a label -
  * and a hovered row surfaces a ghost band of its chapter's engraving in the
- * otherwise empty right side. The hovered numeral takes gilt: the one drop
- * of the sacred color the homepage spends.
+ * otherwise empty right side. The hovered numeral stays in ink - gilt is
+ * kept for the dominion cards alone.
  */
 export function ChapterIndex() {
   return (
@@ -39,7 +39,7 @@ export function ChapterIndex() {
                       between all three realms. */}
                   <ChapterIndexArt name={chapter.art ?? "hermes"} />
 
-                  <span className="font-display relative w-12 shrink-0 text-[clamp(1.8rem,2.6vw,2.35rem)] leading-none font-light uppercase text-accent transition-colors group-hover:[color:var(--gilt)] group-focus-visible:[color:var(--gilt)] sm:w-16">
+                  <span className="font-display relative w-12 shrink-0 text-[clamp(1.8rem,2.6vw,2.35rem)] leading-none font-light uppercase text-accent sm:w-16">
                     {chapter.numeral}
                   </span>
 
@@ -47,12 +47,15 @@ export function ChapterIndex() {
                     <span className="font-display block text-[clamp(1.4rem,2.7vw,2.1rem)] leading-tight font-light tracking-tight">
                       {chapter.label}
                     </span>
-                    <span className="body-copy mt-1.5 block max-w-2xl text-ink-mute">
+                    <span className="body-copy mt-1.5 block max-w-2xl">
                       {chapter.blurb}
                     </span>
                   </span>
 
-                  <span aria-hidden className="kicker relative shrink-0">
+                  <span
+                    aria-hidden
+                    className="kicker relative hidden shrink-0 sm:inline"
+                  >
                     &rarr;
                   </span>
                 </Link>

@@ -5,24 +5,22 @@ import {
   type MarqueeItem,
 } from "@/components/ui/infinite-marquee";
 
-// The services teams already work in, named the way they know them. REST
-// APIs close the strip: the HTTP connector reaches anything that speaks one,
-// local resources and internal databases included.
+// Shipped connectors lead, in full ink: Postgres, object storage, and the
+// HTTP connector that reaches anything with an API. The named services
+// after them are the designed v1 catalog and say so - the /integrations
+// page is plain that they are not in the engine yet, and the strip must
+// not claim more than that page does.
 const INTEGRATIONS: MarqueeItem[] = [
-  { label: "Google Workspace", icon: <BrandIcon name="google" /> },
-  "Microsoft 365",
-  "Microsoft Azure",
-  "Slack",
-  { label: "Jira", icon: <BrandIcon name="jira" /> },
-  { label: "Confluence", icon: <BrandIcon name="confluence" /> },
-  { label: "Linear", icon: <BrandIcon name="linear" /> },
-  { label: "GitHub", icon: <BrandIcon name="github" /> },
-  { label: "Notion", icon: <BrandIcon name="notion" /> },
   { label: "Postgres", icon: <BrandIcon name="postgres" /> },
   "S3-compatible storage",
-  "NAS (SMB)",
-  { label: "MCP servers", icon: <BrandIcon name="mcp" /> },
   "REST APIs",
+  { label: "Google Workspace", icon: <BrandIcon name="google" />, note: "planned" },
+  { label: "Microsoft 365", note: "planned" },
+  { label: "Slack", note: "planned" },
+  { label: "Jira", icon: <BrandIcon name="jira" />, note: "planned" },
+  { label: "Microsoft Azure", note: "planned" },
+  { label: "NAS (SMB)", note: "planned" },
+  { label: "MCP servers", icon: <BrandIcon name="mcp" />, note: "planned" },
 ];
 
 export function Integrations() {
@@ -36,8 +34,8 @@ export function Integrations() {
           Integrations
         </Link>
         <InfiniteMarquee items={INTEGRATIONS} className="flex-1" />
-        {/* The marquee stays shipped-only; the designed catalog gets a
-            door, not a place in the list. */}
+        {/* Planned entries are tagged in the strip; the full designed
+            catalog, with the phase each one ships in, is behind this door. */}
         <Link
           href="/connections"
           className="kicker link-sweep shrink-0 text-ink-mute transition-colors hover:text-ink"

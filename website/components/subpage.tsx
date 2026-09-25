@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { DemoPanel } from "@/components/demo-panel";
 import { Engraving } from "@/components/ui/engraving";
-import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderMark } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
 import type { EngravingName } from "@/lib/engravings";
@@ -31,6 +31,7 @@ export function Subpage({
   artHeight = 560,
   sections,
   related,
+  leadLink,
 }: {
   kicker: string;
   headlineLead: string;
@@ -41,6 +42,9 @@ export function Subpage({
   artHeight?: number;
   sections: SubpageSection[];
   related: RelatedLink[];
+  /** A sibling page covering the same ground from another side, offered
+      right under the lede so the reader does not have to find it. */
+  leadLink?: RelatedLink;
 }) {
   const hero = (
     <Reveal>
@@ -49,6 +53,14 @@ export function Subpage({
         {headlineLead} <span className="headline-emph">{headlineEmph}</span>
       </h1>
       <p className="lede-copy mt-6 max-w-xl">{lede}</p>
+      {leadLink && (
+        <Link
+          href={leadLink.href}
+          className="kicker link-sweep mt-6 inline-block text-accent transition-colors hover:text-ink"
+        >
+          {leadLink.label} &rarr;
+        </Link>
+      )}
     </Reveal>
   );
 
@@ -122,25 +134,7 @@ export function Subpage({
           </Reveal>
 
           <Reveal delay={0.08}>
-            <FramePanel className="mt-14 bg-paper-warm/40 lg:mt-6">
-              <div className="flex flex-col items-start gap-6 px-[clamp(1.5rem,3vw,3rem)] py-[clamp(2rem,3vw,3rem)] sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <h2 className="font-display text-3xl font-light tracking-tight">
-                    Put Pantheon to work.
-                  </h2>
-                  <p className="body-copy mt-2 max-w-md text-ink-mute">
-                    A 30-minute call. We map one job you already do by hand and
-                    show you the audit log by the end of it.
-                  </p>
-                </div>
-                <Link
-                  href="/contact"
-                  className="kicker inline-block shrink-0 bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
-                >
-                  Book a demo
-                </Link>
-              </div>
-            </FramePanel>
+            <DemoPanel className="mt-14 lg:mt-6" />
           </Reveal>
         </div>
       </section>

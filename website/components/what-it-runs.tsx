@@ -29,8 +29,7 @@ export function WhatItRuns() {
             <span className="headline-emph">four kinds of work.</span>
           </h2>
           <p className="lede-copy mt-7">
-            Our automation platform, Pantheon, runs cron jobs that recur on
-            a schedule, actions fired once, workflows that carry a process
+            Pantheon runs cron jobs that recur on a schedule, actions fired once, workflows that carry a process
             end to end, and questions asked in chat and answered from the
             context of your data. All four run against the same governed
             layer, and anything software and data can touch is in range.
@@ -56,7 +55,7 @@ export function WhatItRuns() {
             transitionTypes={["nav-forward"]}
             className="kicker link-sweep mt-8 inline-block text-accent transition-colors hover:text-ink"
           >
-            the rest of the possibilities, and one job followed to the end &rarr;
+            all eight examples, and one run followed to the end &rarr;
           </Link>
         </Reveal>
       </div>

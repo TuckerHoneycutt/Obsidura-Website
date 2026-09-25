@@ -26,11 +26,15 @@ export function Engraving({
   maxHeight = 620,
   className,
   dim = false,
+  /** The opaque ground behind the characters. Must match the surface the
+      art sits on, or the drawing shows as a box on a tinted band. */
+  backing = "bg-paper",
 }: {
   name: EngravingName;
   maxHeight?: number;
   className?: string;
   dim?: boolean;
+  backing?: string;
 }) {
   const { ref, art } = useEngraving<HTMLDivElement>(name);
   const { lines, cols } = ENGRAVINGS[name];
@@ -58,7 +62,8 @@ export function Engraving({
         // dim variant lowers the text color's alpha rather than the
         // element's opacity so the backing stays solid.
         className={cn(
-          "m-0 bg-paper font-mono whitespace-pre select-none",
+          "m-0 font-mono whitespace-pre select-none",
+          backing,
           dim ? "text-ink/55" : "text-ink"
         )}
       >

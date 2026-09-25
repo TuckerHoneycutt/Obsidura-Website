@@ -61,7 +61,7 @@ export default function ContactPage() {
                   </a>
                 </p>
               </FramePanel>
-              <p className="font-mono text-[0.75rem] leading-relaxed text-ink-mute">
+              <p className="body-copy-sm">
                 Prefer email directly? That address lands in the same inbox.
               </p>
             </div>
@@ -70,7 +70,7 @@ export default function ContactPage() {
               <p className="kicker mb-2 font-semibold text-accent">
                 obsidura, elsewhere
               </p>
-              <p className="font-mono text-[0.75rem] leading-relaxed text-ink-mute">
+              <p className="body-copy-sm">
                 Keep up to date as we continue to build and ship on all
                 platforms.
               </p>

@@ -10,7 +10,7 @@ import { CHAPTERS } from "@/lib/chapters";
 import { cn } from "@/lib/utils";
 
 // The panel lists every chapter, then every other page the site has.
-// Contact is absent because the panel closes on it as its own CTA below.
+// Contact is absent because the panel closes on the demo CTA, which leads there.
 const PANEL_PAGES = [
   { label: "Integrations", href: "/integrations" },
   { label: "Connections", href: "/connections" },
@@ -292,10 +292,11 @@ export function Nav() {
           </span>
         </Link>
         <div className="hidden items-center justify-center gap-[clamp(2rem,3vw,3rem)] lg:flex">
-          {/* The chapters fold into the Pantheon menu; the company pages
-              ride the row beside it. */}
+          {/* The chapters fold into the Pantheon menu; the pages a buyer
+              checks first ride the row beside it. Integrations waits for xl,
+              where the full search bar has also made room for itself. */}
           <PantheonMenu pathname={pathname} />
-          {["contact"].map((slug) => {
+          {["integrations", "security", "contact"].map((slug) => {
             const href = `/${slug}`;
             const current = pathname === href;
             return (
@@ -306,7 +307,8 @@ export function Nav() {
                 aria-current={current ? "page" : undefined}
                 className={cn(
                   "link-sweep font-display text-[0.9375rem] font-semibold tracking-[0.14em] uppercase transition-colors hover:text-ink",
-                  current ? "text-ink" : "text-ink-soft"
+                  current ? "text-ink" : "text-ink-soft",
+                  slug === "integrations" && "hidden xl:inline"
                 )}
               >
                 {label(slug)}
@@ -339,6 +341,14 @@ export function Nav() {
             <SearchIcon />
           </button>
           <ThemeToggle />
+          {/* The one conversion the site asks for, a click away from every
+              page rather than only from the hero. */}
+          <Link
+            href="/contact"
+            className="kicker hidden h-8 items-center bg-accent px-3.5 !text-[0.71875rem] !text-paper transition-colors hover:bg-ink-soft sm:flex"
+          >
+            Book a demo
+          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -432,7 +442,7 @@ export function Nav() {
                 onClick={close}
                 className="kicker mt-5 block bg-accent px-5 py-3.5 text-center !text-paper"
               >
-                Contact
+                Book a demo
               </Link>
             </div>
           </motion.div>

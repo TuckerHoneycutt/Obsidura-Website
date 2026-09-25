@@ -18,6 +18,7 @@ export default function PrivateVpcPage() {
       headlineEmph="private VPC."
       lede="Run the full automation platform single-tenant inside your own AWS or GCP account. Agents, scripts, runtime, and audit log all live within your network boundary - Obsidura operates the software, your cloud account holds the data."
       art="poseidon"
+      leadLink={{ label: "compare all three side by side", href: "/deploy" }}
       sections={[
         {
           heading: "What a VPC deployment gives you",

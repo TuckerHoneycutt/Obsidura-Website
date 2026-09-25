@@ -1,8 +1,11 @@
 import { Fragment, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/** A plain string, or an entry with a mark set in front of its name. */
-export type MarqueeItem = string | { label: string; icon?: ReactNode };
+/** A plain string, or an entry with a mark set in front of its name and an
+    optional status note set after it (e.g. "planned"). */
+export type MarqueeItem =
+  | string
+  | { label: string; icon?: ReactNode; note?: string };
 
 /**
  * Aceternity-style infinite moving items strip. Items are duplicated once and
@@ -27,7 +30,8 @@ export function InfiniteMarquee({
         style={{ animationDuration: `${Math.max(36, items.length * 7)}s` }}
       >
         {track.map((raw, i) => {
-          const item = typeof raw === "string" ? { label: raw } : raw;
+          const item: Exclude<MarqueeItem, string> =
+            typeof raw === "string" ? { label: raw } : raw;
           return (
             <Fragment key={`${item.label}-${i}`}>
               {/* The second copy exists only for the seamless loop; hiding
@@ -35,7 +39,10 @@ export function InfiniteMarquee({
                   twice. */}
               <span
                 aria-hidden={i >= items.length || undefined}
-                className="kicker flex items-center gap-2.5 whitespace-nowrap text-ink-faint"
+                className={cn(
+                  "kicker flex items-center gap-2.5 whitespace-nowrap",
+                  item.note ? "text-ink-mute" : "text-ink-soft"
+                )}
               >
                 {item.icon && (
                   <span className="flex size-[1.4em] shrink-0 [&>svg]:size-full">
@@ -43,6 +50,11 @@ export function InfiniteMarquee({
                   </span>
                 )}
                 {item.label}
+                {item.note && (
+                  <span className="border border-ink-faint px-1.5 py-0.5 !text-[0.85em]">
+                    {item.note}
+                  </span>
+                )}
               </span>
               <span
                 aria-hidden

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import type { ContactState } from "@/lib/contact";
+import { CONTACT_TOPICS, type ContactState } from "@/lib/contact";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +33,7 @@ export function ContactForm() {
           name: formData.get("name"),
           email: formData.get("email"),
           company: formData.get("company"),
+          topic: formData.get("topic"),
           message: formData.get("message"),
           company_url: formData.get("company_url"),
         }),
@@ -104,7 +105,7 @@ export function ContactForm() {
             {state.fieldErrors?.name ? (
               <p
                 id="name-error"
-                className="mt-2 font-mono text-[0.75rem] text-ink-mute"
+                className="body-copy-sm mt-2"
               >
                 {state.fieldErrors.name}
               </p>
@@ -132,7 +133,7 @@ export function ContactForm() {
             {state.fieldErrors?.email ? (
               <p
                 id="email-error"
-                className="mt-2 font-mono text-[0.75rem] text-ink-mute"
+                className="body-copy-sm mt-2"
               >
                 {state.fieldErrors.email}
               </p>
@@ -140,17 +141,38 @@ export function ContactForm() {
           </div>
         </div>
 
-        <div>
-          <label htmlFor="company" className={labelClass}>
-            Company <span className="text-ink-faint">(optional)</span>
-          </label>
-          <input
-            id="company"
-            name="company"
-            type="text"
-            autoComplete="organization"
-            className={fieldClass}
-          />
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="topic" className={labelClass}>
+              What is this about?
+            </label>
+            {/* Lets the inbox triage before anyone reads the message: the
+                same three reasons the page's description names. */}
+            <select
+              id="topic"
+              name="topic"
+              defaultValue="demo"
+              className={cn(fieldClass, "cursor-pointer")}
+            >
+              {CONTACT_TOPICS.map((t) => (
+                <option key={t.value} value={t.value}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="company" className={labelClass}>
+              Company <span className="text-ink-faint">(optional)</span>
+            </label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              autoComplete="organization"
+              className={fieldClass}
+            />
+          </div>
         </div>
 
         <div>
@@ -175,7 +197,7 @@ export function ContactForm() {
           {state.fieldErrors?.message ? (
             <p
               id="message-error"
-              className="mt-2 font-mono text-[0.75rem] text-ink-mute"
+              className="body-copy-sm mt-2"
             >
               {state.fieldErrors.message}
             </p>
@@ -198,12 +220,12 @@ export function ContactForm() {
           {state.message ? (
             <p
               aria-live="polite"
-              className="font-mono text-[0.8125rem] text-ink-mute"
+              className="body-copy-sm"
             >
               {state.message}
             </p>
           ) : (
-            <p className="font-mono text-[0.8125rem] text-ink-faint">
+            <p className="body-copy-sm">
               We typically reply within one business day.
             </p>
           )}

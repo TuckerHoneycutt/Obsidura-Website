@@ -18,6 +18,7 @@ export default function CloudPage() {
       headlineEmph="in Obsidura Cloud."
       lede="Obsidura Cloud is the fastest way to get your first automation running. We run the orchestration engine - the registry your definitions are applied into, the run log they execute against, and the container pool that carries out the work - and your jobs reach your systems through the same resources as every other deployment."
       art="zeus"
+      leadLink={{ label: "compare all three side by side", href: "/deploy" }}
       sections={[
         {
           heading: "What the managed cloud gives you",
