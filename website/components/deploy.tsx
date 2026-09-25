@@ -5,7 +5,9 @@ import { FramePanel } from "@/components/ui/frame-panel";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { CodeRow, Syntax, hangOf } from "@/components/ui/code";
+import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { romanNumeral } from "@/lib/utils";
 import type { EngravingName } from "@/lib/engravings";
 
@@ -52,6 +54,10 @@ const OPTIONS: {
 // The same three options laid over each other, row by row - for the reader
 // who has met the dominions above and now wants the differences in one
 // glance. Every value restates copy from OPTIONS; nothing new is claimed.
+/** An option's name as the file it would be written in. */
+const fileOf = (name: string) =>
+  `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.md`;
+
 const COMPARE: { name: string; rows: [string, string][] }[] = [
   {
     name: "Obsidura Cloud",
@@ -171,30 +177,39 @@ export function DeployBody() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <FramePanel className="bg-paper">
+            <FramePanel className="bg-editor">
               <Tabs defaultValue={COMPARE[0].name}>
-                <TabsList>
+                {/* Each option is a file open in the editor, so the tab strip
+                    is the one an editor would show. */}
+                <TabsList className="overflow-x-auto bg-paper-warm/60">
+                  <span aria-hidden className="flex items-center gap-1.5 px-3.5">
+                    {[0, 1, 2].map((i) => (
+                      <span key={i} className="size-[7px] rounded-full border border-rule" />
+                    ))}
+                  </span>
                   {COMPARE.map((c) => (
-                    <TabsTrigger key={c.name} value={c.name}>
-                      {c.name}
-                    </TabsTrigger>
+                    <TabsPrimitive.Trigger
+                      key={c.name}
+                      value={c.name}
+                      className="relative -mb-px border-r border-rule px-3.5 py-2 font-mono text-[0.6875rem] whitespace-nowrap text-ink-faint transition-colors hover:text-ink-soft data-[state=active]:bg-editor data-[state=active]:text-ink data-[state=active]:before:absolute data-[state=active]:before:inset-x-0 data-[state=active]:before:top-0 data-[state=active]:before:h-px data-[state=active]:before:bg-accent"
+                    >
+                      {fileOf(c.name)}
+                    </TabsPrimitive.Trigger>
                   ))}
                 </TabsList>
                 {COMPARE.map((c, i) => (
                   <TabsContent key={c.name} value={c.name}>
-                    <dl className="divide-y divide-rule px-5">
-                      {c.rows.map(([term, detail]) => (
-                        <div
-                          key={term}
-                          className="flex flex-col gap-1 py-4 sm:flex-row sm:gap-6 xl:gap-10"
-                        >
-                          <dt className="kicker shrink-0 !text-[0.625rem] text-accent sm:w-36">
-                            {term}
-                          </dt>
-                          <dd className="body-copy-sm">{detail}</dd>
-                        </div>
+                    <div className="py-2.5 font-mono text-[0.75rem] leading-[1.75]">
+                      {[
+                        `# ${c.name}`,
+                        "",
+                        ...c.rows.map(([term, detail]) => `- **${term}**: ${detail}`),
+                      ].map((line, n) => (
+                        <CodeRow key={n} n={n + 1} hang={hangOf(line)}>
+                          <Syntax text={line} lang="markdown" />
+                        </CodeRow>
                       ))}
-                    </dl>
+                    </div>
                     <div className="flex items-center justify-between border-t border-rule px-5 py-3.5">
                       <span className="kicker flex items-center gap-1.5 !text-[0.625rem] text-accent">
                         <MeanderMark size={9} />

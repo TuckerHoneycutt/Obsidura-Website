@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OutputLines } from "@/components/ui/code";
 import { GlowPanel } from "@/components/ui/glow-panel";
 import { MeanderDivider } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
@@ -68,9 +69,7 @@ export function Assurances() {
                     <p className="body-copy-sm mt-3 max-w-[62ch]">{c.plain}</p>
                   </div>
                   <div className="mt-auto border-t border-rule px-5 py-4">
-                    <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
-                      {c.log}
-                    </p>
+                    <OutputLines lines={[c.log]} className="-mx-5 -mt-4 border-b border-rule px-5 py-3" />
                     <Link
                       href={c.href}
                       transitionTypes={["nav-forward"]}

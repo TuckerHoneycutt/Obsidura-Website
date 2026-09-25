@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
+import { BrowserBar, WindowBar } from "@/components/ui/code";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MiniColumns, MiniLine, MiniStat } from "@/components/ui/mini-chart";
 import { Reveal } from "@/components/ui/reveal";
@@ -15,6 +16,8 @@ type Report = {
   chart: React.ReactNode;
   rows: string[];
   detail: string;
+  /** Where the render task wrote it. */
+  file: string;
 };
 
 // The three pipelines from the spec, each drawing on a different mix of
@@ -23,6 +26,7 @@ const REPORTS: Report[] = [
   {
     vertical: "financial audit",
     title: "Q2 Ledger Reconciliation",
+    file: "reports/q2-ledger-reconciliation.html",
     sources: "postgres · object store · http",
     stats: [
       { label: "entries in scope", value: "1,284" },
@@ -47,6 +51,7 @@ const REPORTS: Report[] = [
   {
     vertical: "flight diagnostics",
     title: "Ascent Telemetry, Test 41",
+    file: "reports/ascent-telemetry-t41.html",
     sources: "object store · postgres",
     stats: [
       { label: "telemetry rows", value: "48,210" },
@@ -84,6 +89,7 @@ const REPORTS: Report[] = [
   {
     vertical: "clinical summary",
     title: "Cohort Summary, Ward 3",
+    file: "reports/cohort-summary-ward-3.html",
     sources: "postgres · object store",
     stats: [
       { label: "patients in scope", value: "36" },
@@ -128,12 +134,9 @@ function ReportCard({ report }: { report: Report }) {
   return (
     <FramePanel className="h-full bg-paper-warm/30">
       <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between gap-3 border-b border-rule px-4 py-2">
-          <span className="kicker !text-[0.625rem] text-accent">
-            {report.vertical}
-          </span>
-          <span className="kicker !text-[0.625rem]">html file</span>
-        </div>
+        {/* The artifact is a self-contained web page, so it opens in a
+            browser window - from a file, with nothing serving it. */}
+        <BrowserBar url={report.file} meta={report.vertical} />
 
         {/* The artifact itself, in miniature: a titled page with figures,
             a chart, and a table - what the render task actually composes. */}
@@ -233,17 +236,13 @@ export function ReportsBody() {
 
         {/* The request that starts the run, shown as the demo shell sends it. */}
         <Reveal className="mt-10">
-          <FramePanel className="bg-paper-warm/40">
-            <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-              <span className="kicker !text-[0.625rem]">
-                report.request &mdash; webhook trigger
-              </span>
-              <span className="kicker !text-[0.625rem] text-accent">
-                requester: u_ellis
-              </span>
-            </div>
+          <FramePanel className="bg-editor">
+            <WindowBar
+              title={<>report.request &mdash; webhook trigger</>}
+              meta="u_ellis"
+            />
             <p className="flex items-start gap-3 px-4 py-4 font-mono text-[0.8125rem] text-ink sm:text-sm">
-              <span aria-hidden className="text-ink-faint">
+              <span aria-hidden className="text-syn-keyword">
                 &gt;
               </span>
               {/* The full prompt sizes the line invisibly, so the panel does
@@ -255,7 +254,7 @@ export function ReportsBody() {
                 <span aria-hidden className="absolute inset-0">
                   {reduced ? PROMPT : PROMPT.slice(0, typed)}
                   {!done && (
-                    <span className="animate-pulse text-accent">&#9608;</span>
+                    <span className="animate-pulse text-ink">&#9608;</span>
                   )}
                 </span>
               </span>

@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { CodeBlock } from "@/components/ui/code";
 import { Engraving } from "@/components/ui/engraving";
 import { FramePanel } from "@/components/ui/frame-panel";
-import { MeanderMark } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
 import type { EngravingName } from "@/lib/engravings";
 
@@ -15,6 +15,10 @@ export type RelatedLink = {
   label: string;
   href: string;
 };
+
+/** A bullet as markdown, bolding a short "Term: explanation" lead. */
+const bulletLine = (b: string) =>
+  `- ${b.replace(/^([^-:]{1,32})( - |: )/, "**$1**$2")}`;
 
 /**
  * Shared layout for the standalone landing pages (/integrations,
@@ -88,18 +92,16 @@ export function Subpage({
                       {p}
                     </p>
                   ))}
+                  {/* The prose stays prose; the list is the spec-sheet part
+                      of the section, so it sits in a file like one. */}
                   {bullets && (
-                    <ul className="mt-4 space-y-3">
-                      {bullets.map((b) => (
-                        <li key={b} className="body-copy flex gap-3">
-                          <MeanderMark
-                            size={10}
-                            className="mt-2 text-ink-faint"
-                          />
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
+                    <CodeBlock
+                      className="mt-5"
+                      filename={`${heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}.md`}
+                      lang="markdown"
+                      status={false}
+                      code={bullets.map(bulletLine).join("\n")}
+                    />
                   )}
                 </div>
               </Reveal>

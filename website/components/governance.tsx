@@ -1,61 +1,7 @@
-import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
 import { RunLog } from "@/components/run-log";
-
-type Requester = {
-  user: string;
-  role: string;
-  grants: [string, string][];
-  results: [string, string][];
-  note: string;
-};
-
-// The clinical pipeline, run twice. Same prompt, same definitions, two
-// people - the difference comes entirely from the grants held at the proxy.
-const REQUESTERS: Requester[] = [
-  {
-    user: "u_ellis",
-    role: "attending, ward 3",
-    grants: [
-      ["patients · query", "row filter: ward = 3"],
-      ["scans · get", "key prefix: scans/ward-3/"],
-    ],
-    results: [
-      ["patients in report", "36"],
-      ["scans rendered", "12"],
-    ],
-    note: "The grant covers the whole ward, so all 36 patients appear.",
-  },
-  {
-    user: "u_rhodes",
-    role: "research fellow",
-    grants: [
-      ["patients · query", "row filter: ward = 3 and consent = 'research'"],
-      ["scans · get", "no grant"],
-    ],
-    results: [
-      ["patients in report", "12"],
-      ["scans rendered", "0"],
-    ],
-    note: "Twenty-four patients withheld; they do not appear in the report.",
-  },
-];
-
-const AUDIT: [string, string][] = [
-  ["09:12:01", "grant   u_ellis    patients   query   row filter: ward = 3"],
-  ["09:12:01", "scope   patients -> 36 rows in scope"],
-  [
-    "09:12:02",
-    "grant   u_ellis    scans      get     key prefix: scans/ward-3/",
-  ],
-  ["09:12:04", "grant   u_rhodes   patients   query   + consent = 'research'"],
-  ["09:12:04", "scope   patients -> 12 rows in scope, 24 withheld"],
-  [
-    "09:12:05",
-    "deny    u_rhodes   scans      get     no grant for this resource",
-  ],
-];
+import { ScopeTrace } from "@/components/scope-trace";
 
 const LOG_NOTES: string[] = [
   "Status, the audit trail, approval, and crash recovery all read from this one table, so they always agree.",
@@ -63,57 +9,11 @@ const LOG_NOTES: string[] = [
   "A task can gate on human approval. The pending decision persists, so the run survives a restart and continues when someone signs off.",
 ];
 
-function RequesterCard({ requester }: { requester: Requester }) {
-  return (
-    <FramePanel className="h-full bg-paper-warm/30">
-      <div className="flex h-full flex-col">
-        <div className="flex items-baseline justify-between gap-3 border-b border-rule px-4 py-2.5">
-          <span className="font-mono text-[0.8125rem] text-ink">
-            {requester.user}
-          </span>
-          <span className="kicker !text-[0.5625rem]">{requester.role}</span>
-        </div>
-
-        <div className="px-4 py-4">
-          <p className="kicker !text-[0.5625rem] text-accent">
-            grants at the proxy
-          </p>
-          <div className="mt-2.5 space-y-2">
-            {requester.grants.map(([resource, scope]) => (
-              <div key={resource}>
-                <p className="font-mono text-[0.75rem] text-ink-soft">
-                  {resource}
-                </p>
-                <p className="font-mono text-[0.6875rem] text-ink-faint">
-                  {scope}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-auto flex gap-6 border-t border-rule px-4 py-4">
-          {requester.results.map(([label, value]) => (
-            <div key={label}>
-              <p className="kicker !text-[0.5625rem]">{label}</p>
-              <p className="mt-1 font-mono text-2xl leading-none text-ink">
-                {value}
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="body-copy-sm border-t border-rule px-4 py-3.5 !text-[0.9375rem] text-ink-mute">
-          {requester.note}
-        </p>
-      </div>
-    </FramePanel>
-  );
-}
-
 /**
  * The governance chapter. The permission beat leads because it is the one
  * claim a reader can check at a glance: same prompt, same definitions, two
- * reports. The run log follows as the evidence.
+ * answers, played side by side so the reader watches where they split.
+ * The run log follows as the evidence.
  */
 export function GovernanceBody() {
   return (
@@ -121,56 +21,8 @@ export function GovernanceBody() {
       <MeanderDivider />
       <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
         <Reveal>
-          <FramePanel className="bg-paper-warm/40">
-            <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-              <span className="kicker !text-[0.625rem]">
-                one prompt, issued twice
-              </span>
-              <span className="kicker !text-[0.625rem] text-accent">
-                clinical summary
-              </span>
-            </div>
-            <p className="flex items-center gap-3 px-4 py-4 font-mono text-[0.8125rem] text-ink sm:text-sm">
-              <span aria-hidden className="text-ink-faint">
-                &gt;
-              </span>
-              Summarize this week&rsquo;s admissions on ward 3.
-            </p>
-          </FramePanel>
+          <ScopeTrace />
         </Reveal>
-
-        <div className="mt-6 grid gap-6 2xl:grid-cols-2">
-          <div className="grid gap-6 sm:grid-cols-2">
-            {REQUESTERS.map((requester, i) => (
-              <Reveal
-                key={requester.user}
-                delay={0.15 + i * 0.1}
-                className="h-full"
-              >
-                <RequesterCard requester={requester} />
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={0.2} className="h-full">
-            <FramePanel className="h-full bg-paper-warm/20">
-              <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem]">
-                every scope decision, recorded
-              </p>
-              <div className="overflow-x-auto px-4 py-3.5">
-                {AUDIT.map(([time, text]) => (
-                  <p
-                    key={time + text}
-                    className="flex gap-3 py-0.5 font-mono text-[0.6875rem] whitespace-pre sm:text-[0.75rem]"
-                  >
-                    <span className="shrink-0 text-ink-faint">[{time}]</span>
-                    <span className="text-ink-soft">{text}</span>
-                  </p>
-                ))}
-              </div>
-            </FramePanel>
-          </Reveal>
-        </div>
 
         {/* The log itself: the table all of that was read out of. */}
         <div className="mt-16 grid gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-12 xl:gap-20">

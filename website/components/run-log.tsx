@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { motion } from "motion/react";
+import { WindowBar } from "@/components/ui/code";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { cn } from "@/lib/utils";
 
@@ -13,14 +14,14 @@ type LogLine = {
   text: string;
 };
 
-// Monochrome palette: kinds are distinguished by brightness and weight only.
+// Kinds take the editor's syntax colors, the way a log viewer tints levels.
 const KIND_STYLE: Record<LineKind, string> = {
-  plan: "text-accent",
-  tool: "text-ink-soft",
+  plan: "text-syn-keyword",
+  tool: "text-syn-key",
   ok: "text-ink-mute",
-  model: "text-ink font-semibold",
-  escalate: "text-ink underline underline-offset-4",
-  done: "text-accent",
+  model: "text-syn-number",
+  escalate: "text-syn-keyword underline underline-offset-4",
+  done: "text-syn-string",
 };
 
 const RUN: LogLine[] = [
@@ -124,15 +125,11 @@ export function RunLog() {
   const shown = reduced ? RUN.length : count;
 
   return (
-    <FramePanel className="bg-paper-warm/40">
-      <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-        <span className="kicker !text-[0.625rem]">
-          live run &mdash; financial audit
-        </span>
-        <span className="kicker !text-[0.625rem] text-accent">
-          run_events &mdash; append-only
-        </span>
-      </div>
+    <FramePanel className="bg-editor">
+      <WindowBar
+        title={<>live run &mdash; financial audit</>}
+        meta="run_events"
+      />
       <div className="grid px-4 py-3">
         {/* The finished log, invisible, holds the cell at its final height
             for whatever width the lines wrap at - so the replay never
@@ -149,7 +146,7 @@ export function RunLog() {
             <LogRow key={`${line.time}-${i}`} line={line} animated />
           ))}
           <p className="flex gap-3 py-0.5 font-mono text-[0.78125rem]">
-            <span className="animate-pulse text-accent">&#9608;</span>
+            <span className="animate-pulse text-ink">&#9608;</span>
           </p>
         </div>
       </div>

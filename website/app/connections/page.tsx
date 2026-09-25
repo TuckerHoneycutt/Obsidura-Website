@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ConnectionsSurface } from "@/components/connections-surface";
+import { CodeBlock } from "@/components/ui/code";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderDivider, MeanderMark } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
@@ -63,14 +64,17 @@ export default function ConnectionsPage() {
 
           {/* The honesty strip: this page is a design, not a shipped list. */}
           <Reveal delay={0.08}>
-            <FramePanel className="max-w-3xl bg-paper-warm/40">
-              <p className="body-copy-sm px-5 py-4 text-ink-mute">
-                Today the engine ships three connector kinds &mdash;
-                Postgres, object storage, and HTTP. What follows is the v1
-                connector surface as specified, arriving in phases; this page
-                will say so as each one lands, and not before.
-              </p>
-            </FramePanel>
+            <CodeBlock
+              framed
+              className="max-w-3xl"
+              filename="STATUS.md"
+              lang="markdown"
+              status={false}
+              code={[
+                "> [!NOTE]",
+                "> Today the engine ships three connector kinds: **Postgres**, **object storage**, and **HTTP**. What follows is the v1 connector surface as specified, arriving in phases; this page will say so as each one lands, and not before.",
+              ].join("\n")}
+            />
           </Reveal>
         </div>
       </section>
@@ -129,12 +133,14 @@ export default function ConnectionsPage() {
           <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {CONTRACT.map((item, i) => (
               <Reveal key={item.q} delay={Math.min(i * 0.06, 0.2)}>
-                <FramePanel className="h-full bg-paper">
-                  <p className="kicker border-b border-rule px-5 py-2.5 !text-[0.625rem] text-accent">
-                    {item.q}
-                  </p>
-                  <p className="body-copy-sm px-5 py-4">{item.a}</p>
-                </FramePanel>
+                <CodeBlock
+                  framed
+                  className="h-full"
+                  filename={`${String(i + 1).padStart(2, "0")}-${item.q.replace(/[^a-z]+/g, "-")}.md`}
+                  lang="markdown"
+                  status={false}
+                  code={[`## ${item.q}`, "", item.a].join("\n")}
+                />
               </Reveal>
             ))}
           </div>
@@ -182,13 +188,15 @@ export default function ConnectionsPage() {
                   </p>
                 </div>
                 <div className="border-t border-rule px-5 py-4">
-                  <pre className="overflow-x-auto font-mono text-[0.6875rem] leading-relaxed whitespace-pre text-ink-soft">
-                    {`kind: resource
+                  <CodeBlock
+                    filename="resources/board-files.yaml"
+                    lang="yaml"
+                    code={`kind: resource
 name: board-files@1
 connector: ms.graph
 connection: m365-prod
 verbs: [get, list]`}
-                  </pre>
+                  />
                   <p className="mt-3 font-mono text-[0.65625rem] text-ink-faint">
                     ptn plan &amp;&amp; ptn apply &mdash; reviewed, like any
                     other change

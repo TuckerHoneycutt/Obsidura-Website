@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LogoMark } from "@/components/logo-mark";
 import { MeanderFrieze, MeanderMark } from "@/components/ui/meander-mark";
+import { TextHover } from "@/components/ui/text-hover";
 import { SOCIALS } from "@/lib/socials";
 
 const DIRECTORY: { heading: string; links: { label: string; href: string }[] }[] = [
@@ -62,9 +63,12 @@ export function Footer() {
           unoptimized
           className="logo-invert h-[clamp(3.5rem,12vw,12.25rem)] w-auto select-none"
         />
-        <p className="font-display text-[clamp(2.75rem,9.5vw,9.5rem)] leading-none font-light tracking-[0.1em] uppercase">
-          Obsidura
-        </p>
+        {/* Carved, and lit where the pointer passes. The height is the old
+            type size, so the lockup's proportion to the mark holds. */}
+        <TextHover
+          text="Obsidura"
+          className="h-[clamp(2.75rem,9.5vw,9.5rem)]"
+        />
       </div>
       <div className="relative mx-auto mt-10 flex max-w-shell items-center justify-center gap-2.5 px-gutter text-ink-mute">
         <MeanderMark size={10} />

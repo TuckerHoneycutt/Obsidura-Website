@@ -1,38 +1,48 @@
 import Link from "next/link";
 import { FramePanel } from "@/components/ui/frame-panel";
+import { BrowserBar, CodeBlock, WindowBar } from "@/components/ui/code";
+import { LogLine, LogReveal } from "@/components/ui/log-reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
 import { MiniColumns, MiniStat } from "@/components/ui/mini-chart";
+import { RailNumeral } from "@/components/ui/rail-numeral";
 import { Reveal } from "@/components/ui/reveal";
 import { Term } from "@/components/ui/term";
 import { TracingRail } from "@/components/ui/tracing-rail";
 
 /**
- * A line of the machine's own voice. `mark` promotes the phrase that carries
- * the beat to full-strength ink, since the palette is monochrome and there is
- * no color to spend on emphasis.
+ * A line of the machine's own voice. `mark` picks out the phrase that carries
+ * the beat in the syntax color a terminal would give a command. Each line
+ * prints in turn when its panel scrolls in.
  */
 function Line({ mark, children }: { mark?: string; children: React.ReactNode }) {
   return (
-    <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
-      {mark && <span className="text-ink">{mark}&nbsp;&nbsp;</span>}
-      {children}
-    </p>
+    <LogLine>
+      <p className="font-mono text-[0.6875rem] leading-relaxed break-words text-ink-mute">
+        {mark && <span className="text-syn-key">{mark}&nbsp;&nbsp;</span>}
+        {children}
+      </p>
+    </LogLine>
   );
 }
 
+/**
+ * The system's side of a beat, in the window it would actually appear in:
+ * a terminal for the run's own output, or a browser for the page a run
+ * hands back.
+ */
 function Apparatus({
   label,
+  url,
   children,
 }: {
   label: string;
+  url?: string;
   children: React.ReactNode;
 }) {
   return (
-    <FramePanel className="bg-paper-warm/30" interactive={false}>
-      <p className="kicker border-b border-rule px-4 py-2 !text-[0.625rem]">
-        {label}
-      </p>
-      <div className="space-y-2 px-4 py-4">{children}</div>
+    <FramePanel className="bg-editor" interactive={false}>
+      {url ? <BrowserBar url={url} meta={label} /> : <WindowBar title={label} />}
+      <LogReveal className="space-y-2 px-4 py-4">{children}</LogReveal>
     </FramePanel>
   );
 }
@@ -71,13 +81,18 @@ const STEPS: Step[] = [
       "Which steps run, what each may touch, and the shape the answer must take are declared in plain files — reviewed like any other change, and checked for mistakes when registered, not at three in the morning.",
     panel: (
       <Apparatus label="one of the definitions, in full">
-        <pre className="overflow-x-auto font-mono text-[0.6875rem] leading-relaxed whitespace-pre text-ink-soft">
-          {`kind: task
+        <LogLine>
+          <CodeBlock
+            filename="tasks/compose_report.yaml"
+            lang="yaml"
+            status={false}
+            code={`kind: task
 name: compose_report@1
 runner: agent
 uses: [ledger.query, receipts.get, fx.request]
 output: report.spec@1`}
-        </pre>
+          />
+        </LogLine>
         <div className="space-y-2 border-t border-rule pt-3">
           <Line mark="ptn plan">3 tasks, 4 edges, no contract mismatches</Line>
           <Line mark="ptn apply">registered</Line>
@@ -104,7 +119,7 @@ output: report.spec@1`}
         </Line>
         <Line mark="s3.get">receipts/2026-q2/ · key prefix in scope</Line>
         <Line mark="s3.get">
-          <span className="text-ink underline underline-offset-4">
+          <span className="text-syn-keyword underline underline-offset-4">
             receipts/2026-q1/ denied for u_ellis
           </span>{" "}
           · decision written to the log
@@ -147,8 +162,11 @@ output: report.spec@1`}
     plain:
       "A last step — ordinary code, no model involved — turns the result into the thing you actually wanted. Here, a finished report; on another job, a provisioned network, a filed record, or a light that is now on.",
     panel: (
-      <Apparatus label="what lands at the end of the run">
-        <div className="pb-1">
+      <Apparatus
+        label="what lands at the end of the run"
+        url="reports/q2-ledger-reconciliation.html"
+      >
+        <LogLine className="pb-1">
           <p className="font-display text-[0.9375rem] leading-tight font-medium text-ink">
             Q2 Ledger Reconciliation
           </p>
@@ -176,7 +194,7 @@ output: report.spec@1`}
               unit=" entries"
             />
           </div>
-        </div>
+        </LogLine>
       </Apparatus>
     ),
   },
@@ -208,15 +226,16 @@ export function RunWalkthrough() {
         </Reveal>
 
         {/* The rail threads behind the numerals; their paper patches
-            interrupt it the way the meander seals interrupt a border. */}
+            interrupt it the way the meander seals interrupt a border, and
+            each numeral lights as the fill passes it. */}
         <TracingRail className="mt-12">
           <ol className="border-t border-rule">
             {STEPS.map((step, i) => (
               <Reveal key={step.numeral} delay={Math.min(i * 0.05, 0.2)}>
                 <li className="grid gap-8 border-b border-rule py-10 lg:grid-cols-[2.5rem_minmax(0,1fr)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[3rem_minmax(0,5fr)_minmax(0,6fr)] xl:gap-x-16">
-                  <p className="kicker text-accent lg:relative lg:z-10 lg:self-start lg:bg-paper lg:py-2">
+                  <RailNumeral className="lg:relative lg:z-10 lg:self-start lg:bg-paper lg:py-2">
                     {step.numeral}
-                  </p>
+                  </RailNumeral>
 
                 <div>
                   <h3 className="font-display text-[clamp(1.45rem,2.4vw,1.95rem)] leading-tight font-light tracking-tight">

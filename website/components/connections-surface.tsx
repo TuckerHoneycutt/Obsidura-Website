@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { CodeBlock } from "@/components/ui/code";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderMark } from "@/components/ui/meander-mark";
 import {
@@ -347,13 +348,15 @@ function VerifyView({
             <p className="kicker mb-3 !text-[0.625rem]">
               next: make it reachable — a resource definition, through review
             </p>
-            <pre className="overflow-x-auto border border-rule bg-paper px-4 py-3.5 font-mono text-[0.6875rem] leading-relaxed whitespace-pre text-ink-soft">
-              {`kind: resource
+            <CodeBlock
+              filename={`resources/${resource.name.split("@")[0]}.yaml`}
+              lang="yaml"
+              code={`kind: resource
 name: ${resource.name}
 connector: ${resource.connector}
 connection: ${name}
 verbs: ${resource.verbs}`}
-            </pre>
+            />
             <p className="mt-3 font-mono text-[0.65625rem] text-ink-faint">
               ptn plan && ptn apply &mdash; setup is self-serve; reachability
               is reviewed.

@@ -1,6 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import {
+  CodeRow,
+  EditorTabs,
+  StatusBar,
+  Syntax,
+  fileStatus,
+} from "@/components/ui/code";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Reveal } from "@/components/ui/reveal";
 import { MeanderDivider } from "@/components/ui/meander-mark";
@@ -69,65 +76,41 @@ const YAML: Line[] = [
   { text: "output: file@1", ref: "output" },
 ];
 
-/** Keys recede, values carry the ink - the same hierarchy an editor gives you. */
-function YamlText({ text }: { text: string }) {
-  if (text === "---") return <span className="text-ink-faint">{text}</span>;
-
-  const match = text.match(/^(\s*-?\s*)([A-Za-z_][\w.]*)(:)(.*)$/);
-  if (!match) return <span className="text-ink-soft">{text}</span>;
-
-  const [, prefix, key, colon, rest] = match;
-  return (
-    <>
-      {prefix}
-      <span className="text-ink-mute">{key}</span>
-      {colon}
-      <span className="text-ink">{rest}</span>
-    </>
-  );
-}
-
-/** Shared highlight treatment for a linked source line or graph element. */
+/** Highlight treatment for a graph element linked to the source. */
 const LIT = "bg-accent-pale text-ink";
 
 function YamlRow({
+  n,
   line,
   active,
   onActivate,
 }: {
+  n: number;
   line: Line;
   active: boolean;
   onActivate: (ref: Ref | null) => void;
 }) {
-  if (line.text === "") return <span className="block h-[1.5em]" />;
-
-  if (!line.ref) {
-    return (
-      <span className="block">
-        <YamlText text={line.text} />
-      </span>
-    );
-  }
+  const text = <Syntax text={line.text} lang="yaml" />;
+  if (!line.ref) return <CodeRow n={n}>{text}</CodeRow>;
 
   const ref = line.ref;
   // The source side is the focusable one: buttons here keep the link
   // reachable without a pointer, while the graph side reacts to hover only,
   // which would otherwise double the tab stops for the same information.
   return (
-    <button
-      type="button"
-      onMouseEnter={() => onActivate(ref)}
-      onMouseLeave={() => onActivate(null)}
-      onFocus={() => onActivate(ref)}
-      onBlur={() => onActivate(null)}
-      className={cn(
-        // font-[inherit] matters: a button does not take the pre's face.
-        "-mx-2 block w-[calc(100%+1rem)] cursor-default px-2 text-left font-[inherit] text-[inherit] leading-[inherit] transition-colors",
-        active && LIT
-      )}
-    >
-      <YamlText text={line.text} />
-    </button>
+    <CodeRow n={n} active={active}>
+      <button
+        type="button"
+        onMouseEnter={() => onActivate(ref)}
+        onMouseLeave={() => onActivate(null)}
+        onFocus={() => onActivate(ref)}
+        onBlur={() => onActivate(null)}
+        // font-[inherit] matters: a button does not take the code's face.
+        className="w-full cursor-default text-left font-[inherit] leading-[inherit] whitespace-pre"
+      >
+        {text}
+      </button>
+    </CodeRow>
   );
 }
 
@@ -213,6 +196,7 @@ const VALUES: [string, string][] = [
 export function WorkflowsBody() {
   const [active, setActive] = useState<Ref | null>(null);
   const lit = (ref: Ref) => active === ref;
+  const firstLit = active ? YAML.findIndex((l) => l.ref === active) : -1;
 
   return (
     <section className="relative border-t border-rule bg-paper-warm/60">
@@ -220,25 +204,30 @@ export function WorkflowsBody() {
       <div className="mx-auto max-w-shell px-gutter py-16 lg:py-20">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,0.95fr)] xl:gap-10">
           <Reveal delay={0.1}>
-            <FramePanel className="bg-paper">
-              <div className="flex items-center justify-between border-b border-rule px-4 py-2">
-                <span className="kicker !text-[0.625rem]">
-                  pipelines/audit.yaml
-                </span>
-                <span className="kicker !text-[0.625rem] text-accent">
-                  what you write
-                </span>
-              </div>
-              <pre className="overflow-x-auto px-4 py-4 font-mono text-[0.71875rem] leading-[1.75] whitespace-pre">
+            <FramePanel className="bg-editor">
+              <EditorTabs
+                tabs={["audit.yaml", "render.py"]}
+                meta="what you write"
+              />
+              <div className="overflow-x-auto py-2.5 font-mono text-[0.71875rem] leading-[1.75]">
                 {YAML.map((line, i) => (
                   <YamlRow
                     key={i}
+                    n={i + 1}
                     line={line}
                     active={!!line.ref && lit(line.ref)}
                     onActivate={setActive}
                   />
                 ))}
-              </pre>
+              </div>
+              <StatusBar
+                left={
+                  firstLit >= 0
+                    ? `Ln ${firstLit + 1}, Col 1 · ${YAML.filter((l) => l.ref === active).length} lines reference ${active}`
+                    : "pipelines/audit.yaml"
+                }
+                right={fileStatus("yaml")}
+              />
             </FramePanel>
           </Reveal>
 

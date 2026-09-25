@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ViewTransition } from "react";
 import { Cormorant_Garamond, Cutive_Mono } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/components/theme-provider";
 import { CommandMenu } from "@/components/command-menu";
 import { MotionProvider } from "@/components/motion-provider";
 import { Nav } from "@/components/nav";
