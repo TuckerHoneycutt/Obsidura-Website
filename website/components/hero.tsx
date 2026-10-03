@@ -21,12 +21,12 @@ export function Hero() {
     <section className="relative overflow-hidden">
       <Spotlight />
 
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-16 pb-16 text-center lg:pt-28 lg:pb-24">
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-28 pb-16 text-center lg:pt-44 lg:pb-24">
         <motion.h1
           {...rise(0)}
           className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          A Cloud for <span className="text-accent">Small Software.</span>
+          A Cloud for <span className="text-accent">Small Software</span>
         </motion.h1>
 
         <motion.p
@@ -42,7 +42,7 @@ export function Hero() {
 
         <motion.div
           {...rise(0.2)}
-          className="mt-10 flex flex-wrap justify-center gap-4"
+          className="mt-16 flex flex-wrap justify-center gap-4"
         >
           <Link
             href="/contact"
