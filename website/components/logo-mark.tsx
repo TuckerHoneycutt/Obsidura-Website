@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 /**
  * The Obsidura pinwheel mark, inverted to cream for the dark paper.
  * spin="slow" gives a continuous rotation suited to the four-armed shape.
- * Uses the tightly-cropped vector mark, so `size` is the visible mark size
- * and the square viewBox is centered on the pinwheel's rotation center.
+ * The raster mark is cropped a few percent taller than square, so it sits
+ * object-contain inside the square box rather than stretched to fill it.
  */
 export function LogoMark({
   size = 24,
@@ -36,12 +36,11 @@ export function LogoMark({
       style={{ width: size, height: size }}
     >
       <Image
-        src="/logo-mark.svg"
+        src="/obsidura-mark.png"
         alt=""
-        width={size}
-        height={size}
-        unoptimized
-        className="logo-invert size-full select-none"
+        width={800}
+        height={823}
+        className="logo-invert size-full object-contain select-none"
         loading={size > 40 ? "eager" : "lazy"}
       />
     </motion.span>

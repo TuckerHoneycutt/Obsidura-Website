@@ -6,10 +6,10 @@ export const dynamic = "force-static";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Obsidura Pantheon | The Secure Data Layer for AI Agents";
+export const alt = "Obsidura | A Cloud for Small Software";
 
 export default async function OpenGraphImage() {
-  const logo = await readFile(join(process.cwd(), "public/logo-mark.png"));
+  const logo = await readFile(join(process.cwd(), "public/obsidura-mark.png"));
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 
   return new ImageResponse(
@@ -34,7 +34,7 @@ export default async function OpenGraphImage() {
           }}
         >
           { }
-          <img src={logoSrc} alt="" width={220} height={220} />
+          <img src={logoSrc} alt="" width={214} height={220} />
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
@@ -56,7 +56,7 @@ export default async function OpenGraphImage() {
               display: "flex",
             }}
           >
-            THE DATA LAYER FOR AI AGENTS
+            A CLOUD FOR SMALL SOFTWARE
           </div>
         </div>
       </div>

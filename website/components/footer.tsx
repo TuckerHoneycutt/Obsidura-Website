@@ -23,20 +23,16 @@ export function Footer() {
       <div className="md:px-3">
         <MeanderFrieze className="mt-4 opacity-70" />
       </div>
-      {/* Full-contrast lockup: mark and wordmark proportioned per the brand
-          lockup, where the mark stands roughly twice the wordmark cap height */}
-      <div className="mx-auto mt-10 flex max-w-6xl items-center justify-center gap-[clamp(0.625rem,1.75vw,1.375rem)] px-5">
+      {/* Full-contrast lockup, straight from the brand banner: one image
+          carries the mark and the wordmark at their drawn proportions. */}
+      <div className="mx-auto mt-10 flex max-w-6xl items-center justify-center px-5">
         <Image
-          src="/logo-mark.svg"
-          alt=""
-          width={718}
-          height={718}
-          unoptimized
-          className="logo-invert h-[clamp(3.5rem,12vw,10.25rem)] w-auto select-none"
+          src="/obsidura-banner.png"
+          alt="Obsidura"
+          width={2400}
+          height={610}
+          className="logo-invert h-[clamp(4rem,13vw,9.5rem)] w-auto select-none"
         />
-        <p className="font-display text-[clamp(2.75rem,9.5vw,8rem)] leading-none font-light tracking-[0.1em] uppercase">
-          Obsidura
-        </p>
       </div>
       <div className="relative mx-auto mt-10 flex max-w-6xl items-center justify-center gap-2.5 px-5 text-ink-mute">
         <MeanderMark size={10} />

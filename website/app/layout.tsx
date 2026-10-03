@@ -46,7 +46,7 @@ const JSON_LD = {
       "@id": "https://obsidura.com/#organization",
       name: "Obsidura",
       url: "https://obsidura.com",
-      logo: "https://obsidura.com/logo-mark.png",
+      logo: "https://obsidura.com/obsidura-mark.png",
       email: "contact@obsidura.com",
       description: DESCRIPTION,
       sameAs: SOCIALS.map((s) => s.href),
