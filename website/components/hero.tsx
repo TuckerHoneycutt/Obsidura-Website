@@ -26,7 +26,7 @@ export function Hero() {
           {...rise(0)}
           className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          A Cloud for <span className="headline-emph">Small Software.</span>
+          A Cloud for <span className="text-accent">Small Software.</span>
         </motion.h1>
 
         <motion.p
