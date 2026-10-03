@@ -93,8 +93,11 @@ export function Nav() {
           md (where the frame exists) the top padding carries that 12px extra:
           the gap from the rule to the content then equals the gap from the
           content to the header's bottom border. */}
-      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 md:pt-7 sm:grid-cols-[auto_1fr_auto]">
-        <Link href="/" className="group flex w-max items-center gap-2.5">
+      {/* From lg the side columns share the leftover space equally, so the
+          centered link column lands on the true center of the bar rather
+          than the center of whatever the logo left over. */}
+      <nav className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center gap-6 px-6 py-4 md:pt-7 sm:grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto_1fr]">
+        <Link href="/" className="group flex w-max items-center gap-1.5">
           <LogoMark size={26} />
           <span className="font-display text-xl leading-none font-medium tracking-[0.3em] uppercase">
             Obsidura
