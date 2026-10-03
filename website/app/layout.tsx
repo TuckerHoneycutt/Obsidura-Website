@@ -24,7 +24,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 const DESCRIPTION =
-  "Obsidura is a cloud for small software: the purpose-built tools agents make easy to write but the big clouds make hard to deploy and share. Powered by our engine, Pantheon, it runs your tools in a secure, governed environment and makes sharing one with a colleague as easy as sharing a doc.";
+  "Obsidura is a cloud for small software: purpose-built tools for your team's unique use cases. Pantheon, our infrastructure engine, gives agents everything they need to build, deploy, and run software across your organization.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://obsidura.com"),

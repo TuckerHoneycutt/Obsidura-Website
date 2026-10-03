@@ -33,13 +33,11 @@ export function Hero() {
           {...rise(0.1)}
           className="mt-8 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
         >
-          Agents have made small software &mdash; purpose-built tools for one
-          person or one team &mdash; easy to build, but the incumbent clouds
-          were designed for big software, and deploying and sharing it is
-          still hard. Obsidura is a cloud designed for small software,
-          powered by our engine, Pantheon: it runs your tools in a secure,
-          governed environment and makes sharing one with a colleague as
-          easy as sharing a doc.
+          Small software gives companies and teams the freedom to build
+          purpose-built tools for their unique use cases. What was once
+          difficult to deploy, secure, and share becomes seamless. Pantheon,
+          our infrastructure engine, gives agents everything they need to
+          build, deploy, and run software across your organization.
         </motion.p>
 
         <motion.div
