@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { MeanderDivider } from "@/components/ui/meander-mark";
 import { Reveal } from "@/components/ui/reveal";
 import { WORK } from "@/lib/work";
@@ -11,8 +10,8 @@ const SHOWN = [WORK[0], WORK[1], WORK[4], WORK[7]];
 /**
  * The breadth beat, kept to a strip. A reader who has just been told what
  * Pantheon is will assume it does one kind of thing, and which kind depends on
- * whichever example they saw first - so four examples far apart, the four
- * kinds of work in a sentence, and a way through to the rest.
+ * whichever example they saw first - so four examples far apart, and the
+ * four kinds of work in a sentence.
  */
 export function WhatItRuns() {
   return (
@@ -46,16 +45,6 @@ export function WhatItRuns() {
             </Reveal>
           ))}
         </ul>
-
-        <Reveal delay={0.16}>
-          <Link
-            href="/automations"
-            transitionTypes={["nav-forward"]}
-            className="kicker link-sweep mt-8 inline-block text-accent transition-colors hover:text-ink"
-          >
-            the rest of the possibilities, and one job followed to the end &rarr;
-          </Link>
-        </Reveal>
       </div>
     </section>
   );

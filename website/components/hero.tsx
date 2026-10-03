@@ -13,9 +13,9 @@ const rise = (delay: number) => ({
 
 /**
  * The claim carries the screen, but it has to be a claim a stranger can
- * decode. So: the category in the kicker, the promise in the headline, and a
- * plain-language definition underneath - what the thing runs, on what, under
- * what constraint - before anyone is asked to click anything.
+ * decode. So: the promise in the headline, and a plain-language account
+ * underneath - what small software is, why the big clouds fail it, and what
+ * powers ours - before anyone is asked to click anything.
  *
  * The mark no longer sits beside the copy as an exhibit; it hangs faded
  * behind the whole column, and everything reads down the center over it.
@@ -45,29 +45,28 @@ export function Hero() {
       </motion.div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-16 pb-16 text-center lg:pt-28 lg:pb-24">
-        <motion.p {...rise(0)} className="kicker mb-7 !text-[13px] text-accent">
-          obsidura pantheon &mdash; the data layer for agents
-        </motion.p>
-
         <motion.h1
-          {...rise(0.1)}
+          {...rise(0)}
           className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          Intelligent <span className="headline-emph">Infrastructure.</span>
+          A Cloud for <span className="headline-emph">Small Software.</span>
         </motion.h1>
 
         <motion.p
-          {...rise(0.2)}
+          {...rise(0.1)}
           className="mt-8 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
         >
-          Obsidura builds intelligent infrastructure across all of a
-          company&apos;s data sources. Our platform, Pantheon, aggregates
-          that data into one governed layer and lets agents run across it,
-          with every run permission-scoped and recorded.
+          Agents have made small software &mdash; purpose-built tools for one
+          person or one team &mdash; easy to build, but the incumbent clouds
+          were designed for big software, and deploying and sharing it is
+          still hard. Obsidura is a cloud designed for small software,
+          powered by our engine, Pantheon: it runs your tools in a secure,
+          governed environment and makes sharing one with a colleague as
+          easy as sharing a doc.
         </motion.p>
 
         <motion.div
-          {...rise(0.3)}
+          {...rise(0.2)}
           className="mt-10 flex flex-wrap justify-center gap-4"
         >
           <Link
@@ -75,13 +74,6 @@ export function Hero() {
             className="kicker inline-block bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft"
           >
             Book a demo
-          </Link>
-          <Link
-            href="/automations"
-            transitionTypes={["nav-forward"]}
-            className="kicker inline-block border border-accent-deep bg-paper px-6 py-3.5 !text-ink transition-colors hover:border-accent"
-          >
-            See what it runs &rarr;
           </Link>
         </motion.div>
       </div>

@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { CHAPTERS } from "@/lib/chapters";
 
 /**
  * The 404, in the house voice: a page that does not exist is a lookup that
  * found nothing, so the page says so the way the run log would - a deny
- * line, then the chapters as the way back in. Static on purpose: no
- * reveals, no engraving chunk, nothing for a dead address to wait on.
+ * line, then the way back in. Static on purpose: no reveals, no engraving
+ * chunk, nothing for a dead address to wait on.
  */
 export default function NotFound() {
   return (
@@ -18,7 +17,7 @@ export default function NotFound() {
           </h1>
           <p className="lede-copy mt-6 max-w-xl">
             The address may be mistyped, or the page may have moved. The
-            chapters below are the way back in.
+            beginning is the way back in.
           </p>
 
           <div className="mt-10 border border-rule bg-paper-warm/40 px-4 py-3">
@@ -34,29 +33,7 @@ export default function NotFound() {
             </p>
           </div>
 
-          <ol className="mt-14 border-t border-rule">
-            {CHAPTERS.map((chapter) => (
-              <li key={chapter.slug}>
-                <Link
-                  href={`/${chapter.slug}`}
-                  transitionTypes={["nav-forward"]}
-                  className="group flex items-baseline gap-6 border-b border-rule py-4 transition-colors hover:bg-paper-warm/50 sm:px-3"
-                >
-                  <span className="kicker w-8 shrink-0 text-accent">
-                    {chapter.numeral}
-                  </span>
-                  <span className="font-display flex-1 text-xl font-light tracking-tight">
-                    {chapter.label}
-                  </span>
-                  <span aria-hidden className="kicker shrink-0">
-                    &rarr;
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
+          <div className="mt-14 flex flex-wrap gap-x-8 gap-y-3">
             <Link
               href="/"
               transitionTypes={["nav-back"]}

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ViewTransition } from "react";
 import { Cormorant_Garamond, Cutive_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { CommandMenu } from "@/components/command-menu";
 import { MotionProvider } from "@/components/motion-provider";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
@@ -25,11 +24,11 @@ const cormorant = Cormorant_Garamond({
 });
 
 const DESCRIPTION =
-  "Pantheon is Obsidura's data layer for AI agents. It aggregates the data scattered across your systems into one secure, governed layer and sets agents to work against it - recurring jobs on a schedule, one-off actions, whole workflows, or questions asked in plain English and answered from the context of your data. Access is scoped to each person's role, and every step is recorded end to end.";
+  "Obsidura is a cloud for small software: the purpose-built tools agents make easy to write but the big clouds make hard to deploy and share. Powered by our engine, Pantheon, it runs your tools in a secure, governed environment and makes sharing one with a colleague as easy as sharing a doc.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://obsidura.com"),
-  title: "Obsidura | Intelligent Infrastructure",
+  title: "Obsidura | A Cloud for Small Software",
   description: DESCRIPTION,
   alternates: {
     canonical: "/",
@@ -67,7 +66,7 @@ const JSON_LD = {
       operatingSystem: "Web, Linux",
       url: "https://obsidura.com",
       description:
-        "Pantheon is Obsidura's data layer for AI agents: connectors aggregate the systems your data lives in into one governed layer, scripted tasks and AI agents run against it the same way, every resource call passes through a run-scoped proxy enforcing role-based grants, and an append-only run log records every step. Work runs as recurring scheduled jobs, one-off actions, whole workflows, or plain-English questions answered from your data.",
+        "Pantheon is the engine behind Obsidura's cloud for small software: it runs purpose-built tools in a secure, governed environment, with access scoped to each person's role and every run recorded.",
       publisher: { "@id": "https://obsidura.com/#organization" },
     },
   ],
@@ -113,7 +112,6 @@ export default function RootLayout({
             {/* Nav and Footer live in the layout so they persist across
                 client navigations; only the page content transitions. */}
             <Nav />
-            <CommandMenu />
             {/*
               Links that move between chapters declare their direction with
               transitionTypes, and the page slides to match: forward pushes

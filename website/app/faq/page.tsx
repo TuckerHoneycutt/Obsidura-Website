@@ -64,7 +64,7 @@ const QUESTIONS = [
   },
   {
     q: "Which systems can it connect to today?",
-    a: "Three connector kinds: Postgres, S3-compatible object storage, and HTTP. HTTP is the general case - if a system has an interface a program can call, a task can work against it through the same proxy. The v1 connector catalog - Google Workspace, Microsoft 365, Slack, Jira, Azure, NAS shares, more databases, and MCP servers - is specified and public on the connections page, and arrives in phases.",
+    a: "Three connector kinds: Postgres, S3-compatible object storage, and HTTP. HTTP is the general case - if a system has an interface a program can call, a task can work against it through the same proxy. The v1 connector catalog - Google Workspace, Microsoft 365, Slack, Jira, Azure, NAS shares, more databases, and MCP servers - is specified and arrives in phases.",
   },
   {
     q: "How will we connect our own services?",
