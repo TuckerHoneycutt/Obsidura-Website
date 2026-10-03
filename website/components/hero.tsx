@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Spotlight } from "@/components/ui/spotlight";
@@ -16,33 +15,11 @@ const rise = (delay: number) => ({
  * decode. So: the promise in the headline, and a plain-language account
  * underneath - what small software is, why the big clouds fail it, and what
  * powers ours - before anyone is asked to click anything.
- *
- * The mark no longer sits beside the copy as an exhibit; it hangs faded
- * behind the whole column, and everything reads down the center over it.
  */
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <Spotlight />
-
-      {/* The watermark: the mark at hero scale, faint enough that the copy
-          stays the foreground. logo-invert flips it for the dark paper. */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 flex items-center justify-center"
-      >
-        <Image
-          src="/logo-mark.svg"
-          alt=""
-          width={718}
-          height={718}
-          unoptimized
-          className="logo-invert h-[clamp(20rem,50vw,34rem)] w-auto opacity-[0.06] select-none"
-        />
-      </motion.div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-16 pb-16 text-center lg:pt-28 lg:pb-24">
         <motion.h1
