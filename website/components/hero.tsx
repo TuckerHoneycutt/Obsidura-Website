@@ -27,7 +27,9 @@ const LEDE =
  */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden">
+    // Solid paper here: the body's dot grain and the beam lines fought
+    // each other, so the hero hides the grain and keeps the beams alone.
+    <section className="relative overflow-hidden bg-paper">
       <BackgroundBeams className="opacity-70 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
       <Spotlight />
 
