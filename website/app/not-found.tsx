@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 
 /**
  * The 404, in the house voice: a page that does not exist is a lookup that
  * found nothing, so the page says so the way the run log would - a deny
- * line, then the way back in. Static on purpose: no reveals, no engraving
- * chunk, nothing for a dead address to wait on.
+ * line, then the way back in. No reveals and nothing fetched; the one
+ * flourish is the outlined numerals, which need no data to draw.
  */
 export default function NotFound() {
   return (
@@ -19,6 +20,12 @@ export default function NotFound() {
             The address may be mistyped, or the page may have moved. The
             beginning is the way back in.
           </p>
+
+          {/* Oversized outlined numerals that trace themselves on and glow
+              under the pointer. Decorative: the heading above says it. */}
+          <div className="mt-8 -mb-4 h-40 sm:h-56">
+            <TextHoverEffect text="404" duration={0.2} />
+          </div>
 
           <div className="mt-10 border border-rule bg-paper-warm/40 px-4 py-3">
             <p className="flex flex-wrap gap-x-3 font-mono text-[12.5px] leading-relaxed">

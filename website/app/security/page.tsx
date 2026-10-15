@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { EncryptedText } from "@/components/ui/encrypted-text";
+import { TracingBeam } from "@/components/ui/tracing-beam";
 import { romanNumeral } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -49,7 +51,13 @@ export default function SecurityPage() {
               appendix iii &mdash; security
             </p>
             <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
-              The security <span className="headline-emph">model.</span>
+              The security{" "}
+              <EncryptedText
+                text="model."
+                className="headline-emph"
+                revealDelayMs={110}
+                encryptedClassName="text-ink-faint"
+              />
             </h1>
             <p className="lede-copy mt-6 max-w-xl">
               Pantheon asks to run work against your systems, much of it
@@ -58,23 +66,25 @@ export default function SecurityPage() {
               bolted on.
             </p>
 
-            <ol className="mt-14 divide-y divide-rule border-y border-rule">
-              {PRINCIPLES.map(({ heading, body }, i) => (
-                <li key={heading} className="flex gap-5 py-8">
-                  <span className="kicker mt-2 w-7 shrink-0 text-accent">
-                    {romanNumeral(i + 1)}
-                  </span>
-                  <div>
-                    <h2 className="font-display text-[1.75rem] font-medium tracking-tight">
-                      {heading}
-                    </h2>
-                    <p className="body-copy mt-3">
-                      {body}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+            {/* A bead of light travels the rail in the left gutter as the
+                principles scroll past. */}
+            <TracingBeam className="mt-14">
+              <ol className="divide-y divide-rule border-y border-rule">
+                {PRINCIPLES.map(({ heading, body }, i) => (
+                  <li key={heading} className="flex gap-5 py-8">
+                    <span className="kicker mt-2 w-7 shrink-0 text-accent">
+                      {romanNumeral(i + 1)}
+                    </span>
+                    <div>
+                      <h2 className="font-display text-[1.75rem] font-medium tracking-tight">
+                        {heading}
+                      </h2>
+                      <p className="body-copy mt-3">{body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </TracingBeam>
 
             <p className="body-copy mt-14 border-t border-rule pt-6 text-ink-mute">
               Found a vulnerability in this site or our platform? Email{" "}

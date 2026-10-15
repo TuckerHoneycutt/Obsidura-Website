@@ -1,14 +1,24 @@
 import { Hero } from "@/components/hero";
+import {
+  ClosingCta,
+  Pillars,
+  SmallSoftware,
+  WhereItRuns,
+} from "@/components/home-sections";
 
 /**
- * A door, and only a door: the claim, the paragraph that decodes it, and
- * one way in. Everything else has retired from the public site; anyone
- * who wants the depth asks for it through Contact.
+ * The claim, then the depth behind it: what small software is, what was
+ * hard about it, where it runs, and one way in. Every section restates
+ * something the site already says, so the page gains feel, not claims.
  */
 export default function Home() {
   return (
     <main id="content" tabIndex={-1} className="flex-1">
       <Hero />
+      <SmallSoftware />
+      <Pillars />
+      <WhereItRuns />
+      <ClosingCta />
     </main>
   );
 }
