@@ -9,7 +9,7 @@ export const contentType = "image/png";
 export const alt = "Obsidura | A Cloud for Small Software";
 
 export default async function OpenGraphImage() {
-  const logo = await readFile(join(process.cwd(), "public/obsidura-mark.png"));
+  const logo = await readFile(join(process.cwd(), "public/obsidura-mark-white.png"));
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 
   return new ImageResponse(
@@ -25,17 +25,8 @@ export default async function OpenGraphImage() {
           background: "#000000",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            background: "#ffffff",
-            borderRadius: 20,
-            padding: 28,
-          }}
-        >
-          { }
-          <img src={logoSrc} alt="" width={214} height={220} />
-        </div>
+        { }
+        <img src={logoSrc} alt="" width={262} height={270} />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
