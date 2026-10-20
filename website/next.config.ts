@@ -5,6 +5,12 @@ const isDev = process.env.NODE_ENV === "development";
 // Next.js emits inline bootstrap scripts and motion sets inline style
 // attributes, so both need 'unsafe-inline'. Dev additionally needs
 // 'unsafe-eval' for React Refresh; production does not get it.
+//
+// No upgrade-insecure-requests: every asset is same-origin and HSTS already
+// pins the live site to HTTPS, so it bought nothing there - while Safari,
+// unlike Chrome and Firefox, applies it to http://localhost too, rewriting
+// every script and stylesheet to an https URL that fails and leaving the
+// page unstyled and inert during local development.
 const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
@@ -16,7 +22,6 @@ const contentSecurityPolicy = [
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
-  "upgrade-insecure-requests",
 ].join("; ");
 
 const securityHeaders = [
