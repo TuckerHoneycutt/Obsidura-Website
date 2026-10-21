@@ -4,22 +4,40 @@ import { join } from "node:path";
 
 export const dynamic = "force-static";
 
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-export const alt = "Obsidura | A Cloud for Small Software";
+const size = { width: 1200, height: 630 };
 
 /**
- * The same lockup the footer shows: the brand banner, inverted to white
- * for the black paper, with the tagline set as a kicker in Cutive Mono.
- * Satori cannot read the woff2 files next/font ships, so the face is
- * vendored as a TTF.
+ * The id is the image's URL (/opengraph-image/<id>). Safari keeps link
+ * previews by URL and never refetches one it has seen, so bump the id
+ * whenever the artwork changes.
+ */
+export function generateImageMetadata() {
+  return [
+    {
+      id: "v3",
+      size,
+      contentType: "image/png",
+      alt: "Obsidura | A Cloud for Small Software",
+    },
+  ];
+}
+
+/**
+ * The brand lockup on the black paper, stacked rather than side by side:
+ * iOS shows this image both as a wide card and as a centre-cropped square
+ * bookmark thumbnail, and a stacked lockup reads whole in either. The mark
+ * and wordmark are the footer banner's own artwork, split apart; the
+ * tagline is a kicker in Cutive Mono. Satori cannot read the woff2 files
+ * next/font ships, so the face is vendored as a TTF.
  */
 export default async function OpenGraphImage() {
-  const [banner, cutive] = await Promise.all([
-    readFile(join(process.cwd(), "public/obsidura-banner-white.png")),
+  const [mark, wordmark, cutive] = await Promise.all([
+    readFile(join(process.cwd(), "public/obsidura-mark-white.png")),
+    readFile(join(process.cwd(), "public/obsidura-wordmark-white.png")),
     readFile(join(process.cwd(), "app/_og/cutive-mono.ttf")),
   ]);
-  const bannerSrc = `data:image/png;base64,${banner.toString("base64")}`;
+  const src = (png: Buffer) =>
+    `data:image/png;base64,${png.toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -35,14 +53,22 @@ export default async function OpenGraphImage() {
         }}
       >
         { }
-        <img src={bannerSrc} alt="" width={900} height={202} />
+        <img src={src(mark)} alt="" width={272} height={280} />
+        { }
+        <img
+          src={src(wordmark)}
+          alt=""
+          width={500}
+          height={67}
+          style={{ marginTop: 40 }}
+        />
         <div
           style={{
             fontFamily: "Cutive Mono",
-            fontSize: 24,
+            fontSize: 21,
             color: "#9c9c9c",
-            letterSpacing: 5,
-            marginTop: 44,
+            letterSpacing: 4,
+            marginTop: 30,
             display: "flex",
           }}
         >
