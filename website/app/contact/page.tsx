@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { CardSpotlight } from "@/components/ui/card-spotlight";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderMark } from "@/components/ui/meander-mark";
 import { SOCIALS } from "@/lib/socials";
@@ -77,28 +78,34 @@ export default function ContactPage() {
               {/* Each profile wears a frame-panel dress: glyph, platform,
                   handle. The glyphs render in currentColor so the brand
                   marks sit in the site's ink rather than their own colors. */}
+              {/* A pool of light follows the pointer across each card. */}
               <div className="mt-4 grid grid-cols-2 gap-2.5">
                 {SOCIALS.map(({ label, handle, href }) => (
-                  <a
+                  <CardSpotlight
                     key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-3 border border-rule bg-paper-warm/40 px-3.5 py-3 transition-colors hover:border-accent-deep"
+                    radius={140}
+                    className="p-0 transition-colors hover:border-accent-deep"
                   >
-                    <SocialGlyph
-                      label={label}
-                      className="text-ink-mute transition-colors group-hover:text-ink"
-                    />
-                    <span className="min-w-0">
-                      <span className="kicker block !text-[10px] transition-colors group-hover:text-ink">
-                        {label}
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-3 px-3.5 py-3"
+                    >
+                      <SocialGlyph
+                        label={label}
+                        className="text-ink-mute transition-colors group-hover:text-ink"
+                      />
+                      <span className="min-w-0">
+                        <span className="kicker block !text-[10px] transition-colors group-hover:text-ink">
+                          {label}
+                        </span>
+                        <span className="block truncate font-mono text-[11px] text-ink-faint">
+                          {handle}
+                        </span>
                       </span>
-                      <span className="block truncate font-mono text-[11px] text-ink-faint">
-                        {handle}
-                      </span>
-                    </span>
-                  </a>
+                    </a>
+                  </CardSpotlight>
                 ))}
               </div>
             </div>

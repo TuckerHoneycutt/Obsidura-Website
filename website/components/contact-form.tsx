@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from "react";
 import type { ContactState } from "@/lib/contact";
 import { FramePanel } from "@/components/ui/frame-panel";
+import { Input, Textarea } from "@/components/ui/input";
+import { StatefulButton } from "@/components/ui/stateful-button";
 import { cn } from "@/lib/utils";
 
 const initialState: ContactState = { ok: false, message: "" };
@@ -86,7 +88,7 @@ export function ContactForm() {
             <label htmlFor="name" className={labelClass}>
               Name
             </label>
-            <input
+            <Input
               id="name"
               name="name"
               type="text"
@@ -114,7 +116,7 @@ export function ContactForm() {
             <label htmlFor="email" className={labelClass}>
               Email
             </label>
-            <input
+            <Input
               id="email"
               name="email"
               type="email"
@@ -144,7 +146,7 @@ export function ContactForm() {
           <label htmlFor="company" className={labelClass}>
             Company <span className="text-ink-faint">(optional)</span>
           </label>
-          <input
+          <Input
             id="company"
             name="company"
             type="text"
@@ -157,7 +159,7 @@ export function ContactForm() {
           <label htmlFor="message" className={labelClass}>
             Message
           </label>
-          <textarea
+          <Textarea
             id="message"
             name="message"
             required
@@ -182,7 +184,7 @@ export function ContactForm() {
           ) : null}
         </div>
 
-        {/* Honeypot — hidden from humans */}
+        {/* Honeypot â€” hidden from humans */}
         <div aria-hidden className="pointer-events-none absolute -left-[9999px] opacity-0">
           <label htmlFor="company_url">Company URL</label>
           <input
@@ -207,13 +209,13 @@ export function ContactForm() {
               We typically reply within one business day.
             </p>
           )}
-          <button
+          <StatefulButton
             type="submit"
-            disabled={pending}
+            pending={pending}
             className="kicker shrink-0 bg-accent px-6 py-3.5 !text-paper transition-colors hover:bg-ink-soft disabled:cursor-wait disabled:opacity-60"
           >
             {pending ? "Sending..." : "Send message"}
-          </button>
+          </StatefulButton>
         </div>
       </form>
     </FramePanel>

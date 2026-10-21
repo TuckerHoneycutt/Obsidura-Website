@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PointerHighlight } from "@/components/ui/pointer-highlight";
 
 export const metadata: Metadata = {
   title: "FAQ - Obsidura",
@@ -83,7 +84,9 @@ export default function FaqPage() {
             </p>
             <h1 className="font-display text-[clamp(2.2rem,4.8vw,3.5rem)] leading-[1.04] font-light tracking-tight">
               Frequently asked{" "}
-              <span className="headline-emph">questions.</span>
+              <PointerHighlight pointerClassName="text-ink-mute">
+                <span className="headline-emph">questions.</span>
+              </PointerHighlight>
             </h1>
             <p className="lede-copy mt-6 max-w-xl">
               What Obsidura is, what Pantheon runs, and how access is
