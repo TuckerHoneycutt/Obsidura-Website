@@ -28,7 +28,7 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://obsidura.com"),
-  title: "Obsidura | A Cloud for Small Software",
+  title: "Obsidura | Any Software. Anywhere.",
   description: DESCRIPTION,
   alternates: {
     canonical: "/",

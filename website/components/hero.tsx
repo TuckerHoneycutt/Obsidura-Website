@@ -27,18 +27,17 @@ export function Hero() {
           {...rise(0)}
           className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          A Cloud for <span className="text-accent">Small Software</span>
+          Any Software. <span className="text-accent">Anywhere.</span>
         </motion.h1>
 
         <motion.p
           {...rise(0.1)}
           className="mt-8 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
         >
-          Small software gives companies and teams the freedom to build
+          Our platform gives companies and people the freedom to build
           purpose-built tools for their unique use cases. What was once
           difficult to deploy, secure, and share becomes seamless. Pantheon,
-          our infrastructure engine, gives agents everything they need to
-          build, deploy, and run software across your organization.
+          our infrastructure engine, makes professional grade software accessible to anyone.
         </motion.p>
 
         <motion.div {...rise(0.2)} className="mt-16 flex flex-wrap justify-center gap-4">

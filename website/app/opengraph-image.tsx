@@ -14,10 +14,10 @@ const size = { width: 1200, height: 630 };
 export function generateImageMetadata() {
   return [
     {
-      id: "v3",
+      id: "v4",
       size,
       contentType: "image/png",
-      alt: "Obsidura | A Cloud for Small Software",
+      alt: "Obsidura | Any Software. Anywhere.",
     },
   ];
 }
@@ -72,7 +72,7 @@ export default async function OpenGraphImage() {
             display: "flex",
           }}
         >
-          A CLOUD FOR SMALL SOFTWARE
+          ANY SOFTWARE. ANYWHERE.
         </div>
       </div>
     ),
