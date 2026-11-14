@@ -35,7 +35,7 @@ const NUMERALS = ["I", "II", "III"];
  *  - md and up: the points sit just below the lead and the handoff runs
  *    over exactly the scroll it takes to bring them to reading position.
  *  - phones: that distance is a single flick, so instead the hero pins and
- *    the lead and points share one spot. Over ~0.8 screens of scroll the
+ *    the lead and points share one spot. Over ~0.6 screens of scroll the
  *    lead fades out, then the points fade in, then the pin releases.
  * Both start from the same frame (lead shown, points hidden), so nothing
  * flashes before the width is known.
@@ -93,7 +93,7 @@ export function Hero() {
       {/* Phones: a tall track with a pinned, screen-high stage in which the
           lead and the points occupy the same grid cell. md and up: the
           track and stage dissolve into ordinary flow, lead above points. */}
-      <div ref={wrapperRef} className="h-[180svh] md:h-auto">
+      <div ref={wrapperRef} className="h-[160svh] md:h-auto">
         <div
           ref={stageRef}
           className="sticky top-16 grid h-[calc(100svh-4rem)] place-items-center *:col-start-1 *:row-start-1 md:static md:block md:h-auto"
