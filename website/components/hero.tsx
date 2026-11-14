@@ -1,7 +1,13 @@
 "use client";
 
+import { useEffect, useRef, type MouseEvent, type Ref, type RefObject } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Spotlight } from "@/components/ui/spotlight";
 
@@ -24,15 +30,20 @@ const NUMERALS = ["I", "II", "III"];
  * is more; the plain-language account follows directly beneath.
  */
 export function Hero() {
-  // One handoff over the first 160px of scroll: the claim, the button and
-  // the cue fade out while the points - sitting just below, but hidden at
-  // the top - fade in, so they seem to arrive from further down the page.
-  // Back at the top it all reverses. Function transforms keep these on
-  // Motion's own scroll loop (opacity mapped straight off useScroll is
+  // One handoff: the claim, the button and the cue fade out while the
+  // points - sitting just below, but hidden at the top - fade in, so they
+  // seem to arrive from further down the page. Back at the top it all
+  // reverses. The handoff runs over exactly the scroll it takes to bring
+  // the points to their reading position (see useRestingScroll), so on any
+  // screen the lead is gone just as the points settle - no dead gap where
+  // the faded lead still holds its space. Function transforms keep these
+  // on Motion's own scroll loop (opacity mapped straight off useScroll is
   // handed to a native ScrollTimeline, which proved unreliable here).
+  const listRef = useRef<HTMLOListElement>(null);
+  const restingScroll = useRestingScroll(listRef);
   const { scrollY } = useScroll();
   const handoff = useTransform(() =>
-    Math.min(Math.max(scrollY.get() / 160, 0), 1)
+    Math.min(Math.max(scrollY.get() / restingScroll.get(), 0), 1)
   );
   const pointsOpacity = useTransform(() => handoff.get());
   const leadOpacity = useTransform(() => 1 - handoff.get());
@@ -40,6 +51,21 @@ export function Hero() {
   const leadPointerEvents = useTransform(() =>
     handoff.get() > 0.5 ? "none" : "auto"
   );
+
+  // The cue scrolls to the same resting point the handoff is measured to,
+  // so a click and a hand scroll finish in the same state. Lenis catches
+  // in-page anchor clicks on window (and ignores preventDefault), so the
+  // click is stopped here, at React's root, before it can get there.
+  const goToPoints = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const top = restingScroll.get();
+    if (window.__lenis) window.__lenis.scrollTo(top);
+    else {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
+    }
+  };
 
   return (
     <section className="relative overflow-clip">
@@ -74,6 +100,7 @@ export function Hero() {
         <motion.div {...rise(0.3)} className="mt-14">
           <motion.a
             href="#discover"
+            onClick={goToPoints}
             style={{ opacity: leadOpacity, pointerEvents: leadPointerEvents }}
             className="kicker flex flex-col items-center gap-3 text-ink-mute transition-colors hover:text-ink"
           >
@@ -89,37 +116,76 @@ export function Hero() {
       {/* The account itself: three points, set left with roman numerals
           hanging in their own column, hidden until the reader scrolls. */}
       <motion.div
+        id="discover"
         style={{ opacity: pointsOpacity }}
-        className="relative flex justify-center px-5 pb-24 lg:pb-32"
+        className="flex justify-center px-5 pb-24 lg:pb-32"
       >
-        {/* The cue's anchor sits a little above the list: anchor jumps land
-            their target 4rem from the top, which on desktop is under the
-            taller nav and clipped the first line. Raising the target, not
-            padding the list, keeps the layout itself unchanged. */}
-        <span id="discover" aria-hidden className="absolute -top-2 md:-top-14" />
-        <PointList />
+        <PointList ref={listRef} />
       </motion.div>
     </section>
   );
 }
 
-function PointList() {
+/**
+ * How far the page must scroll to bring the points to their reading
+ * position: centred under the sticky nav when they fit on screen, or just
+ * below it when they're taller (small phones). Re-measured whenever the
+ * list or viewport changes size - resizes, rotation, a phone's address bar
+ * showing or hiding, late-loading fonts.
+ */
+function useRestingScroll(listRef: RefObject<HTMLOListElement | null>) {
+  const resting = useMotionValue(400);
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+
+    const measure = () => {
+      const navHeight =
+        document.querySelector("header")?.getBoundingClientRect().height ?? 64;
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const listTop = list.getBoundingClientRect().top + window.scrollY;
+      const listHeight = list.offsetHeight;
+      const room = window.innerHeight - navHeight;
+      const restTop =
+        listHeight + 3 * rem <= room
+          ? navHeight + (room - listHeight) / 2
+          : navHeight + 1.5 * rem;
+      resting.set(Math.max(listTop - restTop, 1));
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(list);
+    observer.observe(document.documentElement);
+    window.addEventListener("resize", measure);
+    document.fonts?.ready.then(measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [listRef, resting]);
+
+  return resting;
+}
+
+// Phones get a step-down in size and spacing so the three points fit on
+// one screen; from sm up the sizes are unchanged.
+const pointText =
+  "font-display text-[1.0625rem] leading-[1.45] sm:text-[clamp(1.25rem,1.8vw,1.6rem)]";
+
+function PointList({ ref }: { ref?: Ref<HTMLOListElement> }) {
   return (
-    <ol className="flex max-w-2xl flex-col gap-6 sm:gap-10">
+    <ol ref={ref} className="flex max-w-2xl flex-col gap-5 sm:gap-10">
       {POINTS.map((text, i) => (
         <li
           key={text}
-          className="grid grid-cols-[2.75rem_1fr] gap-x-4 sm:grid-cols-[3.5rem_1fr]"
+          className="grid grid-cols-[2rem_1fr] gap-x-3 sm:grid-cols-[3.5rem_1fr] sm:gap-x-4"
         >
-          <span
-            aria-hidden
-            className="text-right font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-faint"
-          >
+          <span aria-hidden className={`text-right text-ink-faint ${pointText}`}>
             {NUMERALS[i]}.
           </span>
-          <p className="font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft">
-            {text}
-          </p>
+          <p className={`text-ink-soft ${pointText}`}>{text}</p>
         </li>
       ))}
     </ol>
