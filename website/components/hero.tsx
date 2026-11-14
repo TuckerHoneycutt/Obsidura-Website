@@ -27,24 +27,24 @@ const NUMERALS = ["I", "II", "III"];
 
 /**
  * The first screen is only the claim and one way in, with a cue that there
- * is more. Scrolling hands off from that lead to the plain-language account:
- * the lead fades out while the points - hidden at the top - fade in, and
- * scrolling back up reverses it.
+ * is more. Scrolling hands off from that lead to the plain-language account.
  *
- * The handoff is staged differently by width (see useHeroScroll):
- *  - md and up: the points sit just below the lead and the handoff runs
- *    over exactly the scroll it takes to bring them to reading position.
- *  - phones: that distance is a single flick, so instead the hero pins and
- *    the lead and points share one spot. Over ~0.6 screens of scroll the
- *    lead fades out, then the points fade in, then the pin releases.
- * Both start from the same frame (lead shown, points hidden), so nothing
- * flashes before the width is known.
+ * One model at every width: the hero is a tall track holding a pinned stage
+ * exactly the height of the visible area under the nav, and the lead and the
+ * points share one spot on it. Scrolling the track plays the handoff in
+ * place - the lead fades out, then the points fade in - and then the pin
+ * releases and the page carries on. Scrolling back up reverses it.
+ *
+ * Screen bounds have one source of truth: the nav's measured height, which
+ * useHeroScroll publishes as --nav-h for the stage's pin offset and height.
+ * The track's length is in screen heights, so the handoff takes the same
+ * share of a screen to scroll through on a phone as on a desktop.
  */
 export function Hero() {
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLOListElement>(null);
-  const { phone, start, distance } = useHeroScroll(wrapperRef, stageRef, listRef);
+  const { start, distance } = useHeroScroll(trackRef, stageRef, listRef);
   const { scrollY } = useScroll();
 
   // Function transforms keep these on Motion's own scroll loop (opacity
@@ -53,17 +53,12 @@ export function Hero() {
   const progress = useTransform(() =>
     clamp((scrollY.get() - start.get()) / distance.get())
   );
-  // Phones run the two fades back to back, since the layers overlap; wider
-  // screens cross them, since the layers are stacked.
-  const leadOpacity = useTransform(() =>
-    phone.get() ? 1 - clamp((progress.get() - 0.08) / 0.32) : 1 - progress.get()
-  );
-  const pointsOpacity = useTransform(() =>
-    phone.get() ? clamp((progress.get() - 0.5) / 0.32) : progress.get()
-  );
-  // Whichever layer is hidden lets taps through. On phones the layers share
-  // a spot and the points sit on top, so a hidden points layer would
-  // otherwise swallow taps on the button and the cue.
+  // Back to back, since the layers overlap: the lead is gone by 40% of the
+  // track, the points arrive from 50% to 82%, and the rest is a short hold.
+  const leadOpacity = useTransform(() => 1 - clamp((progress.get() - 0.08) / 0.32));
+  const pointsOpacity = useTransform(() => clamp((progress.get() - 0.5) / 0.32));
+  // Whichever layer is hidden lets clicks through - the points sit on top,
+  // so hidden they would otherwise swallow clicks on the button and the cue.
   const leadPointerEvents = useTransform(() =>
     leadOpacity.get() < 0.5 ? "none" : "auto"
   );
@@ -78,7 +73,7 @@ export function Hero() {
   const goToPoints = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    const top = start.get() + distance.get() * (phone.get() ? 0.82 : 1);
+    const top = start.get() + distance.get() * 0.82;
     if (window.__lenis) window.__lenis.scrollTo(top);
     else {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -90,15 +85,16 @@ export function Hero() {
     <section className="relative overflow-clip">
       <Spotlight />
 
-      {/* Phones: a tall track with a pinned, screen-high stage in which the
-          lead and the points occupy the same grid cell. md and up: the
-          track and stage dissolve into ordinary flow, lead above points. */}
-      <div ref={wrapperRef} className="h-[160svh] md:h-auto">
+      {/* The track: one visible screen plus 0.6 screens of handoff scroll.
+          The stage pins just under the nav and fills the rest of the screen;
+          the lead and the points sit in the same grid cell on it. The
+          --nav-h fallbacks match the nav until the real height is measured. */}
+      <div ref={trackRef} className="h-[160svh]">
         <div
           ref={stageRef}
-          className="sticky top-16 grid h-[calc(100svh-4rem)] place-items-center *:col-start-1 *:row-start-1 md:static md:block md:h-auto"
+          className="sticky top-[var(--nav-h,4rem)] grid h-[calc(100svh-var(--nav-h,4rem))] place-items-center *:col-start-1 *:row-start-1 md:top-[var(--nav-h,4.8125rem)] md:h-[calc(100svh-var(--nav-h,4.8125rem))]"
         >
-          <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 text-center md:pt-24 md:pb-12 lg:pt-36 lg:pb-16">
+          <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 text-center">
             {/* Wrapped so the scroll fade sits on its own layer, separate
                 from each element's entrance rise. */}
             <motion.div
@@ -145,7 +141,7 @@ export function Hero() {
           <motion.div
             id="discover"
             style={{ opacity: pointsOpacity, pointerEvents: pointsPointerEvents }}
-            className="flex justify-center px-5 md:pb-24 lg:pb-32"
+            className="flex justify-center px-5"
           >
             <PointList ref={listRef} />
           </motion.div>
@@ -158,76 +154,58 @@ export function Hero() {
 const clamp = (v: number) => Math.min(Math.max(v, 0), 1);
 
 /**
- * Measures the scroll range the handoff plays over, re-measured whenever
- * the layout changes - resizes, rotation, a phone's address bar showing or
- * hiding, late-loading fonts.
+ * Measures the screen bounds the hero plays in, re-measured whenever the
+ * layout changes - resizes, rotation, a phone's address bar showing or
+ * hiding, the nav changing height, late-loading fonts:
  *
- *  - phones (below md): from where the stage pins to where it releases.
- *  - md and up: from the top to where the points reach reading position -
- *    centred under the sticky nav when they fit, or just below it if not.
+ *  - --nav-h: the nav's real height, published on the track for the
+ *    stage's pin offset and height.
+ *  - start / distance: the scroll range over which the stage is pinned.
+ *  - the space after: the points are centred on the stage, so once the pin
+ *    releases the room under them is half the stage's spare height - more
+ *    than the section needs - and what follows is pulled up by half of it.
  */
 function useHeroScroll(
-  wrapperRef: RefObject<HTMLDivElement | null>,
+  trackRef: RefObject<HTMLDivElement | null>,
   stageRef: RefObject<HTMLDivElement | null>,
   listRef: RefObject<HTMLOListElement | null>
 ) {
-  const phone = useMotionValue(0);
   const start = useMotionValue(0);
   const distance = useMotionValue(400);
 
   useEffect(() => {
-    const wrapper = wrapperRef.current;
+    const track = trackRef.current;
     const stage = stageRef.current;
     const list = listRef.current;
-    if (!wrapper || !stage || !list) return;
-    const wide = window.matchMedia("(min-width: 48rem)");
+    const header = document.querySelector("header");
+    if (!track || !stage || !list) return;
 
     const measure = () => {
-      const navHeight =
-        document.querySelector("header")?.getBoundingClientRect().height ?? 64;
-      const docTop = (el: Element) => el.getBoundingClientRect().top + window.scrollY;
+      const navHeight = header?.getBoundingClientRect().height ?? 64;
+      track.style.setProperty("--nav-h", `${navHeight}px`);
 
-      if (!wide.matches) {
-        phone.set(1);
-        start.set(Math.max(docTop(wrapper) - navHeight, 0));
-        distance.set(Math.max(wrapper.offsetHeight - stage.offsetHeight, 1));
-        // The points are centred in the stage, so once the pin releases the
-        // space under them is half the stage's spare height - more than the
-        // section needs. Pull what follows up by half of that space.
-        const below = Math.max((stage.offsetHeight - list.offsetHeight) / 2, 0);
-        wrapper.style.marginBottom = `${-below / 2}px`;
-        return;
-      }
+      const trackTop = track.getBoundingClientRect().top + window.scrollY;
+      start.set(Math.max(trackTop - navHeight, 0));
+      distance.set(Math.max(track.offsetHeight - stage.offsetHeight, 1));
 
-      wrapper.style.marginBottom = "";
-      phone.set(0);
-      start.set(0);
-      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-      const listHeight = list.offsetHeight;
-      const room = window.innerHeight - navHeight;
-      const restTop =
-        listHeight + 3 * rem <= room
-          ? navHeight + (room - listHeight) / 2
-          : navHeight + 1.5 * rem;
-      distance.set(Math.max(docTop(list) - restTop, 1));
+      const below = Math.max((stage.offsetHeight - list.offsetHeight) / 2, 0);
+      track.style.marginBottom = `${-below / 2}px`;
     };
 
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(list);
-    observer.observe(wrapper);
-    observer.observe(document.documentElement);
+    observer.observe(track);
+    if (header) observer.observe(header);
     window.addEventListener("resize", measure);
-    wide.addEventListener("change", measure);
     document.fonts?.ready.then(measure);
     return () => {
       observer.disconnect();
       window.removeEventListener("resize", measure);
-      wide.removeEventListener("change", measure);
     };
-  }, [wrapperRef, stageRef, listRef, phone, start, distance]);
+  }, [trackRef, stageRef, listRef, start, distance]);
 
-  return { phone, start, distance };
+  return { start, distance };
 }
 
 // Phones get a step-down in size and spacing so the three points fit on
