@@ -27,20 +27,31 @@ export function Hero() {
           {...rise(0)}
           className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          Any Software. <span className="text-accent">Anywhere.</span>
+          The Unified Infrastructure for Software
         </motion.h1>
 
         <motion.p
           {...rise(0.1)}
           className="mt-8 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
         >
-          Our platform gives companies and people the freedom to build
-          purpose-built tools for their unique use cases. What was once
-          difficult to deploy, secure, and share becomes seamless. Pantheon,
-          our infrastructure engine, makes professional grade software accessible to anyone.
+          Obsidura unifies the entire software lifecycle, enabling businesses to create, deploy, customize, secure, and maintain applications across cloud, on-premises, and air-gapped environments.
         </motion.p>
 
-        <motion.div {...rise(0.2)} className="mt-16 flex flex-wrap justify-center gap-4">
+        <motion.p
+          {...rise(0.2)}
+          className="mt-6 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
+        >
+          Built
+        </motion.p>
+
+        <motion.p
+          {...rise(0.3)}
+          className="mt-6 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
+        >
+          Our agent-native infrastructure connects applications, data, and AI models through a common backend with enforced permissions, automated maintenance, and comprehensive auditability - sensible defaults for all software. Built for security, compliance, and cost efficiency, Obsidura makes complex software infrastructure simple, scalable, and accessible.
+        </motion.p>
+
+        <motion.div {...rise(0.45)} className="mt-16 flex flex-wrap justify-center gap-4">
           <HoverBorderGradient
             as={Link}
             href="/contact"
