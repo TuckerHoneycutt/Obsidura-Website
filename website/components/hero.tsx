@@ -85,12 +85,12 @@ export function Hero() {
     <section className="relative overflow-clip">
       <Spotlight />
 
-      {/* The track: one visible screen plus the handoff scroll - a quarter
+      {/* The track: one visible screen plus the handoff scroll - 0.15 of a
           screen on phones, where a flick covers ground fast, 0.6 from md up.
           The stage pins just under the nav and fills the rest of the screen;
           the lead and the points sit in the same grid cell on it. The
           --nav-h fallbacks match the nav until the real height is measured. */}
-      <div ref={trackRef} className="h-[125svh] md:h-[160svh]">
+      <div ref={trackRef} className="h-[115svh] md:h-[160svh]">
         <div
           ref={stageRef}
           className="sticky top-[var(--nav-h,4rem)] grid h-[calc(100svh-var(--nav-h,4rem))] place-items-center *:col-start-1 *:row-start-1 md:top-[var(--nav-h,4.8125rem)] md:h-[calc(100svh-var(--nav-h,4.8125rem))]"
