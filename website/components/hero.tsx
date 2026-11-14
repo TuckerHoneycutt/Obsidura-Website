@@ -1,14 +1,7 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
-import {
-  easeInOut,
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Spotlight } from "@/components/ui/spotlight";
 
@@ -28,42 +21,60 @@ const NUMERALS = ["I", "II", "III"];
 
 /**
  * The first screen is only the claim and one way in, with a cue that there
- * is more. The plain-language account waits below the fold and rises
- * into place as the reader scrolls down to it.
+ * is more; the plain-language account follows directly beneath.
  */
 export function Hero() {
-  // The cue has done its job once the reader starts scrolling.
+  // One handoff over the first 160px of scroll: the claim, the button and
+  // the cue fade out while the points - sitting just below, but hidden at
+  // the top - fade in, so they seem to arrive from further down the page.
+  // Back at the top it all reverses. Function transforms keep these on
+  // Motion's own scroll loop (opacity mapped straight off useScroll is
+  // handed to a native ScrollTimeline, which proved unreliable here).
   const { scrollY } = useScroll();
-  const cueOpacity = useTransform(scrollY, [0, 160], [1, 0]);
+  const handoff = useTransform(() =>
+    Math.min(Math.max(scrollY.get() / 160, 0), 1)
+  );
+  const pointsOpacity = useTransform(() => handoff.get());
+  const leadOpacity = useTransform(() => 1 - handoff.get());
+  // A hidden button shouldn't still catch clicks.
+  const leadPointerEvents = useTransform(() =>
+    handoff.get() > 0.5 ? "none" : "auto"
+  );
 
   return (
     <section className="relative overflow-clip">
       <Spotlight />
 
-      {/* First screen: fills the viewport under the sticky nav (~4rem, ~5.5rem from md). */}
-      <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl md:min-h-[calc(100svh-5.5rem)] flex-col items-center justify-center px-5 py-16 text-center">
-        <motion.h1
-          {...rise(0)}
-          className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-24 pb-12 text-center lg:pt-36 lg:pb-16">
+        {/* Wrapped so the scroll fade sits on its own layer, separate from
+            each element's entrance rise. */}
+        <motion.div
+          style={{ opacity: leadOpacity, pointerEvents: leadPointerEvents }}
+          className="flex flex-col items-center"
         >
-          The Unified Infrastructure for Software
-        </motion.h1>
-
-        <motion.div {...rise(0.15)} className="mt-12 flex flex-wrap justify-center gap-4">
-          <HoverBorderGradient
-            as={Link}
-            href="/contact"
-            duration={1.2}
-            className="kicker px-6 py-3.5 !text-ink"
+          <motion.h1
+            {...rise(0)}
+            className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
           >
-            Book a demo
-          </HoverBorderGradient>
+            The Unified Infrastructure for Software
+          </motion.h1>
+
+          <motion.div {...rise(0.15)} className="mt-12 flex flex-wrap justify-center gap-4">
+            <HoverBorderGradient
+              as={Link}
+              href="/contact"
+              duration={1.2}
+              className="kicker px-6 py-3.5 !text-ink"
+            >
+              Book a demo
+            </HoverBorderGradient>
+          </motion.div>
         </motion.div>
 
         <motion.div {...rise(0.3)} className="mt-14">
           <motion.a
             href="#discover"
-            style={{ opacity: cueOpacity }}
+            style={{ opacity: leadOpacity, pointerEvents: leadPointerEvents }}
             className="kicker flex flex-col items-center gap-3 text-ink-mute transition-colors hover:text-ink"
           >
             Scroll to discover
@@ -75,65 +86,20 @@ export function Hero() {
         </motion.div>
       </div>
 
-      <Discover />
-    </section>
-  );
-}
-
-/**
- * Below the fold, the three points pin to the screen as one block and
- * scrolling reveals them instead of moving past them. The block starts
- * hidden - transparent and softly blurred - and its focus is tied directly to the
- * scroll position: scrolling down brings it in, scrolling back up conceals
- * it again. The section is two screens tall to give the reveal its stretch
- * of scroll; after that the pin releases and the page carries on.
- *
- * `overflow-clip` on the hero (not `overflow-hidden`) is what lets the
- * sticky stage work - a hidden-overflow ancestor would trap it.
- */
-function Discover() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  // 0 when the section's top enters the bottom of the viewport, 1 when its
-  // end reaches the bottom - so the stage pins at the halfway mark.
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end end"],
-  });
-  // Motion hands opacity and filter driven straight off useScroll to a
-  // native ScrollTimeline, which mis-measures this pinned stage and stalls
-  // with the block still hidden. Computing them from a function transform
-  // keeps them on Motion's own scroll loop, alongside y.
-  // Spread over most of the approach and eased at both ends, so the block
-  // drifts into focus rather than snapping; the blur and travel are kept
-  // light so it reads as a soft reveal and stays cheap to repaint.
-  const reveal = useTransform(scrollYProgress, [0.2, 0.8], [0, 1], {
-    ease: easeInOut,
-  });
-  const opacity = useTransform(() => reveal.get());
-  const y = useTransform(() => (1 - reveal.get()) * 16);
-  const filter = useTransform(() => `blur(${(1 - reveal.get()) * 4}px)`);
-
-  if (reduce) {
-    return (
-      <div id="discover" ref={ref} className="flex justify-center px-5 pt-8 pb-24 lg:pb-32">
+      {/* The account itself: three points, set left with roman numerals
+          hanging in their own column, hidden until the reader scrolls. */}
+      <motion.div
+        style={{ opacity: pointsOpacity }}
+        className="relative flex justify-center px-5 pb-24 lg:pb-32"
+      >
+        {/* The cue's anchor sits a little above the list: anchor jumps land
+            their target 4rem from the top, which on desktop is under the
+            taller nav and clipped the first line. Raising the target, not
+            padding the list, keeps the layout itself unchanged. */}
+        <span id="discover" aria-hidden className="absolute -top-2 md:-top-14" />
         <PointList />
-      </div>
-    );
-  }
-
-  return (
-    <div id="discover" ref={ref} className="relative h-[200svh]">
-      {/* The stage fills the viewport under the sticky nav (~4rem, ~5.5rem from md). */}
-      <div className="sticky top-16 flex h-[calc(100svh-4rem)] items-center justify-center px-5 md:top-[5.5rem] md:h-[calc(100svh-5.5rem)]">
-        <motion.div
-          style={{ opacity, y, filter }}
-          className="will-change-[opacity,transform,filter]"
-        >
-          <PointList />
-        </motion.div>
-      </div>
-    </div>
+      </motion.div>
+    </section>
   );
 }
 
