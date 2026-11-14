@@ -12,6 +12,13 @@ const rise = (delay: number) => ({
   transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] as const, delay },
 });
 
+const POINTS = [
+  "Obsidura unifies the entire software lifecycle, enabling businesses to create, deploy, customize, secure, and maintain applications across cloud, on-premises, and air-gapped environments.",
+  "Our agent-native infrastructure connects applications, data, and AI models through a common backend with enforced permissions, automated maintenance, and comprehensive auditability - sensible defaults for all software.",
+  "Built for security, compliance, and cost efficiency, Obsidura makes complex software infrastructure simple, scalable, and accessible.",
+];
+
+const NUMERALS = ["I", "II", "III"];
 
 /**
  * The first screen is only the claim and one way in, with a cue that there
@@ -62,24 +69,29 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* The account itself, revealed as the reader scrolls down to it. */}
+      {/* The account itself: three points, set left with roman numerals
+          hanging in their own column, each rising in as it's reached. */}
       <div
         id="discover"
-        className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-8 pb-24 text-center lg:pb-32"
+        className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pt-8 pb-24 lg:pb-32"
       >
-        <Reveal>
-          <p className="max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft">
-            Obsidura unifies the entire software lifecycle, enabling businesses
-            to create, deploy, customize, secure, and maintain applications
-            across cloud, on-premises, and air-gapped environments. Our
-            agent-native infrastructure connects applications, data, and AI
-            models through a common backend with enforced permissions,
-            automated maintenance, and comprehensive auditability - sensible
-            defaults for all software. Built for security, compliance, and cost
-            efficiency, Obsidura makes complex software infrastructure simple,
-            scalable, and accessible.
-          </p>
-        </Reveal>
+        <ol className="flex max-w-2xl flex-col gap-10">
+          {POINTS.map((text, i) => (
+            <li key={text}>
+              <Reveal className="grid grid-cols-[2.75rem_1fr] gap-x-4 sm:grid-cols-[3.5rem_1fr]">
+                <span
+                  aria-hidden
+                  className="text-right font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-faint"
+                >
+                  {NUMERALS[i]}.
+                </span>
+                <p className="font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft">
+                  {text}
+                </p>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

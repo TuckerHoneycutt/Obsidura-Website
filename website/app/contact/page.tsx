@@ -24,9 +24,6 @@ export default function ContactPage() {
       <section className="relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 pt-12 pb-14 lg:grid-cols-[1fr_1.15fr] lg:gap-14 lg:pt-16 lg:pb-16">
           <div>
-            <p className="kicker mb-6 text-accent">
-              obsidura &mdash; intelligent infrastructure
-            </p>
             <h1 className="font-display text-[clamp(2.4rem,5.2vw,3.9rem)] leading-[1.02] font-light tracking-tight">
               Speak <span className="headline-emph">to us.</span>
             </h1>
