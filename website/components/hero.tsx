@@ -41,14 +41,14 @@ export function Hero() {
           {...rise(0.2)}
           className="mt-6 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
         >
-          Built
+          Our agent-native infrastructure connects applications, data, and AI models through a common backend with enforced permissions, automated maintenance, and comprehensive auditability - sensible defaults for all software.
         </motion.p>
 
         <motion.p
           {...rise(0.3)}
           className="mt-6 max-w-2xl font-display text-[clamp(1.25rem,1.8vw,1.6rem)] leading-[1.45] text-ink-soft"
         >
-          Our agent-native infrastructure connects applications, data, and AI models through a common backend with enforced permissions, automated maintenance, and comprehensive auditability - sensible defaults for all software. Built for security, compliance, and cost efficiency, Obsidura makes complex software infrastructure simple, scalable, and accessible.
+           Built for security, compliance, and cost efficiency, Obsidura makes complex software infrastructure simple, scalable, and accessible.
         </motion.p>
 
         <motion.div {...rise(0.45)} className="mt-16 flex flex-wrap justify-center gap-4">
