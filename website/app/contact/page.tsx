@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
 import { SocialGlyph } from "@/components/social-icons";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { CardSpotlight } from "@/components/ui/card-spotlight";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { MeanderMark } from "@/components/ui/meander-mark";
@@ -20,19 +14,6 @@ export const metadata: Metadata = {
     canonical: "/contact",
   },
 };
-
-const OFFICERS = [
-  {
-    name: "Jarrett Whaley",
-    role: "Chief Executive Officer",
-    email: "jarrett@obsidura.com",
-  },
-  {
-    name: "Tucker Honeycutt",
-    role: "Chief Operating Officer",
-    email: "tucker@obsidura.com",
-  },
-];
 
 export default function ContactPage() {
   return (
@@ -109,47 +90,6 @@ export default function ContactPage() {
                 ))}
               </div>
             </div>
-
-            {/* The officers wait behind the fold - closed until asked for,
-                so the channels stay the headline act. */}
-            <Accordion
-              type="single"
-              collapsible
-              className="mt-7 border-t border-rule"
-            >
-              <AccordionItem value="officers">
-                <AccordionTrigger className="py-4">
-                  <span className="font-display text-2xl font-light tracking-tight">
-                    The Team
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className="!pb-4">
-                  <ul>
-                    {OFFICERS.map(({ name, role, email }) => (
-                      <li
-                        key={email}
-                        className="flex flex-col gap-1 border-t border-rule py-4 first:border-t-0 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-                      >
-                        <div>
-                          <p className="font-display text-xl font-light tracking-tight">
-                            {name}
-                          </p>
-                          <p className="kicker mt-1 !text-[10px] text-ink-mute">
-                            {role}
-                          </p>
-                        </div>
-                        <a
-                          href={`mailto:${email}`}
-                          className="kicker link-sweep shrink-0 transition-colors hover:text-ink"
-                        >
-                          {email}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
           </div>
 
           <ContactForm />
