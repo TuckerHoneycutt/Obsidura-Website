@@ -191,9 +191,15 @@ function useHeroScroll(
         phone.set(1);
         start.set(Math.max(docTop(wrapper) - navHeight, 0));
         distance.set(Math.max(wrapper.offsetHeight - stage.offsetHeight, 1));
+        // The points are centred in the stage, so once the pin releases the
+        // space under them is half the stage's spare height - more than the
+        // section needs. Pull what follows up by half of that space.
+        const below = Math.max((stage.offsetHeight - list.offsetHeight) / 2, 0);
+        wrapper.style.marginBottom = `${-below / 2}px`;
         return;
       }
 
+      wrapper.style.marginBottom = "";
       phone.set(0);
       start.set(0);
       const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
