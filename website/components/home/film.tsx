@@ -33,7 +33,7 @@ const chapterAt = (t: number) =>
   CHAPTERS.findLastIndex((c) => c.at <= t + 0.25);
 
 /**
- * Owns the film's playhead for a sketch: which chapter is playing, and a
+ * Owns the film's playhead: which chapter is playing, and a
  * seek that jumps to a chapter and plays from there.
  */
 export function FilmProvider({ children }: { children: ReactNode }) {

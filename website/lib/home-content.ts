@@ -1,4 +1,4 @@
-/** The homepage's three points, shared by the hero and the sketches. */
+/** The homepage's three points. */
 export const POINTS = [
   "Obsidura unifies the entire software lifecycle, enabling businesses to create, deploy, customize, secure, and maintain applications across cloud, on-premises, and air-gapped environments.",
   "Our agent-native infrastructure connects applications, data, and AI models through a common backend with enforced permissions, automated maintenance, and comprehensive auditability - sensible defaults for all software.",

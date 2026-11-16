@@ -92,6 +92,14 @@ const nextConfig: NextConfig = {
         destination: "/automations",
         permanent: false,
       },
+      // The homepage sketches were shared for review; sketch C became the
+      // homepage and the others were retired. Temporary, since sketches of
+      // later ideas may come back under the same path.
+      {
+        source: "/sketches/:path*",
+        destination: "/",
+        permanent: false,
+      },
       // The about page folded into contact. Temporary rather than permanent:
       // a standalone about page may yet come back, and a 308 would be cached
       // past its welcome.
