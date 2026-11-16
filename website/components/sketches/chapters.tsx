@@ -21,13 +21,13 @@ export function ChapterIndex({ className }: { className?: string }) {
           const fill =
             i === chapter ? ((time - c.at) / (end - c.at)) * 100 : i < chapter ? 100 : 0;
           return (
-            <li key={c.at}>
+            <li key={c.at} className="flex flex-col">
               <button
                 type="button"
                 onClick={() => seek(c.at)}
                 aria-current={i === chapter ? "true" : undefined}
                 className={cn(
-                  "group grid w-full grid-cols-[2.75rem_1fr] items-baseline gap-x-2 py-2.5 text-left transition-colors",
+                  "group grid w-full flex-1 grid-cols-[2.75rem_1fr] content-start items-baseline gap-x-2 py-2.5 text-left transition-colors",
                   i === chapter ? "text-ink" : "text-ink-mute hover:text-ink-soft"
                 )}
               >
