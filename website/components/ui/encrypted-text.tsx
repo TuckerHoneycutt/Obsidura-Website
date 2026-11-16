@@ -70,10 +70,10 @@ export function EncryptedText({
     const start = performance.now();
     let lastFlip = start;
     let frame = 0;
-    let cancelled = false;
+    let canceled = false;
 
     const update = (now: number) => {
-      if (cancelled) return;
+      if (canceled) return;
       const count = Math.min(
         text.length,
         Math.floor((now - start) / Math.max(1, revealDelayMs))
@@ -94,7 +94,7 @@ export function EncryptedText({
 
     frame = requestAnimationFrame(update);
     return () => {
-      cancelled = true;
+      canceled = true;
       cancelAnimationFrame(frame);
     };
   }, [isInView, reduceMotion, text, revealDelayMs, charset, flipDelayMs]);

@@ -9,7 +9,7 @@ type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
 const DIRECTIONS: Direction[] = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
 
 // Every gradient shares one shape - four numbers, then the same two stops -
-// so motion can interpolate the numbers while the var() colour rides along.
+// so motion can interpolate the numbers while the var() color rides along.
 const MOVING: Record<Direction, string> = {
   TOP: "radial-gradient(20.7% 50% at 50% 0%, var(--ink) 0%, transparent 100%)",
   LEFT: "radial-gradient(16.6% 43.1% at 0% 50%, var(--ink) 0%, transparent 100%)",

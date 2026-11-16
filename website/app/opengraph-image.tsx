@@ -24,7 +24,7 @@ export function generateImageMetadata() {
 
 /**
  * The brand lockup on the black paper, stacked rather than side by side:
- * iOS shows this image both as a wide card and as a centre-cropped square
+ * iOS shows this image both as a wide card and as a center-cropped square
  * bookmark thumbnail, and a stacked lockup reads whole in either. The mark
  * and wordmark are the footer banner's own artwork, split apart; the
  * tagline is a kicker in Cutive Mono. Satori cannot read the woff2 files

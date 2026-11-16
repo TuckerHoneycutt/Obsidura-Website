@@ -32,7 +32,7 @@ html.light {
   --ink: #000000;
   --ink-soft: #2e2e2e;
   --ink-mute: #5c5c5c;
-  /* The lightest grey clearing AA on the warm panel surfaces (4.50:1). */
+  /* The lightest gray clearing AA on the warm panel surfaces (4.50:1). */
   --ink-faint: #737373;
   --rule: #dcdcdc;
   --accent: #000000;
@@ -73,10 +73,10 @@ body {
 
 /*
  * Keyboard focus. Every hover affordance on this site is custom - the
- * underline sweep, a border shifting colour - so without an explicit ring a
+ * underline sweep, a border shifting color - so without an explicit ring a
  * keyboard user gets almost nothing to go on. The offset places the ring on
  * the paper rather than inside the control, which keeps it visible on the
- * inverted buttons where the ring colour matches the fill. :where() keeps
+ * inverted buttons where the ring color matches the fill. :where() keeps
  * specificity at zero so a component can still opt out.
  */
 :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
