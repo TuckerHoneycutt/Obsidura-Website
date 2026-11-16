@@ -14,10 +14,10 @@ const size = { width: 1200, height: 630 };
 export function generateImageMetadata() {
   return [
     {
-      id: "v4",
+      id: "v5",
       size,
       contentType: "image/png",
-      alt: "Obsidura | Any Software. Anywhere.",
+      alt: "Obsidura | The Unified Infrastructure for Software",
     },
   ];
 }
@@ -27,7 +27,8 @@ export function generateImageMetadata() {
  * iOS shows this image both as a wide card and as a center-cropped square
  * bookmark thumbnail, and a stacked lockup reads whole in either. The mark
  * and wordmark are the footer banner's own artwork, split apart; the
- * tagline is a kicker in Cutive Mono. Satori cannot read the woff2 files
+ * tagline is a kicker in Cutive Mono, set narrow enough (about 585px) to
+ * survive the 630px square crop. Satori cannot read the woff2 files
  * next/font ships, so the face is vendored as a TTF.
  */
 export default async function OpenGraphImage() {
@@ -65,14 +66,14 @@ export default async function OpenGraphImage() {
         <div
           style={{
             fontFamily: "Cutive Mono",
-            fontSize: 21,
+            fontSize: 20,
             color: "#9c9c9c",
-            letterSpacing: 4,
+            letterSpacing: 3,
             marginTop: 30,
             display: "flex",
           }}
         >
-          ANY SOFTWARE. ANYWHERE.
+          THE UNIFIED INFRASTRUCTURE FOR SOFTWARE
         </div>
       </div>
     ),
