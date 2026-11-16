@@ -156,8 +156,10 @@ const clamp = (v: number) => Math.min(Math.max(v, 0), 1);
  *    stage's pin offset and height.
  *  - start / distance: the scroll range over which the stage is pinned.
  *  - the space after: the points are centered on the stage, so once the pin
- *    releases the room under them is half the stage's spare height - more
- *    than the section needs - and what follows is pulled up by half of it.
+ *    releases the room under them is half the stage's spare height, which
+ *    varies with the screen. The track's bottom margin trims or extends that
+ *    to a set gap - 18% of the screen, kept between 112px and 200px - so the
+ *    points float the same distance above the footer everywhere.
  */
 function useHeroScroll(
   trackRef: RefObject<HTMLDivElement | null>,
@@ -183,7 +185,8 @@ function useHeroScroll(
       distance.set(Math.max(track.offsetHeight - stage.offsetHeight, 1));
 
       const below = Math.max((stage.offsetHeight - list.offsetHeight) / 2, 0);
-      track.style.marginBottom = `${-below / 2}px`;
+      const gap = Math.min(Math.max(window.innerHeight * 0.18, 112), 200);
+      track.style.marginBottom = `${gap - below}px`;
     };
 
     measure();
