@@ -25,7 +25,7 @@ export function Lead({ next }: { next: string }) {
           {...rise(0)}
           className="font-display text-[clamp(2.4rem,5.4vw,5.25rem)] leading-[1.02] font-light tracking-tight"
         >
-          The Unified Infrastructure for Software
+          The Unified Lifecycle for Software
         </motion.h1>
 
         <motion.div {...rise(0.15)} className="mt-12">

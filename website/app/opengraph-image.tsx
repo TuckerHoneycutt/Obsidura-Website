@@ -14,10 +14,10 @@ const size = { width: 1200, height: 630 };
 export function generateImageMetadata() {
   return [
     {
-      id: "v5",
+      id: "v6",
       size,
       contentType: "image/png",
-      alt: "Obsidura | The Unified Infrastructure for Software",
+      alt: "Obsidura | The Unified Lifecycle for Software",
     },
   ];
 }
@@ -73,7 +73,7 @@ export default async function OpenGraphImage() {
             display: "flex",
           }}
         >
-          THE UNIFIED INFRASTRUCTURE FOR SOFTWARE
+          THE UNIFIED LIFECYCLE FOR SOFTWARE
         </div>
       </div>
     ),
