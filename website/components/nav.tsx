@@ -104,10 +104,6 @@ export function Nav() {
           </span>
         </Link>
         <div className="hidden items-center justify-center gap-8 lg:flex">
-          {/* External, so a plain anchor rather than a routed Link. */}
-          <a href={BOOKING_URL} className={cn(barLinkClass, "text-ink-mute")}>
-            Book a Demo
-          </a>
           <Link
             href="/contact"
             transitionTypes={["nav-forward"]}
@@ -119,6 +115,10 @@ export function Nav() {
           >
             Contact
           </Link>
+          {/* External, so a plain anchor rather than a routed Link. */}
+          <a href={BOOKING_URL} className={cn(barLinkClass, "text-ink-mute")}>
+            Book a Demo
+          </a>
         </div>
         <div className="flex items-center justify-end gap-3">
           <ThemeToggle />
