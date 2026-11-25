@@ -6,20 +6,20 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { LogoMark } from "@/components/logo-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { BOOKING_URL } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
-// The panel lists every other page the site has. Contact is absent because
-// the panel closes on it as its own CTA below.
+// The panel lists every other page the site has, plus the booking link.
+// Contact is absent because the panel closes on it as its own CTA below.
 const PANEL_PAGES = [
+  { label: "Book a Demo", href: BOOKING_URL },
   { label: "Security", href: "/security" },
   { label: "FAQ", href: "/faq" },
   { label: "Privacy", href: "/privacy" },
 ] as const;
 
-/** Page slugs double as nav labels, capitalized from the slug. */
-function label(slug: string) {
-  return slug.charAt(0).toUpperCase() + slug.slice(1);
-}
+const barLinkClass =
+  "link-sweep font-display text-[15px] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink";
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -104,24 +104,21 @@ export function Nav() {
           </span>
         </Link>
         <div className="hidden items-center justify-center gap-8 lg:flex">
-          {["contact"].map((slug) => {
-            const href = `/${slug}`;
-            const current = pathname === href;
-            return (
-              <Link
-                key={slug}
-                href={href}
-                transitionTypes={["nav-forward"]}
-                aria-current={current ? "page" : undefined}
-                className={cn(
-                  "link-sweep font-display text-[15px] font-medium tracking-[0.2em] uppercase transition-colors hover:text-ink",
-                  current ? "text-ink" : "text-ink-mute"
-                )}
-              >
-                {label(slug)}
-              </Link>
-            );
-          })}
+          {/* External, so a plain anchor rather than a routed Link. */}
+          <a href={BOOKING_URL} className={cn(barLinkClass, "text-ink-mute")}>
+            Book a Demo
+          </a>
+          <Link
+            href="/contact"
+            transitionTypes={["nav-forward"]}
+            aria-current={pathname === "/contact" ? "page" : undefined}
+            className={cn(
+              barLinkClass,
+              pathname === "/contact" ? "text-ink" : "text-ink-mute"
+            )}
+          >
+            Contact
+          </Link>
         </div>
         <div className="flex items-center justify-end gap-3">
           <ThemeToggle />

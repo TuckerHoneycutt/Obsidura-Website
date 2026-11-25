@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Spotlight } from "@/components/ui/spotlight";
+import { BOOKING_URL } from "@/lib/booking";
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: 26 },
@@ -30,7 +31,7 @@ export function Lead({ next }: { next: string }) {
         <motion.div {...rise(0.15)} className="mt-12">
           <HoverBorderGradient
             as="a"
-            href="https://cal.com/obsidura/discovery"
+            href={BOOKING_URL}
             duration={1.2}
             className="kicker px-6 py-3.5 !text-ink"
           >
