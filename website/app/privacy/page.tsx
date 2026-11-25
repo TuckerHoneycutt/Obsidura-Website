@@ -15,6 +15,9 @@ const SECTIONS: { heading: string; body: string[] }[] = [
     body: [
       "When you contact us through this site, we collect the information you choose to provide: your name, email address, company, and message.",
       "Like most websites, our hosting and content-delivery providers process standard technical request data - such as IP address, browser type, and pages requested - to serve the site and protect it from abuse.",
+      // PENDING LEGAL REVIEW: Turnstile disclosure added with the contact
+      // form's bot protection. Bump the effective date once approved.
+      "Our contact form uses Cloudflare Turnstile to tell people from automated spam. When you use the form, Cloudflare processes your IP address and technical signals from your browser and device for that purpose.",
       "We do not run third-party advertising trackers on this site.",
     ],
   },
@@ -28,7 +31,7 @@ const SECTIONS: { heading: string; body: string[] }[] = [
   {
     heading: "Who we share it with",
     body: [
-      "We use a small number of service providers to operate this site and our business - hosting, content delivery, and email. They process data on our behalf and are not permitted to use it for their own purposes.",
+      "We use a small number of service providers to operate this site and our business - hosting, content delivery, bot protection, and email. They process data on our behalf and are not permitted to use it for their own purposes.",
       "We may disclose information if required to do so by law.",
     ],
   },

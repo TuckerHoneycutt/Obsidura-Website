@@ -13,7 +13,10 @@ const isDev = process.env.NODE_ENV === "development";
 // page unstyled and inert during local development.
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  // challenges.cloudflare.com: the Turnstile widget on the contact form - its
+  // script, and the iframe it renders into.
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://challenges.cloudflare.com`,
+  "frame-src https://challenges.cloudflare.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",

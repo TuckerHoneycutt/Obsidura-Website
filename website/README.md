@@ -103,7 +103,9 @@ npm run start
 npm run lint
 ```
 
-Contact submissions hit `POST /api/contact`. Keep secrets in `.env.local`.
+Contact submissions hit `POST /api/contact`. Keep secrets in `.env.local` (see `.env.example`).
+
+Spam protection on the contact form, in order: a Cloudflare WAF rate limit on `POST /api/contact`; host, content-type and size checks in the route; a honeypot field and a minimum time-to-submit; strict input validation; then Cloudflare Turnstile (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`). Use Cloudflare's test keys locally; if Turnstile's API is unreachable, submissions are let through and the failure is logged.
 
 ---
 

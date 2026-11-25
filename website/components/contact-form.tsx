@@ -1,11 +1,15 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { ContactState } from "@/lib/contact";
 import { FramePanel } from "@/components/ui/frame-panel";
 import { Input, Textarea } from "@/components/ui/input";
 import { StatefulButton } from "@/components/ui/stateful-button";
 import { cn } from "@/lib/utils";
+import {
+  TurnstileWidget,
+  type TurnstileHandle,
+} from "@/components/turnstile-widget";
 
 const initialState: ContactState = { ok: false, message: "" };
 
@@ -19,9 +23,28 @@ const labelClass = "kicker mb-2 block !text-[10px]";
 export function ContactForm() {
   const [state, setState] = useState<ContactState>(initialState);
   const [pending, setPending] = useState(false);
+  const [token, setToken] = useState("");
+  const [verifyUnavailable, setVerifyUnavailable] = useState(false);
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  // Set after mount so the server can drop submissions no person could type.
+  const mountedAt = useRef(0);
+  useEffect(() => {
+    mountedAt.current = Date.now();
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!token) {
+      setState({
+        ok: false,
+        message: verifyUnavailable
+          ? "Verification could not load. Please email contact@obsidura.com instead."
+          : "Please wait for the verification check to finish, then send again.",
+      });
+      return;
+    }
+
     setPending(true);
 
     const form = event.currentTarget;
@@ -37,6 +60,8 @@ export function ContactForm() {
           company: formData.get("company"),
           message: formData.get("message"),
           company_url: formData.get("company_url"),
+          turnstileToken: token,
+          elapsed_ms: Date.now() - mountedAt.current,
         }),
       });
 
@@ -45,8 +70,12 @@ export function ContactForm() {
 
       if (nextState.ok) {
         form.reset();
+      } else {
+        // Tokens are single-use; any failed attempt needs a fresh one.
+        turnstileRef.current?.reset();
       }
     } catch {
+      turnstileRef.current?.reset();
       setState({
         ok: false,
         message: "Could not send your message. Please try again shortly.",
@@ -72,11 +101,24 @@ export function ContactForm() {
 
   return (
     <FramePanel className="bg-paper-warm/40">
+      <noscript>
+        <p className="body-copy px-6 pt-8 sm:px-8">
+          This form needs JavaScript. You can email us directly at{" "}
+          <a href="mailto:contact@obsidura.com" className="underline">
+            contact@obsidura.com
+          </a>
+          .
+        </p>
+      </noscript>
       <form
         onSubmit={handleSubmit}
+        // Submitting needs JavaScript (Turnstile), and the noscript note above
+        // points at email instead. action/method stay so a no-JS submit is
+        // still a POST - without them the browser would GET the current page
+        // with every field in the URL. The route answers it with a 415.
         action="/api/contact"
         method="post"
-        // The server action returns field errors in the site's own voice;
+        // The API route returns field errors in the site's own voice;
         // without noValidate the browser's native bubbles fire first and
         // those errors are never reached. required stays on the fields for
         // its semantics - screen readers still announce the fields as such.
@@ -195,6 +237,13 @@ export function ContactForm() {
             autoComplete="off"
           />
         </div>
+
+        <TurnstileWidget
+          ref={turnstileRef}
+          action="contact"
+          onToken={setToken}
+          onUnavailable={() => setVerifyUnavailable(true)}
+        />
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           {state.message ? (
