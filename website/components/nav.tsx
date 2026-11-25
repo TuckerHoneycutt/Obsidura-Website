@@ -103,7 +103,10 @@ export function Nav() {
             Obsidura
           </span>
         </Link>
-        <div className="hidden items-center justify-center gap-8 lg:flex">
+        {/* Nudged 2px down: link-sweep's 3px underline padding and the
+            descender-free caps otherwise sit the words above the bar's
+            optical center. */}
+        <div className="hidden translate-y-[2px] items-center justify-center gap-8 lg:flex">
           <Link
             href="/contact"
             transitionTypes={["nav-forward"]}
